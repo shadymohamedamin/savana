@@ -1,0 +1,50 @@
+<div class="card-body p-0">
+    <div class="table-responsive">
+        <table class="table" id="attachments-table">
+            <thead>
+            <tr>
+                <th>Caseid</th>
+                <th>Attid</th>
+                <th>Attpath</th>
+                <th>Remarks</th>
+                <th>Preview</th>
+                <th>Delete</th>
+                <th colspan="3">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach($attachments as $attachment)
+                <tr>
+                    <td>{{ $attachment->CaseID }}</td>
+                    <td>{{ $attachment->AttID }}</td>
+                    <td>{{ $attachment->AttPath }}</td>
+                    <td>{{ $attachment->Remarks }}</td>
+                    <td>{{ $attachment->Preview }}</td>
+                    <td>{{ $attachment->Delete }}</td>
+                    <td  style="width: 120px">
+                        {!! Form::open(['route' => ['attachments.destroy', $attachment->ID], 'method' => 'delete']) !!}
+                        <div class='btn-group'>
+                            <a href="{{ route('attachments.show', [$attachment->ID]) }}"
+                               class='btn btn-default btn-xs'>
+                                <i class="far fa-eye"></i>
+                            </a>
+                            <a href="{{ route('attachments.edit', [$attachment->ID]) }}"
+                               class='btn btn-default btn-xs'>
+                                <i class="far fa-edit"></i>
+                            </a>
+                            {!! Form::button('<i class="far fa-trash-alt"></i>', ['type' => 'submit', 'class' => 'btn btn-danger btn-xs', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                        </div>
+                        {!! Form::close() !!}
+                    </td>
+                </tr>
+            @endforeach
+            </tbody>
+        </table>
+    </div>
+
+    <div class="card-footer clearfix">
+        <div class="float-right">
+            @include('adminlte-templates::common.paginate', ['records' => $attachments])
+        </div>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+uae_id
+sex
+nat
+city
+country
+birthday
+address
+delete
+permisions
+last_login
+#ban
+#ban_date
+ipaddress
+notes

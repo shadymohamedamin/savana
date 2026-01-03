@@ -1,0 +1,1 @@
+2025-06-04 19:40:56 | [200] | {"requestID":"6d63a6e9-2424-42f1-8a7f-6366ab669f3b","errorLevel":0,"procResponse":"Message enqueued successfully","campaignID":"77268a50-abe6-4d2f-a72f-d91f0e89dd83"}

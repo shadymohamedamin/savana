@@ -1,0 +1,86 @@
+php artisan infyom:scaffold Role --fromTable --table=roles
+
+
+
+    http://127.0.0.1:8000/users/70/attachments/create
+
+
+
+
+
+
+
+
+regenerate it
+
+php artisan infyom:scaffold AttachmentType \
+    --fromTable \
+    --table=attachment_types \
+    --force
+
+
+
+
+
+
+return redirect()
+    ->route('users.index')
+    ->with('toast', [
+        'type' => 'success',
+        'message' => 'تم الحفظ بنجاح ✅'
+    ]);
+return back()->with('toast', [
+    'type' => 'error',
+    'message' => 'حدث خطأ أثناء الحفظ ❌'
+]);
+return back()->with('toast', [
+    'type' => 'warning',
+    'message' => 'يرجى مراجعة البيانات ⚠'
+]);
+'timer' => 4000
+
+
+
+⑤ (اختياري) دعم Validation Errors تلقائيًا
+
+أضف هذا أسفل الـ toast في layout:
+
+@if ($errors->any())
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    Swal.fire({
+        toast: true,
+        position: 'top-end',
+        icon: 'error',
+        title: 'تحقق من البيانات المدخلة',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true
+    });
+});
+</script>
+@endif
+
+
+
+.swal2-toast {
+    background: #2f3a1f !important; /* زيتوني */
+    color: #d4af37 !important;      /* ذهبي */
+    font-weight: 600;
+}
+
+
+
+
+
+
+
+<div class="card shadow-xl p-4 m-4" style="background-color: #f5f5dc;">
+
+
+
+
+
+php artisan tinker
+bcrypt('savana@2024');
+echo password_hash('savana@2024', PASSWORD_BCRYPT);

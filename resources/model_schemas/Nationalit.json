@@ -1,0 +1,34 @@
+[
+    {
+        "name": "ID",
+        "dbType": "integer,true",
+        "htmlType": "number",
+        "validations": "",
+        "searchable": false,
+        "fillable": false,
+        "primary": true,
+        "inForm": false,
+        "inIndex": false,
+        "inView": false
+    },
+    {
+        "name": "Nationality",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "nullable|string|max:100|nullable|string|max:100",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,PrimaryData,WifeNationality"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,PrimaryData,Nationality"
+    }
+]

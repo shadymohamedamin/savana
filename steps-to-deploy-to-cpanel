@@ -1,0 +1,24 @@
+1-npm run build
+2-compress all directory 
+3-uppload to folder supports inside site folder
+4-move everything from public to supports except build folder
+
+5-edit .env file to make api_utl
+APP_URL=https://site.rakcharity.ae/supports
+DB_DATABASE=rakadmin_supports
+DB_USERNAME=rakadmin_it
+DB_PASSWORD=Rak@@##1234
+
+DB_DATABASE=rakadmin_supports
+DB_USERNAME=rakadmin_dbuser
+DB_PASSWORD=dBa4Wt94K37d!
+
+6-edit index.php 
+require __DIR__.'/vendor/autoload.php';
+$app = require_once __DIR__.'/bootstrap/app.php';
+
+<FilesMatch "\.(env|git|log|sql|bak|config|ini|phar)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+

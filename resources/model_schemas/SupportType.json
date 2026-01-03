@@ -1,0 +1,46 @@
+[
+    {
+        "name": "ID",
+        "dbType": "integer,true",
+        "htmlType": "number",
+        "validations": "",
+        "searchable": false,
+        "fillable": false,
+        "primary": true,
+        "inForm": false,
+        "inIndex": false,
+        "inView": false
+    },
+    {
+        "name": "SupportType",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "nullable|string|max:50|nullable|string|max:50",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "SupportTypeEn",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "nullable|string|max:50|nullable|string|max:50",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Support,SupportType"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Support,SupportRequiredArch"
+    }
+]

@@ -1,0 +1,126 @@
+
+<li class="nav-item">
+    <a href="{{ route('users.index') }}" class="nav-link {{ Request::is('users*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Users</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('primaryDatas.index') }}" class="nav-link {{ Request::is('primaryDatas*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Primary Datas</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('careers.index') }}" class="nav-link {{ Request::is('careers*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Careers</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('houseTypes.index') }}" class="nav-link {{ Request::is('houseTypes*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>House Types</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('maritalStatuses.index') }}" class="nav-link {{ Request::is('maritalStatuses*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Marital Statuses</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('nationalits.index') }}" class="nav-link {{ Request::is('nationalits*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Nationalits</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('regions.index') }}" class="nav-link {{ Request::is('regions*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Regions</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('sexes.index') }}" class="nav-link {{ Request::is('sexes*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Sexes</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('supports.index') }}" class="nav-link {{ Request::is('supports*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Supports</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('attachments.index') }}" class="nav-link {{ Request::is('attachments*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Attachments</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('supportTypes.index') }}" class="nav-link {{ Request::is('supportTypes*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Support Types</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('attachmentTypes.index') }}" class="nav-link {{ Request::is('attachmentTypes*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Attachment Types</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('alerts.index') }}" class="nav-link {{ Request::is('alerts*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Alerts</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('roles.index') }}" class="nav-link {{ Request::is('roles*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Roles</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('projects.index') }}" class="nav-link {{ Request::is('projects*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Projects</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('statuses.index') }}" class="nav-link {{ Request::is('statuses*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Statuses</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('settings.index') }}" class="nav-link {{ Request::is('settings*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Settings</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('projectUsers.index') }}" class="nav-link {{ Request::is('projectUsers*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Project Users</p>
+    </a>
+</li>

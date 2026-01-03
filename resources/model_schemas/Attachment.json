@@ -1,0 +1,94 @@
+[
+    {
+        "name": "ID",
+        "dbType": "integer,true",
+        "htmlType": "number",
+        "validations": "",
+        "searchable": false,
+        "fillable": false,
+        "primary": true,
+        "inForm": false,
+        "inIndex": false,
+        "inView": false
+    },
+    {
+        "name": "CaseID",
+        "dbType": "integer,false",
+        "htmlType": "number",
+        "validations": "required",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "AttID",
+        "dbType": "integer,false",
+        "htmlType": "number",
+        "validations": "required",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "AttPath",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "nullable|string|max:255|nullable|string|max:255",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "Remarks",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "nullable|string|max:255|nullable|string|max:255",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "Preview",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "nullable|string|max:10|nullable|string|max:10",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "Delete",
+        "dbType": "string",
+        "htmlType": "text",
+        "validations": "nullable|string|max:10|nullable|string|max:10",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "type": "relation",
+        "relation": "mt1,User,CaseID"
+    },
+    {
+        "type": "relation",
+        "relation": "mt1,AttachmentType,AttID"
+    }
+]
