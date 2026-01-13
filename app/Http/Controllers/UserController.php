@@ -73,22 +73,23 @@ class UserController extends AppBaseController
     /**
      * Show the form for creating a new User.
      */
-    public function create()
+    public function create(Request $request)
     {
         //$nationalities = Nationalit::pluck('nationality', 'id');
         $nationalities = Nationalit::whereIn('id', [1, 58])->pluck('nationality', 'id');
 
-        $regions = \App\Models\Region::pluck('region', 'id');
+        $regions = \App\Models\Region::where('status', 1)->pluck('region', 'id');
         $roles = \App\Models\Role::pluck('Role', 'id');
 
         $defaultTypes = [1, 4, 3]; // User attachments
 
-        return view('users.create', compact(
-            'nationalities',
-            'regions',
-            'roles',
-            'defaultTypes'
-        ));
+        return view('users.create', [
+            'nationalities'=>$nationalities,
+            'regions'=>$regions,
+            'roles'=>$roles,
+            'defaultTypes'=>$defaultTypes  ,
+            'roleId' => $request->get('role_id'),
+        ]);
     }
 
 
@@ -97,6 +98,18 @@ class UserController extends AppBaseController
      */
     public function store(CreateUserRequest $request)
     {
+
+
+        $request->validate([
+            'mobile' => [
+                'required',
+                'regex:/^05[0-9]{8}$/'
+            ],
+            'uae_id' => [
+                'nullable',
+                'regex:/^784-[0-9]{4}-[0-9]{7}-[0-9]{1}$/'
+            ],
+        ]);
         //dd($request->validated());
         // شيل dd بعد ما تخلص Debug
         $input = $request->validated();
@@ -105,10 +118,20 @@ class UserController extends AppBaseController
         //$input['nat'] = (int) $request->nat;
 
         // country نفس الجنسية (ID)
-        $input['country'] = $input['nat'];
+        //if($input['nat']) $input['country'] = $input['nat'];
+        //else {
+        //    $input['country'] = 66;
+        //    $input['nat'] = 66;
+        //}
         $input['male'] = $input['sex'];
         if($input['role_id']==1)$input['is_admin']=1;
         else $input['is_admin']=0;
+
+        if ($input['role_id'] == 3) {
+            $input['country'] = 66;
+            $input['nat'] = 66;
+        }
+
         // تشفير الباسورد
         $input['password'] = bcrypt($input['password']);
 
@@ -186,7 +209,7 @@ class UserController extends AppBaseController
     }
 
     // You need to load these for the dropdowns
-    $regions = \App\Models\Region::pluck('Region', 'id'); // or however you store cities
+    $regions = \App\Models\Region::where('status', 1)->pluck('region', 'id'); // or however you store cities
     $roles = \App\Models\Role::pluck('Role', 'id');   // all roles
     //$nationalities = \App\Models\Nationalit::pluck('Nationality', 'id'); // or define as array
     $nationalities = Nationalit::whereIn('id', [1, 58])->pluck('nationality', 'id');
@@ -199,6 +222,17 @@ class UserController extends AppBaseController
      */
     public function update($id, UpdateUserRequest $request)
     {
+        $request->validate([
+            'mobile' => [
+                'required',
+                'regex:/^05[0-9]{8}$/'
+            ],
+            'uae_id' => [
+                'nullable',
+                'regex:/^784-[0-9]{4}-[0-9]{7}-[0-9]{1}$/'
+            ],
+        ]);
+
         $user = $this->userRepository->find($id);
 
         if (empty($user)) {

@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\Status;
 use App\Models\User;
 use App\Models\Attachment;
+use App\Models\ProjectStage;
+use App\Models\ProjectName;
 
 class Project extends Model
 {
@@ -20,6 +22,8 @@ class Project extends Model
         'description',
         'case_id_number',
         'building_number',
+        'building_number2',
+        'building_number3',
         'fence_number',
         'qasmia_number',
         'city_id',
@@ -27,14 +31,21 @@ class Project extends Model
         'contractor_id',
         'consultant_id',
         'status_id',
+        'stage_id',
         'start_date',
         'end_date',
-
+        'duration',
+        'project_name_id',
+        'project_region_id',
 
         'design_fee',
         'supervision_fee',
         'budget',
         'area',
+        'contractor_contract_end_date',
+        'bank_contract_value',      // ✅
+        'bank_contract_duration', 
+        
     ];
 
     /**
@@ -47,6 +58,7 @@ class Project extends Model
         'consultant_id' => 'integer',
         'start_date'    => 'date',
         'end_date'      => 'date',
+        'contractor_contract_end_date' => 'date',
     ];
 
     /**
@@ -54,10 +66,12 @@ class Project extends Model
      */
     public static array $rules = [
         'project_code'    => 'nullable|string|max:50|unique:projects,project_code',
-        'name'            => 'required|string|max:255',
+        'name'            => 'nullable|string|max:255',
         'description'     => 'nullable|string',
         'case_id_number'  => 'nullable|string|max:50',
         'building_number' => 'nullable|string|max:50',
+        'building_number2' => 'nullable|string|max:50',
+        'building_number3' => 'nullable|string|max:50',
         'fence_number'    => 'nullable|string|max:50',
         'status_id'       => 'required|exists:statuses,id',
         'start_date'      => 'nullable|date',
@@ -105,7 +119,14 @@ public function consultant()
         ->wherePivot('role_id', 7);
 }
 
-
+    public function projectName()
+    {
+        return $this->belongsTo(ProjectName::class);
+    }
+    public function projectRegion()
+    {
+        return $this->belongsTo(ProjectRegion::class);
+    }
     public function status()
     {
         return $this->belongsTo(Status::class, 'status_id');
@@ -138,5 +159,17 @@ public function consultant()
     {
         return $this->belongsTo(User::class, 'consultant_id');
     }
+
+
+public function stage()
+{
+    return $this->belongsTo(ProjectStage::class);
+}
+
+    public function baladyaApprovals()
+{
+    return $this->hasMany(\App\Models\BaladyaApproval::class, 'project_id', 'id');
+}
+
 
 }

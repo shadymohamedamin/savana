@@ -5,7 +5,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-12">
-                <h3>{{ __('Create') }} {{ __('Users') }}</h3>
+                <!-- <h3>{{ __('Create') }} {{ __('Users') }}</h3> -->
             </div>
         </div>
     </div>
@@ -47,17 +47,32 @@
             </div>
 
             {{-- Mobile --}}
+            {{-- Mobile --}}
             <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
-                {!! Form::label('mobile', __('Mobile'), ['class' => 'font-semibold text-gray-600']) !!}
-                {!! Form::text('mobile', null, ['class' => 'form-control rounded', 'required']) !!}
+                {!! Form::label('mobile', __('Mobile')) !!}
+                {!! Form::text('mobile', null, [
+                    'class' => 'form-control',
+                    'placeholder' => '05XXXXXXXX',
+                    'inputmode' => 'numeric',
+                    'autocomplete' => 'off'
+                ]) !!}
             </div>
 
-            {{-- UAE ID --}}
             <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
-                {!! Form::label('uae_id', __('ID Number'), ['class' => 'font-semibold text-gray-600']) !!}
-                {!! Form::text('uae_id', null, ['class' => 'form-control rounded']) !!}
+                {!! Form::label('uae_id', __('ID Number')) !!}
+                {!! Form::text('uae_id', null, [
+                    'class' => 'form-control',
+                    'placeholder' => '784-XXXX-XXXXXXX-X',
+                    'inputmode' => 'numeric',
+                    'autocomplete' => 'off'
+                ]) !!}
             </div>
 
+{{-- Role --}}
+            <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+                {!! Form::label('role_id', __('Role'), ['class' => 'font-semibold text-gray-600']) !!}
+                {!! Form::select('role_id', $roles, $roleId ?? null, ['class' => 'form-control rounded', 'placeholder' => __('-- Select Type --'), 'required']) !!}
+            </div>
             
             {{-- Nationalitystyle="min-width: 250px;max-width: 250px; --}}
             <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
@@ -71,19 +86,40 @@
                 {!! Form::select('city', $regions, null, ['class' => 'form-control rounded', 'placeholder' => __('-- Select Type --'), 'required']) !!}
             </div>
 
-            {{-- Role --}}
-            <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
-                {!! Form::label('role_id', __('Role'), ['class' => 'font-semibold text-gray-600']) !!}
-                {!! Form::select('role_id', $roles, null, ['class' => 'form-control rounded', 'placeholder' => __('-- Select Type --'), 'required']) !!}
-            </div>
-            {{-- Gender --}}
+            
+
+
+            {{-- Contractor Extra Fields --}}
+            {{-- Contractor Extra Fields --}}
+<div id="contractor-fields"
+     class="d-none w-100 flex-wrap gap-3">
+
+    <div class="flex-grow-1" style="min-width:250px;max-width:250px;">
+        {!! Form::label('responsible_name', __('اسم المسؤول')) !!}
+        {!! Form::text('responsible_name', null, ['class' => 'form-control rounded']) !!}
+    </div>
+
+    <div class="flex-grow-1" style="min-width:250px;max-width:250px;">
+        {!! Form::label('manager_name', __('اسم المدير')) !!}
+        {!! Form::text('manager_name', null, ['class' => 'form-control rounded']) !!}
+    </div>
+
+    <div class="flex-grow-1" style="min-width:250px;max-width:250px;">
+        {!! Form::label('license_number', __('رقم الرخصة')) !!}
+        {!! Form::text('license_number', null, ['class' => 'form-control rounded']) !!}
+    </div>
+
+</div>
+
+            {{-- 
             <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
                 {!! Form::label('sex', __('Gender'), ['class' => 'font-semibold text-gray-600']) !!}
                 <div class="mt-2 d-flex gap-3">
                     <label>{!! Form::radio('sex', 1, true) !!} {{ __('Male') }}</label>
                     <label>{!! Form::radio('sex', 0, false) !!} {{ __('Female') }}</label>
                 </div>
-            </div>
+            </div>--}}
+            {!! Form::hidden('sex', 1) !!}
             {{-- Active --}}
             <div class="flex-grow-1 d-flex align-items-center gap-2" style="min-width: 250px;max-width: 250px;">
                 {!! Form::hidden('Active', 0) !!}
@@ -97,7 +133,7 @@
 
     {{-- Buttons --}}
     <div class="card-footer d-flex justify-content-center gap-3">
-        {!! Form::submit(__('Save'), [
+        {!! Form::submit(__('Save User And Add Files'), [
             'class' => 'btn btn-olive btn-sm',
             'style' => 'background-color: #2f3a1f;border: 1px solid #2f3a1f;color: #d4af37;font-weight:600;'
         ]) !!}
@@ -142,21 +178,126 @@ document.querySelector('form').addEventListener('submit', function (e) {
 });
 </script>
 
-@push('scripts')
-@if (session('success'))
+
+
+
+
+
+
+
+
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    Swal.fire({
-        toast: true,
-        position: 'top-end',
-        icon: 'success',
-        title: "{{ session('success') }}",
-        showConfirmButton: false,
-        timer: 2000,
-        timerProgressBar: true
-    });
+document.addEventListener('input', function (e) {
+
+    /* ================= UAE ID ================= */
+    if (e.target.name === 'uae_id') {
+        let v = e.target.value.replace(/\D/g, '');
+
+        // لازم يبدأ بـ 784
+        if (!v.startsWith('784')) {
+            v = '784';
+        }
+
+        v = v.substring(0, 15); // 15 digits max
+
+        let result = '';
+        if (v.length > 0) result = v.substring(0,3);
+        if (v.length > 3) result += '-' + v.substring(3,7);
+        if (v.length > 7) result += '-' + v.substring(7,14);
+        if (v.length > 14) result += '-' + v.substring(14,15);
+
+        e.target.value = result;
+    }
+
+    /* ================= MOBILE ================= */
+    if (e.target.name === 'mobile') {
+        let v = e.target.value.replace(/\D/g, '');
+
+        // لازم يبدأ بـ 05
+        if (!v.startsWith('05')) {
+            v = '05';
+        }
+
+        v = v.substring(0, 10); // 10 digits only
+        e.target.value = v;
+    }
+
 });
 </script>
-@endif
-@endpush
 
+
+
+
+
+
+
+
+
+
+<!-- @push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const roleSelect = document.querySelector('select[name="role_id"]');
+    const contractorFields = document.getElementById('contractor-fields');
+
+    function toggleFields() {
+        if (roleSelect.value === '3') {
+            contractorFields.classList.remove('d-none');
+            contractorFields.classList.add('d-flex');
+        } else {
+            contractorFields.classList.remove('d-flex');
+            contractorFields.classList.add('d-none');
+        }
+    }
+
+    // on page load (edit)
+    toggleFields();
+
+    // on change
+    roleSelect.addEventListener('change', toggleFields);
+});
+</script>
+@endpush
+ -->
+
+
+
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const roleSelect = document.querySelector('select[name="role_id"]');
+    const contractorFields = document.getElementById('contractor-fields');
+
+    const nationalitySelect = document.querySelector('select[name="nat"]');
+    const nationalityWrapper = nationalitySelect.closest('.form-group') 
+        || nationalitySelect.closest('div');
+
+    function toggleFields() {
+        if (roleSelect.value === '3') {
+            // show contractor fields
+            contractorFields.classList.remove('d-none');
+            contractorFields.classList.add('d-flex');
+
+            // hide nationality + set default to 66
+            nationalitySelect.value = '66';
+            nationalityWrapper.classList.add('d-none');
+
+        } else {
+            // hide contractor fields
+            contractorFields.classList.remove('d-flex');
+            contractorFields.classList.add('d-none');
+
+            // show nationality
+            nationalityWrapper.classList.remove('d-none');
+        }
+    }
+
+    // on page load (edit)
+    toggleFields();
+
+    // on change
+    roleSelect.addEventListener('change', toggleFields);
+});
+</script>
+@endpush

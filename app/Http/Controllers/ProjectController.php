@@ -25,38 +25,62 @@ class ProjectController extends AppBaseController
      * Display a listing of the Project.
      */
     public function index(Request $request)
-    {
-        $projects = \App\Models\Project::with([
-            'status',
-            'owner',
-            'contractor'
-        ])
-        ->orderByDesc('created_at')
-        ->paginate(10);
-        $toast = session('toast', null);
+{
+    $query = \App\Models\Project::with([
+        'status',
+        'ownerUser', // owner relation for name/phone
+        'contractor',
+        'baladyaApprovals' => fn($q) => $q->latest()->take(1),
+    ]);
 
-        return view('projects.index', compact('projects', 'toast'));
-
-        //return view('projects.index', compact('projects'));
-
-
-        /*return redirect()
-            ->route('projects.index', $project->id)
-            ->with('toast', [
-                'type' => 'success',
-                'message' => __('Project created successfully. You can now upload attachments.')
-            ]);*/
+    // Filters
+    if ($request->filled('project_code')) {
+        $query->where('project_code', 'like', '%' . $request->project_code . '%');
     }
+
+
+    if ($request->filled('qasima_number')) {
+        $query->where('qasima_number', 'like', '%' . $request->qasima_number . '%');
+    }
+
+    if ($request->filled('owner_name')) {
+        $query->whereHas('ownerUser', fn($q) => $q->where('name', 'like', '%' . $request->owner_name . '%'));
+    }
+
+    if ($request->filled('owner_phone')) {
+        $query->whereHas('ownerUser', fn($q) => $q->where('mobile', 'like', '%' . $request->owner_phone . '%'));
+    }
+
+    $projects = $query->orderByDesc('created_at')->paginate(10);
+
+    $toast = session('toast', null);
+
+    return view('projects.index', compact('projects', 'toast'));
+}
+
 
 
 
     /**
      * Show the form for creating a new Project.
      */
-    public function create()
+    public function create(Request $request)
     {
+        $stages =  \App\Models\ProjectStage::where('active', 1)
+            ->orderBy('order')
+            ->pluck(
+                app()->getLocale() === 'ar' ? 'name_ar' : 'name_en',
+                'id'
+            );
+        $projectRegions = \App\Models\ProjectRegion::where('status', 1)
+            ->pluck(
+                app()->getLocale() === 'ar' ? 'name_ar' : 'name_en',
+                'id'
+            );
+        $projectNames = \App\Models\ProjectName::where('status', 1)
+        ->pluck(app()->getLocale() == 'ar' ? 'name_ar' : 'name_en', 'id');
         $statuses    = \App\Models\Status::pluck('name', 'id');
-        $regions     = \App\Models\Region::pluck('Region', 'id');
+        $regions     = \App\Models\Region::where('status', 1)->pluck('region', 'id');
         $owners      = \App\Models\User::where('role_id', 2)->pluck('name', 'id');
         $contractors = \App\Models\User::where('role_id', 3)->pluck('name', 'id');
         $consultants = \App\Models\User::where('role_id', 7)->pluck('name', 'id');
@@ -64,14 +88,19 @@ class ProjectController extends AppBaseController
         // ✅ Project attachment types
         $defaultTypes = [2, 10, 12, 4, 13, 14, 15, 16, 17, 18, 19, 20, 25];
 
-        return view('projects.create', compact(
-            'statuses',
-            'regions',
-            'owners',
-            'contractors',
-            'consultants',
-            'defaultTypes'
-        ));
+        return view('projects.create', [
+            'statuses'=>$statuses,
+            'regions'=>$regions,
+            'owners'=>$owners,
+            'contractors'=>$contractors,
+            'consultants'=>$consultants,
+            'defaultTypes'=>$defaultTypes,
+            'ownerId' => $request->owner_id,
+            'contractorId' => $request->contractor_id,
+            'stages'=>$stages,
+            'projectNames'=>$projectNames,
+            'projectRegions'=>$projectRegions,
+        ]);
     }
 
 
@@ -239,12 +268,146 @@ public function contractOwnerConsultantPdf(Request $request, $id)
 }
 
 
+public function hawyaContractPdf(Request $request, $id)
+{
+    $project = \App\Models\Project::with(['ownerUser'])->findOrFail($id);
+
+    // Use the new Blade view
+    $html = view('pdf.contract_hawya', compact('project'))->render();
+
+    $mpdf = new \Mpdf\Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'default_font' => 'amiri',
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+    ]);
+
+    $mpdf->WriteHTML($html);
+
+    $action = $request->get('action', 'preview');
+
+    if ($action === 'download') {
+        return $mpdf->Output("contract_hawya_{$project->id}.pdf", 'D');
+    }
+
+    if ($action === 'print') {
+        return $mpdf->Output("contract_hawya_{$project->id}.pdf", 'I');
+    }
+
+    return $mpdf->Output("contract_hawya_{$project->id}.pdf", 'I');
+}
+
+
+
+
+
+
+public function siteDeliveryContractPdf(Request $request, $id)
+{
+    $project = \App\Models\Project::with(['ownerUser'])->findOrFail($id);
+
+    $html = view('pdf.contract_site_delivery', compact('project'))->render();
+
+    $mpdf = new \Mpdf\Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'default_font' => 'amiri',
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+    ]);
+
+    $mpdf->WriteHTML($html);
+
+    $action = $request->get('action', 'preview');
+
+    if ($action === 'download') {
+        return $mpdf->Output("site_delivery_contract_{$project->id}.pdf", 'D');
+    }
+
+    if ($action === 'print') {
+        return $mpdf->Output("site_delivery_contract_{$project->id}.pdf", 'I');
+    }
+
+    return $mpdf->Output("site_delivery_contract_{$project->id}.pdf", 'I');
+}
+
+
+public function bankContractPdf(Request $request, $id)
+{
+    $project = \App\Models\Project::with(['ownerUser'])->findOrFail($id);
+
+    $html = view('pdf.contract_bank', compact('project'))->render();
+
+    $mpdf = new \Mpdf\Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'default_font' => 'amiri',
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+    ]);
+
+    $mpdf->WriteHTML($html);
+
+    $action = $request->get('action', 'preview');
+
+    if ($action === 'download') {
+        return $mpdf->Output("bank_contract_{$project->id}.pdf", 'D');
+    }
+
+    if ($action === 'print') {
+        return $mpdf->Output("bank_contract_{$project->id}.pdf", 'I');
+    }
+
+    return $mpdf->Output("bank_contract_{$project->id}.pdf", 'I');
+}
+
+
+
+
+
+
+
+
+public function bankTableContractPdf(Request $request, $id)
+{
+    $project = \App\Models\Project::with(['ownerUser', 'contractorUser'])->findOrFail($id);
+
+    // Blade الجديد لـ Bank Table Contract
+    $html = view('pdf.contract_bank_table', compact('project'))->render();
+
+    $mpdf = new \Mpdf\Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'default_font' => 'amiri',
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+    ]);
+
+    $mpdf->WriteHTML($html);
+
+    $action = $request->get('action', 'preview');
+
+    if ($action === 'download') {
+        return $mpdf->Output("bank_table_contract_{$project->id}.pdf", 'D');
+    }
+
+    if ($action === 'print') {
+        return $mpdf->Output("bank_table_contract_{$project->id}.pdf", 'I');
+    }
+
+    return $mpdf->Output("bank_table_contract_{$project->id}.pdf", 'I');
+}
+
+
+
+
 
 
     public function store(CreateProjectRequest $request)
     {
         $input = $request->all();
-
+        //$input["duration"] = $request->input("duration", 0);
         // Generate project code
         $lastProject = \App\Models\Project::orderBy('id', 'desc')->first();
         $nextNumber = $lastProject ? $lastProject->id + 1 : 1;
@@ -327,9 +490,21 @@ public function contractOwnerConsultantPdf(Request $request, $id)
         Flash::error('Project not found');
         return redirect(route('projects.index'));
     }
-
+    $stages =  \App\Models\ProjectStage::where('active', 1)
+            ->orderBy('order')
+            ->pluck(
+                app()->getLocale() === 'ar' ? 'name_ar' : 'name_en',
+                'id'
+            );
+    $projectRegions = \App\Models\ProjectRegion::where('status', 1)
+            ->pluck(
+                app()->getLocale() === 'ar' ? 'name_ar' : 'name_en',
+                'id'
+            );
+    $projectNames = \App\Models\ProjectName::where('status', 1)
+        ->pluck(app()->getLocale() == 'ar' ? 'name_ar' : 'name_en', 'id');
     $statuses    = \App\Models\Status::pluck('name', 'id');
-    $regions     = \App\Models\Region::pluck('Region', 'id');
+    $regions     = \App\Models\Region::where('status', 1)->pluck('region', 'id');
     $owners      = \App\Models\User::where('role_id', 2)->pluck('name', 'id');
     $contractors = \App\Models\User::where('role_id', 3)->pluck('name', 'id');
     $consultants = \App\Models\User::where('role_id', 7)->pluck('name', 'id');
@@ -340,7 +515,10 @@ public function contractOwnerConsultantPdf(Request $request, $id)
         'regions',
         'owners',
         'contractors',
-        'consultants'
+        'consultants',
+        'stages',
+        'projectNames',
+        'projectRegions'
     ));
 }
 

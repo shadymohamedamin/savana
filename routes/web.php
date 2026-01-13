@@ -20,6 +20,9 @@ use App\Http\Controllers\UserAttachmentController;
 use App\Http\Controllers\PrimaryDataController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\BaladyaApprovalController;
+use App\Http\Controllers\BaladyaStatusTypeController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -133,6 +136,49 @@ Route::middleware(['auth'])->group(function () {
 
 
 
+
+
+
+
+
+
+
+
+Route::prefix('projects/{project}')
+    ->name('projects.')
+    ->group(function () {
+
+        Route::resource(
+            'baladya-approvals',
+            BaladyaApprovalController::class
+        );
+    });
+
+
+
+
+
+
+// Baladya Approvals routes
+Route::prefix('projects/{project}/baladya-approvals')->group(function() {
+    Route::get('/', [BaladyaApprovalController::class, 'index'])->name('projects.baladya-approvals.index');
+    Route::get('create', [BaladyaApprovalController::class, 'create'])->name('projects.baladya-approvals.create');
+    Route::post('/', [BaladyaApprovalController::class, 'store'])->name('projects.baladya-approvals.store');
+    Route::get('{id}/edit', [BaladyaApprovalController::class, 'edit'])->name('projects.baladya-approvals.edit');
+    Route::put('{id}', [BaladyaApprovalController::class, 'update'])->name('projects.baladya-approvals.update');
+    Route::delete('{id}', [BaladyaApprovalController::class, 'destroy'])->name('projects.baladya-approvals.destroy');
+});
+Route::get('projects/{project}/baladya-approvals/create', [BaladyaApprovalController::class, 'create'])
+     ->name('projects.baladya-approvals.create');
+
+
+
+
+
+
+
+
+
     Route::get(
         '/projects/{id}/contract',
         [App\Http\Controllers\ProjectController::class, 'contractPdf']
@@ -145,12 +191,36 @@ Route::get('/projects/{id}/takleef-contract',
     [App\Http\Controllers\ProjectController::class, 'takleefContractPdf']
 )->name('projects.contract.takleef.pdf');
 
+Route::get('/projects/{id}/hawya-contract', 
+    [App\Http\Controllers\ProjectController::class, 'hawyaContractPdf']
+)->name('projects.contract.hawya.pdf');
 
+
+
+Route::get('/projects/{id}/site-delivery-contract', 
+    [App\Http\Controllers\ProjectController::class, 'siteDeliveryContractPdf']
+)->name('projects.contract.site_delivery.pdf');
+
+
+
+Route::get('/projects/{id}/bank-contract', 
+    [App\Http\Controllers\ProjectController::class, 'bankContractPdf']
+)->name('projects.contract.bank.pdf');
+
+
+Route::get('/projects/{id}/bank-table-contract', 
+    [App\Http\Controllers\ProjectController::class, 'bankTableContractPdf']
+)->name('projects.contract.bank_table.pdf');
 
 Route::get(
     'users/{id}/attachments',
     [UserAttachmentController::class, 'form']
 )->name('users.attachments.form');
+
+
+Route::get('/projects/{id}/bank-table-contract', 
+    [App\Http\Controllers\ProjectController::class, 'bankTableContractPdf']
+)->name('projects.contract.bank_table.pdf');
 
 
 
@@ -336,3 +406,8 @@ Route::resource('projects', App\Http\Controllers\ProjectController::class);
 Route::resource('statuses', App\Http\Controllers\StatusController::class);
 Route::resource('settings', App\Http\Controllers\SettingController::class);
 Route::resource('project-users', App\Http\Controllers\ProjectUserController::class);
+Route::resource('baladya-approvals', App\Http\Controllers\BaladyaApprovalController::class);
+Route::resource('baladya-status-types', App\Http\Controllers\BaladyaStatusTypeController::class);
+Route::resource('project-stages', App\Http\Controllers\ProjectStageController::class);
+Route::resource('project-names', App\Http\Controllers\ProjectNameController::class);
+Route::resource('project-regions', App\Http\Controllers\ProjectRegionController::class);

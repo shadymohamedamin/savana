@@ -131,6 +131,11 @@ class User extends Authenticatable implements AuditableContract
         'email_verified_at',
         'remember_token',
         'is_admin',
+
+
+        'responsible_name',
+        'manager_name',
+        'license_number',
     ];
 
     protected $casts = [
@@ -170,7 +175,7 @@ class User extends Authenticatable implements AuditableContract
         'uae_id' => 'required|string|max:20',
         'mobile' => 'required|string|max:20',
         'sex' => 'required|integer|exists:sexes,id',
-        'nat' => 'required',
+        'nat' => 'nullable',
         'city' => 'required|exists:regions,id',
         'country' => 'nullable',
         'address' => 'nullable|string|max:255',

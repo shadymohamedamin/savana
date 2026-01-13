@@ -9,7 +9,8 @@ class Region extends Model
     public $table = 'regions';
 
     public $fillable = [
-        'Region'
+        'Region',
+        'status',
     ];
 
     protected $casts = [

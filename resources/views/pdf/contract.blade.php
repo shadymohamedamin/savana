@@ -105,7 +105,7 @@
         </tr>
         <tr>
             <td class="bold">المنطقة</td>
-            <td colspan="2">{{ $project->area ?? '—' }}</td>
+            <td colspan="2">{{ $project->projectRegion->name_ar ?? '—' }}</td>
         </tr>
         <tr>
             <td class="bold">رقم القسيمة</td>
@@ -132,7 +132,7 @@
     <table>
         <tr>
             <td class="bold center section-title">توقيع وختم المقاول</td>
-            <td class="bold center section-title">توقيع وختم المالك</td>
+            <td class="bold center section-title">توقيع المالك</td>
             <td class="bold center section-title">توقيع وختم الاستشاري</td>
         </tr>
         <tr>
@@ -354,12 +354,12 @@
 
 
 
-    <table style="width:100%; border-collapse:collapse; margin-top:90px;">
+    <table style="width:100%; border-collapse:collapse;">
 
         <!-- البند 4 -->
-        <tr class="section-title">
+        <tr class="section-title" style="margin-top: 10px;">
             <td style="width:10%; text-align:center; font-weight:bold;">4</td>
-            <td style="width:80%; text-align:center; font-weight:bold;">
+            <td style="width:80%; text-align:center; font-weight:bold; " >
                 الاثار المترتبة على فسخ العقد
             </td>
             <td style="width:10%; text-align:center; font-weight:bold;">4</td>
@@ -449,7 +449,7 @@
 
 
 
-    <table style="width:100%; border-collapse:collapse; margin-top:90px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:10px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">9</td>
             <td style="width:80%; text-align:center; font-weight:bold;">الإستلام النهائي للمشروع</td>
@@ -461,7 +461,9 @@
             </td>
         </tr>
 
-        <tr class="section-title">
+       
+
+        <tr class="section-title" style="padding-top:30px;">
             <td style="width:10%; text-align:center; font-weight:bold;">10</td>
             <td style="width:80%; text-align:center; font-weight:bold;">مدة الصيانة</td>
             <td style="width:10%; text-align:center; font-weight:bold;">10</td>
@@ -807,8 +809,8 @@
     </table>
 
     <!-- Clause 35 -->
-    <table style="width:100%; border-collapse:collapse; margin-top:20px;">
-        <tr class="section-title">
+    <table style="width:100%; border-collapse:collapse; margin-top:10px;">
+        <tr class="section-title" >
             <td style="width:10%; text-align:center; font-weight:bold;">35</td>
             <td style="width:80%; text-align:center; font-weight:bold;">احتساب قيمة التعديل</td>
             <td style="width:10%; text-align:center; font-weight:bold;">35</td>
@@ -937,7 +939,7 @@
     </table>
 
     <!-- Clause 45 -->
-    <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:10px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">45</td>
             <td style="width:80%; text-align:center; font-weight:bold;">سوء مصنعية</td>
@@ -1063,7 +1065,7 @@
     </table>
 
     <!-- Clause 54 -->
-    <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:10px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">54</td>
             <td style="width:80%; text-align:center; font-weight:bold;">إجراءات الأمن والسلامة</td>
@@ -1179,7 +1181,7 @@
     </table>
 
     <!-- Clause 62 -->
-    <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:10px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">62</td>
             <td style="width:80%; text-align:center; font-weight:bold;">السخان المركزي</td>
@@ -1193,7 +1195,7 @@
     </table>
 
     <!-- Clause 63 -->
-    <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:10px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">63</td>
             <td style="width:80%; text-align:center; font-weight:bold;">دفعة مقدمة</td>
@@ -1418,7 +1420,7 @@
 
     <!-- Clause 79 -->
     <!-- Agreement Header -->
-<table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:30px;">
+<table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:70px;">
     <tr>
         <td colspan="3" class="section-title" style="text-align:center; font-weight:bold; font-size:16px;">
             تم الاتفاق بين كل من
@@ -1448,7 +1450,7 @@
 <table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:50px;">
     <tr>
         <td class="bold center section-title" style="text-align:center; font-weight:bold;">توقيع وختم المقاول</td>
-        <td class="bold center section-title" style="text-align:center; font-weight:bold;">توقيع وختم المالك</td>
+        <td class="bold center section-title" style="text-align:center; font-weight:bold;">توقيع المالك</td>
         <td class="bold center section-title" style="text-align:center; font-weight:bold;">توقيع وختم الاستشاري</td>
     </tr>
     <tr>

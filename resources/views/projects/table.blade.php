@@ -1,8 +1,23 @@
 <div class="card shadow-sm rounded-4 m-0" style="background-color: #f5f5dc;">
 
     {{-- Header --}}
+
+
+
+    
+
+
+
     <div class="card-header d-flex justify-content-between align-items-center"
          style="background:#D4AF37;color:#2f3a1f;font-size:1.3rem;font-weight:600;">
+
+
+
+
+
+
+
+
         <h4 class="mb-0">{{ __('Projects') }}</h4>
 
         <div class="d-flex gap-2">
@@ -26,6 +41,76 @@
         </div>
     </div>
 
+
+
+
+
+
+{{-- Filter Toggle --}}
+<div class="card-body border-bottom" style="background-color: #f5f5dc;">
+    <button class="btn btn-outline-secondary btn-sm mb-3"
+            data-bs-toggle="collapse"
+            data-bs-target="#filterBox">
+        <i class="fas fa-filter"></i> {{ __('Filter') }}
+    </button>
+
+    {{-- Filter Box --}}
+    <div id="filterBox" class="collapse">
+        <form method="GET" action="{{ route('projects.index') }}">
+            <div class="row g-2">
+
+                {{-- Project Code --}}
+                <div class="col-md">
+                    <input type="text" name="project_code" class="form-control rounded-3"
+                           placeholder="{{ __('كود المشروع') }}"
+                           value="{{ request('project_code') }}">
+                </div>
+
+                {{-- Project Qasmia --}}
+                <div class="col-md">
+                    <input type="text" name="qasima_number" class="form-control rounded-3"
+                           placeholder="{{ __('رقم القسيمة') }}"
+                           value="{{ request('qasima_number') }}">
+                </div>
+
+
+                {{-- Owner Name --}}
+                <div class="col-md">
+                    <input type="text" name="owner_name" class="form-control rounded-3"
+                           placeholder="{{ __('اسم المالك') }}"
+                           value="{{ request('owner_name') }}">
+                </div>
+
+                {{-- Owner Phone --}}
+                <div class="col-md">
+                    <input type="text" name="owner_phone" class="form-control rounded-3"
+                           placeholder="{{ __('رقم الهاتف') }}"
+                           value="{{ request('owner_phone') }}">
+                </div>
+
+                
+
+                {{-- Buttons --}}
+                <div class="col-md-2 d-grid">
+                    <button class="btn btn-olive" style="background-color: #2f3a1f;border: 1px solid #2f3a1f;color: #d4af37;">
+                        <i class="fas fa-check me-1"></i> {{ __('Apply') }}
+                    </button>
+                </div>
+                <div class="col-md-2 d-grid">
+                    <a href="{{ route('projects.index') }}" class="btn btn-secondary rounded-3">
+                        <i class="fas fa-sync-alt me-1"></i> {{ __('Reset') }}
+                    </a>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+
     <div class="table-responsive p-3" style="background-color:#f5f5dc;">
         <table class="table table-hover align-middle rounded-4"
                style="border:1px solid #D4AF37;">
@@ -36,11 +121,23 @@
                 <th style="background-color:#f5f5dc;">{{ __('ProjectName') }}</th>
                 <th style="background-color:#f5f5dc;">{{ __('Chosen Contractor') }}</th>
                 <th style="background-color:#f5f5dc;">{{ __('Case #') }}</th>
-                <th style="background-color:#f5f5dc;">{{ __('Building #') }}</th>
-                <th style="background-color:#f5f5dc;">{{ __('Fence #') }}</th>
+                <!-- <th style="background-color:#f5f5dc;">{{ __('Building #') }}</th> -->
+                <!-- <th style="background-color:#f5f5dc;">{{ __('Building #') }}</th> -->
+                <th style="background-color:#f5f5dc;">{{ __(key: 'نوع الحالة') }}</th>
+                <th style="background-color:#f5f5dc;">{{ __(key: 'عدد زيارات الاشراف') }}</th>
+                <th style="background-color:#f5f5dc;">{{ __(key: 'قيمة العقد') }}</th>
+                <th style="background-color:#f5f5dc;">{{ __(key: 'مدة المعاملة') }}</th>
+                
+                <th style="background-color:#f5f5dc;">{{ __(key: 'المستلم من العقد') }}</th>
+                <!-- <th style="background-color:#f5f5dc;">{{ __(key: 'Case Type') }}</th> -->
+                
+                 
+                <!-- <th style="background-color:#f5f5dc;">{{ __('Fence #') }}</th>
                 <th style="background-color:#f5f5dc;">{{ __('Status') }}</th>
                 <th style="background-color:#f5f5dc;">{{ __('Start Date') }}</th>
-                <th style="background-color:#f5f5dc;">{{ __('End Date') }}</th>
+                <th style="background-color:#f5f5dc;">{{ __('End Date') }}</th> -->
+                <th style="background-color:#f5f5dc;">{{ __('Status') }}</th>
+                <th style="background-color:#f5f5dc;">{{ __(key: 'مرحلة المشروع') }}</th>
                 <th style="width: 80px;background-color:#f5f5dc;" >{{ __('Action') }}</th>
             </tr>
             </thead>
@@ -56,11 +153,64 @@
                 <tr  style="background-color:#f5f5dc;">
                     <td style="background-color:#f5f5dc;">{{ $project->project_code }}</td>
                     <td style="background-color:#f5f5dc;">{{ $project->owner->first()?->name ?? '—' }}</td>
-                    <td style="background-color:#f5f5dc;">{{ $project->name }}</td>
+                   <td style="background-color:#f5f5dc;">
+                        @if($project->projectName)
+                            {{ app()->getLocale() == 'ar'
+                                ? $project->projectName->name_ar
+                                : $project->projectName->name_en
+                            }}
+                        @else
+                            —
+                        @endif
+                    </td>
+
+                    
+
                     <td style="background-color:#f5f5dc;">{{ $project->contractor->first()?->name ?? '—' }}</td>
                     <td style="background-color:#f5f5dc;">{{ $project->case_id_number ?? '—' }}</td>
-                    <td style="background-color:#f5f5dc;">{{ $project->building_number ?? '—' }}</td>
-                    <td style="background-color:#f5f5dc;">{{ $project->fence_number ?? '—' }}</td>
+                    <!-- <td style="background-color:#f5f5dc;">{{ $project->building_number ?? '—' }}</td> -->
+                    
+                    
+                    
+                    
+                    
+                    @php
+                        $lastApproval = $project->baladyaApprovals->first();
+                        $daysDiff = $lastApproval && $lastApproval->opened_at && $lastApproval->approved_at
+                                    ? $lastApproval->approved_at->diffInDays($lastApproval->opened_at)
+                                    : null;
+                    @endphp
+                    
+                        <td style="background-color:#f5f5dc;">
+                            {{ $lastApproval->statusType->name_ar ?? '—' }}
+                        </td>
+                        <td style="background-color:#f5f5dc;">
+                            {{ $project->supervision_visits_count ?? '—' }}
+                        </td>
+                        <td style="background-color:#f5f5dc;">
+                            {{ $project->budget ?? '—' }}
+                        </td>
+                        <td style="background-color:#f5f5dc;">
+                            {{ $daysDiff ?? '—' }}
+                        </td>
+                        <td style="background-color:#f5f5dc;">
+                            {{ $project->contract_receiver ?? '—' }}
+                        </td>
+                    
+                    
+                    
+                    
+                    
+                    
+                    <!-- <td style="background-color:#f5f5dc;">{{ '—' }}</td>
+                    <td style="background-color:#f5f5dc;">{{ '—' }}</td>
+                    <td style="background-color:#f5f5dc;">{{ '—' }}</td>
+                    <td style="background-color:#f5f5dc;">{{ '—' }}</td>
+                    <td style="background-color:#f5f5dc;">{{ '—' }}</td>
+                    <td style="background-color:#f5f5dc;">{{ '—' }}</td> -->
+                    
+
+                    <!-- <td style="background-color:#f5f5dc;">{{ $project->fence_number ?? '—' }}</td> -->
                     <td style="background-color:#f5f5dc;">
                         <span class="badge
                             @if(optional($project->status)->name == 'active') bg-success
@@ -76,12 +226,30 @@
                     </td>
 
 
+
                     <td style="background-color:#f5f5dc;">
+                        @if($project->stage)
+                            <span class="badge bg-info" style="background-color:#f5f5dc;">
+                                {{ app()->getLocale() === 'ar'
+                                    ? $project->stage->name_ar
+                                    : $project->stage->name_en
+                                }}
+                            </span>
+                        @else
+                            <span class="badge bg-secondary" style="background-color:#f5f5dc;">
+                                {{ __('Not Started') }}
+                            </span>
+                        @endif
+                    </td>
+
+
+
+                    <!-- <td style="background-color:#f5f5dc;">
                         {{ \Carbon\Carbon::parse($project->start_date)->format('Y-m-d') }}
                     </td style="background-color:#f5f5dc;">
                     <td style="background-color:#f5f5dc;">
                         {{ \Carbon\Carbon::parse($project->end_date)->format('Y-m-d') }}
-                    </td>
+                    </td> -->
 
                     <td style="background-color:#f5f5dc;">
 
@@ -90,7 +258,7 @@
                             $contractor = $project->users->firstWhere('pivot.role', __('Contractor'));
                         @endphp
 
-                        <div class="dropdown">
+                        <div class="dropdown" >
                             <button class="btn btn-sm btn-secondary dropdown-toggle"
                                     type="button"
                                     style="background-color: #2f3a1f;border: 1px solid #2f3a1f;color: #d4af37;"
@@ -99,13 +267,14 @@
                                 <i class="fas fa-cog"></i>
                             </button>
 
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li>
+                            <ul class="dropdown-menu dropdown-menu-end" style="background-color:#f5f5dc;">
+                                <!-- <li>
                                     <a class="dropdown-item"
                                        href="{{ route('projects.show', $project->id) }}">
                                         <i class="far fa-eye me-1"></i> {{ __('Preview') }}
                                     </a>
-                                </li>
+                                </li> -->
+                               
 
                                 <li>
                                     <a class="dropdown-item"
@@ -113,6 +282,27 @@
                                         <i class="far fa-edit me-1"></i> {{ __('Edit Project') }}
                                     </a>
                                 </li>
+
+                                {{-- مستندات المشروع --}}
+                                <li>
+                                    <a class="dropdown-item"
+                                    href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}">
+                                        <i class="fas fa-folder-open me-1"></i> {{ __('مستندات المشروع') }}
+                                    </a>
+                                </li>
+
+
+                                <li>
+                                    <a class="dropdown-item"
+                                    href="{{ route('projects.baladya-approvals.index', [
+                                            'project' => $project->id,
+                                            //'owner_id' => $project->owner_id
+                                    ]) }}">
+                                        <i class="fas fa-file-signature me-1"></i>
+                                        {{ __('اعتمادات البلدية') }}
+                                    </a>
+                                </li>
+
 
                                <li>
                                     @if($project->owner_id)
@@ -139,6 +329,56 @@
                                             
                                         </span>
                                     @endif
+                                </li>
+
+
+
+
+
+
+
+
+
+                                 <li><hr class="dropdown-divider"></li>
+
+                                <li class="dropdown-header text-muted px-3">
+                                    {{ __('خطوات المشروع') }}
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fas fa-pencil-ruler me-1"></i> {{ __('التصميم') }}
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fas fa-gavel me-1"></i> {{ __('المناقصة') }}
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fas fa-user-tie me-1"></i> {{ __('الاشراف') }}
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fas fa-money-check-alt me-1"></i> {{ __('الدفعات') }}
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fas fa-folder me-1"></i> {{ __('المستندات') }}
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        <i class="fas fa-chart-line me-1"></i> {{ __('الاحصائيات') }}
+                                    </a>
                                 </li>
 
 

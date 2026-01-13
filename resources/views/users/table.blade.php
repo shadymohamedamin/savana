@@ -76,10 +76,10 @@
                                 {{ __('No') }}
                             </option>
                         </select>
-                    </div>
+                    </div>-->
 
                     {{-- Role --}}
-                    <div class="col-md">
+                    <!-- <div class="col-md">
                         <select name="role" class="form-select rounded-3">
                             <option value="">{{ __('Role') }}</option>
                             <option value="user" {{ request('role')=='user'?'selected':'' }}>
@@ -92,10 +92,10 @@
                                 {{ __('Admin') }}
                             </option>
                         </select>
-                    </div>
+                    </div> -->
 
                     {{-- Is Admin --}}
-                    <div class="col-md">
+                    <!--<div class="col-md">
                         <select name="is_admin" class="form-select rounded-3">
                             <option value="">{{ __('Is Admin') }}</option>
                             <option value="1" {{ request('is_admin')=='1'?'selected':'' }}>
@@ -174,21 +174,27 @@
                             </button> -->
 
 
-                        <div class="dropdown">
+                        <div class="dropdown" style="background-color: #f5f5dc;">
                             <button class="btn btn-sm btn-olive dropdown-toggle rounded-3"
                                     style="background-color: #2f3a1f;border: 1px solid #2f3a1f;color: #d4af37;"
                                     type="button" data-bs-toggle="dropdown">
                                 <i class="fas fa-cog"></i>
                             </button>
-                            <ul class="dropdown-menu dropdown-menu-end">
-                                <li>
+                            <ul class="dropdown-menu dropdown-menu-end" style="background-color: #f5f5dc;">
+                                <!-- <li>
                                     <a class="dropdown-item" href="{{ route('users.show', $user->id) }}">
                                         <i class="far fa-eye me-1"></i> {{ __('Show') }}
                                     </a>
-                                </li>
+                                </li> -->
                                 <li>
                                     <a class="dropdown-item" href="{{ route('users.edit', $user->id) }}">
                                         <i class="far fa-edit me-1"></i> {{ __('Edit') }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item"
+                                    href="{{ url('users/'.$user->id.'/attachments/create?type=users') }}">
+                                        <i class="fas fa-folder-open me-1"></i> {{ __('مستندات') }}
                                     </a>
                                 </li>
                                 <li>
@@ -209,8 +215,8 @@
     </div>
 
     {{-- Pagination --}}
-    <div class="card-footer bg-light rounded-bottom-4" style="background-color: #f5f5dc;">
-        <div class="float-end">
+    <div class="card-footer  rounded-bottom-4" style="background-color: #f5f5dc;" >
+        <div class="float-end" style="background-color: #f5f5dc;">
             @include('adminlte-templates::common.paginate',['records'=>$users])
         </div>
     </div>

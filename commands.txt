@@ -7,7 +7,7 @@ php artisan infyom:scaffold Role --fromTable --table=roles
 
 
 
-
+php artisan key:generate
 
 
 
@@ -84,3 +84,146 @@ document.addEventListener('DOMContentLoaded', function () {
 php artisan tinker
 bcrypt('savana@2024');
 echo password_hash('savana@2024', PASSWORD_BCRYPT);
+
+
+
+
+
+
+
+
+
+
+to install new one /
+git clone 
+https://getcomposer.org/Composer-Setup.exe
+composer --version
+cd D:\shady\supports_test\savana
+rmdir /s /q vendor
+rmdir /s /q composer.lock
+composer install
+php artisan key:generate
+php artisan serve
+npm install
+npm run dev
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+بالنسبة للمشاريع فهيبقي فيه خطوات المشروع هيمر بيها زي التصميم ودي هيبقي فيها تصميم المخططات وتصميم الواجهات ودي هتبقي زي الاستشاري هيبعت تصميم للمالك كملف ويكتب تعليق وهكذا وبعدين المالك يشوفه ويقوله عايز تعديل ولا يقبله وهكذا بالنسبة لتصميم الواجهات وكمان انا عايز كل دا يبقا محفوظ بالتاريخ وكل ملف اتبعت وهكذا وبعد كدا بعد ما المالك يعتمد هيكون فيه مرحلة تانية اسمها المناقصة يعني الملف المعتمد من المالك وتفاصيل المشروع هتتبعتت لمجموعة مقاولين هيتم تحدديهم من قبل الاستشاري وكل مقاول ياخد الملفات ويعمل بيها كوتيشن وبعدين الاستشاري يشوفهم ويختار واحد وبعدين هيتم تحديد دفعات الفلوس اللي هيتم دفعها للمقاول وكذلك الزيارات الشهرية اللي هيحددها الاستشاري للمقاول علي مدار السنة وكل زيارة هيعمل فيها تقارير وهكذا --- فقولي اي ابسط سيناريو امشي عليه وقولي تقسيمة المشروع هتبقي ازاي والحاجات دي وتقسيمة ديزاين المشروع بابسط سيناريو
+
+
+
+
+
+
+
+composer create-project laravel/laravel supports-spa
+cd supports-spa
+composer require inertiajs/inertia-laravel
+php artisan inertia:middleware
+>npm install @inertiajs/react react react-dom
+npm install
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+composer create-project laravel/laravel . "10"
+
+
+composer require \
+arcanedev/log-viewer:^10.1 \
+barryvdh/laravel-dompdf:^3.1 \
+doctrine/dbal:^3.9 \
+filament/filament:^2.17 \
+guzzlehttp/guzzle:^7.2 \
+infyomlabs/adminlte-templates:^6.0 \
+infyomlabs/laravel-generator:6.0 \
+laravel/fortify:^1.25 \
+laravel/sanctum:^3.3 \
+laravel/telescope:^5.9 \
+laravel/ui:^4.6 \
+maatwebsite/excel:^3.1 \
+mpdf/mpdf:^8.2 \
+owen-it/laravel-auditing:^13.7 \
+phpoffice/phpspreadsheet:^1.30 \
+spatie/laravel-permission:^6.17
+
+
+
+
+composer require --dev \
+barryvdh/laravel-debugbar:^3.16 \
+laravel/telescope \
+nunomaduro/collision \
+phpunit/phpunit
+
+
+
+php artisan infyom:publish
+php artisan vendor:publish --provider="InfyOm\Generator\InfyOmGeneratorServiceProvider"
+
+
+
+npm install \
+bootstrap@^5.3.6 \
+axios@^1.6.4 \
+@popperjs/core@^2.11.6 \
+sass@^1.32.13 \
+laravel-vite-plugin@^1.0.0 \
+vite@^5.0.0 \
+concurrently@^9.1.2
+
+
+
+
+npm run dev
+php artisan serve
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -77,7 +77,8 @@
 <table>
     <tr>
         <td>
-            التاريخ: {{ now()->format('Y/m/d') }}
+             التاريخ: {{ $project->start_date->format('Y/m/d') }}
+            <!-- التاريخ: {{ now()->format('Y/m/d') }} -->
         </td>
     </tr>
 

@@ -45,17 +45,33 @@
             <div class="d-flex flex-wrap gap-3">
 
                 {{-- Project Name --}}
-                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;max-width: 250px;">
+                <!-- <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;max-width: 250px;">
                     {!! Form::label('name', __('Project Name')) !!}
                     {!! Form::text('name', null, ['class' => 'form-control rounded', 'required']) !!}
+                </div> -->
+
+                {{-- Project Name --}}
+                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+                    {!! Form::label('project_name_id', __('ProjectName')) !!}
+                    {!! Form::select(
+                        'project_name_id',
+                        $projectNames,
+                        null,
+                        [
+                            'class' => 'form-control rounded',
+                            'placeholder' => __('-- اختر اسم المشروع --'),
+                            'required'
+                        ]
+                    ) !!}
                 </div>
 
+
                 {{-- Status --}}
-                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;max-width: 250px;">
+                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;max-width: 250px;background-color: #f5f5dc;">
                     {!! Form::label('status_id', __('Status')) !!}
                     {!! Form::select('status_id', $statuses, null, [
                         'class' => 'form-control rounded',
-                        'placeholder' => '-- Select Status --',
+                        'placeholder' => '-- اختر الحالة --',
                         'required'
                     ]) !!}
                 </div>
@@ -71,6 +87,15 @@
                     {!! Form::label('building_number', __('Building #')) !!}
                     {!! Form::text('building_number', null, ['class' => 'form-control rounded']) !!}
                 </div>
+
+                    <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;max-width: 250px;">
+                        {!! Form::label('building_number2', __('Building #2')) !!}
+                        {!! Form::text('building_number2', null, ['class' => 'form-control rounded']) !!}
+                    </div>
+                    <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;max-width: 250px;">
+                        {!! Form::label('building_number3', __('Building #3')) !!}
+                        {!! Form::text('building_number3', null, ['class' => 'form-control rounded']) !!}
+                    </div>
 
                 {{-- Fence --}}
                 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;max-width: 250px;">
@@ -94,9 +119,38 @@
                     {!! Form::text('budget', null, ['class' => 'form-control rounded']) !!}
                 </div>
 
+
+                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+                    {!! Form::label('bank_contract_value', __('قيمة عقد البنك')) !!}
+                    {!! Form::number('bank_contract_value', null, [
+                        'class' => 'form-control rounded',
+                        'min' => 0,
+                    ]) !!}
+                </div>
+
+
+                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+                    {!! Form::label('bank_contract_duration', __('مدة عقد البنك (بالأشهر)')) !!}
+                    {!! Form::number('bank_contract_duration', null, [
+                        'class' => 'form-control rounded',
+                        'min' => 1
+                    ]) !!}
+                </div>
+
+
+
+
+
+
                 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
                     {!! Form::label('area', __('Area')) !!}
                     {!! Form::text('area', null, ['class' => 'form-control rounded']) !!}
+                </div>
+
+
+                 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+                    {!! Form::label('duration', __('Project Duration')) !!}
+                    {!! Form::text('duration', null, ['class' => 'form-control rounded']) !!}
                 </div>
 
                 {{-- Dates --}}
@@ -110,6 +164,9 @@
                 </div>
 
 
+
+
+
                 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
                     {!! Form::label('end_date', __('End Date')) !!}
                     {!! Form::date(
@@ -120,29 +177,86 @@
                 </div>
 
 
-                {{-- City --}}
                 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
-                    {!! Form::label('city_id', __('City')) !!}
-                    {!! Form::select('city_id', $regions, null, [
+                    {!! Form::label('contractor_contract_end_date', __('تاريخ انتهاء عقد المقاول')) !!}
+                    {!! Form::date(
+                        'contractor_contract_end_date',
+                        optional($project->contractor_contract_end_date)->format('Y-m-d'),
+                        ['class' => 'form-control rounded']
+                    ) !!}
+
+
+                {{-- Stage --}}
+                <div class="flex-grow-1"
+                    style="min-width: 250px;max-width: 250px;background-color: #f5f5dc;">
+
+                    {!! Form::label('stage_id', __('Project Stage')) !!}
+
+                    {!! Form::select('stage_id', $stages, null, [
                         'class' => 'form-control rounded',
-                        'placeholder' => '-- Select City --'
+                        'placeholder' => __('-- اختر المرحلة --'),
+                        'required'
                     ]) !!}
                 </div>
 
+
+
+                {{-- City --}}
+                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;background-color: #f5f5dc;">
+                    {!! Form::label('city_id', __('City')) !!}
+                    {!! Form::select('city_id', $regions, null, [
+                        'class' => 'form-control rounded',
+                        'placeholder' => '-- اختر الامارة --'
+                    ]) !!}
+                </div>
+
+
+                {{-- Project Region --}}
+                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+                    {!! Form::label('project_region_id', __('المنطقة')) !!}
+                    {!! Form::select(
+                        'project_region_id',
+                        $projectRegions,
+                        null,
+                        [
+                            'class' => 'form-control rounded',
+                            'placeholder' => __('-- اختر  المنطقة --'),
+                            'required'
+                        ]
+                    ) !!}
+                </div>
+
                 {{-- Owner / Contractor / Consultant --}}
-                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;background-color: #f5f5dc;">
                     {!! Form::label('owner_id', __('Owner')) !!}
-                    {!! Form::select('owner_id', $owners, null, ['class'=>'form-control','placeholder'=>'-- Optional --']) !!}
+                    {!! Form::select('owner_id', $owners, null, ['class'=>'form-control','placeholder'=>'-- اختياري --']) !!}
                 </div>
 
-                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
-                    {!! Form::label('contractor_id', __('Contractor')) !!}
-                    {!! Form::select('contractor_id', $contractors, null, ['class'=>'form-control','placeholder'=>'-- Optional --']) !!}
+                <div class="d-flex align-items-end gap-2 flex-grow-1" style="min-width: 250px;max-width: 250px;background-color: #f5f5dc;">
+                    
+                    <div style="width: 200px;">
+                        {!! Form::label('contractor_id', __('Contractor')) !!}
+                        {!! Form::select('contractor_id', $contractors, null, ['class'=>'form-control','placeholder'=>'-- اختياري --']) !!}
+                    </div>
+                
+                    
+                        <a href="{{ route('users.create', [
+                                'role_id' => 3,//'owner_id' => request('owner_id')
+                            ]) }}"
+                        class="btn btn-success mb-1"
+                        title="Add New Contractor">
+                            <i class="fas fa-plus"></i>
+                        </a>
+
+                    
+                
+                
+                
                 </div>
 
-                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;background-color: #f5f5dc;">
                     {!! Form::label('consultant_id', __('Consultant')) !!}
-                    {!! Form::select('consultant_id', $consultants, null, ['class'=>'form-control','placeholder'=>'-- Optional --']) !!}
+                    {!! Form::select('consultant_id', $consultants, null, ['class'=>'form-control','placeholder'=>'-- اختياري --']) !!}
                 </div>
 
                 {{-- Description --}}

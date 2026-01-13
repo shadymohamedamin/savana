@@ -124,3 +124,38 @@
         <p>Project Users</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('baladyaApprovals.index') }}" class="nav-link {{ Request::is('baladyaApprovals*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Baladya Approvals</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('baladyaStatusTypes.index') }}" class="nav-link {{ Request::is('baladyaStatusTypes*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Baladya Status Types</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('projectStages.index') }}" class="nav-link {{ Request::is('projectStages*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Project Stages</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('projectNames.index') }}" class="nav-link {{ Request::is('projectNames*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Project Names</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('projectRegions.index') }}" class="nav-link {{ Request::is('projectRegions*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Project Regions</p>
+    </a>
+</li>

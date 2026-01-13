@@ -47,14 +47,41 @@
                 {{-- Mobile --}}
                 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
                     {!! Form::label('mobile', __('Mobile'), ['class' => 'font-semibold text-gray-600']) !!}
-                    {!! Form::text('mobile', null, ['class' => 'form-control rounded', 'required']) !!}
+                    {!! Form::text('mobile', null,
+                        [
+                        'class' => 'form-control rounded',
+                        'placeholder' => '05XXXXXXXX',
+                        'inputmode' => 'numeric',
+                        'autocomplete' => 'off',
+                        'required'
+                        ] ) !!}
+                    
+                    
+                     <!-- ['class' => 'form-control rounded', 'required']) !!} -->
                 </div>
 
                 {{-- UAE ID --}}
                 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
                     {!! Form::label('uae_id', __('ID Number'), ['class' => 'font-semibold text-gray-600']) !!}
-                    {!! Form::text('uae_id', null, ['class' => 'form-control rounded']) !!}
+                    {!! Form::text('uae_id', null,
+                        [
+                            'class' => 'form-control rounded',
+                            'placeholder' => '784-XXXX-XXXXXXX-X',
+                            'inputmode' => 'numeric',
+                            'autocomplete' => 'off'
+                        ]) !!}
+                    
+                     <!-- ['class' => 'form-control rounded']) !!} -->
                 </div>
+
+
+
+
+
+
+
+
+
 
                 {{-- Nationality --}}
                 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
@@ -74,15 +101,38 @@
                     {!! Form::select('role_id', $roles, null, ['class' => 'form-control rounded', 'placeholder' => __('-- Select Type --'), 'required']) !!}
                 </div>
 
-                {{-- Gender --}}
+
+
+
+                <div id="contractor-fields"
+     class="d-none w-100 flex-wrap gap-3">
+
+    <div class="flex-grow-1" style="min-width:250px;max-width:250px;">
+        {!! Form::label('responsible_name', __('اسم المسؤول')) !!}
+        {!! Form::text('responsible_name', null, ['class' => 'form-control rounded']) !!}
+    </div>
+
+    <div class="flex-grow-1" style="min-width:250px;max-width:250px;">
+        {!! Form::label('manager_name', __('اسم المدير')) !!}
+        {!! Form::text('manager_name', null, ['class' => 'form-control rounded']) !!}
+    </div>
+
+    <div class="flex-grow-1" style="min-width:250px;max-width:250px;">
+        {!! Form::label('license_number', __('رقم الرخصة')) !!}
+        {!! Form::text('license_number', null, ['class' => 'form-control rounded']) !!}
+    </div>
+
+</div>
+
+                {{-- 
                 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
                     {!! Form::label('sex', __('Gender'), ['class' => 'font-semibold text-gray-600']) !!}
                     <div class="mt-2 d-flex gap-3">
                         <label>{!! Form::radio('sex', 1, $user->sex == 1) !!} {{ __('Male') }}</label>
                         <label>{!! Form::radio('sex', 0, $user->sex == 0) !!} {{ __('Female') }}</label>
                     </div>
-                </div>
-
+                </div>  --}}
+                {!! Form::hidden('sex', $user->sex ?? 1) !!}
                 {{-- Active --}}
                 <div class="flex-grow-1 d-flex align-items-center gap-2" style="min-width: 250px;max-width: 250px;">
                     {!! Form::hidden('Active', 0) !!}
@@ -153,4 +203,108 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 </script>
 @endif
+@endpush
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+document.addEventListener('input', function (e) {
+
+    /* ================= UAE ID ================= */
+    if (e.target.name === 'uae_id') {
+        let v = e.target.value.replace(/\D/g, '');
+
+        // لازم يبدأ بـ 784
+        if (!v.startsWith('784')) {
+            v = '784';
+        }
+
+        v = v.substring(0, 15); // 15 digits max
+
+        let result = '';
+        if (v.length > 0) result = v.substring(0,3);
+        if (v.length > 3) result += '-' + v.substring(3,7);
+        if (v.length > 7) result += '-' + v.substring(7,14);
+        if (v.length > 14) result += '-' + v.substring(14,15);
+
+        e.target.value = result;
+    }
+
+    /* ================= MOBILE ================= */
+    if (e.target.name === 'mobile') {
+        let v = e.target.value.replace(/\D/g, '');
+
+        // لازم يبدأ بـ 05
+        if (!v.startsWith('05')) {
+            v = '05';
+        }
+
+        v = v.substring(0, 10); // 10 digits only
+        e.target.value = v;
+    }
+
+});
+</script>
+
+
+
+
+
+
+
+
+
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const roleSelect = document.querySelector('select[name="role_id"]');
+    const contractorFields = document.getElementById('contractor-fields');
+
+    const nationalitySelect = document.querySelector('select[name="nat"]');
+    const nationalityWrapper = nationalitySelect.closest('.form-group') 
+        || nationalitySelect.closest('div');
+
+    function toggleFields() {
+        if (roleSelect.value === '3') {
+            // show contractor fields
+            contractorFields.classList.remove('d-none');
+            contractorFields.classList.add('d-flex');
+
+            // hide nationality + set default to 66
+            nationalitySelect.value = '66';
+            nationalityWrapper.classList.add('d-none');
+
+        } else {
+            // hide contractor fields
+            contractorFields.classList.remove('d-flex');
+            contractorFields.classList.add('d-none');
+
+            // show nationality
+            nationalityWrapper.classList.remove('d-none');
+        }
+    }
+
+    // on page load (edit)
+    toggleFields();
+
+    // on change
+    roleSelect.addEventListener('change', toggleFields);
+});
+</script>
 @endpush

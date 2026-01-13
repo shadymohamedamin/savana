@@ -76,7 +76,8 @@
 
     <div class="card-body d-flex gap-3 flex-wrap" style="background-color: #f5f5dc;">
 
-        {{-- عقد المالك والاستشاري --}}
+        
+        {{--    Owner And Consultant Contract عقد المالك والاستشاري والمقاول --}}
         <div class="d-flex flex-column">
             <span class="mb-1">{{ __('Owner And Consultant Contract') }}</span>
             <a target="_blank" href="{{ route('projects.contract.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
@@ -88,9 +89,9 @@
             <a target="_blank" href="{{ route('projects.contract.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
                 🖨 {{ __('Print') }}
             </a>
-        </div>
+        </div> 
 
-        {{--    Owner And Consultant Contract عقد المالك والاستشاري والمقاول --}}
+        {{-- عقد المالك والاستشاري --}}
         <div class="d-flex flex-column">
             <span class="mb-1">{{ __('Owner And Consultant And Contractor Contract') }}</span>
             <a target="_blank" href="{{ route('projects.contract.owner_consultant.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
@@ -125,6 +126,97 @@
                 🖨 {{ __('Print') }}
             </a>
         </div>
+
+
+
+
+
+
+
+
+
+
+
+
+        {{-- Hawya Contract --}}
+ <div class="d-flex flex-column">
+    <span class="mb-1">{{ __('Hawya Contract') }}</span>
+
+    <a target="_blank" href="{{ route('projects.contract.hawya.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
+        👁 {{ __('Preview') }}
+    </a>
+
+    <a href="{{ route('projects.contract.hawya.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
+        ⬇ {{ __('Download') }}
+    </a>
+
+    <a target="_blank" href="{{ route('projects.contract.hawya.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
+        🖨 {{ __('Print') }}
+    </a>
+</div> 
+
+
+
+ 
+<div class="d-flex flex-column">
+    <span class="mb-1">{{ __('Site Delivery Contract') }}</span>
+
+    <a target="_blank" href="{{ route('projects.contract.site_delivery.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
+        👁 {{ __('Preview') }}
+    </a>
+
+    <a href="{{ route('projects.contract.site_delivery.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
+        ⬇ {{ __('Download') }}
+    </a>
+
+    <a target="_blank" href="{{ route('projects.contract.site_delivery.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
+        🖨 {{ __('Print') }}
+    </a>
+</div>
+
+
+
+
+
+<div class="d-flex flex-column">
+    <span class="mb-1">{{ __('Bank Contract') }}</span>
+
+    <a target="_blank" href="{{ route('projects.contract.bank.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
+        👁 {{ __('Preview') }}
+    </a>
+
+    <a href="{{ route('projects.contract.bank.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
+        ⬇ {{ __('Download') }}
+    </a>
+
+    <a target="_blank" href="{{ route('projects.contract.bank.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
+        🖨 {{ __('Print') }}
+    </a>
+</div>
+
+
+
+
+
+
+
+<div class="d-flex flex-column">
+    <span class="mb-1">{{ __('Bank Table Contract') }}</span>
+
+    <a target="_blank" href="{{ route('projects.contract.bank_table.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
+        👁 {{ __('Preview') }}
+    </a>
+
+    <a href="{{ route('projects.contract.bank_table.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
+        ⬇ {{ __('Download') }}
+    </a>
+
+    <a target="_blank" href="{{ route('projects.contract.bank_table.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
+        🖨 {{ __('Print') }}
+    </a>
+</div> 
+
+
 
 
         <!--{{-- فورم الفيوا --}}
@@ -188,7 +280,7 @@
                 @if($isEdit)
                     @foreach($attachments as $index => $att)
                     <div class="card mb-3 shadow-sm">
-                        <div class="card-body row">
+                        <div class="card-body row" style="background-color: #f5f5dc;">
 
                             <input type="hidden" name="attachments[{{ $index }}][id]" value="{{ $att->id }}">
 
@@ -216,6 +308,7 @@
 
                             <div class="col-md-3">
                                 <input type="text"
+                                    placeholder={{ __('Notes') }}
                                     name="attachments[{{ $index }}][notes]"
                                     value="{{ $att->notes }}"
                                     class="form-control">
@@ -232,48 +325,53 @@
 
 
                 @else
-                    @for ($i = 0; $i <sizeof($defaultTypes); $i++)
-                    <div class="card mb-3 shadow-sm">
-                        <div class="card-body row" style="background-color: #f5f5dc;" >
+                    {{-- @for ($i = 0; $i < sizeof($defaultTypes); $i++) --}}
 
-                            <div class="form-group col-md-2">
-                                <!-- <label>{{ __('Attachment Type') }}</label> -->
-                                <select name="attachments[{{ $i }}][attachment_type_id]" class="form-control" required>
-                                    <option value="">{{ __('-- Select Type --') }}</option>
+                    @foreach ($defaultTypes as $i => $typeId)
+                        <div class="card mb-3 shadow-sm">
+                            <div class="card-body row" style="background-color: #f5f5dc;" >
 
-                                    @foreach($attTypes as $id => $name)
-                                        <option value="{{ $id }}"
-                                            {{ isset($defaultTypes[$i]) && $defaultTypes[$i] == $id ? 'selected' : '' }}>
-                                            {{ $name }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
+                                <div class="form-group col-md-2">
+                                    <!-- <label>{{ __('Attachment Type') }}</label> -->
+                                    <select name="attachments[{{ $i }}][attachment_type_id]" class="form-control" required>
+                                        <option value="">{{ __('-- Select Type --') }}</option>
 
-                            <div class="form-group col-md-3">
-                                <!-- <label>{{ __('File') }}</label> -->
-                                <input type="file" name="attachments[{{ $i }}][file]" class="form-control" required>
-                            </div>
+                                        @foreach($attTypes as $id => $name)
+                                            <!-- <option value="{{ $id }}"
+                                                {{ isset($defaultTypes[$i]) && $defaultTypes[$i] == $id ? 'selected' : '' }}>
+                                                {{ $name }}
+                                            </option> -->
+                                            <option value="{{ $id }}"{{ $typeId == $id ? 'selected' : '' }}>
+                                                {{ $name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                    <!-- <label>{{ __('File') }}</label> -->
+                                    <input type="file" name="attachments[{{ $i }}][file]" class="form-control" required>
+                                </div>
 
 
-                            <div class="form-group col-md-3">
-                                <input type="date"
-                                    name="attachments[{{ $i }}][expiration_date]"
-                                    class="form-control"
-                                    placeholder="Expiration Date">
-                            </div>
+                                <div class="form-group col-md-3">
+                                    <input type="date"
+                                        name="attachments[{{ $i }}][expiration_date]"
+                                        class="form-control"
+                                        placeholder="Expiration Date">
+                                </div>
 
-                            <div class="form-group col-md-3">
-                                <!-- <label>{{ __('Notes') }}</label> -->
-                                <input placeholder={{ __('Notes') }} type="text" name="attachments[{{ $i }}][notes]" class="form-control">
-                            </div>
+                                <div class="form-group col-md-3">
+                                    <!-- <label>{{ __('Notes') }}</label> -->
+                                    <input placeholder={{ __('Notes') }} type="text" name="attachments[{{ $i }}][notes]" class="form-control">
+                                </div>
 
-                            <div class="form-group col-md-1 d-flex align-items-end">
-                                <button type="button" class="btn btn-danger removeAttachment">X</button>
+                                <div class="form-group col-md-1 d-flex align-items-end">
+                                    <button type="button" class="btn btn-danger removeAttachment">X</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    @endfor
+                    @endforeach
                 @endif
             </div>
         </div>

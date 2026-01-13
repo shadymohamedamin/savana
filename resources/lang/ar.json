@@ -8,6 +8,7 @@
     "Create": "إضافة",
     "Filter": "فلترة",
     "Male": "ذكر",
+    "Area": "المساحة",
     "Female": "أنثى",
     "Not Chosen Yet": "لم يتم الاختيار بعد",
     "Edit Contractor": "تعديل المقاول",
@@ -19,11 +20,13 @@
     "Owner": "المالك",
     "Chosen Contractor": "المقاول المختار",
     "Case #": "رقم الحالة",
-    "Building #": "رقم المبنى",
+    "Building #": "رقم المبنى 1",
+    "Building #2": "رقم المبنى 2",
+    "Building #3": "رقم المبنى 3",
     "Fence #": "رقم السياج",
     "Status": "الحالة",
-    "Start Date": "تاريخ البدء",
-    "End Date": "تاريخ الانتهاء",
+    "Start Date": "تاريخ توقيع عقد التصميم",
+    "End Date": "تاريخ تسليم الموقع",
     "Action": "الإجراءات",
     "Upload Attachments": "رفع المرفقات",
     "Add Attachment": "إضافة مرفق",
@@ -48,7 +51,7 @@
     "No": "لا",
     "List": "قائمة",
     "Nationality": "الجنسية",
-    "City": "المدينة",
+    "City": "الامارة",
     "Password": "كلمة المرور",
     "Confirm Password": "تأكيد كلمة المرور",
 
@@ -97,10 +100,18 @@
     "Takleef Contract":"خطاب التكليف",
     "Create User":"اضافة مستخدم",
     "Edit Files":"تعديل المستندات",
-    "My Documents":"مستنداتي",
-    "Welcome":"مرحبا"
-    
+    "My Documents":"اوراق المكتب",
+    "Welcome":"مرحبا",
 
+    "Edit Attachments for": "تعديل المرفقات لـ",
+    "Save User And Add Files": "حفظ المستخدم وإضافة الملفات",
+    "Hawya Contract":"عقد الحاوية",
+    "Print":"طباعة",
+    "Site Delivery Contract":"عقد تسليم الموقع",
+    "Bank Contract":"عقد البنك",
+    "Bank Table Contract":"عقد جدول البنك",
+    "Project Duration":"مدة المشروع",
+    "Project Stage":"مرحلة المشروع"
 
 
 }

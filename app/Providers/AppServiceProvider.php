@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\URL;
 use App\Models\Attachment;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Pagination\Paginator;
+
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -30,24 +33,39 @@ class AppServiceProvider extends ServiceProvider
     {
         
 
+        Paginator::useBootstrap();
 
 
         view()->composer('*', function ($view) {
 
         if (!Auth::check()) return;
 
+        // $expiringAttachments = Attachment::where('attachable_type', \App\Models\User::class)
+        //         ->where('attachable_id', Auth::id())
+        //         ->whereNotNull('expiration_date')
+        //         ->whereBetween('expiration_date', [
+        //             now(),
+        //             now()->addDays(10)
+        //         ])
+        //         ->orderBy('expiration_date')
+        //         ->get();
+
+        //     $view->with('expiringAttachments', $expiringAttachments);
+        // });
+
+
+
         $expiringAttachments = Attachment::where('attachable_type', \App\Models\User::class)
-                ->where('attachable_id', Auth::id())
-                ->whereNotNull('expiration_date')
-                ->whereBetween('expiration_date', [
-                    now(),
-                    now()->addDays(10)
-                ])
-                ->orderBy('expiration_date')
-                ->get();
+            ->where('attachable_id', Auth::id())
+            ->whereNotNull('expiration_date')
+            ->whereDate('expiration_date', '<=', now()->addDays(10))
+            ->orderBy('expiration_date')
+            ->get();
 
             $view->with('expiringAttachments', $expiringAttachments);
+
         });
+
                 //if (env('APP_ENV') !== 'local') {
                 //    URL::forceScheme('https');
                 //}

@@ -154,13 +154,80 @@ public function create(Request $request, $id)
     $model = $modelClass::findOrFail($id);
 
     // Attachment types
-    $attTypes = \App\Models\AttachmentType::where('active', 1)
-        ->pluck(app()->getLocale() === 'ar' ? 'name_ar' : 'name_en', 'id');
+    //$attTypes = \App\Models\AttachmentType::where('active', 1)
+    //    ->pluck(app()->getLocale() === 'ar' ? 'name_ar' : 'name_en', 'id');
 
-    // ✅ Default types by model
+    // ✅ Default types by model .11 26 27 22 28 29
+
+    $baseUserTypes = [1,4,3];
+    $defaultTypes = $baseUserTypes;
+    // contractor specific attachments
+    $contractorTypes = [11,21,22,23,24];
     $defaultTypes = $type === 'projects'
         ? [2,10,12,13,14,15,16,17,18,19,20,25]
-        : [1,4,3];
+        : [1,4,3]; 
+
+
+        // default user attachments
+    
+
+
+    // 👇 get current user role    auth()->user()
+    $userRoleId = $model->role_id;
+
+    // 👇 admin extra attachment types
+    $adminExtraTypes = [11,26,27,22,28,29,30,31];
+    $currentUser = auth()->user();
+    
+
+
+
+    // 👇 if admin or special role, merge types
+    if (
+        $currentUser->role_id == 1 &&
+        $type === 'users' &&
+        $model->id === $currentUser->id
+    ) {
+        $defaultTypes = array_unique(array_merge($defaultTypes, $adminExtraTypes));
+    }
+
+
+    $isContractorModel = (
+        $type === 'users' &&
+        $model->role_id == 3 // الملف تابع لمقاول
+    );
+
+    $isContractorUser = (
+        $currentUser->role_id == 3 // المستخدم نفسه مقاول
+    );
+
+
+   
+
+    // لو المستخدم مقاول أو بيشوف ملفات مقاول
+    if ($isContractorUser || $isContractorModel) {
+        $defaultTypes = array_unique(
+            array_merge($baseUserTypes, $contractorTypes)
+        );
+    }
+
+
+    //dd($defaultTypes);
+    $userRoleId = auth()->user()->role_id;
+
+    // allowed types
+    $allowedTypes = $defaultTypes;
+
+    // fetch only allowed attachment types
+    $attTypes = \App\Models\AttachmentType::where('active', 1)
+        ->whereIn('id', $allowedTypes)
+        ->pluck(
+            app()->getLocale() === 'ar' ? 'name_ar' : 'name_en',
+            'id'
+        );
+
+
+
     $attachments = \App\Models\Attachment::where('attachable_type', get_class($model))
         ->where('attachable_id', $model->id)
         ->get();
@@ -299,12 +366,30 @@ public function store(Request $request, $id)
 }
 
 if ($request->action === 'save_create_project') {
-    return redirect()
+    /*return redirect()
         ->route('projects.create')
         ->with('toast', [
             'type' => 'success',
             'message' => __('Saved successfully')
-        ]);
+        ]);*/
+        $params = [];
+
+        if ($model->role_id == 3) {
+            // Contractor
+            $params['contractor_id'] = $model->id;
+        } elseif ($model->role_id == 2) {
+            // Owner
+            $params['owner_id'] = $model->id;
+        }
+
+        return redirect()
+            ->route('projects.create', $params)
+            ->with('toast', [
+                'type' => 'success',
+                'message' => __('Saved successfully')
+            ]);
+    
+
 }
 
 }

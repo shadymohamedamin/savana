@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: 'amiri', serif;
+            direction: rtl;
+            text-align: right;
+            font-size: 15px;
+            line-height: 1.9;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        td, th {
+            border: 1px solid #000;
+            padding: 8px;
+            vertical-align: top;
+        }
+
+        .title {
+            background-color: #e9e2c7;
+            font-size: 22px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .section-title {
+            background-color: #e9e2c7;
+            font-weight: bold;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .signature {
+            height: 90px;
+            vertical-align: bottom;
+            text-align: center;
+        }
+
+        .signature-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .signature-table td {
+            border: 1px solid #000;
+            text-align: center;
+            vertical-align: middle;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        .signature-header {
+            background-color: #e9e2c7;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .signature-space {
+            min-height: 20px;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+
+@php
+use Carbon\Carbon;
+
+// ضبط اللغة العربية
+Carbon::setLocale('ar');
+
+// تحويل تاريخ المشروع إلى كائن Carbon
+$startDate = Carbon::parse($project->start_date);
+
+// اسم اليوم بالعربي
+$dayName = $startDate->translatedFormat('l');
+
+// التاريخ بشكل منسق بالعربي
+$dateFormatted = $startDate->translatedFormat('d/m/Y'); // مثال: 07/01/2026
+@endphp
+
+<table>
+    <tr>
+        <td class="title" colspan="3">{{ __('Hawya Contract') /* ar.json: "عقد الحاوية" */ }}</td>
+    </tr>
+    <tr>
+        <td colspan="3" style="text-align:center; padding:10px;">
+            انه في يوم <strong>{{ $dayName }}</strong> بتاريخ <strong>{{ $dateFormatted }}</strong><br>
+            حرر بين كل من:
+        </td>
+    </tr>
+</table>
+
+<table style="margin-top:10px;">
+    <tr>
+        <td colspan="3" style="padding:8px;">
+            موضوع التعاقد: {{ $project->name }}<br>
+            قيمة التعاقد: ({{ $project->budget }} الف درهم) اماراتي فقط لا غير<br>
+            الموقع: {{ $project->projectRegion->name_ar ?? '-' }}<br>
+            قسيمة رقم: {{ $project->qasmia_number ?? '406131164' }}<br>
+            مدة التنفيذ الاجمالية: ({{ $project->duration??0}}) شهر من تاريخ أمر المباشرة.
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="3" style="padding:8px;">
+            انه في يوم {{ $dayName }} الموافق {{ $dateFormatted }} إتفق كل من:<br>
+            الطرف الأول: {{ $project->ownerUser->name  }}/ موبايل رقم: {{ $project->ownerUser->mobile  }}<br>
+            الطرف الثاني: {{ $project->contractorUser->name  }} / موبايل رقم: {{ $project->contractorUser->mobile  }}<br>
+            وبحضور المكتب الإستشاري (سافانا ديزاين للإستشارات الهندسية) كشاهد على العقد والتوقيع، وعنوانه أبراج جلفار الطابق الرابع مكتب 407، هاتف 2273478/07، متحرك: 0525015080.
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="3" style="padding:8px;">
+            على أن يقوم المقاول بتنفيذ المشروع المذكور أعلاه حسب المخططات وبنود التعاقد وتعليمات الإستشاري، وعلى أن يكون الإستشاري المذكور أعلاه مفوضاً من طرف المالك للإشراف على التنفيذ، وعلى الطرف الثاني الإلتزام بتنفيذ كافة تعليمات الإستشاري أثناء التنفيذ وكذلك الرجوع إليه للسؤال عن أي إستفسار كما أن للإستشاري جميع الصلاحيات والتي يجب أن يلتزم بها الطرف الثاني. تمت هذه الإتفاقية بموافقة كل من المالك والمقاول بوجود الإستشاري.
+        </td>
+    </tr>
+</table>
+
+<table class="signature-table">
+    <tr>
+        <td class="signature-header">المالك</td>
+        <td class="signature-header">المقاول</td>
+        <td class="signature-header">الإستشاري</td>
+    </tr>
+    <tr>
+        <td class="signature-space">{{ $project->ownerUser->name ?? 'محمد عبدالله سالم عبيد السويدي' }}</td>
+        <td class="signature-space">الطابوق لمقاولات البناء</td>
+        <td class="signature-space">سافانا ديزاين للإستشارات الهندسية</td>
+    </tr>
+</table>
+
+</body>
+</html>
