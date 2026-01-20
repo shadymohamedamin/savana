@@ -152,6 +152,7 @@ public function create(Request $request, $id)
 
     $modelClass = $this->resolveModel($type);
     $model = $modelClass::findOrFail($id);
+    $isAdminFiles=false;
 
     // Attachment types
     //$attTypes = \App\Models\AttachmentType::where('active', 1)
@@ -164,7 +165,7 @@ public function create(Request $request, $id)
     // contractor specific attachments
     $contractorTypes = [11,21,22,23,24];
     $defaultTypes = $type === 'projects'
-        ? [2,10,12,13,14,15,16,17,18,19,20,25]
+        ? [2,10,12,13,14,15,16,17,18,19,20,25,32]
         : [1,4,3]; 
 
 
@@ -189,6 +190,7 @@ public function create(Request $request, $id)
         $model->id === $currentUser->id
     ) {
         $defaultTypes = array_unique(array_merge($defaultTypes, $adminExtraTypes));
+        $isAdminFiles=true;
     }
 
 
@@ -206,9 +208,7 @@ public function create(Request $request, $id)
 
     // لو المستخدم مقاول أو بيشوف ملفات مقاول
     if ($isContractorUser || $isContractorModel) {
-        $defaultTypes = array_unique(
-            array_merge($baseUserTypes, $contractorTypes)
-        );
+        $defaultTypes = $contractorTypes;//array_unique(array_merge($baseUserTypes, $contractorTypes));
     }
 
 
@@ -231,13 +231,14 @@ public function create(Request $request, $id)
     $attachments = \App\Models\Attachment::where('attachable_type', get_class($model))
         ->where('attachable_id', $model->id)
         ->get();
-
+    //dd($isAdminFiles);
     return view('users.attachments.create', compact(
         'model',
         'type',
         'attTypes',
         'defaultTypes',
-        'attachments'
+        'attachments',
+        'isAdminFiles'
     ));
 }
 

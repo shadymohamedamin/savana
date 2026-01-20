@@ -8,6 +8,11 @@ use App\Models\User;
 use App\Models\Attachment;
 use App\Models\ProjectStage;
 use App\Models\ProjectName;
+use App\Models\Projec;
+use App\Models\ProjectRegion;
+use App\Models\OwnerRequirement;
+use App\Models\ProjectDesignPreference;
+
 
 class Project extends Model
 {
@@ -45,6 +50,7 @@ class Project extends Model
         'contractor_contract_end_date',
         'bank_contract_value',      // ✅
         'bank_contract_duration', 
+        'financing_type'
         
     ];
 
@@ -138,6 +144,10 @@ public function consultant()
     }
 
 
+    public function payments()
+    {
+        return $this->hasMany(\App\Models\ProjectPayment::class);
+    }
 
 
     public function city()
@@ -161,15 +171,26 @@ public function consultant()
     }
 
 
-public function stage()
-{
-    return $this->belongsTo(ProjectStage::class);
-}
+    public function stage()
+    {
+        return $this->belongsTo(ProjectStage::class);
+    }
 
-    public function baladyaApprovals()
-{
-    return $this->hasMany(\App\Models\BaladyaApproval::class, 'project_id', 'id');
-}
+        public function baladyaApprovals()
+    {
+        return $this->hasMany(\App\Models\BaladyaApproval::class, 'project_id', 'id');
+    }
+    public function ownerRequirements()
+    {
+        return $this->belongsToMany(
+            OwnerRequirement::class,
+            'project_owner_requirements'
+        )->withPivot('quantity');
+    }
+    public function designPreferences()
+    {
+        return $this->hasOne(ProjectDesignPreferences::class);
+    }
 
 
 }

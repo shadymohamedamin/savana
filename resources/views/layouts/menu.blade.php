@@ -159,3 +159,31 @@
         <p>Project Regions</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('projectPayments.index') }}" class="nav-link {{ Request::is('projectPayments*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Project Payments</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('ownerRequirements.index') }}" class="nav-link {{ Request::is('ownerRequirements*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Owner Requirements</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('projectOwnerRequirements.index') }}" class="nav-link {{ Request::is('projectOwnerRequirements*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Project Owner Requirements</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('projectDesignPreferences.index') }}" class="nav-link {{ Request::is('projectDesignPreferences*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Project Design Preferences</p>
+    </a>
+</li>

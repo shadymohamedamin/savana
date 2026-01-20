@@ -287,21 +287,14 @@
                                 <li>
                                     <a class="dropdown-item"
                                     href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}">
-                                        <i class="fas fa-folder-open me-1"></i> {{ __('مستندات المشروع') }}
+                                        <i class="fas fa-folder-open me-1"></i> {{ __(' عقود الاستشاري') }}
                                     </a>
                                 </li>
 
+                                
 
-                                <li>
-                                    <a class="dropdown-item"
-                                    href="{{ route('projects.baladya-approvals.index', [
-                                            'project' => $project->id,
-                                            //'owner_id' => $project->owner_id
-                                    ]) }}">
-                                        <i class="fas fa-file-signature me-1"></i>
-                                        {{ __('اعتمادات البلدية') }}
-                                    </a>
-                                </li>
+
+                                
 
 
                                <li>
@@ -342,12 +335,34 @@
                                  <li><hr class="dropdown-divider"></li>
 
                                 <li class="dropdown-header text-muted px-3">
-                                    {{ __('خطوات المشروع') }}
+                                    {{ __('مراحل المشروع') }}
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item"
+                                    href="{{ route('projects.owner-requirements.index', [
+                                            'project' => $project->id,
+                                            //'owner_id' => $project->owner_id
+                                    ]) }}">
+                                        <i class="fas fa-file-signature me-1"></i>
+                                        {{ __('احتياجات المالك') }}
+                                    </a>
                                 </li>
 
                                 <li>
                                     <a class="dropdown-item" href="#">
                                         <i class="fas fa-pencil-ruler me-1"></i> {{ __('التصميم') }}
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item"
+                                    href="{{ route('projects.baladya-approvals.index', [
+                                            'project' => $project->id,
+                                            //'owner_id' => $project->owner_id
+                                    ]) }}">
+                                        <i class="fas fa-file-signature me-1"></i>
+                                        {{ __('اعتمادات البلدية') }}
                                     </a>
                                 </li>
 
@@ -358,20 +373,39 @@
                                 </li>
 
                                 <li>
+                                    <a class="dropdown-item"
+                                    href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}">
+                                        <i class="fas fa-folder-open me-1"></i> {{ __(' عقود المقاول') }}
+                                    </a>
+                                </li>
+
+                                <li>
                                     <a class="dropdown-item" href="#">
                                         <i class="fas fa-user-tie me-1"></i> {{ __('الاشراف') }}
                                     </a>
                                 </li>
 
-                                <li>
+                                <!-- <li>
                                     <a class="dropdown-item" href="#">
                                         <i class="fas fa-money-check-alt me-1"></i> {{ __('الدفعات') }}
                                     </a>
+                                </li> -->
+
+                                <li>
+                                    <a class="dropdown-item"
+                                    href="{{ route('projects.project-payments.index', [
+                                            'project' => $project->id,
+                                            //'owner_id' => $project->owner_id
+                                    ]) }}">
+                                        <i class="fas fa-money-check-alt me-1"></i>
+                                        {{ __('دفعات المشروع') }}
+                                    </a>
                                 </li>
+
 
                                 <li>
                                     <a class="dropdown-item" href="#">
-                                        <i class="fas fa-folder me-1"></i> {{ __('المستندات') }}
+                                        <i class="fas fa-folder me-1"></i> {{ __('مستندات المشروع') }}
                                     </a>
                                 </li>
 

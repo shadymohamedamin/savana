@@ -119,7 +119,7 @@ $dateFormatted = $today->translatedFormat('d/m/Y');
 <table class="signature-table">
     <tr>
         <td class="signature-header">توقيع وختم المقاول</td>
-        <td class="signature-header">توقيع وختم المالك</td>
+        <td class="signature-header">توقيع  المالك</td>
         <td class="signature-header">توقيع وختم الاستشاري</td>
     </tr>
     <tr>

@@ -159,7 +159,7 @@
 
 
                 <div class="flex-grow-1" style="min-width:250px;max-width:250px;">
-                    {!! Form::label('bank_contract_value', __('قيمة عقد البنك')) !!}
+                    {!! Form::label('bank_contract_value', __('قيمة العقد بالضريبة')) !!}
                     {!! Form::number('bank_contract_value', null, [
                         'class' => 'form-control rounded',
                         'min' => 0,
@@ -167,12 +167,18 @@
                 </div>
 
 
-                <div class="flex-grow-1" style="min-width:250px;max-width:250px;">
-                    {!! Form::label('bank_contract_duration', __('مدة عقد البنك (بالأشهر)')) !!}
-                    {!! Form::number('bank_contract_duration', null, [
-                        'class' => 'form-control rounded',
-                        'min' => 1
-                    ]) !!}
+                
+                <div class="flex-grow-1" style="min-width:250px; max-width:250px;">
+                    {!! Form::label('financing_type', __('تمويل المشروع')) !!}
+                    {!! Form::select('financing_type', 
+                        [
+                            'bank' => __('بنك'),
+                            'owner' => __('مالك'),
+                            'bank_owner' => __('بنك ومالك')
+                        ],
+                        $project->financing_type ?? old('financing_type'), 
+                        ['class' => 'form-control rounded', 'required' => true]
+                    ) !!}
                 </div>
 
 
@@ -200,12 +206,22 @@
                     {!! Form::date('start_date', null, ['class' => 'form-control rounded']) !!}
                 </div>
 
-                {{-- End Date --}}
+
+
+
+                <!-- {{-- End Date --}}
                 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
                     {!! Form::label('end_date', __('End Date')) !!}
                     {!! Form::date('end_date', null, ['class' => 'form-control rounded']) !!}
                 </div>
 
+                <div class="flex-grow-1" style="min-width:250px;max-width:250px;">
+                    {!! Form::label('bank_contract_duration', __('مدة العقد  (بالأشهر)')) !!}
+                    {!! Form::number('bank_contract_duration', null, [
+                        'class' => 'form-control rounded',
+                        'min' => 1
+                    ]) !!}
+                </div>
 
 
                 <div class="flex-grow-1" style="min-width:250px;max-width:250px;">
@@ -213,7 +229,42 @@
                     {!! Form::date('contractor_contract_end_date', null, [
                         'class' => 'form-control rounded'
                     ]) !!}
+                </div> -->
+
+
+
+                {{-- End Date --}}
+                <div class="flex-grow-1" style="min-width:250px;max-width:250px;">
+                    {!! Form::label('end_date', __('End Date')) !!}
+                    {!! Form::date('end_date', null, [
+                        'class' => 'form-control',
+                        'id' => 'end_date'
+                    ]) !!}
                 </div>
+
+                {{-- Contract Duration --}}
+                <div class="flex-grow-1" style="min-width:250px;max-width:250px;">
+                    {!! Form::label('bank_contract_duration', __('مدة العقد (بالأشهر)')) !!}
+                    {!! Form::number('bank_contract_duration', null, [
+                        'class' => 'form-control',
+                        'id' => 'bank_contract_duration',
+                        'min' => 1
+                    ]) !!}
+                </div>
+
+                {{-- Contractor Contract End Date (Display) --}}
+                <div class="flex-grow-1" style="min-width:250px;max-width:250px;">
+                    {!! Form::label('contractor_contract_end_date_display', __('تاريخ انتهاء عقد المقاول')) !!}
+                    <input type="date"
+                        id="contractor_contract_end_date_display"
+                        class="form-control"
+                        readonly>
+                </div>
+
+                {{-- Hidden field (sent to backend) --}}
+                <input type="hidden"
+                    name="contractor_contract_end_date"
+                    id="contractor_contract_end_date">
 
 
 
@@ -343,3 +394,43 @@
     </div>
 </div>
 @endsection
+
+
+
+
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    function calculateContractorEndDate() {
+        const endDate = document.getElementById('end_date').value;
+        const duration = document.getElementById('bank_contract_duration').value;
+
+        if (!endDate || !duration) {
+            document.getElementById('contractor_contract_end_date_display').value = '';
+            document.getElementById('contractor_contract_end_date').value = '';
+            return;
+        }
+
+        let date = new Date(endDate);
+        date.setMonth(date.getMonth() + parseInt(duration));
+
+        const formattedDate = date.toISOString().split('T')[0];
+
+        document.getElementById('contractor_contract_end_date_display').value = formattedDate;
+        document.getElementById('contractor_contract_end_date').value = formattedDate;
+    }
+
+    document.getElementById('end_date')
+        .addEventListener('change', calculateContractorEndDate);
+
+    document.getElementById('bank_contract_duration')
+        .addEventListener('input', calculateContractorEndDate);
+
+    // مهم جدًا في edit
+    calculateContractorEndDate();
+});
+</script>
+

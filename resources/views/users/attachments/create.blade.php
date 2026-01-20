@@ -78,7 +78,7 @@
 
         
         {{--    Owner And Consultant Contract عقد المالك والاستشاري والمقاول --}}
-        <div class="d-flex flex-column">
+        <!-- <div class="d-flex flex-column">
             <span class="mb-1">{{ __('Owner And Consultant Contract') }}</span>
             <a target="_blank" href="{{ route('projects.contract.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
                 👁 {{ __('Preview') }}
@@ -89,7 +89,7 @@
             <a target="_blank" href="{{ route('projects.contract.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
                 🖨 {{ __('Print') }}
             </a>
-        </div> 
+        </div>  -->
 
         {{-- عقد المالك والاستشاري --}}
         <div class="d-flex flex-column">
@@ -128,6 +128,22 @@
         </div>
 
 
+        <div class="d-flex flex-column">
+    <span class="mb-1">{{ __('احتياجات المالك') }}</span>
+
+    <a target="_blank" href="{{ route('projects.contract.owner-requirements.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
+        👁 {{ __('Preview') }}
+    </a>
+
+    <a href="{{ route('projects.contract.owner-requirements.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
+        ⬇ {{ __('Download') }}
+    </a>
+
+    <a target="_blank" href="{{ route('projects.contract.owner-requirements.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
+        🖨 {{ __('Print') }}
+    </a>
+</div>
+
 
 
 
@@ -139,7 +155,7 @@
 
 
         {{-- Hawya Contract --}}
- <div class="d-flex flex-column">
+ <!-- <div class="d-flex flex-column">
     <span class="mb-1">{{ __('Hawya Contract') }}</span>
 
     <a target="_blank" href="{{ route('projects.contract.hawya.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
@@ -216,7 +232,7 @@
     </a>
 </div> 
 
-
+ -->
 
 
         <!--{{-- فورم الفيوا --}}
@@ -392,7 +408,7 @@
 </button>
 
 {{-- Show ONLY when type != projects --}}
-@if ($type !== 'projects')
+@if ($type !== 'projects' && !$isAdminFiles)
     <button type="submit"
             name="action"
             value="save_create_project"

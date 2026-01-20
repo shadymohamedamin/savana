@@ -364,9 +364,43 @@ public function bankContractPdf(Request $request, $id)
 
 
 
+public function ownerRequirementContractPdf(Request $request, $id)
+{
+    $project = \App\Models\Project::with([
+        'ownerUser',
+        'contractorUser',
+        'projectRegion',
+        'ownerRequirements',
+        'designPreferences'
+    ])->findOrFail($id);
+    $design = $project->designPreferences;
+    // تقسيم الاحتياجات حسب الدور
+    $requirements = $project->ownerRequirements
+        ->groupBy('floor');
 
+    $html = view(
+        'pdf.contract_owner_requirements',
+        compact('project', 'requirements','design')
+    )->render();
 
+    $mpdf = new \Mpdf\Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'default_font' => 'amiri',
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+    ]);
 
+    $mpdf->WriteHTML($html);
+
+    $action = $request->get('action', 'preview');
+
+    return match ($action) {
+        'download' => $mpdf->Output("owner_requirements_contract_{$project->id}.pdf", 'D'),
+        'print'    => $mpdf->Output("owner_requirements_contract_{$project->id}.pdf", 'I'),
+        default    => $mpdf->Output("owner_requirements_contract_{$project->id}.pdf", 'I'),
+    };
+}
 
 
 public function bankTableContractPdf(Request $request, $id)

@@ -1,0 +1,148 @@
+@extends('layouts.app')
+
+@section('content')
+
+<div class="card shadow-sm rounded-4" style="background-color:#f5f5dc;margin:40px;padding:0px;">
+
+    {{-- Header --}}
+    <div class="card-header d-flex justify-content-between align-items-center"
+         style="background:#D4AF37;color:#2f3a1f;font-size:1.3rem;font-weight:600;">
+        <h4 class="card-title mb-0">
+            {{ __('دفعات المشروع') }}
+        </h4>
+
+        <div class="d-flex gap-2">
+            <a href="{{ route('projects.index') }}"
+               class="btn btn-olive btn-sm">
+                <i class="fas fa-arrow-left"></i> {{ __('العودة الي المشاريع') }}
+            </a>
+
+            <a href="{{ route('projects.project-payments.create', $project->id) }}"
+               class="btn btn-olive btn-sm">
+                <i class="fas fa-plus"></i> {{ __('اضافة دفعة') }}
+            </a>
+        </div>
+    </div>
+
+    {{-- Summary --}}
+    @php
+        $bankLimit = $project->bank_contract_value ?? 0;
+
+        $bankPaid  = $payments->where('payer_type','bank')->sum('total_amount');
+        $ownerPaid = $payments->where('payer_type','owner')->sum('total_amount');
+
+        $contractWithoutVat = $project->budget;
+        $contractWithVat    = $project->budget * 1.05;
+
+        $ownerTotal = $project->budget - $bankLimit;
+
+        $bankRemaining  = $bankLimit - $bankPaid;
+        $ownerRemaining = $ownerTotal - $ownerPaid;
+        $totalRemaining = $project->budget - ($bankPaid + $ownerPaid);
+    @endphp
+
+
+    <div class="p-4">
+
+        {{-- Top Info --}}
+        <table class="table table-bordered text-center">
+            <tr>
+                <td colspan="2"><strong>{{ $project->contractorUser?->name ?? '—' }}</strong></td>
+                <td colspan="2"><strong>{{ $project->ownerUser?->name ?? '—' }}</strong></td>
+            </tr>
+
+            <tr>
+                <td>{{ number_format($bankLimit,0) }}</td>
+                <td>تمويل البنك</td>
+                <td>{{ number_format($contractWithoutVat,0) }}</td>
+                <td>قيمة العقد بدون ضريبة</td>
+            </tr>
+
+            <tr>
+                <td>{{ number_format($ownerTotal,0) }}</td>
+                <td>تمويل المالك</td>
+                <td>{{ number_format($contractWithVat,0) }}</td>
+                <td>قيمة العقد بالضريبة</td>
+            </tr>
+
+            <tr>
+                <td>{{ number_format($bankPaid + $ownerPaid,0) }}</td>
+                <td>المبلغ المدفوع</td>
+                <td>{{ number_format($ownerRemaining,0) }}</td>
+                <td>المبلغ المطلوب / المالك</td>
+            </tr>
+
+            <tr>
+                <td>{{ number_format($totalRemaining,0) }}</td>
+                <td>المبلغ المتبقي</td>
+                <td>{{ number_format($bankRemaining,0) }}</td>
+                <td>المبلغ المطلوب / البنك</td>
+            </tr>
+        </table>
+
+        {{-- Payments Table --}}
+        <table class="table table-bordered text-center mt-4">
+            <thead>
+                <tr>
+                    <th rowspan="2">الدفعة</th>
+                    <th colspan="2">دفعة البنك</th>
+                    <th colspan="2">دفعة المالك</th>
+                </tr>
+                <tr>
+                    <th>بالضريبة</th>
+                    <th>بدون ضريبة</th>
+                    <th>بالضريبة</th>
+                    <th>بدون ضريبة</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @for($i=1;$i<=12;$i++)
+                    @php
+                        $bankPayment  = $payments->where('payment_no',$i)->where('payer_type','bank')->first();
+                        $ownerPayment = $payments->where('payment_no',$i)->where('payer_type','owner')->first();
+                    @endphp
+                    <tr>
+                        <td>الدفعة {{ $i }}</td>
+
+                        <td>{{ $bankPayment ? number_format($bankPayment->total_amount,2) : 0 }}</td>
+                        <td>{{ $bankPayment ? number_format($bankPayment->net_amount,2) : 0 }}</td>
+
+                        <td>{{ $ownerPayment ? number_format($ownerPayment->total_amount,2) : 0 }}</td>
+                        <td>{{ $ownerPayment ? number_format($ownerPayment->net_amount,2) : 0 }}</td>
+                    </tr>
+                @endfor
+            </tbody>
+
+            <tfoot>
+                <tr style="font-weight:bold;background:#fdf6d8;">
+                    <td>مجموع الدفوعات</td>
+                    <td>{{ number_format($payments->where('payer_type','bank')->sum('total_amount'),2) }}</td>
+                    <td>{{ number_format($payments->where('payer_type','bank')->sum('net_amount'),2) }}</td>
+                    <td>{{ number_format($payments->where('payer_type','owner')->sum('total_amount'),2) }}</td>
+                    <td>{{ number_format($payments->where('payer_type','owner')->sum('net_amount'),2) }}</td>
+                </tr>
+            </tfoot>
+        </table>
+
+    </div>
+
+</div>
+
+@endsection
+
+@push('styles')
+<style>
+.btn-olive {
+    background-color: #2f3a1f;
+    border: 1px solid #2f3a1f;
+    color: #d4af37;
+    font-weight: 600;
+}
+.btn-olive:hover {
+    background-color: #3e4a29;
+    border-color: #d4af37;
+    color: #fff;
+}
+</style>
+@endpush

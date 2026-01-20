@@ -41,87 +41,6 @@
         </div>
     </div>
 
-    {{-- Create Form createBox        collapse --}}
-    <!-- <div id="" class=" card-body border-bottom">
-
-            @if ($errors->any())
-                <div class="alert alert-danger rounded-3">
-                    <ul class="mb-0">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
-
-
-        <form id="baladyaForm" 
-            method="POST"
-            action="{{ $editApproval ? route('projects.baladya-approvals.update', [$projectId, $editApproval->id]) 
-                                    : route('projects.baladya-approvals.store', $projectId) }}">
-            @csrf
-            @if($editApproval)
-                @method('PUT')
-            @endif
-
-            <input type="hidden" name="project_id" value="{{ $projectId }}">
-            <input type="hidden" name="owner_id" value="{{ request('owner_id') }}">
-
-            <div class="row g-2">
-
-                <div class="col-md-3">
-                    <select name="status_type_id" class="form-control" required>
-                        <option value="">{{ __('نوع الحالة') }}</option>
-                        @foreach($statusTypes as $id => $name_ar)
-                            <option value="{{ $id }}" 
-                                {{ ($editApproval->status_type_id ?? old('status_type_id')) == $id ? 'selected' : '' }}>
-                                {{ $name_ar }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-
-                <div class="col-md-2">
-                    <input type="text" name="case_number"
-                        class="form-control"
-                        value="{{ $editApproval->case_number ?? old('case_number') }}"
-                        placeholder="رقم الحالة" required>
-                </div>
-
-                <div class="col-md-2">
-                    <input type="date" name="opened_at"
-                        class="form-control"
-                        value="{{ isset($editApproval) && $editApproval?->opened_at ? $editApproval->opened_at->format('Y-m-d') : old('opened_at') }}"
-                        placeholder="{{ __('تاريخ فتح المعاملة') }}" required>
-                </div>
-
-                <div class="col-md-2">
-                    <input type="date" name="approved_at"
-                        class="form-control"
-                        value="{{ isset($editApproval) && $editApproval?->approved_at ? $editApproval->approved_at->format('Y-m-d') : old('approved_at') }}"
-                        placeholder="{{ __('تاريخ اعتماد المعاملة') }}">
-                </div>
-
-                <div class="col-md-3">
-                    <input type="text" name="reason"
-                        class="form-control"
-                        value="{{ $editApproval->reason ?? old('reason') }}"
-                        placeholder="السبب">
-                </div>
-
-            </div>
-
-            <div class="col-md-2 d-grid mt-3 items-center mx-auto my-2" >
-                <button class="btn btn-olive btn-sm" style="background:#2f3a1f;color:#d4af37;font-weight:600;">
-                    <i class="fas fa-check"></i> {{ $editApproval ? __('Edit') : __('Save') }}
-                </button>
-            </div>
-        </form>
-
-    </div> -->
-
     {{-- Table --}}
     <div class="table-responsive p-3" style="background:#f5f5dc;">
         <table class="table table-hover align-middle text-nowrap rounded-4"
@@ -242,33 +161,6 @@
 
 
 
-
-
-<!-- @if(session('toast'))
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    let toastData = @json(session('toast'));
-
-    // Create toast element
-    let toastEl = document.createElement('div');
-    toastEl.className = `toast align-items-center text-bg-${toastData.type} border-0 position-fixed top-0 end-0 m-3`;
-    toastEl.setAttribute('role', 'alert');
-    toastEl.setAttribute('aria-live', 'assertive');
-    toastEl.setAttribute('aria-atomic', 'true');
-    toastEl.innerHTML = `
-        <div class="d-flex">
-            <div class="toast-body">${toastData.message}</div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-    `;
-    document.body.appendChild(toastEl);
-
-    // Show toast
-    new bootstrap.Toast(toastEl, { delay: 5000 }).show();
-});
-</script>
-@endif
- -->
 
 
 

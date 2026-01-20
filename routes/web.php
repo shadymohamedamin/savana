@@ -21,8 +21,10 @@ use App\Http\Controllers\PrimaryDataController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\BaladyaApprovalController;
+use App\Http\Controllers\ProjectPaymentController;
 use App\Http\Controllers\BaladyaStatusTypeController;
-
+use App\Http\Controllers\OwnerRequirementController;
+use App\Http\Controllers\ProjectOwnerRequirementController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -152,11 +154,64 @@ Route::prefix('projects/{project}')
             'baladya-approvals',
             BaladyaApprovalController::class
         );
+        Route::resource(
+                'project-payments',
+                ProjectPaymentController::class
+            );
     });
 
 
 
 
+
+
+Route::prefix('projects/{project}/owner-requirements')
+    ->name('projects.owner-requirements.')
+    ->group(function () {
+
+        Route::get('/', [OwnerRequirementController::class, 'index'])
+            ->name('index');
+
+        Route::post('/', [OwnerRequirementController::class, 'store'])
+            ->name('store');
+
+        Route::get('/print', [OwnerRequirementController::class, 'print'])
+            ->name('print');
+    });
+
+
+
+
+
+
+
+// Project Payments routes
+Route::prefix('projects/{project}/project-payments')->group(function() {
+
+    Route::get('/', 
+        [ProjectPaymentController::class, 'index']
+    )->name('projects.project-payments.index');
+
+    Route::get('create', 
+        [ProjectPaymentController::class, 'create']
+    )->name('projects.project-payments.create');
+
+    Route::post('/', 
+        [ProjectPaymentController::class, 'store']
+    )->name('projects.project-payments.store');
+
+    Route::get('{id}/edit', 
+        [ProjectPaymentController::class, 'edit']
+    )->name('projects.project-payments.edit');
+
+    Route::put('{id}', 
+        [ProjectPaymentController::class, 'update']
+    )->name('projects.project-payments.update');
+
+    Route::delete('{id}', 
+        [ProjectPaymentController::class, 'destroy']
+    )->name('projects.project-payments.destroy');
+});
 
 
 // Baladya Approvals routes
@@ -173,10 +228,17 @@ Route::get('projects/{project}/baladya-approvals/create', [BaladyaApprovalContro
 
 
 
+Route::get(
+    'projects/{project}/project-payments/create',
+    [ProjectPaymentController::class, 'create']
+)->name('projects.project-payments.create');
 
 
 
 
+Route::get('/projects/{id}/contract-owner-requirements', 
+    [App\Http\Controllers\ProjectController::class, 'ownerRequirementContractPdf']
+)->name('projects.contract.owner-requirements.pdf');
 
 
     Route::get(
@@ -411,3 +473,7 @@ Route::resource('baladya-status-types', App\Http\Controllers\BaladyaStatusTypeCo
 Route::resource('project-stages', App\Http\Controllers\ProjectStageController::class);
 Route::resource('project-names', App\Http\Controllers\ProjectNameController::class);
 Route::resource('project-regions', App\Http\Controllers\ProjectRegionController::class);
+Route::resource('project-payments', App\Http\Controllers\ProjectPaymentController::class);
+Route::resource('owner-requirements', App\Http\Controllers\OwnerRequirementController::class);
+Route::resource('project-owner-requirements', App\Http\Controllers\ProjectOwnerRequirementController::class);
+Route::resource('project-design-preferences', App\Http\Controllers\ProjectDesignPreferencesController::class);
