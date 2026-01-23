@@ -222,7 +222,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-<script>
+<!-- <script>
 document.addEventListener('input', function (e) {
 
     /* ================= UAE ID ================= */
@@ -259,7 +259,7 @@ document.addEventListener('input', function (e) {
     }
 
 });
-</script>
+</script> -->
 
 
 

@@ -186,7 +186,7 @@ document.querySelector('form').addEventListener('submit', function (e) {
 
 
 
-<script>
+<!-- <script>
 document.addEventListener('input', function (e) {
 
     /* ================= UAE ID ================= */
@@ -223,7 +223,7 @@ document.addEventListener('input', function (e) {
     }
 
 });
-</script>
+</script> -->
 
 
 
