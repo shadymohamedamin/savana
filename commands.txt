@@ -99,8 +99,29 @@ git clone
 https://getcomposer.org/Composer-Setup.exe
 composer --version
 cd D:\shady\supports_test\savana
-rmdir /s /q vendor
-rmdir /s /q composer.lock
+##rmdir /s /q vendor
+##rmdir /s /q composer.lock
+
+sure that these two lines are not commented ;;;;;
+extension=zip and extension=gd  in this path c:/xamp/php/php.ini and sure that you run as administrator the notepad
+
+//database
+put database file in c/database folder 
+
+
+cd /d C:\xampp\mysql\bin
+mysql -u root
+ create database savana;
+exit;
+mysql -u root savana < C:\database\savana.sql
+
+
+New-NetFirewallRule -DisplayName "Laravel 8000" -Direction Inbound -Protocol TCP -LocalPort 8000 -Action Allow
+New-NetFirewallRule -DisplayName "Vite 5173" -Direction Inbound -Protocol TCP -LocalPort 5173 -Action Allow
+
+
+
+
 composer install
 php artisan key:generate
 php artisan serve

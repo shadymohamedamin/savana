@@ -6,7 +6,7 @@ export default defineConfig({
         host: '0.0.0.0',
         port: 5173,
         hmr: {
-            host: 'supports.rakcharity.ae',
+            host: '192.168.0.101',
         }
         //host: true, // exposes on network
     },
