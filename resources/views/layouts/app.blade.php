@@ -336,7 +336,7 @@
                                     {{-- Only for admins or researchers --}}
                                     @if(Auth::user()->role !== 'public_user')
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{{ url('/users') }}">{{ __('Users') }}</a>
+                                            <a class="nav-link" href="{{ url('/users') }}">tea{{ __('Users') }}</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="{{ url('/projects') }}">{{ __('Projects') }}</a>
