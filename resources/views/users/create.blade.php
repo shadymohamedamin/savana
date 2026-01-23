@@ -52,7 +52,7 @@
                 {!! Form::label('mobile', __('Mobile')) !!}
                 {!! Form::text('mobile', null, [
                     'class' => 'form-control',
-                    'placeholder' => '05XXXXXXXX',
+                    'placeholder' => '05XXXXXXXXX',
                     'inputmode' => 'numeric',
                     'autocomplete' => 'off'
                 ]) !!}

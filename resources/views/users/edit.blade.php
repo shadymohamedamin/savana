@@ -50,7 +50,7 @@
                     {!! Form::text('mobile', null,
                         [
                         'class' => 'form-control rounded',
-                        'placeholder' => '05XXXXXXXX',
+                        'placeholder' => '05XXXXXXXXX',
                         'inputmode' => 'numeric',
                         'autocomplete' => 'off',
                         'required'
