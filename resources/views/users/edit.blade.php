@@ -222,50 +222,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-<!-- <script>
-document.addEventListener('input', function (e) {
-
-    /* ================= UAE ID ================= */
-    if (e.target.name === 'uae_id') {
-        let v = e.target.value.replace(/\D/g, '');
-
-        // لازم يبدأ بـ 784
-        if (!v.startsWith('784')) {
-            v = '784';
-        }
-
-        v = v.substring(0, 15); // 15 digits max
-
-        let result = '';
-        if (v.length > 0) result = v.substring(0,3);
-        if (v.length > 3) result += '-' + v.substring(3,7);
-        if (v.length > 7) result += '-' + v.substring(7,14);
-        if (v.length > 14) result += '-' + v.substring(14,15);
-
-        e.target.value = result;
-    }
-
-    /* ================= MOBILE ================= */
-    if (e.target.name === 'mobile') {
-        let v = e.target.value.replace(/\D/g, '');
-
-        // لازم يبدأ بـ 05
-        if (!v.startsWith('05')) {
-            v = '05';
-        }
-
-        v = v.substring(0, 10); // 10 digits only
-        e.target.value = v;
-    }
-
-});
-</script> -->
-
-
-
-
-
-
 
 
 
