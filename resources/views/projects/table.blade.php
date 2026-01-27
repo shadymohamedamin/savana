@@ -152,7 +152,7 @@
 
                 <tr  style="background-color:#f5f5dc;">
                     <td style="background-color:#f5f5dc;">{{ $project->project_code }}</td>
-                    <td style="background-color:#f5f5dc;">{{ $project->owner->first()?->name ?? '—' }}</td>
+                    <td style="background-color:#f5f5dc;">{{ $project->ownerUser->name ?? '—' }}</td>
                    <td style="background-color:#f5f5dc;">
                         @if($project->projectName)
                             {{ app()->getLocale() == 'ar'
@@ -166,7 +166,7 @@
 
                     
 
-                    <td style="background-color:#f5f5dc;">{{ $project->contractor->first()?->name ?? '—' }}</td>
+                    <td style="background-color:#f5f5dc;">{{ $project->contractorUser->name ?? '—' }}</td>
                     <td style="background-color:#f5f5dc;">{{ $project->case_id_number ?? '—' }}</td>
                     <!-- <td style="background-color:#f5f5dc;">{{ $project->building_number ?? '—' }}</td> -->
                     

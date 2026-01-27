@@ -100,7 +100,7 @@ class UserController extends AppBaseController
     {
 
 
-        $request->validate([
+        /*$request->validate([
             'mobile' => [
                 'required',
                 'regex:/^05[0-9]{8}$/'
@@ -109,7 +109,7 @@ class UserController extends AppBaseController
                 'nullable',
                 'regex:/^784-[0-9]{4}-[0-9]{7}-[0-9]{1}$/'
             ],
-        ]);
+        ]);*/
         //dd($request->validated());
         // شيل dd بعد ما تخلص Debug
         $input = $request->validated();
@@ -131,9 +131,13 @@ class UserController extends AppBaseController
             $input['country'] = 66;
             $input['nat'] = 66;
         }
-
+        if (!empty($input['password'])) {
+            $input['password'] = bcrypt($input['password']);
+        } else {
+            unset($input['password']);
+        }
         // تشفير الباسورد
-        $input['password'] = bcrypt($input['password']);
+        //$input['password'] = bcrypt($input['password']);
 
         $user = \App\Models\User::create($input);
 
@@ -222,7 +226,7 @@ class UserController extends AppBaseController
      */
     public function update($id, UpdateUserRequest $request)
     {
-        $request->validate([
+        /*$request->validate([
             'mobile' => [
                 'required',
                 'regex:/^05[0-9]{8}$/'
@@ -231,7 +235,7 @@ class UserController extends AppBaseController
                 'nullable',
                 'regex:/^784-[0-9]{4}-[0-9]{7}-[0-9]{1}$/'
             ],
-        ]);
+        ]);*/
 
         $user = $this->userRepository->find($id);
 

@@ -130,10 +130,10 @@
         let total = parseFloat(document.getElementById('total_amount').value) || 0;
 
         // VAT = 5%
-        let vat = total * 0.05;
+        let vat = total/21; //* 0.05;
 
         // Net = total / 1.05
-        let net = total / 1.05;
+        let net = total-vat;//total / 1.05;
 
         document.getElementById('vat_amount').value = vat.toFixed(2);
         document.getElementById('net_amount').value = net.toFixed(2);

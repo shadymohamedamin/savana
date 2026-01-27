@@ -89,7 +89,7 @@
             بصفتي مالك المشروع على القسيمة رقم 
             <strong>{{ $project->qasmia_number ?? '—' }}</strong>
             منطقة 
-            <strong>{{ $project->area ?? '—' }}</strong>
+            <strong>{{ $project->projectRegion?->name_ar ?? '-' }}</strong>
             وهو عبارة عن 
             <strong>{{ $project->name }}</strong>
             تكليف مكتب 

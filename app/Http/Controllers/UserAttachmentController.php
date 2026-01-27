@@ -160,13 +160,13 @@ public function create(Request $request, $id)
 
     // ✅ Default types by model .11 26 27 22 28 29
 
-    $baseUserTypes = [1,4,3];
+    $baseUserTypes = [1,3];
     $defaultTypes = $baseUserTypes;
     // contractor specific attachments
     $contractorTypes = [11,21,22,23,24];
     $defaultTypes = $type === 'projects'
         ? [2,10,12,13,14,15,16,17,18,19,20,25,32]
-        : [1,4,3]; 
+        : [1,3]; 
 
 
         // default user attachments
