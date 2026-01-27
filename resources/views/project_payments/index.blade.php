@@ -259,8 +259,8 @@
 
 
         {{-- Payments Table --}}
-<table class="table table-bordered text-center">
-    <!-- <thead style="background:#f5f5dc;font-weight:bold;">
+<!--<table class="table table-bordered text-center">
+     <thead style="background:#f5f5dc;font-weight:bold;">
         <tr style="background-color:#f5f5dc;">
             <th style="background-color:#f5f5dc;">رقم الدفعة</th>
             <th style="background-color:#f5f5dc;">التاريخ</th>
@@ -276,7 +276,7 @@
     </thead> -->
 
 
-    <thead class="table-warning text-center align-middle fw-bold">
+    <!-- <thead class="table-warning text-center align-middle fw-bold">
     <tr>
         {{-- الأعمدة المشتركة --}}
         <th rowspan="2">رقم الدفعة</th>
@@ -306,7 +306,87 @@
         <th class="table-info">بدون ضريبة</th>
         <th class="table-info">المتبقي</th>
     </tr>
-</thead>
+</thead> 
+
+
+
+
+<tbody>
+    @php
+        $runningPaid = 0;
+        $bankRunningRemaining  = $bankLimit;
+        $ownerRunningRemaining = $ownerTotal;
+    @endphp
+
+    @foreach($payments->groupBy('payment_no') as $paymentNo => $group)
+    @php
+        $bankPayment  = $group->where('payer_type','bank')->first();
+        $ownerPayment = $group->where('payer_type','owner')->first();
+
+        $bankGross = $bankPayment->total_amount ?? 0;
+        $bankNet   = $bankPayment->net_amount ?? 0;
+
+        $ownerGross = $ownerPayment->total_amount ?? 0;
+        $ownerNet   = $ownerPayment->net_amount ?? 0;
+
+        $bankRunningRemaining  -= $bankGross;
+        $ownerRunningRemaining -= $ownerGross;
+
+        $paidThisRow = $bankGross + $ownerGross;
+        $runningPaid += $paidThisRow;
+
+        $remaining = $contractWithVat - $runningPaid;
+
+        $vatAmount =
+            ($bankPayment->vat_amount ?? 0) +
+            ($ownerPayment->vat_amount ?? 0);
+    @endphp
+
+<tr class="text-center align-middle">
+    <td class="fw-bold">{{ $paymentNo }}</td>
+    <td>
+        {{ $bankPayment?->payment_date->format('d/m/Y')
+            ?? $ownerPayment?->payment_date->format('d/m/Y')
+            ?? '-' }}
+    </td>
+
+    {{-- البنك --}}
+    <td class="table-primary">{{ $bankGross == 0 ? '-' : number_format($bankGross,2) }}</td>
+    <td class="table-primary">{{ $bankNet == 0 ? '-' : number_format($bankNet,2) }}</td>
+    <td class="table-primary fw-bold">{{ $bankNet == 0 ? '-' : number_format($bankRunningRemaining,2) }}</td>
+
+    {{-- المالك --}}
+    <td class="table-info">{{ $ownerGross == 0 ? '-' : number_format($ownerGross,2) }}</td>
+    <td class="table-info">{{ $ownerNet == 0 ? '-' : number_format($ownerNet,2) }}</td>
+    <td class="table-info fw-bold">{{ $ownerNet == 0 ? '-' :number_format($ownerRunningRemaining,2) }}</td>
+
+    {{-- عام --}}
+    <td class="fw-bold">{{ number_format($paidThisRow,2) }}</td>
+    <td class="text-danger">{{ number_format($vatAmount,2) }}</td>
+    <td class="text-success fw-bold">{{ number_format($runningPaid,2) }}</td>
+    <td class="text-warning fw-bold">{{ number_format($remaining,2) }}</td>
+</tr>
+
+    @endforeach
+    </tbody>
+
+
+
+
+
+
+
+</table>
+
+
+
+
+
+
+
+
+
+-->
 
 
 
@@ -377,72 +457,7 @@
 
 
 
-    <tbody>
-    @php
-        $runningPaid = 0;
-        $bankRunningRemaining  = $bankLimit;
-        $ownerRunningRemaining = $ownerTotal;
-    @endphp
-
-    @foreach($payments->groupBy('payment_no') as $paymentNo => $group)
-    @php
-        $bankPayment  = $group->where('payer_type','bank')->first();
-        $ownerPayment = $group->where('payer_type','owner')->first();
-
-        $bankGross = $bankPayment->total_amount ?? 0;
-        $bankNet   = $bankPayment->net_amount ?? 0;
-
-        $ownerGross = $ownerPayment->total_amount ?? 0;
-        $ownerNet   = $ownerPayment->net_amount ?? 0;
-
-        $bankRunningRemaining  -= $bankGross;
-        $ownerRunningRemaining -= $ownerGross;
-
-        $paidThisRow = $bankGross + $ownerGross;
-        $runningPaid += $paidThisRow;
-
-        $remaining = $contractWithVat - $runningPaid;
-
-        $vatAmount =
-            ($bankPayment->vat_amount ?? 0) +
-            ($ownerPayment->vat_amount ?? 0);
-    @endphp
-
-<tr class="text-center align-middle">
-    <td class="fw-bold">{{ $paymentNo }}</td>
-    <td>
-        {{ $bankPayment?->payment_date->format('d/m/Y')
-            ?? $ownerPayment?->payment_date->format('d/m/Y')
-            ?? '-' }}
-    </td>
-
-    {{-- البنك --}}
-    <td class="table-primary">{{ $bankGross == 0 ? '-' : number_format($bankGross,2) }}</td>
-    <td class="table-primary">{{ $bankNet == 0 ? '-' : number_format($bankNet,2) }}</td>
-    <td class="table-primary fw-bold">{{ $bankNet == 0 ? '-' : number_format($bankRunningRemaining,2) }}</td>
-
-    {{-- المالك --}}
-    <td class="table-info">{{ $ownerGross == 0 ? '-' : number_format($ownerGross,2) }}</td>
-    <td class="table-info">{{ $ownerNet == 0 ? '-' : number_format($ownerNet,2) }}</td>
-    <td class="table-info fw-bold">{{ $ownerNet == 0 ? '-' :number_format($ownerRunningRemaining,2) }}</td>
-
-    {{-- عام --}}
-    <td class="fw-bold">{{ number_format($paidThisRow,2) }}</td>
-    <td class="text-danger">{{ number_format($vatAmount,2) }}</td>
-    <td class="text-success fw-bold">{{ number_format($runningPaid,2) }}</td>
-    <td class="text-warning fw-bold">{{ number_format($remaining,2) }}</td>
-</tr>
-
-    @endforeach
-    </tbody>
-
-
-
-
-
-
-
-</table>
+    <!--  -->
 
 
 
@@ -570,6 +585,15 @@
 
 
 
+
+
+
+
+
+
+
+
+
 {{-- Payments Table --}}
 @php
     $bankRunningPaid = 0;
@@ -586,6 +610,80 @@
     $ownerTotalNet   = 0;
     $ownerTotalVat   = 0;
 @endphp
+
+
+
+
+<hr class="my-4">
+
+
+
+
+{{-- Owner Payments Table --}}
+<table class="table table-bordered text-center mt-4">
+    <thead class="table-warning text-center align-middle fw-bold">
+        <tr><th colspan="7" style="text-align: center; margin:auto;">دفعات المالك</th></tr>
+        <tr>
+            <th>رقم الدفعة</th>
+            <th>التاريخ</th>
+            <th class="table-info">بالضريبة</th>
+            <th class="table-info">الضريبة</th>
+            <th class="table-info">بدون ضريبة</th>
+            <th class="table-info">المدفوع</th>
+            <th class="table-info">المتبقي</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @php $index = 0; @endphp
+
+        @foreach($payments->where('payer_type','owner')->groupBy('payment_no') as $paymentNo => $group)
+            @php
+                $index++;
+                $ownerPayment = $group->first();
+
+                $ownerGross = $ownerPayment->total_amount ?? 0;
+                $ownerNet   = $ownerPayment->net_amount ?? 0;
+                $ownerVat   = $ownerGross - $ownerNet;
+
+                $ownerRunningRemaining -= $ownerGross;
+                $ownerRunningPaid += $ownerGross;
+
+                // totals
+                $ownerTotalGross += $ownerGross;
+                $ownerTotalNet   += $ownerNet;
+                $ownerTotalVat   += $ownerVat;
+            @endphp
+
+            <tr>
+                <td class="fw-bold">{{ $index }}</td>
+                <td>{{ $ownerPayment->payment_date->format('d/m/Y') }}</td>
+                <td class="table-info">{{ number_format($ownerGross,2) }}</td>
+                <td class="table-info">{{ number_format($ownerVat,2) }}</td>
+                <td class="table-info">{{ number_format($ownerNet,2) }}</td>
+                <td class="table-info">{{ number_format($ownerRunningPaid,2) }}</td>
+                <td class="table-info fw-bold">{{ number_format($ownerRunningRemaining,2) }}</td>
+            </tr>
+        @endforeach
+
+        {{-- Total Row --}}
+        <tr class="table-secondary fw-bold">
+            <td colspan="2">المجموع</td>
+            <td>{{ number_format($ownerTotalGross,2) }}</td>
+            <td>{{ number_format($ownerTotalVat,2) }}</td>
+            <td>{{ number_format($ownerTotalNet,2) }}</td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+
+
+
+<hr class="my-4">
+
+
+
 
 {{-- Bank Payments Table --}}
 <table class="table table-bordered text-center mt-4">
@@ -647,64 +745,7 @@
 </table>
 
 
-{{-- Owner Payments Table --}}
-<table class="table table-bordered text-center mt-4">
-    <thead class="table-warning text-center align-middle fw-bold">
-        <tr><th colspan="7" style="text-align: center; margin:auto;">دفعات المالك</th></tr>
-        <tr>
-            <th>رقم الدفعة</th>
-            <th>التاريخ</th>
-            <th class="table-info">بالضريبة</th>
-            <th class="table-info">الضريبة</th>
-            <th class="table-info">بدون ضريبة</th>
-            <th class="table-info">المدفوع</th>
-            <th class="table-info">المتبقي</th>
-        </tr>
-    </thead>
 
-    <tbody>
-        @php $index = 0; @endphp
-
-        @foreach($payments->where('payer_type','owner')->groupBy('payment_no') as $paymentNo => $group)
-            @php
-                $index++;
-                $ownerPayment = $group->first();
-
-                $ownerGross = $ownerPayment->total_amount ?? 0;
-                $ownerNet   = $ownerPayment->net_amount ?? 0;
-                $ownerVat   = $ownerGross - $ownerNet;
-
-                $ownerRunningRemaining -= $ownerGross;
-                $ownerRunningPaid += $ownerGross;
-
-                // totals
-                $ownerTotalGross += $ownerGross;
-                $ownerTotalNet   += $ownerNet;
-                $ownerTotalVat   += $ownerVat;
-            @endphp
-
-            <tr>
-                <td class="fw-bold">{{ $index }}</td>
-                <td>{{ $ownerPayment->payment_date->format('d/m/Y') }}</td>
-                <td class="table-info">{{ number_format($ownerGross,2) }}</td>
-                <td class="table-info">{{ number_format($ownerVat,2) }}</td>
-                <td class="table-info">{{ number_format($ownerNet,2) }}</td>
-                <td class="table-info">{{ number_format($ownerRunningPaid,2) }}</td>
-                <td class="table-info fw-bold">{{ number_format($ownerRunningRemaining,2) }}</td>
-            </tr>
-        @endforeach
-
-        {{-- Total Row --}}
-        <tr class="table-secondary fw-bold">
-            <td colspan="2">المجموع</td>
-            <td>{{ number_format($ownerTotalGross,2) }}</td>
-            <td>{{ number_format($ownerTotalVat,2) }}</td>
-            <td>{{ number_format($ownerTotalNet,2) }}</td>
-            <td></td>
-            <td></td>
-        </tr>
-    </tbody>
-</table>
 
 
 

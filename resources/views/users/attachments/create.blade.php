@@ -4,6 +4,16 @@
 
 
 <style>
+    .attachment-complete {
+        background-color: #e6fffa !important; /* أخضر فاتح */
+        border-left: 5px solid #198754; /* Bootstrap green */
+    }
+
+    .attachment-pending {
+        background-color: #fff3cd !important; /* أصفر */
+    }
+
+
     .btn-olive {
         background-color: #2f3a1f;   /* زيتوني غامق */
         border: 1px solid #2f3a1f;
@@ -296,7 +306,7 @@
                 @if($isEdit)
                     @foreach($attachments as $index => $att)
                     <div class="card mb-3 shadow-sm">
-                        <div class="card-body row" style="background-color: #f5f5dc;">
+                        <div class="card-body row attachment-row" style="background-color: #f5f5dc;">
 
                             <input type="hidden" name="attachments[{{ $index }}][id]" value="{{ $att->id }}">
 
@@ -312,7 +322,20 @@
 
                             <div class="col-md-3">
                                 <input type="file" name="attachments[{{ $index }}][file]" class="form-control">
-                                <small class="text-muted">{{ $att->file_name }}</small>
+                                <!-- <small class="text-muted">{{ $att->file_name }}</small> -->
+
+
+                                <small class="text-muted d-block">{{ $att->file_name }}</small>
+
+                                @if($att->file_path)
+                                    <a href="{{ asset('storage/'.$att->file_path) }}"
+                                    target="_blank"
+                                    class="btn btn-sm btn-outline-primary mt-1">
+                                        👁 {{ __('View') }}
+                                    </a>
+                                @endif
+                                
+
                             </div>
 
                             <div class="col-md-3">
@@ -349,7 +372,7 @@
 
                                 <div class="form-group col-md-2">
                                     <!-- <label>{{ __('Attachment Type') }}</label> -->
-                                    <select name="attachments[{{ $i }}][attachment_type_id]" class="form-control" required>
+                                    <select name="attachments[{{ $i }}][attachment_type_id]" class="form-control">
                                         <option value="">{{ __('-- Select Type --') }}</option>
 
                                         @foreach($attTypes as $id => $name)
@@ -366,7 +389,23 @@
 
                                 <div class="form-group col-md-3">
                                     <!-- <label>{{ __('File') }}</label> -->
-                                    <input type="file" name="attachments[{{ $i }}][file]" class="form-control" required>
+                                    <input type="file" name="attachments[{{ $i }}][file]" class="form-control">
+                                    <!-- <input type="file" name="attachments[{{ $i }}][file]" class="form-control" required> -->
+                                    <small class="text-muted d-block selected-file-name d-none"></small>
+
+                                    <!-- @if(isset($attachments[$i]) && $attachments[$i]->file_path)
+                                        <a href="{{ asset('storage/'.$attachments[$i]->file_path) }}"
+                                        target="_blank"
+                                        class="btn btn-sm btn-outline-primary mt-1 stored-file">
+                                            👁 {{ __('View File') }}
+                                        </a>
+                                    @endif
+
+                                    <a href="#"
+                                        target="_blank"
+                                        class="btn btn-sm btn-outline-success mt-1 preview-file d-none">
+                                            👁 {{ __('View') }}
+                                    </a> -->
                                 </div>
 
 
@@ -459,6 +498,8 @@ document.getElementById('addAttachment').addEventListener('click', function () {
 
     const card = document.createElement('div');
     card.className = 'card mb-3 shadow-sm attachment-card';
+    card.querySelector('.attachment-row')?.classList.add('attachment-pending');
+
     /*.innerHTML = `
         <div class="card-body row">
             <div class="form-group col-md-6">
@@ -534,6 +575,94 @@ document.getElementById('addAttachment').addEventListener('click', function () {
 
 
 
+
+<script>
+
+
+
+
+/*document.addEventListener('change', function (e) {
+    if (e.target.classList.contains('attachment-file')) {
+
+        const fileInput = e.target;
+        const row = fileInput.closest('.attachment-row');
+
+        const previewBtn = row.querySelector('.preview-file');
+        const fileNameText = row.querySelector('.selected-file-name');
+
+        if (fileInput.files.length > 0) {
+            const file = fileInput.files[0];
+
+            // show row as completed
+            row.classList.remove('attachment-pending');
+            row.classList.add('attachment-complete');
+
+            // show file name
+            fileNameText.textContent = file.name;
+            fileNameText.classList.remove('d-none');
+
+            // create preview URL
+            const fileURL = URL.createObjectURL(file);
+
+            previewBtn.href = fileURL;
+            previewBtn.classList.remove('d-none');
+        } else {
+            // remove highlight
+            row.classList.remove('attachment-complete');
+            row.classList.add('attachment-pending');
+
+            fileNameText.classList.add('d-none');
+            previewBtn.classList.add('d-none');
+        }
+    }
+});*/
+
+
+
+
+
+
+    
+document.addEventListener('change', function (e) {
+    if (e.target.classList.contains('attachment-file')) {
+        const row = e.target.closest('.attachment-row');
+
+        if (e.target.files.length > 0) {
+            row.classList.remove('attachment-pending');
+            row.classList.add('attachment-complete');
+        } else {
+            row.classList.remove('attachment-complete');
+            row.classList.add('attachment-pending');
+        }
+    }
+});
+</script>
+
+<script>
+document.addEventListener('change', function (e) {
+    if (e.target.type === 'file') {
+        const fileInput = e.target;
+        const row = fileInput.closest('.attachment-row');
+
+        const previewBtn = row.querySelector('.preview-file');
+        const storedBtn  = row.querySelector('.stored-file');
+
+        if (fileInput.files.length > 0) {
+            const fileURL = URL.createObjectURL(fileInput.files[0]);
+
+            previewBtn.href = fileURL;
+            previewBtn.classList.remove('d-none');
+
+            if (storedBtn) {
+                storedBtn.classList.add('d-none');
+            }
+        }
+    }
+});
+</script>
+
+
+
 @if (session('success'))
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -553,6 +682,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 @endpush
+
+
+
+
 
 
 

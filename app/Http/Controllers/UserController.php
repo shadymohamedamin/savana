@@ -40,8 +40,8 @@ class UserController extends AppBaseController
             $query->where('active', $request->active);
         }
 
-        if ($request->filled('role')) {
-            $query->where('role', $request->role);
+        if ($request->filled('role_id')) {
+            $query->where('role_id', $request->role_id);
         }
 
         if ($request->filled('is_admin')) {
@@ -63,8 +63,11 @@ class UserController extends AppBaseController
 
 
 
-
-        return view('users.index', compact('users'));
+        $roles = \App\Models\Role::pluck(
+                app()->getLocale() == 'ar' ? 'name_ar' : 'name_en',
+                'id'
+            );
+        return view('users.index', compact('users', 'roles'));
         //$users = $this->userRepository->paginate(10);
 
         //return view('users.index')->with('users', $users);
@@ -76,10 +79,10 @@ class UserController extends AppBaseController
     public function create(Request $request)
     {
         //$nationalities = Nationalit::pluck('nationality', 'id');
-        $nationalities = Nationalit::whereIn('id', [1, 58])->pluck('nationality', 'id');
+        $nationalities = Nationalit::whereIn('id', [1, 58,19,31,12,26,8])->pluck('nationality', 'id');
 
         $regions = \App\Models\Region::where('status', 1)->pluck('region', 'id');
-        $roles = \App\Models\Role::pluck('Role', 'id');
+        $roles = \App\Models\Role::pluck('name_ar', 'id');
 
         $defaultTypes = [1, 4, 3]; // User attachments
 
@@ -132,6 +135,7 @@ class UserController extends AppBaseController
             $input['nat'] = 66;
         }
         if (!empty($input['password'])) {
+
             $input['password'] = bcrypt($input['password']);
         } else {
             unset($input['password']);
@@ -214,7 +218,7 @@ class UserController extends AppBaseController
 
     // You need to load these for the dropdowns
     $regions = \App\Models\Region::where('status', 1)->pluck('region', 'id'); // or however you store cities
-    $roles = \App\Models\Role::pluck('Role', 'id');   // all roles
+    $roles = \App\Models\Role::pluck('name_ar', 'id');   // all roles
     //$nationalities = \App\Models\Nationalit::pluck('Nationality', 'id'); // or define as array
     $nationalities = Nationalit::whereIn('id', [1, 58])->pluck('nationality', 'id');
     return view('users.edit', compact('user', 'regions', 'roles', 'nationalities'));

@@ -137,6 +137,13 @@
             'class' => 'btn btn-olive btn-sm',
             'style' => 'background-color: #2f3a1f;border: 1px solid #2f3a1f;color: #d4af37;font-weight:600;'
         ]) !!}
+
+        <a href="{{ route('projects.create') }}"
+                name="action"
+                value="save_create_project"
+                class="btn btn-olive px-4" style="background-color: #2f3a1f;border: 1px solid #2f3a1f;color: #d4af37;font-weight:600;">
+            ➕ {{ __('Save & Create Project') }}
+        </a>
         <a href="{{ route('users.index') }}" class="btn btn-olive btn-sm"
            style="background-color: #2f3a1f;border: 1px solid #2f3a1f;color: #d4af37;font-weight:600;">
             <i class="fas fa-list me-1"></i> {{ __('List') }}

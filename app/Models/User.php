@@ -168,7 +168,12 @@ class User extends Authenticatable implements AuditableContract
     public static array $rules = [
         'name' => 'nullable|string|max:255',
         'email' => 'nullable|string|email|max:255',
-        'password' => 'nullable|string|max:255',
+        'password' => [
+            'nullable',
+            'string',
+            'min:6',
+            'confirmed', // 👈 أهم سطر
+        ],
         'role_id' => 'required|integer',
         'Active' => 'required',
         //'role' => 'nullable',

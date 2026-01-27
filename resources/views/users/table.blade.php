@@ -46,6 +46,18 @@
                                value="{{ request('mobile') }}">
                     </div>
 
+                    <div class="col-md">
+                        <select name="role_id" class="form-select rounded-3">
+                            <option value="">{{ __('Role') }}</option>
+                            @foreach($roles as $id => $role)
+                                <option value="{{ $id }}" {{ request('role_id')==$id ? 'selected' : '' }}>
+                                    {{ $role }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+
+
                     <!-- <div class="col-md">
                         <input type="text" name="uae_id" class="form-control rounded-3"
                                placeholder="{{ __('ID Number') }}"
@@ -156,7 +168,15 @@
                             {{ $user->Active ? __('Yes') : __('No') }}
                         </span>
                     </td> -->
-                    <td style="background-color: #f5f5dc;">{{ $user->roleRelation->Role ?? '-' }}</td>
+                    <!-- <td style="background-color: #f5f5dc;">{{ $user->roleRelation->Role ?? '-' }}</td> -->
+                    <td style="background-color: #f5f5dc;">
+                        @if(app()->getLocale() == 'ar')
+                            {{ $user->roleRelation->name_ar ?? '-' }}
+                        @else
+                            {{ $user->roleRelation->name_en ?? '-' }}
+                        @endif
+                    </td>
+
                     <!-- <td style="background-color: #f5f5dc;">
                         <span class="badge {{ $user->is_admin ? 'bg-warning text-dark':'bg-secondary' }}">
                             {{ $user->is_admin ? __('Yes') : __('No') }}
