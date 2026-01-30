@@ -150,14 +150,14 @@ Route::prefix('projects/{project}')
     ->name('projects.')
     ->group(function () {
 
-        Route::resource(
+        /*Route::resource(
             'baladya-approvals',
             BaladyaApprovalController::class
-        );
-        Route::resource(
+        );*/
+        /*Route::resource(
                 'project-payments',
                 ProjectPaymentController::class
-            );
+            );*/
     });
 
 

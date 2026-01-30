@@ -41,6 +41,73 @@
             'method' => 'patch'
         ]) !!}
 
+
+        <div class="card shadow-sm mb-4" style="background-color:#f5f5dc;">
+    <div class="card-header fw-bold" style="background:#2f3a1f;color:#d4af37;">
+        <i class="fas fa-cogs me-1"></i> {{ __('إدارة المشروع') }}
+    </div>
+
+    <div class="card-body p-2">
+        <div class="list-group list-group-flush">
+
+            <a href="{{ route('projects.edit', $project->id) }}"
+               class="list-group-item list-group-item-action">
+                <i class="far fa-edit me-2"></i> {{ __('Edit Project') }}
+            </a>
+
+            <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}"
+               class="list-group-item list-group-item-action">
+                <i class="fas fa-folder-open me-2"></i> {{ __('عقود الاستشاري') }}
+            </a>
+
+            @if($project->owner_id)
+                <a href="{{ route('users.edit', $project->owner_id) }}"
+                   class="list-group-item list-group-item-action">
+                    <i class="fas fa-user me-2"></i> {{ __('Edit Owner') }}
+                </a>
+            @else
+                <div class="list-group-item text-muted">
+                    <i class="fas fa-user-slash me-2"></i> {{ __('No Owner') }}
+                </div>
+            @endif
+
+            @if($project->contractor_id)
+                <a href="{{ route('users.edit', $project->contractor_id) }}"
+                   class="list-group-item list-group-item-action">
+                    <i class="fas fa-hard-hat me-2"></i> {{ __('Edit Contractor') }}
+                </a>
+            @else
+                <div class="list-group-item text-muted">
+                    <i class="fas fa-user-clock me-2"></i> {{ __('Not Chosen Yet') }}
+                </div>
+            @endif
+
+            <div class="list-group-item fw-bold text-muted mt-2">
+                {{ __('مراحل المشروع') }}
+            </div>
+
+            <a href="{{ route('projects.owner-requirements.index', ['project' => $project->id]) }}"
+               class="list-group-item list-group-item-action">
+                <i class="fas fa-file-signature me-2"></i> {{ __('احتياجات المالك') }}
+            </a>
+
+            <a href="{{ route('projects.baladya-approvals.index', ['project' => $project->id]) }}"
+               class="list-group-item list-group-item-action">
+                <i class="fas fa-file-signature me-2"></i> {{ __('اعتمادات البلدية') }}
+            </a>
+
+            <a href="{{ route('projects.project-payments.index', ['project' => $project->id]) }}"
+               class="list-group-item list-group-item-action">
+                <i class="fas fa-money-check-alt me-2"></i> {{ __('دفعات المشروع') }}
+            </a>
+
+            
+
+        </div>
+    </div>
+</div>
+
+
         <div class="card-body">
             <div class="d-flex flex-wrap gap-3">
 
