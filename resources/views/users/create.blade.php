@@ -34,7 +34,7 @@
                 {!! Form::email('email', null, ['class' => 'form-control rounded', ]) !!}
             </div>
 
-            {{-- Password --}}
+            <!-- {{-- Password --}}
             <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
                 {!! Form::label('password', __('Password'), ['class' => 'font-semibold text-gray-600']) !!}
                 {!! Form::password('password', ['class' => 'form-control rounded', ]) !!}
@@ -44,7 +44,43 @@
             <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
                 {!! Form::label('password_confirmation', __('Confirm Password'), ['class' => 'font-semibold text-gray-600']) !!}
                 {!! Form::password('password_confirmation', ['class' => 'form-control rounded', ]) !!}
-            </div>
+            </div> -->
+
+
+            {{-- Password --}}
+<div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+    {!! Form::label('password', __('Password'), ['class' => 'font-semibold text-gray-600']) !!}
+
+    <div style="position: relative;">
+        {!! Form::password('password', [
+            'class' => 'form-control rounded pr-0',
+            'id' => 'password'
+        ]) !!}
+
+        <span onclick="togglePassword('password', this)"
+              style="position:absolute; left:10px; top:50%; transform:translateY(-50%); cursor:pointer;">
+            👁️
+        </span>
+    </div>
+</div>
+
+{{-- Confirm Password --}}
+<div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+    {!! Form::label('password_confirmation', __('Confirm Password'), ['class' => 'font-semibold text-gray-600']) !!}
+
+    <div style="position: relative;">
+        {!! Form::password('password_confirmation', [
+            'class' => 'form-control rounded pr-0',
+            'id' => 'password_confirmation'
+        ]) !!}
+
+        <span onclick="togglePassword('password_confirmation', this)"
+              style="position:absolute; left:10px; top:50%; transform:translateY(-50%); cursor:pointer;">
+            👁️
+        </span>
+    </div>
+</div>
+
 
             {{-- Mobile --}}
             {{-- Mobile --}}
@@ -190,10 +226,23 @@ document.querySelector('form').addEventListener('submit', function (e) {
 
 
 
+<script>
+function togglePassword(inputId, el) {
+    const input = document.getElementById(inputId);
+
+    if (input.type === "password") {
+        input.type = "text";
+        el.innerText = "🙈";
+    } else {
+        input.type = "password";
+        el.innerText = "👁️";
+    }
+}
+</script>
 
 
 
-<!-- <script>
+<script>
 document.addEventListener('input', function (e) {
 
     /* ================= UAE ID ================= */
@@ -231,7 +280,7 @@ document.addEventListener('input', function (e) {
 
 });
 </script> 
- -->
+
 
 
 
