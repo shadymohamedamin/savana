@@ -242,7 +242,7 @@ function togglePassword(inputId, el) {
 
 
 
-<script>
+<!-- <script>
 document.addEventListener('input', function (e) {
 
     /* ================= UAE ID ================= */
@@ -279,7 +279,7 @@ document.addEventListener('input', function (e) {
     }
 
 });
-</script> 
+</script>  -->
 
 
 
