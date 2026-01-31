@@ -112,7 +112,7 @@ public function index($projectId)
     public function create($projectId)
 {
     $statusTypes = \App\Models\BaladyaStatusType::where('active', 1)->pluck('name_ar', 'id');
-
+    
     return view('baladya_approvals.create', compact('projectId', 'statusTypes'))
            ->with('owner_id', request('owner_id'));
 }
@@ -123,7 +123,7 @@ public function index($projectId)
      */
 
 
-    public function store(CreateBaladyaApprovalRequest $request, $projectId)
+    /*public function store(CreateBaladyaApprovalRequest $request, $projectId)
     {
 
         
@@ -145,15 +145,23 @@ public function index($projectId)
             // حفظ اسم الملف في قاعدة البيانات
             $input['approved_file'] = $filename;
         }
+        if ($request->hasFile('building_license_file')) {
+            $file = $request->file('building_license_file');
+            $filename = time() . '_' . preg_replace('/\s+/', '_', $file->getClientOriginalName());
+            $file->move(public_path('Files'), $filename);
+            $baladyaApproval->building_license_file = $filename;
+        }
+
+
+
+        $baladyaApproval->building_license_number = $request->building_license_number;
+        //$baladyaApproval->save();
+
 
         $this->baladyaApprovalRepository->create($input);
 
         //Flash::success(__('تم حفظ اعتماد البلدية بنجاح'));
 
-        /*return redirect()->route(
-            'projects.baladya-approvals.index',
-            $projectId
-        );*/
 
         //  return redirect()->route('projects.baladya-approvals.index', $projectId)
         //              ->with([
@@ -173,7 +181,47 @@ public function index($projectId)
             ]
         ]);
 
+    }*/
+
+
+
+        public function store(CreateBaladyaApprovalRequest $request, $projectId)
+{
+    $input = $request->all();
+    $input['project_id'] = $projectId;
+
+    /** ✅ الملف المعتمد */
+    if ($request->hasFile('approved_file') && $request->file('approved_file')->isValid()) {
+        $file = $request->file('approved_file');
+        $filename = $projectId.'_baladya_'.time().'_'.$file->getClientOriginalName();
+        $file->move(public_path('Files'), $filename);
+        $input['approved_file'] = $filename;
     }
+
+    /** ✅ ملف رخصة البناء */
+    if ($request->hasFile('building_license_file') && $request->file('building_license_file')->isValid()) {
+        $file = $request->file('building_license_file');
+        $filename = $projectId.'_license_'.time().'_'.$file->getClientOriginalName();
+        $file->move(public_path('Files'), $filename);
+        $input['building_license_file'] = $filename;
+    }
+
+    /** ✅ رقم رخصة البناء */
+    $input['building_license_number'] = $request->building_license_number;
+
+    /** ✅ إنشاء السجل */
+    $this->baladyaApprovalRepository->create($input);
+
+    return redirect()->route('projects.baladya-approvals.index', [
+        'project' => $projectId
+    ])->with([
+        'toast' => [
+            'type' => 'success',
+            'message' => __('تم حفظ اعتماد البلدية بنجاح')
+        ]
+    ]);
+}
+
 
     
 
@@ -239,6 +287,24 @@ public function index($projectId)
             $input['approved_file'] = $filename;
         }
 
+
+        if ($request->hasFile('building_license_file') && $request->file('building_license_file')->isValid()) {
+            
+            $file = $request->file('building_license_file');
+            
+            $filename = $baladyaApproval->id . '_baladya_' . time() . '_' . $file->getClientOriginalName();
+            
+            // حفظ الملف في public/Files
+            $file->move(public_path('Files'), $filename);
+            //dd($input['approved_file'].'---'.$filename);
+            // حفظ اسم الملف في قاعدة البيانات
+            $input['building_license_file'] = $filename;
+        }
+        
+
+
+
+        $baladyaApproval->building_license_number = $request->building_license_number;
 
 
         $this->baladyaApprovalRepository->update($input, $id);

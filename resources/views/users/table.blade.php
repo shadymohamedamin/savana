@@ -160,7 +160,7 @@
             @foreach($users as $user)
                 <tr style="background-color: #f5f5dc;">
                     <td style="background-color: #f5f5dc;">
-                        {{ $user->id }}
+                        {{ $loop->iteration }}
                     </td>
                     <td style="background-color: #f5f5dc;">{{ $user->name }}</td>
                     <td style="background-color: #f5f5dc;">{{ $user->email }}</td>

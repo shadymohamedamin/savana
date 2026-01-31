@@ -42,6 +42,11 @@
         ]) !!}
 
 
+
+
+
+        
+
         <div class="card shadow-sm mb-4" style="background-color:#f5f5dc;">
     <div class="card-header fw-bold" style="background:#2f3a1f;color:#d4af37;">
         <i class="fas fa-cogs me-1"></i> {{ __('إدارة المشروع') }}
@@ -106,6 +111,17 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+
+
+
+
 
 
         <div class="card-body">

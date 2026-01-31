@@ -52,8 +52,8 @@
                 {!! Form::text('reason', $baladyaApproval->reason, ['class' => 'form-control']) !!}
             </div>
 
-            <div class="flex-grow-1" style="min-width: 250px; max-width: 250px;">
-                {!! Form::label('approved_file', __('Approved File')) !!}
+            <!-- <div class="flex-grow-1" style="min-width: 250px; max-width: 250px;">
+                {!! Form::label('approved_file', __('الملف المعتمد')) !!}
                 {!! Form::file('approved_file', ['class' => 'form-control rounded']) !!}
 
                 @if(isset($baladyaApproval) && $baladyaApproval->approved_file)
@@ -61,6 +61,47 @@
                         {{ __('View Current File') }}
                     </a>
                 @endif
+            </div> -->
+            <div class="flex-grow-1" style="min-width: 250px; max-width: 250px;">
+                {!! Form::label('approved_file', __('الملف المعتمد')) !!}
+                <input type="file" name="approved_file" class="form-control form-control-sm mb-1">
+
+                @if(isset($baladyaApproval) && $baladyaApproval->approved_file)
+                    <div class="border rounded p-2 small bg-light mt-1">
+                        <div class="text-truncate" title="{{ $baladyaApproval->approved_file }}">
+                            📄 {{ $baladyaApproval->approved_file }}
+                        </div>
+                        <a href="{{ asset('Files/' . $baladyaApproval->approved_file) }}" target="_blank"
+                        class="btn btn-sm btn-outline-primary w-100 mt-1">
+                            👁 {{ __('View') }}
+                        </a>
+                    </div>
+                @endif
+            </div>
+
+
+            <div class="flex-grow-1" style="min-width: 250px; max-width: 250px;">
+                {!! Form::label('building_license_file', __('ملف رقم الرخصة')) !!}
+                <input type="file" name="building_license_file" class="form-control form-control-sm mb-1">
+
+                @if(isset($baladyaApproval) && $baladyaApproval->building_license_file)
+                    <div class="border rounded p-2 small bg-light mt-1">
+                        <div class="text-truncate" title="{{ $baladyaApproval->building_license_file }}">
+                            📄 {{ $baladyaApproval->building_license_file }}
+                        </div>
+                        <a href="{{ asset('Files/' . $baladyaApproval->building_license_file) }}" target="_blank"
+                        class="btn btn-sm btn-outline-primary w-100 mt-1">
+                            👁 {{ __('View') }}
+                        </a>
+                    </div>
+                @endif
+            </div> 
+
+
+            {{-- Reason --}}
+            <div style="min-width: 250px;">
+                {!! Form::label('building_license_number', __('رقم الرخصة')) !!}
+                {!! Form::text('building_license_number', null, ['class' => 'form-control']) !!}
             </div>
 
         </div>

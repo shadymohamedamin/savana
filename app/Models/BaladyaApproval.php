@@ -18,6 +18,8 @@ class BaladyaApproval extends Model
         'days_diff',
         'reason',
         'approved_file',
+        'building_license_number',
+        'building_license_file',
     ];
 
     protected $casts = [
@@ -36,8 +38,10 @@ class BaladyaApproval extends Model
         'approved_at' => 'nullable',
         'days_diff' => 'nullable',
         'reason' => 'nullable|string|max:65535',
+        'building_license_number' => 'nullable',
+        'building_license_file' => 'nullable',
         'created_at' => 'nullable',
-        'updated_at' => 'nullable'
+        'updated_at' => 'nullable',
     ];
 
     public function statusType(): \Illuminate\Database\Eloquent\Relations\BelongsTo

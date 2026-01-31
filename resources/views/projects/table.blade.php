@@ -129,6 +129,8 @@
                 <th style="background-color:#f5f5dc;">{{ __(key: 'مدة المعاملة') }}</th>
                 
                 <th style="background-color:#f5f5dc;">{{ __(key: 'المستلم من العقد') }}</th>
+                <th style="background-color:#f5f5dc;">{{ __(key: 'رقم الرخصة') }}</th>
+                
                 <!-- <th style="background-color:#f5f5dc;">{{ __(key: 'Case Type') }}</th> -->
                 
                  
@@ -196,6 +198,11 @@
                         <td style="background-color:#f5f5dc;">
                             {{ $project->contract_receiver ?? '—' }}
                         </td>
+                        <td style="background-color:#f5f5dc;">
+                            {{ $lastApproval->building_license_number ?? '—' }}
+                        </td>
+
+
                     
                     
                     
@@ -436,8 +443,8 @@
                             </ul>
                         </div>
                     </td>
-                </tr>
-            @endforeach
+                </tr> 
+            @endforeach  
             </tbody>
         </table>
     </div>

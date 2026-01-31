@@ -54,7 +54,11 @@
                 <th style="background:#f5f5dc;">{{ __('تاريخ اعتماد المعاملة') }}</th>
                 <th style="background:#f5f5dc;">{{ __('الفرق') }}</th>
                 <th style="background:#f5f5dc;">{{ __('السبب') }}</th>
+                <th style="background:#f5f5dc;">{{ __('رقم الرخصة') }}</th>
+                <th style="background:#f5f5dc;">{{ __('ملف اعتماد البلدية') }}</th>
+                <th style="background:#f5f5dc;">{{ __('ملف رخصة البناء') }}</th>
                 <th style="background:#f5f5dc;">{{ __('الإجراءات') }}</th>
+
             </tr>
             </thead>
 
@@ -70,6 +74,30 @@
                     <td style="background:#f5f5dc;">{{ $row->approved_at ? $row->approved_at->format('Y-m-d') : '-' }}</td>
                     <td style="background:#f5f5dc;">{{ $row->days_diff ?? '-' }}</td>
                     <td style="background:#f5f5dc;">{{ $row->reason }}</td>
+                    <td style="background:#f5f5dc;">{{ $row->building_license_number }}</td>
+                    <td style="background:#f5f5dc;">
+                        @if($row->approved_file)
+                            <a href="{{ asset('Files/' . $row->approved_file) }}"
+                            target="_blank"
+                            class="text-decoration-none text-primary fw-semibold">
+                                📄 {{ basename($row->approved_file) }}
+                            </a>
+                        @else
+                            -
+                        @endif
+                    </td>
+                    <td style="background:#f5f5dc;">
+                        @if($row->building_license_file)
+                            <a href="{{ asset('Files/' . $row->building_license_file) }}"
+                            target="_blank"
+                            class="text-decoration-none text-primary fw-semibold">
+                                📄 {{ basename($row->building_license_file) }}
+                            </a>
+                        @else
+                            -
+                        @endif
+                    </td>
+
 
                     <td style="background:#f5f5dc;">
                         <div class="dropdown" style="background:#f5f5dc;">
