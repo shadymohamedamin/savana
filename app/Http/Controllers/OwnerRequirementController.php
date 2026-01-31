@@ -32,7 +32,7 @@ class OwnerRequirementController extends AppBaseController
             ->keyBy('id');
 
         $design = $project->designPreferences; // العلاقة
-
+        //dd($requirements);
         return view('projects.owner-requirements.index', compact(
             'project',
             'requirements',
@@ -53,25 +53,70 @@ class OwnerRequirementController extends AppBaseController
     /**
      * Store a newly created OwnerRequirement in storage.
      */
-    public function store(Request $request, Project $project)
+    /*public function store(Request $request, Project $project)
 {
-    /** -----------------------------
-     * 1️⃣ متطلبات المالك
-     * ----------------------------- */
-    $syncData = [];
-    //dd($request->all());
 
-    foreach ($request->requirements ?? [] as $reqId => $qty) {
-        if ($qty > 0) {
-            $syncData[$reqId] = ['quantity' => $qty];
+    $syncData = [];
+
+    foreach ($request->requirements ?? [] as $reqId => $data) {
+
+        $qty = $data['quantity'] ?? null;
+        $notes = $data['notes'] ?? null;
+
+        if (!empty($qty) && $qty > 0) {
+            $syncData[$reqId] = [
+                'quantity' => $qty,
+                'notes' => $notes,
+            ];
         }
     }
 
+
     $project->ownerRequirements()->sync($syncData);
 
-    /** -----------------------------
-     * 2️⃣ أفكار / تصميم الفيلا
-     * ----------------------------- */
+    if ($request->filled('design')) {
+        $project->designPreferences()->updateOrCreate(
+            ['project_id' => $project->id],
+            $request->design
+        );
+    }
+
+    return redirect()->back()->with('toast', [
+        'type' => 'success',
+        'message' => 'تم حفظ متطلبات المالك وأفكار التصميم بنجاح'
+    ]);
+}*/
+
+
+
+
+public function store(Request $request, Project $project)
+{
+    $syncData = [];
+
+    foreach ($request->requirements ?? [] as $reqId => $data) {
+
+        $qty = $data['quantity'] ?? null;
+        $notes = $data['notes'] ?? null;
+
+        if ($qty !== null && $qty > 0) {
+            $syncData[$reqId] = [
+                'quantity' => (int)$qty,
+                'notes' => $notes,
+            ];
+        }
+    }
+
+    try {
+        $project->ownerRequirements()->sync($syncData);
+    } catch (\Throwable $e) {
+        return redirect()->back()->with('toast', [
+            'type' => 'error',
+            'message' => $e->getMessage()
+        ]);
+    }
+
+
     if ($request->filled('design')) {
         $project->designPreferences()->updateOrCreate(
             ['project_id' => $project->id],
@@ -84,6 +129,7 @@ class OwnerRequirementController extends AppBaseController
         'message' => 'تم حفظ متطلبات المالك وأفكار التصميم بنجاح'
     ]);
 }
+
 
 
 

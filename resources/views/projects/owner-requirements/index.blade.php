@@ -53,6 +53,7 @@
                         <th>الاحتياجات</th>
                         <th>اختيار</th>
                         <th style="width:120px;">العدد</th>
+                        <th style="width:120px;">ملاحظات</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -66,11 +67,19 @@
                         </td>
                         <td>
                             <input type="number"
-                                   min="1"
-                                   class="form-control text-center"
-                                   name="requirements[{{ $req->id }}]"
-                                   value="{{ $selected[$req->id]->pivot->quantity ?? '' }}">
+                                min="1"
+                                class="form-control text-center"
+                                name="requirements[{{ $req->id }}][quantity]"
+                                value="{{ $selected[$req->id]->pivot->quantity ?? '' }}">
                         </td>
+
+                        <td>
+                            <input type="text"
+                                class="form-control text-center"
+                                name="requirements[{{ $req->id }}][notes]"
+                                value="{{ $selected[$req->id]->pivot->notes ?? '' }}">
+                        </td>
+
                     </tr>
                     @endforeach
                 </tbody>
@@ -92,6 +101,7 @@
                         <th>الاحتياجات</th>
                         <th>اختيار</th>
                         <th style="width:120px;">العدد</th>
+                        <th style="width:120px;">ملاحظات</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -105,11 +115,19 @@
                         </td>
                         <td>
                             <input type="number"
-                                   min="1"
-                                   class="form-control text-center"
-                                   name="requirements[{{ $req->id }}]"
-                                   value="{{ $selected[$req->id]->pivot->quantity ?? '' }}">
+                                min="1"
+                                class="form-control text-center"
+                                name="requirements[{{ $req->id }}][quantity]"
+                                value="{{ $selected[$req->id]->pivot->quantity ?? '' }}">
                         </td>
+
+                        <td>
+                            <input type="text"
+                                class="form-control text-center"
+                                name="requirements[{{ $req->id }}][notes]"
+                                value="{{ $selected[$req->id]->pivot->notes ?? '' }}">
+                        </td>
+
                     </tr>
                     @endforeach
                 </tbody>

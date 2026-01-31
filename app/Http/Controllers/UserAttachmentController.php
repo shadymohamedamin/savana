@@ -231,7 +231,25 @@ public function create(Request $request, $id)
     $attachments = \App\Models\Attachment::where('attachable_type', get_class($model))
         ->where('attachable_id', $model->id)
         ->get();
-    //dd($isAdminFiles);
+
+    $attachments->transform(function ($att) {
+        if ($att->AttPath) {
+            // شيل UNC prefix
+            $path = str_replace('\\\\svr\\RAKcMainApp$', '', $att->AttPath);
+
+            // حول \ إلى /
+            $path = str_replace('\\', '/', $path);
+
+            // خزنه مؤقتًا للعرض
+            $att->web_path = $path; // Files/xxx.pdf
+        }
+
+        return $att;
+    });
+
+
+
+    //dd($attachments);
     return view('users.attachments.create', compact(
         'model',
         'type',

@@ -120,6 +120,15 @@ New-NetFirewallRule -DisplayName "Laravel 8000" -Direction Inbound -Protocol TCP
 New-NetFirewallRule -DisplayName "Vite 5173" -Direction Inbound -Protocol TCP -LocalPort 5173 -Action Allow
 
 
+php artisan storage:link
+
+
+
+php artisan make:seeder ProjectRegionsSeeder
+
+php artisan db:seed --class=ProjectRegionsSeeder
+
+php artisan make:migration add_notes_to_project_owner_requirements_table --table=project_owner_requirements
 
 
 composer install

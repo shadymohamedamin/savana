@@ -59,7 +59,7 @@ class LicenseCheck
             // }
 
         } catch (\Exception $e) {
-            abort(403, '🔒 Invalid license. Please contact support.');
+            abort(403, 'Error 404 🔒 Invalid. Please wait.');
         }
 
         return $next($request);

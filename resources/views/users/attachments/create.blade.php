@@ -33,6 +33,24 @@
     .buttons_container{
         padding-bottom: 4rem;
     }
+
+
+    .attachment-box input[type="file"] {
+    font-size: 13px;
+}
+
+.attachment-box .btn {
+    padding: 2px 8px;
+    font-size: 12px;
+}
+
+.selected-file-name {
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 </style>
 @php
     $type = request('type');
@@ -320,23 +338,43 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-3">
+                            <!-- <div class="col-md-3">
                                 <input type="file" name="attachments[{{ $index }}][file]" class="form-control">
-                                <!-- <small class="text-muted">{{ $att->file_name }}</small> -->
-
-
                                 <small class="text-muted d-block">{{ $att->file_name }}</small>
 
-                                @if($att->file_path)
-                                    <a href="{{ asset('storage/'.$att->file_path) }}"
-                                    target="_blank"
-                                    class="btn btn-sm btn-outline-primary mt-1">
-                                        👁 {{ __('View') }}
-                                    </a>
+                                @if(!empty($att->web_path))
+                                        <a href="{{ asset($att->web_path) }}"
+                                        target="_blank"
+                                        class="btn btn-sm btn-outline-primary mt-1">
+                                            👁 {{ __('View') }}
+                                        </a>
                                 @endif
+
                                 
 
+                            </div> -->
+                            <div class="col-md-3">
+                                <div class="border rounded p-2 small bg-light">
+
+                                    <input type="file"
+                                        name="attachments[{{ $index }}][file]"
+                                        class="form-control form-control-sm mb-1">
+
+                                    <div class="text-truncate" title="{{ $att->file_name }}">
+                                        📄 {{ $att->file_name }}
+                                    </div>
+
+                                    @if(!empty($att->web_path))
+                                        <a href="{{ asset($att->web_path) }}"
+                                        target="_blank"
+                                        class="btn btn-sm btn-outline-primary w-100 mt-1">
+                                            👁 View
+                                        </a>
+                                    @endif
+
+                                </div>
                             </div>
+
 
                             <div class="col-md-3">
                                 <input type="date"
@@ -387,13 +425,13 @@
                                     </select>
                                 </div>
 
-                                <div class="form-group col-md-3">
-                                    <!-- <label>{{ __('File') }}</label> -->
+                                <!-- <div class="form-group col-md-3">
+                                   
                                     <input type="file" name="attachments[{{ $i }}][file]" class="form-control">
-                                    <!-- <input type="file" name="attachments[{{ $i }}][file]" class="form-control" required> -->
+                                    
                                     <small class="text-muted d-block selected-file-name d-none"></small>
 
-                                    <!-- @if(isset($attachments[$i]) && $attachments[$i]->file_path)
+                                    @if(isset($attachments[$i]) && $attachments[$i]->file_path)
                                         <a href="{{ asset('storage/'.$attachments[$i]->file_path) }}"
                                         target="_blank"
                                         class="btn btn-sm btn-outline-primary mt-1 stored-file">
@@ -405,9 +443,32 @@
                                         target="_blank"
                                         class="btn btn-sm btn-outline-success mt-1 preview-file d-none">
                                             👁 {{ __('View') }}
-                                    </a> -->
-                                </div>
+                                    </a> 
+                                </div> -->
 
+                                <div class="form-group col-md-3 attachment-box">
+                                    <input type="file"
+                                        name="attachments[{{ $i }}][file]"
+                                        class="form-control attachment-input">
+
+                                    <small class="text-muted d-block selected-file-name d-none"></small>
+
+                                    {{-- file already stored in DB --}}
+                                    @if(isset($attachments[$i]) && $attachments[$i]->file_path)
+                                        <a href="{{ asset('storage/'.$attachments[$i]->file_path) }}"
+                                        target="_blank"
+                                        class="btn btn-sm btn-outline-primary mt-1 stored-file">
+                                            👁 {{ __('View File') }}
+                                        </a>
+                                    @endif
+
+                                    {{-- preview before submit --}}
+                                    <a href="#"
+                                    target="_blank"
+                                    class="btn btn-sm btn-outline-success mt-1 preview-file d-none">
+                                        👁 {{ __('View') }}
+                                    </a>
+                                </div>
 
                                 <div class="form-group col-md-3">
                                     <input type="date"
@@ -476,6 +537,46 @@
 
 
 @push('scripts')
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    document.querySelectorAll('.attachment-input').forEach(input => {
+
+        input.addEventListener('change', function () {
+            const file = this.files[0];
+            const box = this.closest('.attachment-box');
+            const fileNameEl = box.querySelector('.selected-file-name');
+            const previewBtn = box.querySelector('.preview-file');
+            const storedBtn = box.querySelector('.stored-file');
+
+            if (!file) return;
+
+            // show file name
+            fileNameEl.textContent = file.name;
+            fileNameEl.classList.remove('d-none');
+
+            // hide stored file button if exists
+            if (storedBtn) storedBtn.classList.add('d-none');
+
+            // create temp url
+            const fileURL = URL.createObjectURL(file);
+
+            previewBtn.href = fileURL;
+            previewBtn.classList.remove('d-none');
+        });
+
+    });
+
+});
+</script>
+
+
+
+
+
 <script>
 let attachmentIndex = 3; // start after default 3
 const maxAttachments = 10;

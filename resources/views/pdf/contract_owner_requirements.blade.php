@@ -89,12 +89,20 @@
         <td>{{ $project->ownerUser?->name ?? '-' }}</td>
         <td class="bold">المنطقة</td>
         <td>{{ $project->projectRegion?->name_ar ?? '-' }}</td>
+        
     </tr>
     <tr>
         <td class="bold">وصف المشروع</td>
-        <td>{{ $project->name }}</td>
+        <td>{{ $project->projectName->name_ar }}</td>
         <td class="bold">رقم القسيمة</td>
         <td>{{ $project->qasmia_number ?? '-' }}</td>
+        
+    </tr>
+    <tr>
+        <td class="bold">المساحة</td>
+        <td>{{ $project->area ?? '-' }}</td>
+        <td class="bold">البادجت</td>
+        <td>{{ $project->budget ?? '-' }}</td>
     </tr>
 </table>
 
@@ -112,7 +120,7 @@
         <td class="section-title" colspan="4">الدور الأرضي</td>
     </tr>
     <tr class="bold center">
-        <td>الاحتياجات العامة</td>
+        <td style="text-align:center;">الاحتياجات العامة</td>
         <td>مختار</td>
         <td>العدد</td>
         <td>ملاحظات</td>
@@ -121,10 +129,10 @@
     @foreach($requirements['ground'] as $req)
         @if($req->pivot?->quantity)
         <tr class="center">
-            <td>{{ $req->name }}</td>
+            <td class="text-center" style="text-align:center;">{{ $req->name }}</td>
             <td class="check">*</td>
             <td>{{ $req->pivot->quantity }}</td>
-            <td></td>
+            <td>{{ $req->pivot->notes }}</td>
         </tr>
         @endif
     @endforeach
@@ -138,7 +146,7 @@
         <td class="section-title" colspan="4">الدور الأول</td>
     </tr>
     <tr class="bold center">
-        <td>الاحتياجات العامة</td>
+        <td style="text-align:center;">الاحتياجات العامة</td>
         <td>مختار</td>
         <td>العدد</td>
         <td>ملاحظات</td>
@@ -147,10 +155,10 @@
     @foreach($requirements['first'] as $req)
         @if($req->pivot?->quantity)
         <tr class="center">
-            <td>{{ $req->name }}</td>
+            <td class="text-center" style="text-align:center;">{{ $req->name }}</td>
             <td class="check">*</td>
             <td>{{ $req->pivot->quantity }}</td>
-            <td></td>
+            <td>{{ $req->pivot->notes }}</td>
         </tr>
         @endif
     @endforeach
@@ -175,136 +183,136 @@
 @if($design)
 <table>
     <tr class="bold center ">
-        <td class="section-title" >البند</td>
-        <td class="section-title" >الاختيار</td>
+        <td class="section-title" style="text-align:center;">البند</td>
+        <td class="section-title" style="text-align:center;">الاختيار</td>
     </tr>
 
     <tr>
-        <td class="bold">تصميم الفيلا</td>
-        <td>{{ $design->villa_style }}</td>
+        <td class="bold" style="text-align:center;">تصميم الفيلا</td>
+        <td style="text-align:center;">{{ $design->villa_style }}</td>
     </tr>
 
     <tr>
-        <td class="bold">عدد درجات البناء</td>
-        <td>{{ $design->floors_count }}</td>
+        <td class="bold" style="text-align:center;">عدد درجات البناء</td>
+        <td style="text-align:center;">{{ $design->floors_count }}</td>
     </tr>
 
     <tr>
-        <td class="bold">باب الفيلا</td>
-        <td>{{ $design->villa_door }}</td>
+        <td class="bold" style="text-align:center;">باب الفيلا</td>
+        <td style="text-align:center;">{{ $design->villa_door }}</td>
     </tr>
 
     <tr>
-        <td class="bold">موقع الفيلا</td>
-        <td>{{ $design->villa_location }}</td>
+        <td class="bold" style="text-align:center;">موقع الفيلا</td>
+        <td style="text-align:center;">{{ $design->villa_location }}</td>
     </tr>
 
     <tr>
-        <td class="bold">دابل هايت</td>
-        <td>{{ $design->double_height ? 'نعم' : 'لا' }}</td>
+        <td class="bold" style="text-align:center;">دابل هايت</td>
+        <td style="text-align:center;">{{ $design->double_height ? 'نعم' : 'لا' }}</td>
     </tr>
 
     <tr>
-        <td class="bold">صالات مفتوحة</td>
-        <td>{{ $design->open_living ? 'نعم' : 'لا' }}</td>
+        <td class="bold" style="text-align:center;">صالات مفتوحة</td>
+        <td style="text-align:center;">{{ $design->open_living ? 'نعم' : 'لا' }}</td>
     </tr>
 
     <tr>
-        <td class="bold">اتصال الفيلا</td>
-        <td>{{ $design->villa_connection }}</td>
+        <td class="bold" style="text-align:center;">اتصال الفيلا</td>
+        <td style="text-align:center;">{{ $design->villa_connection }}</td>
     </tr>
 
     <tr>
-        <td class="bold">ارتفاع السقف</td>
-        <td>{{ $design->ceiling_height }} م</td>
+        <td class="bold" style="text-align:center;">ارتفاع السقف</td>
+        <td style="text-align:center;">{{ $design->ceiling_height }} م</td>
     </tr>
 
     <tr>
-        <td class="bold">اطلالات داخلية على الحديقة</td>
-        <td>{{ $design->internal_garden_view ? 'نعم' : 'لا' }}</td>
+        <td style="text-align:center;" class="bold">اطلالات داخلية على الحديقة</td>
+        <td style="text-align:center;">{{ $design->internal_garden_view ? 'نعم' : 'لا' }}</td>
     </tr>
 
     <tr>
-        <td class="bold">موقع الدرج</td>
-        <td>{{ $design->stairs_location }}</td>
+        <td style="text-align:center;" class="bold">موقع الدرج</td>
+        <td style="text-align:center;">{{ $design->stairs_location }}</td>
     </tr>
 
     <tr>
-        <td class="bold">موقع البانتي</td>
-        <td>{{ $design->pantry_location }}</td>
+        <td style="text-align:center;" class="bold">موقع البانتي</td>
+        <td style="text-align:center;">{{ $design->pantry_location }}</td>
     </tr>
 
     <tr>
-        <td class="bold">أبواب الخدمات</td>
-        <td>{{ $design->service_doors }}</td>
+        <td style="text-align:center;" class="bold">أبواب الخدمات</td>
+        <td style="text-align:center;">{{ $design->service_doors }}</td>
     </tr>
 
     <tr>
-        <td class="bold">مصعد مستقبلي</td>
-        <td>{{ $design->future_elevator ? 'نعم' : 'لا' }}</td>
+        <td style="text-align:center;" class="bold">مصعد مستقبلي</td>
+        <td style="text-align:center;">{{ $design->future_elevator ? 'نعم' : 'لا' }}</td>
     </tr>
 
     <tr>
-        <td class="bold">فناء داخلي</td>
-        <td>{{ $design->internal_courtyard ? 'نعم' : 'لا' }}</td>
+        <td style="text-align:center;" class="bold">فناء داخلي</td>
+        <td style="text-align:center;">{{ $design->internal_courtyard ? 'نعم' : 'لا' }}</td>
     </tr>
 
     <tr>
-        <td class="bold">شكل الفيلا</td>
-        <td>{{ $design->villa_shape }}</td>
+        <td style="text-align:center;" class="bold">شكل الفيلا</td>
+        <td style="text-align:center;">{{ $design->villa_shape }}</td>
     </tr>
 
     <tr>
-        <td class="bold">خدمة الطعام</td>
-        <td>{{ $design->dining_serves }}</td>
+        <td style="text-align:center;" class="bold">خدمة الطعام</td>
+        <td style="text-align:center;">{{ $design->dining_serves }}</td>
     </tr>
 
     <tr>
-        <td class="bold">نوع الدرج</td>
-        <td>{{ $design->stairs_type }}</td>
+        <td style="text-align:center;" class="bold">نوع الدرج</td>
+        <td style="text-align:center;">{{ $design->stairs_type }}</td>
     </tr>
 
     <tr>
-        <td class="bold">نوع التكييف</td>
-        <td>{{ $design->ac_type }}</td>
+        <td style="text-align:center;" class="bold">نوع التكييف</td>
+        <td style="text-align:center;">{{ $design->ac_type }}</td>
     </tr>
 
     <tr>
-        <td class="bold">ارتفاع الأبواب</td>
-        <td>{{ $design->doors_height }}</td>
+        <td style="text-align:center;" class="bold">ارتفاع الأبواب</td>
+        <td style="text-align:center;">{{ $design->doors_height }}</td>
     </tr>
 
     <tr>
-        <td class="bold">مستوى الأثاث</td>
-        <td>{{ $design->furniture_level }}</td>
+        <td style="text-align:center;" class="bold">مستوى الأثاث</td>
+        <td style="text-align:center;">{{ $design->furniture_level }}</td>
     </tr>
 
     <tr>
-        <td class="bold">كراسي الحمامات</td>
-        <td>{{ $design->bathroom_chairs }}</td>
+        <td style="text-align:center;" class="bold">كراسي الحمامات</td>
+        <td style="text-align:center;">{{ $design->bathroom_chairs }}</td>
     </tr>
 
     <tr>
-        <td class="bold">خزان تحت الأرض</td>
-        <td>{{ $design->underground_tank ? 'نعم' : 'لا' }}</td>
+        <td style="text-align:center;" class="bold">خزان تحت الأرض</td>
+        <td style="text-align:center;">{{ $design->underground_tank ? 'نعم' : 'لا' }}</td>
     </tr>
 
     <tr>
-        <td class="bold">النعلة</td>
-        <td>{{ $design->skirting_type }}</td>
+        <td style="text-align:center;" class="bold">النعلة</td>
+        <td style="text-align:center;">{{ $design->skirting_type }}</td>
     </tr>
 </table>
 @endif
 
 
 
-
+<div>تم الاتفاق بين الاستشاري والمالك على اعتماد الاحتياجات والمتطلبات حسب ما هو مدون في الجدول المرفق</div>
 
 
 
 
 {{-- ================= التوقيعات ================= --}}
-<table class="signature-table">
+<table class="signature-table mt-4" style="margin-top:2rem;">
     <tr>
         <td class="signature-header">المالك</td>
         <td class="signature-header">الاستشاري</td>

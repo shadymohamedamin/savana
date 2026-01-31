@@ -29,7 +29,7 @@
                 {{-- Email --}}
                 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
                     {!! Form::label('email', __('Email'), ['class' => 'font-semibold text-gray-600']) !!}
-                    {!! Form::email('email', null, ['class' => 'form-control rounded', 'required']) !!}
+                    {!! Form::email('email', null, ['class' => 'form-control rounded']) !!}
                 </div>
 
                 <!-- {{-- Password --}}
@@ -53,7 +53,7 @@
                         'placeholder' => '05XXXXXXXXX',
                         'inputmode' => 'numeric',
                         'autocomplete' => 'off',
-                        'required'
+                        
                         ] ) !!}
                     
                     

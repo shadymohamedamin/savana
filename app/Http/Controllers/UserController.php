@@ -36,6 +36,10 @@ class UserController extends AppBaseController
             $query->where('email', 'like', $request->email . '%');//'%' . $request->email . '%'
         }
 
+        if ($request->filled('mobile')) {
+            $query->where('mobile', 'like', $request->mobile . '%');//'%' . $request->email . '%'
+        }
+
         if ($request->filled('active')) {
             $query->where('active', $request->active);
         }
@@ -57,7 +61,7 @@ class UserController extends AppBaseController
             ->appends($request->all());*/
         $users = $query
             ->with('roleRelation') // لو بتعرض اسم الـ Role
-            ->orderByDesc('created_at')
+            ->orderBy('created_at') //Desc
             ->paginate(10)
             ->appends($request->query());
 
@@ -220,7 +224,7 @@ class UserController extends AppBaseController
     $regions = \App\Models\Region::where('status', 1)->pluck('region', 'id'); // or however you store cities
     $roles = \App\Models\Role::pluck('name_ar', 'id');   // all roles
     //$nationalities = \App\Models\Nationalit::pluck('Nationality', 'id'); // or define as array
-    $nationalities = Nationalit::whereIn('id', [1, 58])->pluck('nationality', 'id');
+    $nationalities = Nationalit::whereIn('id', [1, 58,19,31,12,26,8])->pluck('nationality', 'id');
     return view('users.edit', compact('user', 'regions', 'roles', 'nationalities'));
 }
 

@@ -11,7 +11,8 @@ class OwnerRequirement extends Model
     public $fillable = [
         'name',
         'floor',
-        'is_general'
+        'is_general',
+        'notes'
     ];
 
     protected $casts = [
@@ -25,18 +26,26 @@ class OwnerRequirement extends Model
         'floor' => 'required|string|max:50',
         'is_general' => 'required|boolean',
         'created_at' => 'nullable',
-        'updated_at' => 'nullable'
+        'updated_at' => 'nullable',
+        'notes' => 'nullable'
     ];
-
-    public function projectOwnerRequirements(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(\App\Models\ProjectOwnerRequirement::class, 'owner_requirement_id');
-    }
+    
 
     public function projects()
     {
-        return $this->belongsToMany(Project::class, 'project_owner_requirements')
-            ->withPivot('quantity')
-            ->withTimestamps();
+        return $this->belongsToMany(
+            Project::class,
+            'project_owner_requirements'
+        )
+        ->withPivot(['quantity', 'notes'])
+        ->withTimestamps();
+    }
+
+    public function projectOwnerRequirements()
+    {
+        return $this->hasMany(
+            ProjectOwnerRequirement::class,
+            'owner_requirement_id'
+        );
     }
 }

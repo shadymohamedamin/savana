@@ -185,8 +185,11 @@ public function consultant()
         return $this->belongsToMany(
             OwnerRequirement::class,
             'project_owner_requirements'
-        )->withPivot('quantity');
+        )
+        ->withPivot(['quantity', 'notes'])
+        ->withTimestamps();
     }
+
     public function designPreferences()
     {
         return $this->hasOne(ProjectDesignPreferences::class);

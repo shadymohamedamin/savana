@@ -143,6 +143,7 @@
 
             <thead style="background:#D4AF37;color:#000">
             <tr style="background-color: #f5f5dc;">
+                <th style="background-color: #f5f5dc;">#</th>
                 <th  style="background-color: #f5f5dc;">{{ __('Name') }}</th>
                 <th style="background-color: #f5f5dc;">{{ __('Email') }}</th>
                 <th style="background-color: #f5f5dc;">{{ __('Mobile') }}</th>
@@ -150,7 +151,7 @@
                 <!-- <th style="background-color: #f5f5dc;">{{ __('Gender') }}</th> -->
                 <!-- <th style="background-color: #f5f5dc;">{{ __('Active') }}</th> -->
                 <th style="background-color: #f5f5dc;">{{ __('Role') }}</th>
-                <!-- <th style="background-color: #f5f5dc;">{{ __('Admin') }}</th> -->
+                <!-- <th style="background-color: #f5f5dc;">{{ __('Admin') }}</th>       $loop->iteration -->
                 <th style="background-color: #f5f5dc;">{{ __('Actions') }}</th>
             </tr>
             </thead>
@@ -158,6 +159,9 @@
             <tbody style="background-color: #f5f5dc;">
             @foreach($users as $user)
                 <tr style="background-color: #f5f5dc;">
+                    <td style="background-color: #f5f5dc;">
+                        {{ $user->id }}
+                    </td>
                     <td style="background-color: #f5f5dc;">{{ $user->name }}</td>
                     <td style="background-color: #f5f5dc;">{{ $user->email }}</td>
                     <td style="background-color: #f5f5dc;">{{ $user->mobile }}</td>

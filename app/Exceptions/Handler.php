@@ -18,6 +18,20 @@ class Handler extends ExceptionHandler
         'password_confirmation',
     ];
 
+    public function render($request, Throwable $e)
+    {
+        if ($request->expectsJson()) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ], 500);
+        }
+
+        return parent::render($request, $e);
+    }
+
+
     /**
      * Register the exception handling callbacks for the application.
      */

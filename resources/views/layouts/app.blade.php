@@ -207,6 +207,78 @@
 }
 
 
+
+
+
+
+
+
+
+
+
+
+.loader-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 250, 238, 0.85); /* #D4AF37 Gold */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+/* Spinner color */
+/*.loader-overlay .spinner-border {
+    width: 3.2rem;
+    height: 3.2rem;
+    color: #2f3a1f;
+    border-width: 0.35em;
+}*/
+
+
+.loader-overlay .spinner-border {
+    width: 3.5rem;
+    height: 3.5rem;
+    border: 0.35em solid #2f3a1f;
+    border-top-color: #D4AF37;
+    border-right-color: #D4AF37;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+
+
+
+
+
+.dot-loader {
+    display: flex;
+    gap: 10px;
+}
+
+.dot-loader span {
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    border-radius: 50%;
+    animation: pulse 1.4s infinite ease-in-out both;
+}
+
+.dot-loader span:nth-child(1) { animation-delay: -0.32s; }
+.dot-loader span:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes pulse {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+}
+
+
+
+
     </style>
 
 </head>
@@ -520,6 +592,18 @@
 
 @endif
 
+    <!-- <div id="global-loader" class="loader-overlay d-none">
+        <div class="spinner-border text-[#2f3a1f]" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div> -->
+
+    <div id="global-loader" class="loader-overlay d-none">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+
         <main class="">
             @yield('content')
         </main>
@@ -581,9 +665,45 @@
     
     </script>
 
+<script>
+    function showLoader() {
+        document.getElementById('global-loader').classList.remove('d-none');
+    }
+
+    function hideLoader() {
+        document.getElementById('global-loader').classList.add('d-none');
+    }
+</script>
+
+<script>
+    document.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', function (e) {
+            if (
+                this.getAttribute('href') &&
+                !this.getAttribute('href').startsWith('#') &&
+                !this.hasAttribute('target')
+            ) {
+                showLoader();
+            }
+        });
+    });
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function () {
+                showLoader();
+            });
+        });
+    });
+</script>
 
 
     @stack('scripts')
 
+
+
+    
 </body>
 </html>
