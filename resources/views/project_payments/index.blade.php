@@ -2,6 +2,14 @@
 
 @section('content')
 
+
+
+
+
+<div style="margin-right:2rem;">
+    @include('projects.partials.project-actions', ['project' => $project])
+</div>
+
 <div class="card shadow-sm rounded-4" style="background-color:#f5f5dc;margin:40px;padding:0px;">
 
     {{-- Header --}}

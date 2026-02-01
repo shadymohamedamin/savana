@@ -138,7 +138,7 @@
 
     {{-- Table --}}
     <div class="table-responsive p-3" style="background-color: #f5f5dc;">
-        <table class="table table-hover align-middle text-nowrap rounded-4 overflow-hidden"
+        <table class="table table-hover align-middle text-nowrap rounded-4 overflow-auto"
                style="border:1px solid #D4AF37">
 
             <thead style="background:#D4AF37;color:#000">

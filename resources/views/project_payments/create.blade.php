@@ -97,13 +97,59 @@
                 ]) !!}
             </div>
 
-            {{-- Attachment --}}
+            <!-- {{-- Attachment --}}
             <div style="min-width:250px;max-width:250px;">
                 {!! Form::label('attachment', __('المرفق')) !!}
                 {!! Form::file('attachment', [
                     'class' => 'form-control'
                 ]) !!}
+            </div> -->
+
+
+            <div class="col-md-3">
+                <div class="border rounded p-2 small bg-light attachment-box">
+                    <input type="hidden" name="attachments[1][delete]" value="0" class="delete-flag">
+                    <input type="file" name="attachments[1][file]" class="form-control form-control-sm attachment-input mb-1">
+                    <div class="text-truncate selected-file-name d-none"></div>
+
+                    @if(isset($projectPayment) && $projectPayment->attachment)
+                        <a href="{{ asset('Files/'.$projectPayment->attachment) }}"
+                        target="_blank"
+                        class="btn btn-sm btn-outline-primary w-100 mt-1 stored-file">
+                            👁 View File
+                        </a>
+                    @endif
+
+                    <a href="#" target="_blank" class="btn btn-sm btn-outline-success w-100 mt-1 preview-file d-none">👁 Preview</a>
+
+                    <button type="button" class="btn btn-sm btn-outline-danger w-100 mt-1 remove-file">🗑 Remove</button>
+                </div>
             </div>
+
+            {{-- الملف 2 و 3 --}}
+            @for($i = 2; $i <= 3; $i++)
+            <div class="col-md-3">
+                <div class="border rounded p-2 small bg-light attachment-box">
+                    <input type="hidden" name="attachments[{{ $i }}][delete]" value="0" class="delete-flag">
+                    <input type="file" name="attachments[{{ $i }}][file]" class="form-control form-control-sm attachment-input mb-1">
+                    <div class="text-truncate selected-file-name d-none"></div>
+
+                    @php $file = $projectPayment->{'attachment_'.$i} ?? null; @endphp
+                    @if($file)
+                        <a href="{{ asset('Files/'.$file) }}"
+                        target="_blank"
+                        class="btn btn-sm btn-outline-primary w-100 mt-1 stored-file">
+                            👁 View File
+                        </a>
+                    @endif
+
+                    <a href="#" target="_blank" class="btn btn-sm btn-outline-success w-100 mt-1 preview-file d-none">👁 Preview</a>
+
+                    <button type="button" class="btn btn-sm btn-outline-danger w-100 mt-1 remove-file">🗑 Remove</button>
+                </div>
+            </div>
+            @endfor
+
 
         </div>
 
@@ -126,6 +172,44 @@
 
 @push('scripts')
 <script>
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    document.querySelectorAll('.attachment-input').forEach(input => {
+        input.addEventListener('change', function () {
+            const box = this.closest('.attachment-box');
+            const fileName = box.querySelector('.selected-file-name');
+            const preview = box.querySelector('.preview-file');
+            const stored = box.querySelector('.stored-file');
+
+            if (!this.files.length) return;
+
+            const file = this.files[0];
+            fileName.textContent = file.name;
+            fileName.classList.remove('d-none');
+
+            if (stored) stored.classList.add('d-none');
+
+            preview.href = URL.createObjectURL(file);
+            preview.classList.remove('d-none');
+        });
+    });
+
+    document.querySelectorAll('.remove-file').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const box = this.closest('.attachment-box');
+            box.querySelector('.attachment-input').value = '';
+            box.querySelector('.delete-flag').value = 1;
+
+            box.querySelectorAll('.preview-file,.stored-file,.selected-file-name')
+               .forEach(el => el?.classList.add('d-none'));
+        });
+    });
+
+});
+
+
+
     function calculateFromTotal() {
         let total = parseFloat(document.getElementById('total_amount').value) || 0;
 

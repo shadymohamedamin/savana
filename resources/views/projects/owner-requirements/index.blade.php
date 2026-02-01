@@ -4,7 +4,7 @@
 
 <div class="card shadow-sm rounded-4"
      style="background-color:#f5f5dc;margin:40px;padding:0px;">
-
+@include('projects.partials.project-actions', ['project' => $project])
     {{-- Header --}}
     <div class="card-header d-flex justify-content-between align-items-center"
          style="background:#D4AF37;color:#2f3a1f;font-size:1.2rem;font-weight:600;">
@@ -410,11 +410,30 @@
 
 
             {{-- Actions --}}
-            <div class="text-center">
+            <!-- <div class="text-center">
                 <button class="btn btn-olive px-4" style="background:#2f3a1f;color:#d4af37;">
                     <i class="fas fa-save" ></i> حفظ المتطلبات
                 </button>
+            </div> -->
+            <div class="text-center d-flex justify-content-center gap-2">
+
+                {{-- Save --}}
+                <button type="submit"
+                        class="btn btn-olive px-4"
+                        style="background:#2f3a1f;color:#d4af37;">
+                    <i class="fas fa-save"></i> حفظ المتطلبات
+                </button>
+
+                {{-- Preview --}}
+                <a target="_blank"
+                href="{{ url('projects/'.$project->id.'/contract-owner-requirements?action=preview') }}"
+                class="btn btn-outline-primary px-4">
+                    👁  المتطلبات المعاينة
+                </a>
+
             </div>
+
+
 
         </form>
     </div>
@@ -444,3 +463,8 @@
 }
 </style>
 @endpush
+
+
+
+
+

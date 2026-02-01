@@ -52,6 +52,8 @@
     @include('adminlte-templates::common.errors')
 
     <div class="card shadow-xl p-4 m-4" style="background-color: #f5f5dc;">
+
+
         {!! Form::open(['route' => 'projects.store']) !!}
 
         <div class="card-body">
@@ -330,10 +332,36 @@
                 </div>
 
 
-                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;background-color: #f5f5dc;">
+
+
+                <div class="d-flex align-items-end gap-2 flex-grow-1"
+                    style="min-width: 250px; max-width: 250px; background-color: #f5f5dc;">
+
+                    <div class="flex-grow-1">
+                        {!! Form::label('consultant_id', __('Consultant')) !!}
+                        {!! Form::select(
+                            'consultant_id',
+                            $consultants,
+                            $consultantId ?? null,
+                            [
+                                'class' => 'form-control',
+                                'placeholder' => '-- اختر الاستشاري --'
+                            ]
+                        ) !!}
+                    </div>
+
+                    <a href="{{ route('users.create') }}"
+                    class="btn btn-success mb-1"
+                    title="Add New Consultant">
+                        <i class="fas fa-plus"></i>
+                    </a>
+
+                </div>
+
+                <!-- <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;background-color: #f5f5dc;">
                     {!! Form::label('consultant_id', __('Consultant')) !!}
                     {!! Form::select('consultant_id', $consultants, null, ['class'=>'form-control','placeholder'=>'-- اختر الاستشاري --']) !!}
-                </div>
+                </div> -->
 
 
 <!-- <div class="form-group">

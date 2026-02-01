@@ -115,12 +115,31 @@ class ProjectPaymentController extends AppBaseController
         $data['vat_amount'] = $vat;
         $data['net_amount'] = $net;
 
-        if ($request->hasFile('attachment')) {
+        /*if ($request->hasFile('attachment')) {
             $file = $request->file('attachment');
             $name = time().'_'.$file->getClientOriginalName();
             $file->move(public_path('Files'), $name);
             $data['attachment'] = $name;
+        }*/
+
+        // ملف 1
+        if ($request->hasFile('attachments.1.file')) {
+            $file = $request->file('attachments.1.file');
+            $name = time().'_1_'.$file->getClientOriginalName();
+            $file->move(public_path('Files'), $name);
+            $data['attachment'] = $name;
         }
+
+        // ملف 2 و 3
+        foreach ([2,3] as $i) {
+            if ($request->hasFile("attachments.$i.file")) {
+                $file = $request->file("attachments.$i.file");
+                $name = time().'_'.$i.'_'.$file->getClientOriginalName();
+                $file->move(public_path('Files'), $name);
+                $data['attachment_'.$i] = $name;
+            }
+        }
+
 
         ProjectPayment::create($data);
 
@@ -184,6 +203,36 @@ class ProjectPaymentController extends AppBaseController
 
             return redirect(route('projectPayments.index'));
         }
+
+        // حذف ورفع الملفات
+// ملف 1
+        if ($request->input('attachments.1.delete') == 1) {
+            if ($projectPayment->attachment) @unlink(public_path('Files/'.$projectPayment->attachment));
+            $projectPayment->attachment = null;
+        }
+        if ($request->hasFile('attachments.1.file')) {
+            $file = $request->file('attachments.1.file');
+            $name = time().'_1_'.$file->getClientOriginalName();
+            $file->move(public_path('Files'), $name);
+            $projectPayment->attachment = $name;
+        }
+
+        // ملف 2 و 3
+        foreach ([2,3] as $i) {
+            if ($request->input("attachments.$i.delete") == 1) {
+                if ($projectPayment->{'attachment_'.$i}) {
+                    @unlink(public_path('Files/'.$projectPayment->{'attachment_'.$i}));
+                }
+                $projectPayment->{'attachment_'.$i} = null;
+            }
+            if ($request->hasFile("attachments.$i.file")) {
+                $file = $request->file("attachments.$i.file");
+                $name = time().'_'.$i.'_'.$file->getClientOriginalName();
+                $file->move(public_path('Files'), $name);
+                $projectPayment->{'attachment_'.$i} = $name;
+            }
+        }
+
 
         $projectPayment = $this->projectPaymentRepository->update($request->all(), $id);
 

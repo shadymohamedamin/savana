@@ -190,7 +190,7 @@
                             {{ $project->supervision_visits_count ?? '—' }}
                         </td>
                         <td style="background-color:#f5f5dc;">
-                            {{ $project->budget ?? '—' }}
+                            {{ $project->bank_contract_value ?? '—' }}
                         </td>
                         <td style="background-color:#f5f5dc;">
                             {{ $daysDiff ?? '—' }}

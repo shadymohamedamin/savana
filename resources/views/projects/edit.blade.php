@@ -45,9 +45,11 @@
 
 
 
-        
+@include('projects.partials.project-actions', ['project' => $project])
 
-        <div class="card shadow-sm mb-4" style="background-color:#f5f5dc;">
+        <!-- <div class="card shadow-sm mb-4" style="background-color:#f5f5dc;">
+
+
     <div class="card-header fw-bold" style="background:#2f3a1f;color:#d4af37;">
         <i class="fas fa-cogs me-1"></i> {{ __('إدارة المشروع') }}
     </div>
@@ -110,7 +112,7 @@
 
         </div>
     </div>
-</div>
+</div> -->
 
 
 
@@ -392,10 +394,37 @@
                 
                 </div>
 
-                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;background-color: #f5f5dc;">
+
+
+                <div class="d-flex align-items-end gap-2 flex-grow-1"
+                    style="min-width: 250px; max-width: 250px; background-color: #f5f5dc;">
+
+                    <div class="flex-grow-1">
+                        {!! Form::label('consultant_id', __('Consultant')) !!}
+                        {!! Form::select(
+                            'consultant_id',
+                            $consultants,
+                            $consultantId ?? null,
+                            [
+                                'class' => 'form-control',
+                                'placeholder' => '-- اختر الاستشاري --'
+                            ]
+                        ) !!}
+                    </div>
+
+                    <a href="{{ route('users.create') }}"
+                    class="btn btn-success mb-1"
+                    title="Add New Consultant">
+                        <i class="fas fa-plus"></i>
+                    </a>
+
+                </div>
+
+
+                <!-- <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;background-color: #f5f5dc;">
                     {!! Form::label('consultant_id', __('Consultant')) !!}
                     {!! Form::select('consultant_id', $consultants, null, ['class'=>'form-control','placeholder'=>'-- اختياري --']) !!}
-                </div>
+                </div> -->
 
                 {{-- Description --}}
                 <div class="w-100">

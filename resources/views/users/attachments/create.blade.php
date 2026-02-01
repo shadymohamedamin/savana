@@ -72,6 +72,10 @@
     </h3>
     @include('flash::message')
 
+   
+
+
+
     <!-- @if($type === 'projects')
         <div class="card mb-4">
             <div class="card-header text-white" style="background:#d4af37">
@@ -97,6 +101,12 @@
 
 
 @if($type === 'projects')
+
+
+
+
+    @include('projects.partials.project-actions', ['project' => $model])
+
 <div class="card mb-4">
     <div class="card-header text-white" style="background:#d4af37">
         {{ __('Standard Templates') }}
@@ -446,7 +456,7 @@
                                     </a> 
                                 </div> -->
 
-                                <div class="form-group col-md-3 attachment-box">
+                                <!-- <div class="form-group col-md-3 attachment-box">
                                     <input type="file"
                                         name="attachments[{{ $i }}][file]"
                                         class="form-control attachment-input">
@@ -468,7 +478,55 @@
                                     class="btn btn-sm btn-outline-success mt-1 preview-file d-none">
                                         👁 {{ __('View') }}
                                     </a>
+                                </div> -->
+
+
+
+                                <div class="col-md-3">
+                                    <div class="border rounded p-2 small bg-light attachment-box">
+
+                                        {{-- hidden delete flag --}}
+                                        <input type="hidden"
+                                            name="attachments[{{ $i }}][delete]"
+                                            value="0"
+                                            class="delete-flag">
+
+                                        {{-- file input --}}
+                                        <input type="file"
+                                            name="attachments[{{ $i }}][file]"
+                                            class="form-control form-control-sm attachment-input mb-1">
+
+                                        {{-- selected file name --}}
+                                        <div class="text-truncate selected-file-name d-none"></div>
+
+                                        {{-- stored file --}}
+                                        @if(isset($attachments[$i]) && $attachments[$i]->file_path)
+                                            <a href="{{ asset('storage/'.$attachments[$i]->file_path) }}"
+                                            target="_blank"
+                                            class="btn btn-sm btn-outline-primary w-100 mt-1 stored-file">
+                                                👁 {{ __('View File') }}
+                                            </a>
+                                        @endif
+
+                                        {{-- preview before submit --}}
+                                        <a href="#"
+                                        target="_blank"
+                                        class="btn btn-sm btn-outline-success w-100 mt-1 preview-file d-none">
+                                            👁 {{ __('Preview') }}
+                                        </a>
+
+                                        {{-- remove --}}
+                                        <button type="button"
+                                                class="btn btn-sm btn-outline-danger w-100 mt-1 remove-file">
+                                            🗑 {{ __('Remove') }}
+                                        </button>
+
+                                    </div>
                                 </div>
+
+
+
+
 
                                 <div class="form-group col-md-3">
                                     <input type="date"
@@ -574,6 +632,56 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    document.querySelectorAll('.attachment-box').forEach(box => {
+
+        const input      = box.querySelector('.attachment-input');
+        const fileName   = box.querySelector('.selected-file-name');
+        const previewBtn = box.querySelector('.preview-file');
+        const storedBtn  = box.querySelector('.stored-file');
+        const removeBtn  = box.querySelector('.remove-file');
+        const deleteFlag = box.querySelector('.delete-flag');
+
+        // when select file
+        input?.addEventListener('change', function () {
+            if (!this.files.length) return;
+
+            const file = this.files[0];
+
+            fileName.textContent = '📄 ' + file.name;
+            fileName.classList.remove('d-none');
+
+            const url = URL.createObjectURL(file);
+            previewBtn.href = url;
+            previewBtn.classList.remove('d-none');
+
+            if (storedBtn) storedBtn.classList.add('d-none');
+            deleteFlag.value = 0;
+        });
+
+        // remove file
+        removeBtn?.addEventListener('click', function () {
+
+            // clear input
+            if (input) input.value = '';
+
+            // hide preview + name
+            previewBtn?.classList.add('d-none');
+            fileName?.classList.add('d-none');
+
+            // if there was stored file → mark delete
+            if (storedBtn) {
+                storedBtn.classList.add('d-none');
+                deleteFlag.value = 1;
+            }
+        });
+
+    });
+
+});
+</script>
 
 
 

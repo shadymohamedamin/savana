@@ -16,7 +16,9 @@ class ProjectPayment extends Model
         'vat_amount',
         'net_amount',
         'payment_date',
-        'attachment'
+        'attachment',
+        'attachment_2',   // الملف الثاني
+        'attachment_3',   // الملف الثالث
     ];
 
     protected $casts = [
