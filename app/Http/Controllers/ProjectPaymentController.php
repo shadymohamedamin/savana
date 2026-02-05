@@ -27,7 +27,14 @@ class ProjectPaymentController extends AppBaseController
 
     private function calculateAmounts($total)
     {
-        $vat = round($total * 0.05, 2);
+        //let vat = total/21; //* 0.05;
+
+        // Net = total / 1.05
+        //let net = total-vat;//total / 1.05;
+
+        //document.getElementById('vat_amount').value = vat.toFixed(2);
+        //document.getElementById('net_amount').value = net.toFixed(2);
+        $vat = round($total/21, 2);//*0.05
         $net = round($total - $vat, 2);
 
 

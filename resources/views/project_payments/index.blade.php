@@ -266,327 +266,6 @@
 
 
 
-        {{-- Payments Table --}}
-<!--<table class="table table-bordered text-center">
-     <thead style="background:#f5f5dc;font-weight:bold;">
-        <tr style="background-color:#f5f5dc;">
-            <th style="background-color:#f5f5dc;">رقم الدفعة</th>
-            <th style="background-color:#f5f5dc;">التاريخ</th>
-            <th style="background-color:#f5f5dc;">قيمة الدفعة</th>
-            <th style="background-color:#f5f5dc;">الضريبة</th>
-            <th style="background-color:#f5f5dc;">تمويل البنك</th>
-            <th style="background-color:#f5f5dc;">تمويل المالك</th>
-            <th style="background-color:#f5f5dc;">المبلغ المطلوب / المالك</th>
-            <th style="background-color:#f5f5dc;">المبلغ المطلوب / البنك</th>
-            <th style="background-color:#f5f5dc;">المبلغ المدفوع</th>
-            <th style="background-color:#f5f5dc;">المبلغ المتبقي</th>
-        </tr>
-    </thead> -->
-
-
-    <!-- <thead class="table-warning text-center align-middle fw-bold">
-    <tr>
-        {{-- الأعمدة المشتركة --}}
-        <th rowspan="2">رقم الدفعة</th>
-        <th rowspan="2">التاريخ</th>
-
-        {{-- البنك --}}
-        <th colspan="3" class="table-primary">دفعة البنك</th>
-
-        {{-- المالك --}}
-        <th colspan="3" class="table-info">دفعة المالك</th>
-
-        {{-- أعمدة عامة --}}
-        <th rowspan="2">إجمالي الدفعة</th>
-        <th rowspan="2">إجمالي الضريبة</th>
-        <th rowspan="2">المبلغ المدفوع</th>
-        <th rowspan="2">المبلغ المتبقي</th>
-    </tr>
-
-    <tr>
-        {{-- البنك --}}
-        <th class="table-primary">بالضريبة</th>
-        <th class="table-primary">بدون ضريبة</th>
-        <th class="table-primary">المتبقي</th>
-
-        {{-- المالك --}}
-        <th class="table-info">بالضريبة</th>
-        <th class="table-info">بدون ضريبة</th>
-        <th class="table-info">المتبقي</th>
-    </tr>
-</thead> 
-
-
-
-
-<tbody>
-    @php
-        $runningPaid = 0;
-        $bankRunningRemaining  = $bankLimit;
-        $ownerRunningRemaining = $ownerTotal;
-    @endphp
-
-    @foreach($payments->groupBy('payment_no') as $paymentNo => $group)
-    @php
-        $bankPayment  = $group->where('payer_type','bank')->first();
-        $ownerPayment = $group->where('payer_type','owner')->first();
-
-        $bankGross = $bankPayment->total_amount ?? 0;
-        $bankNet   = $bankPayment->net_amount ?? 0;
-
-        $ownerGross = $ownerPayment->total_amount ?? 0;
-        $ownerNet   = $ownerPayment->net_amount ?? 0;
-
-        $bankRunningRemaining  -= $bankGross;
-        $ownerRunningRemaining -= $ownerGross;
-
-        $paidThisRow = $bankGross + $ownerGross;
-        $runningPaid += $paidThisRow;
-
-        $remaining = $contractWithVat - $runningPaid;
-
-        $vatAmount =
-            ($bankPayment->vat_amount ?? 0) +
-            ($ownerPayment->vat_amount ?? 0);
-    @endphp
-
-<tr class="text-center align-middle">
-    <td class="fw-bold">{{ $paymentNo }}</td>
-    <td>
-        {{ $bankPayment?->payment_date->format('d/m/Y')
-            ?? $ownerPayment?->payment_date->format('d/m/Y')
-            ?? '-' }}
-    </td>
-
-    {{-- البنك --}}
-    <td class="table-primary">{{ $bankGross == 0 ? '-' : number_format($bankGross,2) }}</td>
-    <td class="table-primary">{{ $bankNet == 0 ? '-' : number_format($bankNet,2) }}</td>
-    <td class="table-primary fw-bold">{{ $bankNet == 0 ? '-' : number_format($bankRunningRemaining,2) }}</td>
-
-    {{-- المالك --}}
-    <td class="table-info">{{ $ownerGross == 0 ? '-' : number_format($ownerGross,2) }}</td>
-    <td class="table-info">{{ $ownerNet == 0 ? '-' : number_format($ownerNet,2) }}</td>
-    <td class="table-info fw-bold">{{ $ownerNet == 0 ? '-' :number_format($ownerRunningRemaining,2) }}</td>
-
-    {{-- عام --}}
-    <td class="fw-bold">{{ number_format($paidThisRow,2) }}</td>
-    <td class="text-danger">{{ number_format($vatAmount,2) }}</td>
-    <td class="text-success fw-bold">{{ number_format($runningPaid,2) }}</td>
-    <td class="text-warning fw-bold">{{ number_format($remaining,2) }}</td>
-</tr>
-
-    @endforeach
-    </tbody>
-
-
-
-
-
-
-
-</table>
-
-
-
-
-
-
-
-
-
--->
-
-
-
-    <!-- <tbody>
-        @php
-            $runningPaid = 0;
-        @endphp
-
-
-        @php
-            $bankRunningRemaining  = $bankLimit;
-            $ownerRunningRemaining = $ownerTotal;
-        @endphp
-        @foreach($payments->groupBy('payment_no') as $paymentNo => $group)
-            
-                @php
-                    $bankPayment  = $group->where('payer_type','bank')->first();
-                    $ownerPayment = $group->where('payer_type','owner')->first();
-
-                    $bankAmount  = $bankPayment->total_amount ?? 0;
-                    $ownerAmount = $ownerPayment->total_amount ?? 0;
-
-                    // خصم بعد الحساب
-                    $bankRunningRemaining  -= $bankAmount;
-                    $ownerRunningRemaining -= $ownerAmount;
-
-                    $netAmount = 
-                        ($bankPayment->net_amount ?? 0) +
-                        ($ownerPayment->net_amount ?? 0);
-
-                    $vatAmount =
-                        ($bankPayment->vat_amount ?? 0) +
-                        ($ownerPayment->vat_amount ?? 0);
-
-                    $paidThisRow = $bankAmount + $ownerAmount;
-                    $runningPaid += $paidThisRow;
-
-                    $remaining = $contractWithVat - $runningPaid;
-                @endphp
-
-            <tr>
-                <td style="background-color:#f5f5dc;">{{ $paymentNo }}</td>
-
-                <td style="background-color:#f5f5dc;">
-                    {{ $bankPayment?->payment_date->format('d/m/Y')
-                        ?? $ownerPayment?->payment_date->format('d/m/Y')
-                        ?? '-' }}
-                </td>
-
-                <td style="background-color:#f5f5dc;">{{ number_format($paidThisRow,2) }}</td>
-
-                <td style="background-color:#f5f5dc;">{{ number_format($vatAmount,2) }}</td>
-
-                <td style="background-color:#f5f5dc;">{{ number_format($bankAmount,2) }}</td>
-                <td style="background-color:#f5f5dc;">{{ number_format($ownerAmount,2) }}</td>
-
-                <td style="background-color:#f5f5dc;">{{ number_format($ownerRunningRemaining,2) }}</td>
-
-                <td style="background-color:#f5f5dc;">{{ number_format($bankRunningRemaining,2) }}</td>
-                <td style="background-color:#f5f5dc;">{{ number_format($paidThisRow,2) }}</td>
-
-                <td style="background-color:#f5f5dc;">{{ number_format($remaining,2) }}</td>
-            </tr>
-        @endforeach
-    </tbody> -->
-
-
-
-
-
-    <!--  -->
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- 
-
-{{-- Payments Table --}}
-@php
-    $bankRunningPaid = 0;
-    $ownerRunningPaid = 0;
-    $bankRunningRemaining  = $bankLimit;
-    $ownerRunningRemaining = $ownerTotal;
-@endphp
-
-{{-- Bank Payments Table --}}
-<table class="table table-bordered text-center mt-4">
-    <thead class="table-warning text-center align-middle fw-bold">
-        <tr>
-            <th>رقم الدفعة</th>
-            <th>التاريخ</th>
-            <th colspan="2" class="table-primary">دفعة البنك</th>
-            <th class="table-primary">المدفوع</th>
-            <th class="table-primary">المتبقي</th>
-        </tr>
-        <tr>
-            <th></th>
-            <th></th>
-            <th class="table-primary">بالضريبة</th>
-            <th class="table-primary">بدون ضريبة</th>
-            <th class="table-primary"></th>
-            <th class="table-primary"></th>
-        </tr>
-    </thead>
-
-    <tbody>
-        @php $index = 0; @endphp
-
-        @foreach($payments->where('payer_type','bank')->groupBy('payment_no') as $paymentNo => $group)
-            @php
-                $index++;
-                $bankPayment  = $group->first();
-
-                $bankGross = $bankPayment->total_amount ?? 0;
-                $bankNet   = $bankPayment->net_amount ?? 0;
-
-                $bankRunningRemaining -= $bankGross;
-                $bankRunningPaid += $bankGross;
-            @endphp
-
-            <tr>
-                <td class="fw-bold">{{ $index }}</td>
-                <td>{{ $bankPayment->payment_date->format('d/m/Y') }}</td>
-                <td class="table-primary">{{ number_format($bankGross,2) }}</td>
-                <td class="table-primary">{{ number_format($bankNet,2) }}</td>
-                <td class="table-primary">{{ number_format($bankRunningPaid,2) }}</td>
-                <td class="table-primary fw-bold">{{ number_format($bankRunningRemaining,2) }}</td>
-            </tr>
-        @endforeach
-    </tbody>
-</table>
-
-
-{{-- Owner Payments Table --}}
-<table class="table table-bordered text-center mt-4">
-    <thead class="table-warning text-center align-middle fw-bold">
-        <tr>
-            <th>رقم الدفعة</th>
-            <th>التاريخ</th>
-            <th colspan="2" class="table-info">دفعة المالك</th>
-            <th class="table-info">المدفوع</th>
-            <th class="table-info">المتبقي</th>
-        </tr>
-        <tr>
-            <th></th>
-            <th></th>
-            <th class="table-info">بالضريبة</th>
-            <th class="table-info">بدون ضريبة</th>
-            <th class="table-info"></th>
-            <th class="table-info"></th>
-        </tr>
-    </thead>
-
-    <tbody>
-        @php $index = 0; @endphp
-
-        @foreach($payments->where('payer_type','owner')->groupBy('payment_no') as $paymentNo => $group)
-            @php
-                $index++;
-                $ownerPayment = $group->first();
-
-                $ownerGross = $ownerPayment->total_amount ?? 0;
-                $ownerNet   = $ownerPayment->net_amount ?? 0;
-
-                $ownerRunningRemaining -= $ownerGross;
-                $ownerRunningPaid += $ownerGross;
-
-            @endphp
-
-            <tr>
-                <td class="fw-bold">{{ $index }}</td>
-                <td>{{ $ownerPayment->payment_date->format('d/m/Y') }}</td>
-                <td class="table-info">{{ number_format($ownerGross,2) }}</td>
-                <td class="table-info">{{ number_format($ownerNet,2) }}</td>
-                <td class="table-info">{{ number_format($ownerRunningPaid,2) }}</td>
-                <td class="table-info fw-bold">{{ number_format($ownerRunningRemaining,2) }}</td>
-            </tr>
-        @endforeach
-    </tbody>
-</table> -->
-
-
-
-
 
 
 
@@ -634,8 +313,8 @@
         <tr>
             <th>رقم الدفعة</th>
             <th>التاريخ</th>
-            <th class="table-info">بالضريبة</th>
-            <th class="table-info">الضريبة</th>
+            <!-- <th class="table-info">بالضريبة</th>
+            <th class="table-info">الضريبة</th> -->
             <th class="table-info">بدون ضريبة</th>
             <th class="table-info">المدفوع</th>
             <th class="table-info">المتبقي</th>
@@ -665,9 +344,9 @@
 
             <tr>
                 <td class="fw-bold">{{ $index }}</td>
-                <td>{{ $ownerPayment->payment_date->format('d/m/Y') }}</td>
-                <td class="table-info">{{ number_format($ownerGross,2) }}</td>
-                <td class="table-info">{{ number_format($ownerVat,2) }}</td>
+                <td>{{ optional($ownerPayment->payment_date)->format('d/m/Y') }}</td>
+                <!-- <td class="table-info">{{ number_format($ownerGross,2) }}</td>
+                <td class="table-info">{{ number_format($ownerVat,2) }}</td> -->
                 <td class="table-info">{{ number_format($ownerNet,2) }}</td>
                 <td class="table-info">{{ number_format($ownerRunningPaid,2) }}</td>
                 <td class="table-info fw-bold">{{ number_format($ownerRunningRemaining,2) }}</td>
@@ -700,8 +379,8 @@
         <tr>
             <th>رقم الدفعة</th>
             <th>التاريخ</th>
-            <th class="table-primary">بالضريبة</th>
-            <th class="table-primary">الضريبة</th>
+            <!-- <th class="table-primary">بالضريبة</th>
+            <th class="table-primary">الضريبة</th> -->
             <th class="table-primary">بدون ضريبة</th>
             <th class="table-primary">المدفوع</th>
             <th class="table-primary">المتبقي</th>
@@ -732,8 +411,8 @@
             <tr>
                 <td class="fw-bold">{{ $index }}</td>
                 <td>{{ $bankPayment->payment_date->format('d/m/Y') }}</td>
-                <td class="table-primary">{{ number_format($bankGross,2) }}</td>
-                <td class="table-primary">{{ number_format($bankVat,2) }}</td>
+                <!-- <td class="table-primary">{{ number_format($bankGross,2) }}</td>
+                <td class="table-primary">{{ number_format($bankVat,2) }}</td> -->
                 <td class="table-primary">{{ number_format($bankNet,2) }}</td>
                 <td class="table-primary">{{ number_format($bankRunningPaid,2) }}</td>
                 <td class="table-primary fw-bold">{{ number_format($bankRunningRemaining,2) }}</td>
@@ -757,6 +436,70 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+@php
+    $totalVatAll = 0;
+@endphp
+
+<hr class="my-4">
+
+<table class="table table-bordered text-center mt-4">
+    <thead class="table-warning align-middle fw-bold">
+        <tr>
+            <th colspan="4">ملخص الضرائب</th>
+        </tr>
+        <tr>
+            <th>رقم الدفعة</th>
+            <th>التاريخ</th>
+            <th>الممول</th>
+            <th>الضريبة</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @foreach($payments->groupBy('payment_no') as $paymentNo => $group)
+            @foreach($group as $payment)
+                @php
+                    $vat = $payment->vat_amount ?? 0;
+                    $totalVatAll += $vat;
+                @endphp
+
+                <tr>
+                    <td class="fw-bold">{{ $paymentNo }}</td>
+                    <td>{{ optional($payment->payment_date)->format('d/m/Y') ?? '-' }}</td>
+                    <td>
+                        @if($payment->payer_type === 'bank')
+                            <span class="badge bg-primary">البنك</span>
+                        @else
+                            <span class="badge bg-info text-dark">المالك</span>
+                        @endif
+                    </td>
+                    <td class="text-danger fw-bold">
+                        {{ number_format($vat,2) }}
+                    </td>
+                </tr>
+            @endforeach
+        @endforeach
+
+        {{-- Total --}}
+        <tr class="table-secondary fw-bold">
+            <td colspan="3">إجمالي الضرائب</td>
+            <td class="text-danger">{{ number_format($totalVatAll,2) }}</td>
+        </tr>
+    </tbody>
+</table>
 
 
 
@@ -801,6 +544,5 @@
     }
     </style>
 @endpush
-
 
 
