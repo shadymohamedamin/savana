@@ -36,18 +36,7 @@
         <i class="fas fa-file-signature"></i> {{ __('عقود الاستشاري') }}
     </a>
 
-    <!-- <a href="{{ route('users.edit', $project->owner_id) }}"
-       class="btn btn-sm"
-       style="background:#2f3a1f;color:#d4af37;">
-        <i class="fas fa-file-signature"></i> {{ __(' المالك') }}
-    </a>
-
-
-    <a href="{{ route('users.edit', $project->contractor_id) }}"
-       class="btn btn-sm"
-       style="background:#2f3a1f;color:#d4af37;">
-        <i class="fas fa-file-signature"></i> {{ __(' المقاول') }}
-    </a> -->
+   
 
     <!-- {{-- Dropdown للإضافات --}}
     <div class="dropdown">
