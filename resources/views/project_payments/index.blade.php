@@ -410,7 +410,7 @@
 
             <tr>
                 <td class="fw-bold">{{ $index }}</td>
-                <td>{{ $bankPayment->payment_date->format('d/m/Y') }}</td>
+                <td>{{ optional($bankPayment->payment_date)->format('d/m/Y') }}</td>
                 <!-- <td class="table-primary">{{ number_format($bankGross,2) }}</td>
                 <td class="table-primary">{{ number_format($bankVat,2) }}</td> -->
                 <td class="table-primary">{{ number_format($bankNet,2) }}</td>
