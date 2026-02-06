@@ -340,13 +340,17 @@ public function update($id, UpdateProjectPaymentRequest $request)
         if (empty($projectPayment)) {
             Flash::error('Project Payment not found');
 
-            return redirect(route('projectPayments.index'));
+            return redirect()->route('projects.project-payments.index', [
+                'project' => $id
+            ]);
         }
 
         $this->projectPaymentRepository->delete($id);
 
         Flash::success('Project Payment deleted successfully.');
 
-        return redirect(route('projectPayments.index'));
+        return redirect()->route('projects.project-payments.index', [
+            'project' => $id
+        ]);
     }
 }

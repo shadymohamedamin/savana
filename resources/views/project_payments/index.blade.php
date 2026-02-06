@@ -219,23 +219,23 @@
             <td>{{ number_format($contractWithVat,0) }}</td>
         </tr>
 
-        {{-- التمويل --}}
-        <tr class="table-info">
+        {{-- التمويل table-info --}}
+        <tr class="" style="">
             <td>تمويل المالك</td>
             <td>{{ number_format($ownerTotal,0) }}</td>
             <td>تمويل البنك</td>
             <td>{{ number_format($bankLimit,0) }}</td>
         </tr>
 
-        {{-- الضرائب --}}
-        <tr class="table-warning">
+        {{-- الضرائب table-warning --}}
+        <tr class="">
             <td>مجموع ضرائب المالك المدفوعة</td>
             <td>{{ number_format($ownerVatTotal,0) }}</td>
             <td>مجموع ضرائب البنك المدفوعة</td>
             <td>{{ number_format($bankVatTotal,0) }}</td>
         </tr>
-
-        <tr class="table-success fw-bold">
+{{-- table-success fw-bold--}}
+        <tr class="">
             <td>المبلغ المدفوع من المالك</td>
             <td>{{ number_format($ownerPaid,0) }}</td>
 
@@ -252,9 +252,9 @@
         </tr>
 
         
-
+{{-- table-success fw-bold --}}
         {{-- المدفوع والمتبقي --}}
-        <tr class="table-success fw-bold">
+        <tr class="">
             <td>المبلغ المدفوع (البنك/المالك)</td>
             <td>{{ number_format($bankPaid + $ownerPaid,0) }}</td>
             <td>المبلغ المتبقي من العقد</td>
