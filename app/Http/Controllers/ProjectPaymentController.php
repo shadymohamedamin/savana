@@ -76,10 +76,8 @@ class ProjectPaymentController extends AppBaseController
     }*/
 
 
-    public function index($project)
+    public function index(Project $project)
     {
-        $project = Project::findOrFail($project);
-
         $payments = ProjectPayment::where('project_id', $project->id)->get();
 
         return view('project_payments.index', compact(
@@ -87,6 +85,7 @@ class ProjectPaymentController extends AppBaseController
             'payments'
         ));
     }
+
 
 
     /**
@@ -185,68 +184,149 @@ class ProjectPaymentController extends AppBaseController
     /**
      * Show the form for editing the specified ProjectPayment.
      */
-    public function edit($id)
+    public function edit(Project $project, $id)
     {
-        $projectPayment = $this->projectPaymentRepository->find($id);
+        $projectPayment = ProjectPayment::findOrFail($id);
 
-        if (empty($projectPayment)) {
-            Flash::error('Project Payment not found');
-
-            return redirect(route('projectPayments.index'));
-        }
-
-        return view('project_payments.edit')->with('projectPayment', $projectPayment);
+        return view('project_payments.edit', compact(
+            'project',
+            'projectPayment'
+        ));
     }
+
 
     /**
      * Update the specified ProjectPayment in storage.
      */
-    public function update($id, UpdateProjectPaymentRequest $request)
-    {
-        $projectPayment = $this->projectPaymentRepository->find($id);
+    /*public function update($id, UpdateProjectPaymentRequest $request)
+{
+    $projectPayment = $this->projectPaymentRepository->find($id);
 
-        if (empty($projectPayment)) {
-            Flash::error('Project Payment not found');
+    if (empty($projectPayment)) {
+        Flash::error('Project Payment not found');
 
-            return redirect(route('projectPayments.index'));
-        }
-
-        // حذف ورفع الملفات
-// ملف 1
-        if ($request->input('attachments.1.delete') == 1) {
-            if ($projectPayment->attachment) @unlink(public_path('Files/'.$projectPayment->attachment));
-            $projectPayment->attachment = null;
-        }
-        if ($request->hasFile('attachments.1.file')) {
-            $file = $request->file('attachments.1.file');
-            $name = time().'_1_'.$file->getClientOriginalName();
-            $file->move(public_path('Files'), $name);
-            $projectPayment->attachment = $name;
-        }
-
-        // ملف 2 و 3
-        foreach ([2,3] as $i) {
-            if ($request->input("attachments.$i.delete") == 1) {
-                if ($projectPayment->{'attachment_'.$i}) {
-                    @unlink(public_path('Files/'.$projectPayment->{'attachment_'.$i}));
-                }
-                $projectPayment->{'attachment_'.$i} = null;
-            }
-            if ($request->hasFile("attachments.$i.file")) {
-                $file = $request->file("attachments.$i.file");
-                $name = time().'_'.$i.'_'.$file->getClientOriginalName();
-                $file->move(public_path('Files'), $name);
-                $projectPayment->{'attachment_'.$i} = $name;
-            }
-        }
-
-
-        $projectPayment = $this->projectPaymentRepository->update($request->all(), $id);
-
-        Flash::success('Project Payment updated successfully.');
-
-        return redirect(route('projectPayments.index'));
+        return redirect()->route(
+            'projects.project-payments.index',
+            ['project' => $request->project_id]
+        );
     }
+
+    $projectPayment->fill(
+        $request->only([
+            'payment_no',
+            'payer_type',
+            'total_amount',
+            'vat_amount',
+            'net_amount',
+            'payment_date'
+        ])
+    );
+
+    if ($request->input('attachments.1.delete') == 1) {
+        if ($projectPayment->attachment) {
+            @unlink(public_path('Files/'.$projectPayment->attachment));
+        }
+        $projectPayment->attachment = null;
+    }
+
+    if ($request->hasFile('attachments.1.file')) {
+        $file = $request->file('attachments.1.file');
+        $name = time().'_1_'.$file->getClientOriginalName();
+        $file->move(public_path('Files'), $name);
+        $projectPayment->attachment = $name;
+    }
+
+    foreach ([2,3] as $i) {
+        if ($request->input("attachments.$i.delete") == 1) {
+            if ($projectPayment->{'attachment_'.$i}) {
+                @unlink(public_path('Files/'.$projectPayment->{'attachment_'.$i}));
+            }
+            $projectPayment->{'attachment_'.$i} = null;
+        }
+
+        if ($request->hasFile("attachments.$i.file")) {
+            $file = $request->file("attachments.$i.file");
+            $name = time().'_'.$i.'_'.$file->getClientOriginalName();
+            $file->move(public_path('Files'), $name);
+            $projectPayment->{'attachment_'.$i} = $name;
+        }
+    }
+
+    $projectPayment->save();
+
+    Flash::success('Project Payment updated successfully.');
+
+    return redirect()->route(
+        'projects.project-payments.index',
+        ['project' => $projectPayment->project_id]
+    )->with([
+        'toast' => [
+            'type' => 'success',
+            'message' => __('تم حفظ الدفعة بنجاح')
+        ]
+    ]);
+}*/
+
+
+
+public function update($id, UpdateProjectPaymentRequest $request)
+{
+    $projectPayment = $this->projectPaymentRepository->find($id);
+
+    if (!$projectPayment) {
+        //dd('not found'.$id);
+        Flash::error('Project Payment not found');
+        return redirect()->route('projects.project-payments.index', [
+            'project' => $request->project_id
+        ]);
+    }
+
+    // تحديث الحقول
+    $projectPayment->fill($request->only([
+        'payment_no', 'payer_type', 'total_amount', 'vat_amount', 'net_amount', 'payment_date'
+    ]));
+    
+    // تحديث المرفقات
+    foreach ([1,2,3] as $i) {
+        $field = $i == 1 ? 'attachment' : 'attachment_'.$i;
+
+        if ($request->input("attachments.$i.delete") == 1 && $projectPayment->$field) {
+            @unlink(public_path('Files/'.$projectPayment->$field));
+            $projectPayment->$field = null;
+        }
+
+        if ($request->hasFile("attachments.$i.file")) {
+            $file = $request->file("attachments.$i.file");
+            $name = time().'_'.$i.'_'.$file->getClientOriginalName();
+            $file->move(public_path('Files'), $name);
+            $projectPayment->$field = $name;
+        }
+    }
+
+    $projectPayment->save();
+    //dd($projectPayment);
+    Flash::success('Project Payment updated successfully.');
+
+    return redirect()->route('projects.project-payments.index', [
+        'project' => $projectPayment->project_id
+    ])->with([
+        'toast' => [
+            'type' => 'success',
+            'message' => __('تم حفظ الدفعة بنجاح')
+        ]
+    ]);
+}
+
+
+
+
+
+
+
+
+
+
+
 
     /**
      * Remove the specified ProjectPayment from storage.

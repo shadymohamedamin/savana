@@ -8,7 +8,7 @@ class ProjectPayment extends Model
 {
     public $table = 'project_payments';
 
-    public $fillable = [
+    protected $fillable = [
         'project_id',
         'payment_no',
         'payer_type',
@@ -20,6 +20,7 @@ class ProjectPayment extends Model
         'attachment_2',   // الملف الثاني
         'attachment_3',   // الملف الثالث
     ];
+
 
     protected $casts = [
         'payer_type' => 'string',

@@ -144,11 +144,14 @@ Route::middleware(['auth'])->group(function () {
 
 
 
+// Route::prefix('projects/{project}')->group(function () {
+//     Route::get('project-payments', [ProjectPaymentController::class, 'index'])
+//         ->name('projects.project-payments.index');
+// });
 
-
-Route::prefix('projects/{project}')
-    ->name('projects.')
-    ->group(function () {
+//Route::prefix('projects/{project}')
+//    ->name('projects.')
+//   ->group(function () {
 
         /*Route::resource(
             'baladya-approvals',
@@ -158,7 +161,7 @@ Route::prefix('projects/{project}')
                 'project-payments',
                 ProjectPaymentController::class
             );*/
-    });
+ //   });
 
 
 

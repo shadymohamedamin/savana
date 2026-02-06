@@ -8,6 +8,7 @@
 
 <div style="margin-right:2rem;">
     @include('projects.partials.project-actions', ['project' => $project])
+    
 </div>
 
 <div class="card shadow-sm rounded-4" style="background-color:#f5f5dc;margin:40px;padding:0px;">
@@ -318,6 +319,9 @@
             <th class="table-info">بدون ضريبة</th>
             <th class="table-info">المدفوع</th>
             <th class="table-info">المتبقي</th>
+            <th style="background:#f5f5dc;">
+                {{ __('الإجراءات') }}
+            </th>
         </tr>
     </thead>
 
@@ -350,6 +354,45 @@
                 <td class="table-info">{{ number_format($ownerNet,2) }}</td>
                 <td class="table-info">{{ number_format($ownerRunningPaid,2) }}</td>
                 <td class="table-info fw-bold">{{ number_format($ownerRunningRemaining,2) }}</td>
+
+                <td style="background:#f5f5dc;">
+                    <div class="dropdown" style="background:#f5f5dc;">
+                        <button
+                            class="btn btn-sm btn-olive dropdown-toggle"
+                            style="background:#2f3a1f;color:#d4af37;font-weight:600;"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <i class="fas fa-cog"></i>
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-end" style="background:#f5f5dc;">
+                            <li>
+                                <a href="{{ route('projects.project-payments.edit', [
+                                        'project' => $project->id,
+                                        'id' =>  $ownerPayment->id
+                                    ]) }}"
+                                class="dropdown-item">
+                                    <i class="far fa-edit"></i> {{ __('Edit') }}
+                                </a>
+                            </li>
+
+                            <li>
+                                <form method="POST"
+                                    action="{{ route('projects.project-payments.destroy',
+                                    [$project->id,  $ownerPayment->id]) }}">
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button type="submit"
+                                            class="dropdown-item text-danger"
+                                            onclick="return confirm('Are you sure?')">
+                                        <i class="far fa-trash-alt"></i> {{ __('Delete') }}
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
             </tr>
         @endforeach
 
@@ -384,6 +427,11 @@
             <th class="table-primary">بدون ضريبة</th>
             <th class="table-primary">المدفوع</th>
             <th class="table-primary">المتبقي</th>
+
+            <th style="background:#f5f5dc;">
+                {{ __('الإجراءات') }}
+            </th>
+
         </tr>
     </thead>
 
@@ -416,6 +464,48 @@
                 <td class="table-primary">{{ number_format($bankNet,2) }}</td>
                 <td class="table-primary">{{ number_format($bankRunningPaid,2) }}</td>
                 <td class="table-primary fw-bold">{{ number_format($bankRunningRemaining,2) }}</td>
+
+
+
+                <td style="background:#f5f5dc;">
+                    <div class="dropdown" style="background:#f5f5dc;">
+                        <button
+                            class="btn btn-sm btn-olive dropdown-toggle"
+                            style="background:#2f3a1f;color:#d4af37;font-weight:600;"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <i class="fas fa-cog"></i>
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-end" style="background:#f5f5dc;">
+                            <li>
+                                <a href="{{ route('projects.project-payments.edit', [
+                                        'project' => $project->id,
+                                        'id' =>  $ownerPayment->id
+                                    ]) }}"
+                                class="dropdown-item">
+                                    <i class="far fa-edit"></i> {{ __('Edit') }}
+                                </a>
+                            </li>
+
+                            <li>
+                                <form method="POST"
+                                    action="{{ route('projects.project-payments.destroy',
+                                    [$project->id,  $ownerPayment->id]) }}">
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button type="submit"
+                                            class="dropdown-item text-danger"
+                                            onclick="return confirm('Are you sure?')">
+                                        <i class="far fa-trash-alt"></i> {{ __('Delete') }}
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+
             </tr>
         @endforeach
 
