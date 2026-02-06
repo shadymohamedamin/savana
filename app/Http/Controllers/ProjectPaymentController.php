@@ -333,16 +333,21 @@ public function update($id, UpdateProjectPaymentRequest $request)
      *
      * @throws \Exception
      */
-    public function destroy($id)
+    /*public function destroy($id,$projectId)
     {
+        //dd($id);
         $projectPayment = $this->projectPaymentRepository->find($id);
 
         if (empty($projectPayment)) {
             Flash::error('Project Payment not found');
 
             return redirect()->route('projects.project-payments.index', [
-                'project' => $id
-            ]);
+                'project' => $projectId
+            ])->with([
+                'toast' => [
+                    'type' => 'success',
+                    'message' => __('تم حذف الدفعة بنجاح')
+                ]]);
         }
 
         $this->projectPaymentRepository->delete($id);
@@ -350,7 +355,42 @@ public function update($id, UpdateProjectPaymentRequest $request)
         Flash::success('Project Payment deleted successfully.');
 
         return redirect()->route('projects.project-payments.index', [
-            'project' => $id
+            'project' => $projectId
+        ])->with([
+                'toast' => [
+                    'type' => 'success',
+                    'message' => __('تم حذف الدفعة بنجاح')
+                ]]);
+    }*/
+
+
+
+
+    public function destroy($project, $id)
+    {
+        $projectPayment = $this->projectPaymentRepository->find($id);
+
+        if (empty($projectPayment)) {
+            return redirect()->route('projects.project-payments.index', [
+                'project' => $project
+            ])->with([
+                'toast' => [
+                    'type' => 'error',
+                    'message' => __('Project Payment not found')
+                ]
+            ]);
+        }
+
+        $this->projectPaymentRepository->delete($id);
+
+        return redirect()->route('projects.project-payments.index', [
+            'project' => $project
+        ])->with([
+            'toast' => [
+                'type' => 'success',
+                'message' => __('تم حذف الدفعة بنجاح')
+            ]
         ]);
     }
+
 }

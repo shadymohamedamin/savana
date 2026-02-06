@@ -381,7 +381,10 @@
                             <li>
                                 <form method="POST"
                                     action="{{ route('projects.project-payments.destroy',
-                                    [$project->id,  $ownerPayment->id]) }}">
+                                    [
+                                        'project' => $project->id,
+                                        'id' =>  $ownerPayment->id
+                                    ]) }}">
                                     @csrf
                                     @method('DELETE')
 
@@ -493,7 +496,10 @@
                             <li>
                                 <form method="POST"
                                     action="{{ route('projects.project-payments.destroy',
-                                    [$project->id,  $ownerPayment->id]) }}">
+                                    [
+                                        'project' => $project->id,
+                                        'id' =>  $ownerPayment->id
+                                    ]) }}">
                                     @csrf
                                     @method('DELETE')
 
