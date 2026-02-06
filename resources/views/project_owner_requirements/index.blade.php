@@ -13,6 +13,11 @@
                         Add New
                     </a>
                 </div>
+
+                <a href="{{ route('projects.index') }}"
+                    class="btn btn-olive btn-sm" style="background:#2f3a1f;color:#d4af37;font-weight:600;">
+                        <i class="fas fa-arrow-left"></i> {{ __('العودة الي المشاريع') }}
+                </a>
             </div>
         </div>
     </section>

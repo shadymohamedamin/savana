@@ -178,14 +178,14 @@
         </div>
 
         <div class="card-footer d-flex justify-content-center gap-3">
-            {!! Form::submit(__('Update'), [
+            {!! Form::submit(__('حفظ'), [
                 'class' => 'btn btn-olive btn-sm',
                 'style' => 'background-color:#2f3a1f;color:#d4af37'
             ]) !!}
 
             <a href="{{ route('projects.project-payments.index', $projectPayment->project_id) }}"
                class="btn btn-secondary btn-sm">
-                {{ __('Back') }}
+                {{ __('القائمة') }}
             </a>
         </div>
 

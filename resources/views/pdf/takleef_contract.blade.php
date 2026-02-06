@@ -91,7 +91,7 @@
             منطقة 
             <strong>{{ $project->projectRegion?->name_ar ?? '-' }}</strong>
             وهو عبارة عن 
-            <strong>{{ $project->name }}</strong>
+            <strong>{{ $project->projectName->name_ar }}</strong>
             تكليف مكتب 
             <strong>سافانا ديزاين</strong>
             للاستشارات الهندسية بأعمال التصميم والاشراف حتى استخراج شهادة الإنجاز وارساء المناقصة على المقاول.

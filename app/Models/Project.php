@@ -50,7 +50,13 @@ class Project extends Model
         'contractor_contract_end_date',
         'bank_contract_value',      // ✅
         'bank_contract_duration', 
-        'financing_type'
+        'financing_type',
+
+
+
+        'foot_price',
+        'approved_area',
+        'linear_meter_area',
         
     ];
 
@@ -86,6 +92,10 @@ class Project extends Model
         'supervision_fee' => 'nullable|string|max:50',
         'budget'          => 'nullable|string|max:50',  
         'area'            => 'nullable|string|max:50',
+
+        'foot_price'        => 'nullable|numeric|min:0',
+        'approved_area'     => 'nullable|numeric|min:0',
+        'linear_meter_area' => 'nullable|numeric|min:0',
     ];
 
     /* ===================== Relationships ===================== */
@@ -148,6 +158,14 @@ public function consultant()
     {
         return $this->hasMany(\App\Models\ProjectPayment::class);
     }
+
+    public function getPaidWithVatAttribute()
+    {
+        return $this->payments->sum(function ($payment) {
+            return $payment->total_amount;
+        });
+    }
+
 
 
     public function city()

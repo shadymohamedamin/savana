@@ -36,6 +36,25 @@
         <i class="fas fa-file-signature"></i> {{ __('عقود الاستشاري') }}
     </a>
 
+
+    <a  href="{{ url('#') }}"
+       class="btn btn-sm"
+       style="background:#2f3a1f;color:#d4af37;">
+        <i class="fas fa-file-signature"></i> {{ __('المناقصة') }}
+    </a>
+
+    <a  href="{{ url('#') }}"
+       class="btn btn-sm"
+       style="background:#2f3a1f;color:#d4af37;">
+        <i class="fas fa-file-signature"></i> {{ __('الاشراف') }}
+    </a>
+
+    <a  href="{{ url('#') }}"
+       class="btn btn-sm"
+       style="background:#2f3a1f;color:#d4af37;">
+        <i class="fas fa-file-signature"></i> {{ __('التصميم') }}
+    </a>
+
    
 
 

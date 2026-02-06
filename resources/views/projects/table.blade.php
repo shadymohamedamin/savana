@@ -115,7 +115,9 @@
         <table class="table table-hover align-middle rounded-4"
                style="border:1px solid #D4AF37;">
            <thead style="background-color:#f5f5dc;">
-            <tr style="background-color:#f5f5dc;">
+            <tr class="project-row"
+                
+                style="background-color:#f5f5dc; cursor:pointer;">
                 <th style="background-color:#f5f5dc;">{{ __('Code') }}</th>
                 <th style="background-color:#f5f5dc;">{{ __('Owner') }}</th>
                 <th style="background-color:#f5f5dc;">{{ __('ProjectName') }}</th>
@@ -138,7 +140,7 @@
                 <th style="background-color:#f5f5dc;">{{ __('Status') }}</th>
                 <th style="background-color:#f5f5dc;">{{ __('Start Date') }}</th>
                 <th style="background-color:#f5f5dc;">{{ __('End Date') }}</th> -->
-                <th style="background-color:#f5f5dc;">{{ __('Status') }}</th>
+                <!-- <th style="background-color:#f5f5dc;">{{ __('Status') }}</th> -->
                 <th style="background-color:#f5f5dc;">{{ __(key: 'مرحلة المشروع') }}</th>
                 <th style="width: 80px;background-color:#f5f5dc;" >{{ __('Action') }}</th>
             </tr>
@@ -152,7 +154,9 @@
                     $contractor = $project->users->firstWhere('pivot.role_id', 3);
                 @endphp
 
-                <tr  style="background-color:#f5f5dc;">
+                <tr class="project-row"
+                    data-href="{{ route('projects.edit', $project->id) }}"
+                    style="background-color:#f5f5dc; cursor:pointer;">
                     <td style="background-color:#f5f5dc;">{{ $project->project_code }}</td>
                     <td style="background-color:#f5f5dc;">{{ $project->ownerUser->name ?? '—' }}</td>
                    <td style="background-color:#f5f5dc;">
@@ -196,7 +200,7 @@
                             {{ $daysDiff ?? '—' }}
                         </td>
                         <td style="background-color:#f5f5dc;">
-                            {{ $project->contract_receiver ?? '—' }}
+                            {{ number_format($project->paid_with_vat ?? 0, 0) }}
                         </td>
                         <td style="background-color:#f5f5dc;">
                             {{ $lastApproval->building_license_number ?? '—' }}
@@ -218,7 +222,7 @@
                     
 
                     <!-- <td style="background-color:#f5f5dc;">{{ $project->fence_number ?? '—' }}</td> -->
-                    <td style="background-color:#f5f5dc;">
+                    <!-- <td style="background-color:#f5f5dc;">
                         <span class="badge
                             @if(optional($project->status)->name == 'active') bg-success
                             @elseif(optional($project->status)->name == 'pending') bg-warning
@@ -230,7 +234,7 @@
                             {{ optional($project->status)->name ?? __('No Status') }}
 
                         </span>
-                    </td>
+                    </td> -->
 
 
 
@@ -455,3 +459,26 @@
         </div>
     </div>
 </div>
+
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.project-row').forEach(row => {
+        row.addEventListener('click', function (e) {
+
+            // امنع التنقل لو الضغط على زر أو لينك أو dropdown
+            if (
+                e.target.closest('a') ||
+                e.target.closest('button') ||
+                e.target.closest('.dropdown')
+            ) {
+                return;
+            }
+
+            window.location = this.dataset.href;
+        });
+    });
+});
+</script>

@@ -165,7 +165,7 @@ public function create(Request $request, $id)
     // contractor specific attachments
     $contractorTypes = [11,21,22,23,24];
     $defaultTypes = $type === 'projects'
-        ? [2,10,12,13,14,15,16,17,18,19,20,25,32]
+        ? [2,10,12,13,14,15,16,17,18,19,32]  //20,25
         : [1,3]; 
 
 

@@ -229,10 +229,18 @@
 
         {{-- الضرائب --}}
         <tr class="table-warning">
-            <td>مجموع ضرائب المالك</td>
+            <td>مجموع ضرائب المالك المدفوعة</td>
             <td>{{ number_format($ownerVatTotal,0) }}</td>
-            <td>مجموع ضرائب البنك</td>
+            <td>مجموع ضرائب البنك المدفوعة</td>
             <td>{{ number_format($bankVatTotal,0) }}</td>
+        </tr>
+
+        <tr class="table-success fw-bold">
+            <td>المبلغ المدفوع من المالك</td>
+            <td>{{ number_format($ownerPaid,0) }}</td>
+
+            <td>المبلغ المدفوع من البنك بدون ضريبة</td>
+            <td>{{ number_format($bankPaid,0) }}</td>
         </tr>
 
         {{-- المتبقي --}}
@@ -243,19 +251,13 @@
             <td>{{ number_format($bankRemaining,0) }}</td>
         </tr>
 
-        <tr class="table-success fw-bold">
-            <td>المبلغ المدفوع من المالك</td>
-            <td>{{ number_format($ownerPaid,0) }}</td>
-
-            <td>المبلغ المدفوع من البنك</td>
-            <td>{{ number_format($bankPaid,0) }}</td>
-        </tr>
+        
 
         {{-- المدفوع والمتبقي --}}
         <tr class="table-success fw-bold">
-            <td>المبلغ المدفوع</td>
+            <td>المبلغ المدفوع (البنك/المالك)</td>
             <td>{{ number_format($bankPaid + $ownerPaid,0) }}</td>
-            <td>المبلغ المتبقي</td>
+            <td>المبلغ المتبقي من العقد</td>
             <td>{{ number_format($totalRemaining,0) }}</td>
         </tr>
 
@@ -399,9 +401,9 @@
         {{-- Total Row --}}
         <tr class="table-secondary fw-bold">
             <td colspan="2">المجموع</td>
-            <td>{{ number_format($ownerTotalGross,2) }}</td>
-            <td>{{ number_format($ownerTotalVat,2) }}</td>
             <td>{{ number_format($ownerTotalNet,2) }}</td>
+            <!-- <td>{{ number_format($ownerTotalVat,2) }}</td>
+            <td>{{ number_format($ownerTotalNet,2) }}</td> -->
             <td></td>
             <td></td>
         </tr>
@@ -512,9 +514,10 @@
         {{-- Total Row --}}
         <tr class="table-secondary fw-bold">
             <td colspan="2">المجموع</td>
-            <td>{{ number_format($bankTotalGross,2) }}</td>
-            <td>{{ number_format($bankTotalVat,2) }}</td>
             <td>{{ number_format($bankTotalNet,2) }}</td>
+            <!-- <td>{{ number_format($bankTotalVat,2) }}</td>
+             -->
+            <!-- <td>{{ number_format($bankTotalGross,2) }}</td> -->
             <td></td>
             <td></td>
         </tr>

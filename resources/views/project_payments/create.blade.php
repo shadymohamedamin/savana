@@ -161,7 +161,7 @@
 
             <a href="{{ route('projects.project-payments.index', $project->id) }}"
                class="btn btn-secondary btn-sm">
-                {{ __('Back') }}
+                {{ __('القائمة') }}
             </a>
         </div>
 

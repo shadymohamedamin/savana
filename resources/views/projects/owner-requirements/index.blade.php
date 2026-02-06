@@ -259,7 +259,7 @@
 
 {{-- بانتي --}}
 <div class="col-md-2 mb-4">
-    <label class="fw-bold d-block mb-2">بانتي</label>
+    <label class="fw-bold d-block mb-2">بانتري</label>
     @foreach(['مع الطعام','في الصالة'] as $opt)
         <div class="form-check">
             <input class="form-check-input" required type="radio" name="design[pantry_location]" value="{{ $opt }}" {{ ($design?->pantry_location == $opt) ? 'checked' : '' }}>
@@ -428,7 +428,7 @@
                 <a target="_blank"
                 href="{{ url('projects/'.$project->id.'/contract-owner-requirements?action=preview') }}"
                 class="btn btn-outline-primary px-4">
-                    👁  المتطلبات المعاينة
+                    👁  معاينة المتطلبات
                 </a>
 
             </div>

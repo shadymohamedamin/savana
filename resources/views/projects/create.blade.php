@@ -155,7 +155,7 @@
 
                 {{-- Building # --}}
                 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
-                    {!! Form::label('budget', __('budget')) !!}
+                    {!! Form::label('budget', __('ميزانية المالك')) !!}
                     {!! Form::text('budget', null, ['class' => 'form-control rounded']) !!}
                 </div>
 
@@ -191,6 +191,13 @@
                 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
                     {!! Form::label('area', __('area')) !!}
                     {!! Form::text('area', null, ['class' => 'form-control rounded']) !!}
+
+
+                    <!-- <input type="number"
+                        id="area"
+                        name="area"
+                        class="form-control"
+                        readonly> -->
                 </div>
 
 
@@ -271,7 +278,7 @@
 
 
                 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
-                    {!! Form::label('duration', __('Project Duration')) !!}
+                    {!! Form::label('duration', __('مدة عقد البنك')) !!}
                     {!! Form::text('duration', null, ['class' => 'form-control rounded']) !!}
                 </div>
 
@@ -279,6 +286,30 @@
                     {!! Form::label('qasmia_number', __('Qasmia Number')) !!}
                     {!! Form::text('qasmia_number', null, ['class' => 'form-control rounded']) !!}
                 </div>
+
+
+
+
+
+
+                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+                    {!! Form::label('foot_price ', __('سعر الفوت')) !!}
+                    {!! Form::text('foot_price ', null, ['class' => 'form-control rounded']) !!}
+                </div>
+
+                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+                    {!! Form::label('approved_area ', __('المساحة المعتمدة من البلدية')) !!}
+                    {!! Form::text('approved_area ', null, ['class' => 'form-control rounded']) !!}
+                </div>
+
+                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+                    {!! Form::label('linear_meter_area ', __('مساحة السور بالمتر الطولي')) !!}
+                    {!! Form::text('linear_meter_area ', null, ['class' => 'form-control rounded']) !!}
+                </div>
+
+
+
+
 
 
                 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;background-color: #f5f5dc;">
@@ -334,7 +365,7 @@
 
 
 
-                <div class="d-flex align-items-end gap-2 flex-grow-1"
+                <!-- <div class="d-flex align-items-end gap-2 flex-grow-1"
                     style="min-width: 250px; max-width: 250px; background-color: #f5f5dc;">
 
                     <div class="flex-grow-1">
@@ -356,7 +387,19 @@
                         <i class="fas fa-plus"></i>
                     </a>
 
-                </div>
+                </div> -->
+
+
+
+
+
+
+
+
+
+
+
+
 
                 <!-- <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;background-color: #f5f5dc;">
                     {!! Form::label('consultant_id', __('Consultant')) !!}
@@ -459,6 +502,47 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // مهم جدًا في edit
     calculateContractorEndDate();
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    function calculateArea() {
+        const budget = parseFloat(document.getElementById('budget').value);
+        const footPrice = parseFloat(document.getElementById('foot_price').value);
+
+        if (!budget || !footPrice || footPrice <= 0) {
+            document.getElementById('area').value = '';
+            return;
+        }
+
+        const area = budget / footPrice;
+
+        // تقريب رقمين عشريين
+        document.getElementById('area').value = area.toFixed(2);
+    }
+
+    document.getElementById('budget')
+        .addEventListener('input', calculateArea);
+
+    document.getElementById('foot_price')
+        .addEventListener('input', calculateArea);
+
+    // مهم جدًا في edit
+    calculateArea();
 });
 </script>
 

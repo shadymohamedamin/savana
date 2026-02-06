@@ -200,7 +200,7 @@
                 </div>
 
                 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
-                    {!! Form::label('budget', __('البادجت')) !!}
+                    {!! Form::label('budget', __('ميزانية المالك')) !!}
                     {!! Form::text('budget', null, ['class' => 'form-control rounded']) !!}
                 </div>
 
@@ -239,8 +239,46 @@
                 </div>
 
 
+
+
+
+
+
+
+
+                
+
+
+
                 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
-                    {!! Form::label('duration', __('Project Duration')) !!}
+                    {!! Form::label('foot_price ', __('سعر الفوت')) !!}
+                    {!! Form::text('foot_price ', null, ['class' => 'form-control rounded']) !!}
+                </div>
+
+                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+                    {!! Form::label('approved_area ', __('المساحة المعتمدة من البلدية')) !!}
+                    {!! Form::text('approved_area ', null, ['class' => 'form-control rounded']) !!}
+                </div>
+
+                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+                    {!! Form::label('linear_meter_area ', __('مساحة السور بالمتر الطولي')) !!}
+                    {!! Form::text('linear_meter_area ', null, ['class' => 'form-control rounded']) !!}
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+                    {!! Form::label('duration', __('مدة عقد البنك')) !!}
                     {!! Form::text('duration', null, ['class' => 'form-control rounded']) !!}
                 </div>
 
@@ -396,7 +434,7 @@
 
 
 
-                <div class="d-flex align-items-end gap-2 flex-grow-1"
+                <!-- <div class="d-flex align-items-end gap-2 flex-grow-1"
                     style="min-width: 250px; max-width: 250px; background-color: #f5f5dc;">
 
                     <div class="flex-grow-1">
@@ -418,7 +456,15 @@
                         <i class="fas fa-plus"></i>
                     </a>
 
-                </div>
+                </div> -->
+
+
+
+
+
+
+
+
 
 
                 <!-- <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;background-color: #f5f5dc;">

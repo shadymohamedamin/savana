@@ -26,12 +26,27 @@ class ProjectController extends AppBaseController
      */
     public function index(Request $request)
 {
-    $query = \App\Models\Project::with([
+    /*$query = \App\Models\Project::with([
         'status',
         'ownerUser', // owner relation for name/phone
         'contractor',
         'baladyaApprovals' => fn($q) => $q->latest()->take(1),
-    ]);
+    ]);*/
+
+    $query = \App\Models\Project::query()
+        ->with([
+            'status',
+            'ownerUser',
+            'contractor',
+            'baladyaApprovals' => fn($q) => $q->latest()->take(1),
+        ])
+        ->withSum([
+            'payments as paid_with_vat' => function ($q) {
+                $q->select(
+                    \DB::raw('COALESCE(SUM(total_amount + vat_amount),0)')
+                );
+            }
+        ], 'id');
 
     // Filters
     if ($request->filled('project_code')) {
