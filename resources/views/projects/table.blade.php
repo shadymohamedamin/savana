@@ -115,7 +115,7 @@
         <table class="table table-hover align-middle rounded-4"
                style="border:1px solid #D4AF37;">
            <thead style="background-color:#f5f5dc;">
-            <tr class="project-row"
+            <tr class="project-roww"
                 
                 style="background-color:#f5f5dc; cursor:pointer;">
                 <th style="background-color:#f5f5dc;">{{ __('Code') }}</th>

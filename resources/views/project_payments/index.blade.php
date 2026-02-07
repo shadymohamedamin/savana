@@ -486,7 +486,7 @@
                             <li>
                                 <a href="{{ route('projects.project-payments.edit', [
                                         'project' => $project->id,
-                                        'id' =>  $ownerPayment->id
+                                        'id' =>  $bankPayment->id
                                     ]) }}"
                                 class="dropdown-item">
                                     <i class="far fa-edit"></i> {{ __('Edit') }}
@@ -498,7 +498,7 @@
                                     action="{{ route('projects.project-payments.destroy',
                                     [
                                         'project' => $project->id,
-                                        'id' =>  $ownerPayment->id
+                                        'id' =>  $bankPayment->id
                                     ]) }}">
                                     @csrf
                                     @method('DELETE')

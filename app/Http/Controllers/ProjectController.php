@@ -31,7 +31,7 @@ class ProjectController extends AppBaseController
         'ownerUser', // owner relation for name/phone
         'contractor',
         'baladyaApprovals' => fn($q) => $q->latest()->take(1),
-    ]);*/
+    ]);*///vat_amount
 
     $query = \App\Models\Project::query()
         ->with([
@@ -43,7 +43,7 @@ class ProjectController extends AppBaseController
         ->withSum([
             'payments as paid_with_vat' => function ($q) {
                 $q->select(
-                    \DB::raw('COALESCE(SUM(total_amount + vat_amount),0)')
+                    \DB::raw('COALESCE(SUM(total_amount ),0)')
                 );
             }
         ], 'id');
