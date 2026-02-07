@@ -321,7 +321,7 @@
                 </div>
 
 
-                {{-- Project Region --}}
+                {{-- Project Region //'required' --}}
                 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
                     {!! Form::label('project_region_id', __('المنطقة')) !!}
                     {!! Form::select(
@@ -331,7 +331,7 @@
                         [
                             'class' => 'form-control rounded',
                             'placeholder' => __('-- اختر  المنطقة --'),
-                            'required'
+                            
                         ]
                     ) !!}
                 </div>
@@ -443,7 +443,7 @@
                 name="action"
                 value="save"
                 class="btn btn-olive btn-sm">
-            💾 {{ __('Save') }}
+            💾 {{ __('اضافة') }}
         </button>
 
         <button type="submit"

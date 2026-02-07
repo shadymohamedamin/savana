@@ -92,6 +92,7 @@ class Project extends Model
         'supervision_fee' => 'nullable|string|max:50',
         'budget'          => 'nullable|string|max:50',  
         'area'            => 'nullable|string|max:50',
+        'project_region_id'=>'nullable|string|max:50',
 
         'foot_price'        => 'nullable|numeric|min:0',
         'approved_area'     => 'nullable|numeric|min:0',
