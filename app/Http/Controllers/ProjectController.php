@@ -66,7 +66,7 @@ class ProjectController extends AppBaseController
         $query->whereHas('ownerUser', fn($q) => $q->where('mobile', 'like', '%' . $request->owner_phone . '%'));
     }
 
-    $projects = $query->orderByDesc('created_at')->paginate(10);
+    $projects = $query->orderByDesc('created_at')->paginate(15);
 
     $toast = session('toast', null);
 
