@@ -1,3 +1,6 @@
+<div>{{'اسم المالك :' . optional($project->ownerUser)->name}}</div>
+
+
 <div class="d-flex flex-wrap gap-2 m-3">
 
     {{-- زر تعديل المشروع --}}

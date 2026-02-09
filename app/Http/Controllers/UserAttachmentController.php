@@ -247,12 +247,21 @@ public function create(Request $request, $id)
         return $att;
     });
 
+    $attachmentsByType = $attachments->keyBy('attachment_type_id');
+
+    $rows = collect($allowedTypes)->map(function ($typeId) use ($attachmentsByType) {
+        return [
+            'type_id'   => $typeId,
+            'attachment'=> $attachmentsByType->get($typeId), // null لو مش مرفوع
+        ];
+    });
 
 
     //dd($attachments);
     return view('users.attachments.create', compact(
         'model',
         'type',
+        'rows',
         'attTypes',
         'defaultTypes',
         'attachments',

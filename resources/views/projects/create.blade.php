@@ -154,10 +154,7 @@
                 </div>
 
                 {{-- Building # --}}
-                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
-                    {!! Form::label('budget', __('ميزانية المالك')) !!}
-                    {!! Form::text('budget', null, ['class' => 'form-control rounded']) !!}
-                </div>
+                
 
 
                 <div class="flex-grow-1" style="min-width:250px;max-width:250px;">
@@ -183,22 +180,34 @@
                     ) !!}
                 </div>
 
-
-                
-
-
-                {{-- Fence # --}}
                 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
-                    {!! Form::label('area', __('area')) !!}
-                    {!! Form::text('area', null, ['class' => 'form-control rounded']) !!}
+    {!! Form::label('budget', __('ميزانية المالك')) !!}
+    {!! Form::text('budget', null, [
+        'class' => 'form-control rounded',
+        'id' => 'budget'
+    ]) !!}
+</div>
 
 
-                    <!-- <input type="number"
-                        id="area"
-                        name="area"
-                        class="form-control"
-                        readonly> -->
-                </div>
+                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+    {!! Form::label('foot_price', __('سعر الفوت')) !!}
+    {!! Form::text('foot_price', null, [
+        'class' => 'form-control rounded',
+        'id' => 'foot_price'
+    ]) !!}
+</div>
+
+
+
+<div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+    {!! Form::label('area', __('المساحة')) !!}
+    {!! Form::text('area', null, [
+        'class' => 'form-control rounded',
+        'id' => 'area',
+        'readonly' => true
+    ]) !!}
+</div>
+
 
 
 
@@ -292,10 +301,7 @@
 
 
 
-                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
-                    {!! Form::label('foot_price ', __('سعر الفوت')) !!}
-                    {!! Form::text('foot_price ', null, ['class' => 'form-control rounded']) !!}
-                </div>
+                
 
                 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
                     {!! Form::label('approved_area ', __('المساحة المعتمدة من البلدية')) !!}
@@ -468,6 +474,34 @@
 
 
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    function calculateArea() {
+        const budget = parseFloat(document.getElementById('budget')?.value);
+        const footPrice = parseFloat(document.getElementById('foot_price')?.value);
+
+        if (!budget || !footPrice || footPrice <= 0) {
+            document.getElementById('area').value = '';
+            return;
+        }
+
+        const area = budget / footPrice;
+
+        // تقريب لرقمين عشريين
+        document.getElementById('area').value = area.toFixed(2);
+    }
+
+    document.getElementById('budget')
+        .addEventListener('input', calculateArea);
+
+    document.getElementById('foot_price')
+        .addEventListener('input', calculateArea);
+
+    // مهم جدًا في edit
+    calculateArea();
+});
+</script>
 
 
 

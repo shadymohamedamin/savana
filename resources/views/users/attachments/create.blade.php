@@ -325,7 +325,98 @@
             </div>
             
             <div class="card-body" id="attachmentContainer" style="background-color: #f5f5dc;">
-                {{-- Default 3 attachment cards --}}
+                
+            
+                @foreach($rows as $i => $row)
+                @php
+                    $att = $row['attachment'];
+                @endphp
+
+                <div class="card mb-3 shadow-sm">
+                    <div class="card-body row" style="background-color:#f5f5dc;">
+
+                        {{-- existing attachment id --}}
+                        @if($att)
+                            <input type="hidden" name="attachments[{{ $i }}][id]" value="{{ $att->id }}">
+                        @endif
+
+                        {{-- type --}}
+                        <div class="col-md-2">
+                            <select name="attachments[{{ $i }}][attachment_type_id]" class="form-control">
+                                @foreach($attTypes as $id => $name)
+                                    <option value="{{ $id }}"
+                                        {{ $row['type_id'] == $id ? 'selected' : '' }}>
+                                        {{ $name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        {{-- file --}}
+                        <div class="col-md-3">
+                            <div class="border rounded p-2 small bg-light">
+
+                                <input type="file"
+                                    name="attachments[{{ $i }}][file]"
+                                    class="form-control form-control-sm mb-1">
+
+                                @if($att)
+                                    <div class="text-truncate">
+                                        📄 {{ $att->file_name }}
+                                    </div>
+
+                                    @if(!empty($att->web_path))
+                                        <a href="{{ asset($att->web_path) }}"
+                                        target="_blank"
+                                        class="btn btn-sm btn-outline-primary w-100 mt-1">
+                                            👁 View
+                                        </a>
+                                    @endif
+                                @else
+                                    <div class="text-muted">
+                                        {{ __('Not uploaded yet') }}
+                                    </div>
+                                @endif
+
+                            </div>
+                        </div>
+
+                        {{-- expiration --}}
+                        <div class="col-md-3">
+                            <input type="date"
+                                name="attachments[{{ $i }}][expiration_date]"
+                                value="{{ optional($att?->expiration_date)->format('Y-m-d') }}"
+                                class="form-control">
+                        </div>
+
+                        {{-- notes --}}
+                        <div class="col-md-3">
+                            <input type="text"
+                                name="attachments[{{ $i }}][notes]"
+                                value="{{ $att->notes ?? '' }}"
+                                placeholder="{{ __('Notes') }}"
+                                class="form-control">
+                        </div>
+
+                        {{-- remove --}}
+                        <div class="col-md-1 d-flex align-items-end">
+                            <button type="button" class="btn btn-danger removeAttachment">X</button>
+                        </div>
+
+                    </div>
+                </div>
+                @endforeach
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+                <!-- {{-- Default 3 attachment cards --}}
                  @php
                     $defaultTypes = $defaultTypes ?? [];
                 @endphp
@@ -348,21 +439,7 @@
                                 </select>
                             </div>
 
-                            <!-- <div class="col-md-3">
-                                <input type="file" name="attachments[{{ $index }}][file]" class="form-control">
-                                <small class="text-muted d-block">{{ $att->file_name }}</small>
-
-                                @if(!empty($att->web_path))
-                                        <a href="{{ asset($att->web_path) }}"
-                                        target="_blank"
-                                        class="btn btn-sm btn-outline-primary mt-1">
-                                            👁 {{ __('View') }}
-                                        </a>
-                                @endif
-
-                                
-
-                            </div> -->
+                           
                             <div class="col-md-3">
                                 <div class="border rounded p-2 small bg-light">
 
@@ -419,15 +496,11 @@
                             <div class="card-body row" style="background-color: #f5f5dc;" >
 
                                 <div class="form-group col-md-2">
-                                    <!-- <label>{{ __('Attachment Type') }}</label> -->
+                                    
                                     <select name="attachments[{{ $i }}][attachment_type_id]" class="form-control">
                                         <option value="">{{ __('-- Select Type --') }}</option>
 
                                         @foreach($attTypes as $id => $name)
-                                            <!-- <option value="{{ $id }}"
-                                                {{ isset($defaultTypes[$i]) && $defaultTypes[$i] == $id ? 'selected' : '' }}>
-                                                {{ $name }}
-                                            </option> -->
                                             <option value="{{ $id }}"{{ $typeId == $id ? 'selected' : '' }}>
                                                 {{ $name }}
                                             </option>
@@ -435,50 +508,7 @@
                                     </select>
                                 </div>
 
-                                <!-- <div class="form-group col-md-3">
-                                   
-                                    <input type="file" name="attachments[{{ $i }}][file]" class="form-control">
-                                    
-                                    <small class="text-muted d-block selected-file-name d-none"></small>
-
-                                    @if(isset($attachments[$i]) && $attachments[$i]->file_path)
-                                        <a href="{{ asset('storage/'.$attachments[$i]->file_path) }}"
-                                        target="_blank"
-                                        class="btn btn-sm btn-outline-primary mt-1 stored-file">
-                                            👁 {{ __('View File') }}
-                                        </a>
-                                    @endif
-
-                                    <a href="#"
-                                        target="_blank"
-                                        class="btn btn-sm btn-outline-success mt-1 preview-file d-none">
-                                            👁 {{ __('View') }}
-                                    </a> 
-                                </div> -->
-
-                                <!-- <div class="form-group col-md-3 attachment-box">
-                                    <input type="file"
-                                        name="attachments[{{ $i }}][file]"
-                                        class="form-control attachment-input">
-
-                                    <small class="text-muted d-block selected-file-name d-none"></small>
-
-                                    {{-- file already stored in DB --}}
-                                    @if(isset($attachments[$i]) && $attachments[$i]->file_path)
-                                        <a href="{{ asset('storage/'.$attachments[$i]->file_path) }}"
-                                        target="_blank"
-                                        class="btn btn-sm btn-outline-primary mt-1 stored-file">
-                                            👁 {{ __('View File') }}
-                                        </a>
-                                    @endif
-
-                                    {{-- preview before submit --}}
-                                    <a href="#"
-                                    target="_blank"
-                                    class="btn btn-sm btn-outline-success mt-1 preview-file d-none">
-                                        👁 {{ __('View') }}
-                                    </a>
-                                </div> -->
+                        
 
 
 
@@ -536,7 +566,7 @@
                                 </div>
 
                                 <div class="form-group col-md-3">
-                                    <!-- <label>{{ __('Notes') }}</label> -->
+                                  
                                     <input placeholder={{ __('Notes') }} type="text" name="attachments[{{ $i }}][notes]" class="form-control">
                                 </div>
 
@@ -546,7 +576,7 @@
                             </div>
                         </div>
                     @endforeach
-                @endif
+                @endif-->
             </div>
         </div>
 
@@ -725,7 +755,75 @@ document.getElementById('addAttachment').addEventListener('click', function () {
         </div>
     `;*/
 
-    card.innerHTML = `
+//     card.innerHTML = `
+// <div class="card-body row" style="background-color: #f5f5dc;">
+
+//     <div class="form-group col-md-2">
+//         <select name="attachments[${attachmentIndex}][attachment_type_id]" class="form-control" required>
+//             <option value="">{{ __('-- Select Type --') }}</option>
+//             @foreach($attTypes as $id => $name)
+//                 <option value="{{ $id }}">{{ $name }}</option>
+//             @endforeach
+//         </select>
+//     </div>
+
+//     <div class="form-group col-md-3">
+
+//         <div class="col-md-3">
+//             <div class="border rounded p-2 small bg-light attachment-box">
+
+//                 <input type="hidden"
+//                     name="attachments[${attachmentIndex}][delete]"
+//                     value="0"
+//                     class="delete-flag">
+
+//                 <input type="file"
+//                     name="attachments[${attachmentIndex}][file]"
+//                     class="form-control form-control-sm attachment-input mb-1">
+
+//                 <div class="text-truncate selected-file-name d-none"></div>
+
+//                 <a href="#"
+//                     target="_blank"
+//                     class="btn btn-sm btn-outline-success w-100 mt-1 preview-file d-none">
+//                     👁 Preview
+//                 </a>
+
+//                 <button type="button"
+//                     class="btn btn-sm btn-outline-danger w-100 mt-1 remove-file">
+//                     🗑 Remove
+//                 </button>
+
+//             </div>
+//         </div>
+
+//     </div>
+
+//     <div class="form-group col-md-3">
+//         <input type="date"
+//             name="attachments[${attachmentIndex}][expiration_date]"
+//             class="form-control">
+//     </div>
+
+//     <div class="form-group col-md-3">
+//         <input type="text"
+//             name="attachments[${attachmentIndex}][notes]"
+//             class="form-control"
+//             placeholder="{{ __('Notes') }}">
+//     </div>
+
+//     <div class="form-group col-md-1 d-flex align-items-end">
+//         <button type="button" class="btn btn-danger removeAttachment">X</button>
+//     </div>
+// </div>
+// `;
+
+
+
+
+
+
+card.innerHTML = `
 <div class="card-body row" style="background-color: #f5f5dc;">
 
     <div class="form-group col-md-2">
@@ -737,11 +835,31 @@ document.getElementById('addAttachment').addEventListener('click', function () {
         </select>
     </div>
 
-    <div class="form-group col-md-3">
-        <input type="file"
-            name="attachments[${attachmentIndex}][file]"
-            class="form-control attachment-file"
-            required>
+    <div class="col-md-3">
+        <div class="border rounded p-2 small bg-light attachment-box">
+
+            <input type="hidden"
+                name="attachments[${attachmentIndex}][delete]"
+                value="0"
+                class="delete-flag">
+
+            <input type="file"
+                name="attachments[${attachmentIndex}][file]"
+                class="form-control form-control-sm attachment-input mb-1">
+
+            <div class="text-truncate selected-file-name d-none"></div>
+
+            <a href="#"
+                target="_blank"
+                class="btn btn-sm btn-outline-success w-100 mt-1 preview-file d-none">
+                👁 Preview
+            </a>
+
+            <button type="button"
+                class="btn btn-sm btn-outline-danger w-100 mt-1 remove-file">
+                🗑 Remove
+            </button>
+        </div>
     </div>
 
     <div class="form-group col-md-3">
@@ -760,13 +878,49 @@ document.getElementById('addAttachment').addEventListener('click', function () {
     <div class="form-group col-md-1 d-flex align-items-end">
         <button type="button" class="btn btn-danger removeAttachment">X</button>
     </div>
+
 </div>
 `;
 
 
 
 
-    document.getElementById('attachmentContainer').appendChild(card);
+
+document.getElementById('attachmentContainer').appendChild(card);
+    initAttachmentBox(card);
+
+    function initAttachmentBox(scope) {
+        scope.querySelectorAll('.attachment-box').forEach(box => {
+
+            const input      = box.querySelector('.attachment-input');
+            const fileName   = box.querySelector('.selected-file-name');
+            const previewBtn = box.querySelector('.preview-file');
+            const removeBtn  = box.querySelector('.remove-file');
+            const deleteFlag = box.querySelector('.delete-flag');
+
+            input?.addEventListener('change', function () {
+                if (!this.files.length) return;
+
+                const file = this.files[0];
+                fileName.textContent = '📄 ' + file.name;
+                fileName.classList.remove('d-none');
+
+                const url = URL.createObjectURL(file);
+                previewBtn.href = url;
+                previewBtn.classList.remove('d-none');
+
+                deleteFlag.value = 0;
+            });
+
+            removeBtn?.addEventListener('click', function () {
+                input.value = '';
+                previewBtn.classList.add('d-none');
+                fileName.classList.add('d-none');
+                deleteFlag.value = 1;
+            });
+        });
+    }
+
     addRemove(card.querySelector('.removeAttachment'));
 
     const fileInput = card.querySelector('.attachment-file');
@@ -875,6 +1029,8 @@ document.addEventListener('change', function (e) {
 @if (session('success'))
 <script>
 document.addEventListener('DOMContentLoaded', function () {
+    initAttachmentBox(document);
+
     Swal.fire({
         toast: true,
         position: 'top-end',
