@@ -187,3 +187,10 @@
         <p>Project Design Preferences</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('projectOwnerSpecifications.index') }}" class="nav-link {{ Request::is('projectOwnerSpecifications*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Project Owner Specifications</p>
+    </a>
+</li>

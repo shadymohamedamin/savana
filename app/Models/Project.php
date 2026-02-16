@@ -199,7 +199,7 @@ public function consultant()
     {
         return $this->hasMany(\App\Models\BaladyaApproval::class, 'project_id', 'id');
     }
-    public function ownerRequirements()
+    /*public function ownerRequirements()
     {
         return $this->belongsToMany(
             OwnerRequirement::class,
@@ -207,7 +207,31 @@ public function consultant()
         )
         ->withPivot(['quantity', 'notes'])
         ->withTimestamps();
+    }*/
+
+
+    public function ownerRequirements()
+    {
+        return $this->belongsToMany(OwnerRequirement::class, 'project_owner_requirements')
+            ->withPivot(['quantity', 'unit_price', 'total_price', 'notes', 'context'])
+            ->withTimestamps();
     }
+
+    public function ownerSpecification()
+    {
+        return $this->hasOne(ProjectOwnerSpecification::class);
+    }
+
+    public function ownerRequirementsOwner()
+    {
+        return $this->ownerRequirements()->wherePivot('context','owner');
+    }
+
+    public function ownerRequirementsPricing()
+    {
+        return $this->ownerRequirements()->wherePivot('context','pricing');
+    }
+
 
     public function designPreferences()
     {

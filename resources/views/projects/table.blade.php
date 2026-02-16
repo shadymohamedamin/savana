@@ -1,3 +1,22 @@
+<style>
+    .table-bordered > :not(caption) > * > * {
+        border: 1px solid #d4af37;
+    }
+    thead th {
+        font-weight: 700;
+        border-bottom: 2px solid #b89b2e;
+    }
+
+    tbody tr:hover {
+        background-color: #efe8c8 !important;
+    }
+
+</style>
+
+
+
+
+
 <div class="card shadow-sm rounded-4 m-0" style="background-color: #f5f5dc;">
 
     {{-- Header --}}
@@ -112,9 +131,13 @@
 
 
     <div class="table-responsive p-3" style="background-color:#f5f5dc;">
+        <!-- <table class="table table-hover align-middle rounded-4"
+               style="border:1px solid #D4AF37;"> -->
+
         <table class="table table-hover align-middle rounded-4"
                style="border:1px solid #D4AF37;">
-           <thead style="background-color:#f5f5dc;">
+           <thead style="background-color:#d4af37;color:#2f3a1f;">
+
             <tr class="project-roww"
                 
                 style="background-color:#f5f5dc; cursor:pointer;">

@@ -66,6 +66,9 @@
                 <th style="background:#f5f5dc;">{{ __('رقم الحالة') }}</th>
                 <th style="background:#f5f5dc;">{{ __('تاريخ فتح المعاملة') }}</th>
                 <th style="background:#f5f5dc;">{{ __('تاريخ اعتماد المعاملة') }}</th>
+
+                
+
                 <th style="background:#f5f5dc;">{{ __('فرق البلدية') }}</th>
                 <th style="background:#f5f5dc;">{{ __('فرق الموقع') }}</th>
                 <th style="background:#f5f5dc;">{{ __('السبب') }}</th>
@@ -80,18 +83,38 @@
             <tbody>
             @foreach($baladyaApprovals as $i => $row)
                 <tr>
+                    
+
+
+
+
                     @php
+                        $excludeTypes = ['رخصة جديدة', 'اعتماد مخطط', 'تعديل وإضافة'];
                         $siteDiff = '-';
 
-                        // لو في صف بعده
-                        if (isset($baladyaApprovals[$i + 1])
-                            && $row->opened_at
-                            && $baladyaApprovals[$i + 1]->opened_at) {
+                        // نحسب فقط لو الحالة الحالية مش من التلاتة
+                        if (
+                            $row->opened_at &&
+                            !in_array($row->statusType->name_ar ?? '', $excludeTypes)
+                        ) {
+                            // ندوّر على أقرب حالة قبلها (تحتها في الجدول)
+                            for ($j = $i + 1; $j < count($baladyaApprovals); $j++) {
+                                $prev = $baladyaApprovals[$j];
 
-                            $siteDiff = $row->opened_at
-                                ->diffInDays($baladyaApprovals[$i + 1]->opened_at);
+                                if (
+                                    $prev->opened_at &&
+                                    !in_array($prev->statusType->name_ar ?? '', $excludeTypes)
+                                ) {
+                                    $siteDiff = $row->opened_at->diffInDays($prev->opened_at);
+                                    break;
+                                }
+                            }
                         }
                     @endphp
+
+
+
+                
                     <td style="background:#f5f5dc;">
                         {{ $row->statusType->name_ar ?? '-' }}
                     </td>
@@ -99,7 +122,15 @@
                     <td style="background:#f5f5dc;">{{ $row->case_number }}</td>
                     <td style="background:#f5f5dc;">{{ $row->opened_at ? $row->opened_at->format('Y-m-d') : '-' }}</td>
                     <td style="background:#f5f5dc;">{{ $row->approved_at ? $row->approved_at->format('Y-m-d') : '-' }}</td>
-                    <td style="background:#f5f5dc;">{{ $row->days_diff ?? '-' }}</td>
+                    <!-- <td style="background:#f5f5dc;">{{ $row->days_diff ?? '-' }}</td> -->
+
+                    <td style="background:#f5f5dc;">
+                        @if(in_array($row->statusType->name_ar ?? '', $excludeTypes))
+                            {{ $row->days_diff ?? '-' }}
+                        @else
+                            -
+                        @endif
+                    </td>
                     <td style="background:#f5f5dc;">{{ $siteDiff }}</td>
 
 

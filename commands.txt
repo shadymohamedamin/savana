@@ -1,3 +1,41 @@
+add this to database
+//tender ==>(25-33-34-35)
+migrate
+seed
+
+php artisan db:seed --class=OwnerRequirementsSeeder
+
+
+type = section | item | title | group
+
+
+
+
+
+$totals = ProjectOwnerRequirement::with('ownerRequirement')
+    ->where('project_id', $project->id)
+    ->get()
+    ->groupBy(fn($i) => $i->ownerRequirement->main_category)
+    ->map(fn($rows) => $rows->sum('total_price'));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+make seeder with ProjectRegionsSeeder
+
+
+
+
 php artisan infyom:scaffold Role --fromTable --table=roles
 
 

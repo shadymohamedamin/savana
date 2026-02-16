@@ -101,7 +101,7 @@
         </tr>
         <tr>
             <td class="bold">وصف المشروع</td>
-            <td colspan="2"> {{ $project->name }}</td>
+            <td colspan="2"> {{ $project->projectName->name_ae }}</td>
         </tr>
         <tr>
             <td class="bold">المنطقة</td>
