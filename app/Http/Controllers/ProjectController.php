@@ -283,6 +283,45 @@ public function contractOwnerConsultantPdf(Request $request, $id)
 }
 
 
+
+public function contractSpecificationsPdf(Request $request, $id)
+{
+    $project = \App\Models\Project::with([
+        'ownerUser',
+        'contractorUser'
+    ])->findOrFail($id);
+
+    $html = view('pdf.contract-specifications', compact('project'))->render();
+
+    $mpdf = new \Mpdf\Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'default_font' => 'amiri',
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+        'margin_top' => 15,
+        'margin_bottom' => 15,
+        'margin_left' => 15,
+        'margin_right' => 15,
+    ]);
+
+    $mpdf->WriteHTML($html);
+
+    $action = $request->get('action', 'preview');
+    $fileName = "contract_specifications_{$project->id}.pdf";
+
+    if ($action === 'download') {
+        return $mpdf->Output($fileName, 'D');
+    }
+
+    if ($action === 'print') {
+        return $mpdf->Output($fileName, 'I');
+    }
+
+    return $mpdf->Output($fileName, 'I');
+}
+
+
 public function hawyaContractPdf(Request $request, $id)
 {
     $project = \App\Models\Project::with(['ownerUser'])->findOrFail($id);

@@ -28,6 +28,7 @@ class UserAttachmentController extends Controller
             return match ($type) {
                 'users'    => \App\Models\User::class,
                 'projects' => \App\Models\Project::class,
+                //'tender' => \App\Models\ProjectTender::class,
                 default    => abort(404)
             };
         }
@@ -144,11 +145,13 @@ class UserAttachmentController extends Controller
 
 
 
-
+//tender ==>(25-33-34-35)
 public function create(Request $request, $id)
 {
     // type from query string
     $type = $request->query('type', 'users'); // default users
+    $mode = $request->query('mode');
+    $isTender = $mode === 'tender';
 
     $modelClass = $this->resolveModel($type);
     $model = $modelClass::findOrFail($id);
@@ -212,6 +215,14 @@ public function create(Request $request, $id)
     }
 
 
+    if ($isTender) {
+
+        // tender ==>(25-33-34-35)
+        $defaultTypes = [25, 33, 34, 35];
+    }
+
+
+
     //dd($defaultTypes);
     $userRoleId = auth()->user()->role_id;
 
@@ -260,6 +271,7 @@ public function create(Request $request, $id)
     //dd($attachments);
     return view('users.attachments.create', compact(
         'model',
+        'isTender',
         'type',
         'rows',
         'attTypes',
@@ -291,6 +303,7 @@ public function create(Request $request, $id)
 public function store(Request $request, $id)
 {
     $type = $request->query('type', 'users');
+    $isTender = $request->query('mode') === 'tender';
 
     $modelClass = $this->resolveModel($type);
     $model = $modelClass::findOrFail($id);

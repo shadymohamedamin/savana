@@ -12,6 +12,11 @@ class ProjectOwnerRequirement extends Model
         'project_id',
         'owner_requirement_id',
         'quantity',
+        'unit',
+        'unit_price',
+        'total_price',
+        'category',
+        'context',
         'notes'
     ];
 
@@ -33,6 +38,31 @@ class ProjectOwnerRequirement extends Model
         return $this->belongsTo(\App\Models\OwnerRequirement::class, 'owner_requirement_id');
     }
 
+    protected static function booted()
+    {
+        static::saving(function ($model) {
+            if ($model->quantity && $model->unit_price) {
+                $model->total_price = $model->quantity * $model->unit_price;
+            }
+
+
+
+            $requirement = $model->ownerRequirement;
+
+            while ($requirement && $requirement->parent_id) {
+                $parent = $requirement->parent;
+
+                $parent->total_price = ProjectOwnerRequirement::whereIn(
+                    'owner_requirement_id',
+                    $parent->children()->pluck('id')
+                )->sum('total_price');
+
+                $parent->save();
+
+                $requirement = $parent;
+            }
+        });
+    }
 
     public function ownerRequirements()
     {
@@ -45,8 +75,19 @@ class ProjectOwnerRequirement extends Model
     }
 
 
+    /*public function ownerRequirement()
+    {
+        return $this->belongsTo(OwnerRequirement::class, 'owner_requirement_id');
+    }*/
+
+
     public function project(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\Project::class, 'project_id');
     }
+
+
+
+
+    
 }

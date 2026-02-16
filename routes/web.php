@@ -164,7 +164,9 @@ Route::middleware(['auth'])->group(function () {
  //   });
 
 
-
+Route::post('/projects/{project}/owner-requirements/save-pricing', 
+    [OwnerRequirementController::class, 'savePricing'])
+    ->name('projects.owner-requirements.savePricing');
 
 
 
@@ -260,7 +262,10 @@ Route::get('/projects/{id}/hawya-contract',
     [App\Http\Controllers\ProjectController::class, 'hawyaContractPdf']
 )->name('projects.contract.hawya.pdf');
 
-
+Route::get(
+    'projects/{id}/contract-specifications',
+    [App\Http\Controllers\ProjectController::class, 'contractSpecificationsPdf']
+)->name('projects.contract.specs.pdf');
 
 Route::get('/projects/{id}/site-delivery-contract', 
     [App\Http\Controllers\ProjectController::class, 'siteDeliveryContractPdf']
@@ -308,12 +313,17 @@ Route::get('/projects/{id}/bank-table-contract',
         Route::post('attachments', [UserAttachmentController::class, 'store'])
             ->name('attachments.store');
     });*/
+    //Route::get('users/{id}/attachments/create',[UserAttachmentController::class, 'create'])->name('users.attachments.create');
+
+
+
     Route::get('/users/{id}/attachments/create', [UserAttachmentController::class, 'create'])->name('users.attachments.create');
 
     Route::post('/users/{id}/attachments', [UserAttachmentController::class, 'store'])->name('users.attachments.store');
 
     Route::get('/contracts/project/{project}', [ProjectController::class, 'downloadAgreement'])
         ->name('projects.contract.download');
+
 
 
 
@@ -480,3 +490,4 @@ Route::resource('project-payments', App\Http\Controllers\ProjectPaymentControlle
 Route::resource('owner-requirements', App\Http\Controllers\OwnerRequirementController::class);
 Route::resource('project-owner-requirements', App\Http\Controllers\ProjectOwnerRequirementController::class);
 Route::resource('project-design-preferences', App\Http\Controllers\ProjectDesignPreferencesController::class);
+Route::resource('project-owner-specifications', App\Http\Controllers\ProjectOwnerSpecificationController::class);

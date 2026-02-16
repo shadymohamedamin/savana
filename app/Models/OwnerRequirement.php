@@ -12,7 +12,13 @@ class OwnerRequirement extends Model
         'name',
         'floor',
         'is_general',
-        'notes'
+        'unit',
+        'main_category',
+        'notes',
+        'name_ar',
+        'name_en',
+        'parent_id',
+        'type',
     ];
 
     protected $casts = [
@@ -48,4 +54,32 @@ class OwnerRequirement extends Model
             'owner_requirement_id'
         );
     }
+
+
+    public function parent()
+    {
+        return $this->belongsTo(self::class, 'parent_id');
+    }
+
+    public function children()
+    {
+        return $this->hasMany(self::class, 'parent_id');
+    }
+
+    public function items()
+    {
+        return $this->children()->where('type', 'item');
+    }
+
+    public function sections()
+    {
+        return $this->children()->where('type', 'section');
+    }
+    /*public function projectOwnerRequirements()
+    {
+        return $this->belongsToMany(Project::class, 'project_owner_requirements')
+            ->withPivot(['quantity', 'unit_price', 'total_price', 'notes', 'context'])
+            ->withTimestamps();
+    }*/
+
 }

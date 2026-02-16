@@ -54,6 +54,7 @@
 </style>
 @php
     $type = request('type');
+    $isTender = request('mode') === 'tender';
 @endphp
 
 @php
@@ -114,179 +115,220 @@
 
     <div class="card-body d-flex gap-3 flex-wrap" style="background-color: #f5f5dc;">
 
+
+        @if($isTender)
+
+            <div class="d-flex flex-column">
+                <span class="mb-1">{{ __('العقد الاساسي') }}</span>
+                <a target="_blank" href="{{ route('projects.contract.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
+                    👁 {{ __('Preview') }}
+                </a>
+                <a href="{{ route('projects.contract.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
+                    ⬇ {{ __('Download') }}
+                </a>
+                <a target="_blank" href="{{ route('projects.contract.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
+                    🖨 {{ __('Print') }}
+                </a>
+            </div>
+
+
+
+            <div class="d-flex flex-column">
+                <span class="mb-1">{{ __('المواصفات الفنية والشروط العامة') }}</span>
+
+                <a target="_blank"
+                href="{{ route('projects.contract.specs.pdf', ['id' => $model->id, 'action' => 'preview']) }}"
+                class="btn btn-outline-primary btn-sm mb-1">
+                    👁 {{ __('Preview') }}
+                </a>
+
+                <a href="{{ route('projects.contract.specs.pdf', ['id' => $model->id, 'action' => 'download']) }}"
+                class="btn btn-success btn-sm mb-1">
+                    ⬇ {{ __('Download') }}
+                </a>
+
+                <a target="_blank"
+                href="{{ route('projects.contract.specs.pdf', ['id' => $model->id, 'action' => 'print']) }}"
+                class="btn btn-warning btn-sm">
+                    🖨 {{ __('Print') }}
+                </a>
+            </div>
+
+
+        @else
         
-        {{--    Owner And Consultant Contract عقد المالك والاستشاري والمقاول --}}
-        <!-- <div class="d-flex flex-column">
-            <span class="mb-1">{{ __('Owner And Consultant Contract') }}</span>
-            <a target="_blank" href="{{ route('projects.contract.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
-                👁 {{ __('Preview') }}
-            </a>
-            <a href="{{ route('projects.contract.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
+                {{--    Owner And Consultant Contract عقد المالك والاستشاري والمقاول --}}
+                <!-- <div class="d-flex flex-column">
+                    <span class="mb-1">{{ __('Owner And Consultant Contract') }}</span>
+                    <a target="_blank" href="{{ route('projects.contract.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
+                        👁 {{ __('Preview') }}
+                    </a>
+                    <a href="{{ route('projects.contract.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
+                        ⬇ {{ __('Download') }}
+                    </a>
+                    <a target="_blank" href="{{ route('projects.contract.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
+                        🖨 {{ __('Print') }}
+                    </a>
+                </div>  -->
+
+                {{-- عقد المالك والاستشاري --}}
+                <div class="d-flex flex-column">
+                    <span class="mb-1">{{ __('Owner And Consultant And Contractor Contract') }}</span>
+                    <a target="_blank" href="{{ route('projects.contract.owner_consultant.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
+                        👁 {{ __('Preview') }}
+                    </a>
+                    <a href="{{ route('projects.contract.owner_consultant.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
+                        ⬇ {{ __('Download') }}
+                    </a>
+                    <a target="_blank" href="{{ route('projects.contract.owner_consultant.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
+                        🖨 {{ __('Print') }}
+                    </a>
+                </div>
+
+                {{-- خطاب التكليف --}}
+                <div class="d-flex flex-column">
+                    <span class="mb-1">{{ __('Takleef Contract') }}</span>
+
+                    <a target="_blank"
+                    href="{{ route('projects.contract.takleef.pdf', ['id' => $model->id, 'action' => 'preview']) }}"
+                    class="btn btn-outline-primary btn-sm mb-1">
+                        👁 {{ __('Preview') }}
+                    </a>
+
+                    <a href="{{ route('projects.contract.takleef.pdf', ['id' => $model->id, 'action' => 'download']) }}"
+                    class="btn btn-success btn-sm mb-1">
+                        ⬇ {{ __('Download') }}
+                    </a>
+
+                    <a target="_blank"
+                    href="{{ route('projects.contract.takleef.pdf', ['id' => $model->id, 'action' => 'print']) }}"
+                    class="btn btn-warning btn-sm">
+                        🖨 {{ __('Print') }}
+                    </a>
+                </div>
+
+
+                <div class="d-flex flex-column">
+                    <span class="mb-1">{{ __('احتياجات المالك') }}</span>
+
+                    <a target="_blank" href="{{ route('projects.contract.owner-requirements.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
+                        👁 {{ __('Preview') }}
+                    </a>
+
+                    <a href="{{ route('projects.contract.owner-requirements.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
+                        ⬇ {{ __('Download') }}
+                    </a>
+
+                    <a target="_blank" href="{{ route('projects.contract.owner-requirements.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
+                        🖨 {{ __('Print') }}
+                    </a>
+                </div>
+
+
+
+
+
+
+
+
+
+
+
+                {{-- Hawya Contract --}}
+            <!-- <div class="d-flex flex-column">
+                <span class="mb-1">{{ __('Hawya Contract') }}</span>
+
+             <a target="_blank" href="{{ route('projects.contract.hawya.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
+                 👁 {{ __('Preview') }}
+                </a>
+
+            <a href="{{ route('projects.contract.hawya.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
                 ⬇ {{ __('Download') }}
             </a>
-            <a target="_blank" href="{{ route('projects.contract.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
+
+            <a target="_blank" href="{{ route('projects.contract.hawya.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
                 🖨 {{ __('Print') }}
             </a>
-        </div>  -->
+            </div> 
 
-        {{-- عقد المالك والاستشاري --}}
-        <div class="d-flex flex-column">
-            <span class="mb-1">{{ __('Owner And Consultant And Contractor Contract') }}</span>
-            <a target="_blank" href="{{ route('projects.contract.owner_consultant.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
-                👁 {{ __('Preview') }}
-            </a>
-            <a href="{{ route('projects.contract.owner_consultant.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
-                ⬇ {{ __('Download') }}
-            </a>
-            <a target="_blank" href="{{ route('projects.contract.owner_consultant.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
-                🖨 {{ __('Print') }}
-            </a>
-        </div>
 
-         {{-- خطاب التكليف --}}
-        <div class="d-flex flex-column">
-            <span class="mb-1">{{ __('Takleef Contract') }}</span>
 
-            <a target="_blank"
-            href="{{ route('projects.contract.takleef.pdf', ['id' => $model->id, 'action' => 'preview']) }}"
-            class="btn btn-outline-primary btn-sm mb-1">
+        
+            <div class="d-flex flex-column">
+            <span class="mb-1">{{ __('Site Delivery Contract') }}</span>
+
+            <a target="_blank" href="{{ route('projects.contract.site_delivery.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
                 👁 {{ __('Preview') }}
             </a>
 
-            <a href="{{ route('projects.contract.takleef.pdf', ['id' => $model->id, 'action' => 'download']) }}"
-            class="btn btn-success btn-sm mb-1">
+            <a href="{{ route('projects.contract.site_delivery.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
                 ⬇ {{ __('Download') }}
             </a>
 
-            <a target="_blank"
-            href="{{ route('projects.contract.takleef.pdf', ['id' => $model->id, 'action' => 'print']) }}"
-            class="btn btn-warning btn-sm">
+            <a target="_blank" href="{{ route('projects.contract.site_delivery.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
                 🖨 {{ __('Print') }}
             </a>
-        </div>
-
-
-        <div class="d-flex flex-column">
-    <span class="mb-1">{{ __('احتياجات المالك') }}</span>
-
-    <a target="_blank" href="{{ route('projects.contract.owner-requirements.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
-        👁 {{ __('Preview') }}
-    </a>
-
-    <a href="{{ route('projects.contract.owner-requirements.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
-        ⬇ {{ __('Download') }}
-    </a>
-
-    <a target="_blank" href="{{ route('projects.contract.owner-requirements.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
-        🖨 {{ __('Print') }}
-    </a>
-</div>
+            </div>
 
 
 
 
 
+            <div class="d-flex flex-column">
+            <span class="mb-1">{{ __('Bank Contract') }}</span>
 
-
-
-
-
-
-        {{-- Hawya Contract --}}
- <!-- <div class="d-flex flex-column">
-    <span class="mb-1">{{ __('Hawya Contract') }}</span>
-
-    <a target="_blank" href="{{ route('projects.contract.hawya.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
-        👁 {{ __('Preview') }}
-    </a>
-
-    <a href="{{ route('projects.contract.hawya.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
-        ⬇ {{ __('Download') }}
-    </a>
-
-    <a target="_blank" href="{{ route('projects.contract.hawya.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
-        🖨 {{ __('Print') }}
-    </a>
-</div> 
-
-
-
- 
-<div class="d-flex flex-column">
-    <span class="mb-1">{{ __('Site Delivery Contract') }}</span>
-
-    <a target="_blank" href="{{ route('projects.contract.site_delivery.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
-        👁 {{ __('Preview') }}
-    </a>
-
-    <a href="{{ route('projects.contract.site_delivery.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
-        ⬇ {{ __('Download') }}
-    </a>
-
-    <a target="_blank" href="{{ route('projects.contract.site_delivery.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
-        🖨 {{ __('Print') }}
-    </a>
-</div>
-
-
-
-
-
-<div class="d-flex flex-column">
-    <span class="mb-1">{{ __('Bank Contract') }}</span>
-
-    <a target="_blank" href="{{ route('projects.contract.bank.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
-        👁 {{ __('Preview') }}
-    </a>
-
-    <a href="{{ route('projects.contract.bank.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
-        ⬇ {{ __('Download') }}
-    </a>
-
-    <a target="_blank" href="{{ route('projects.contract.bank.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
-        🖨 {{ __('Print') }}
-    </a>
-</div>
-
-
-
-
-
-
-
-<div class="d-flex flex-column">
-    <span class="mb-1">{{ __('Bank Table Contract') }}</span>
-
-    <a target="_blank" href="{{ route('projects.contract.bank_table.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
-        👁 {{ __('Preview') }}
-    </a>
-
-    <a href="{{ route('projects.contract.bank_table.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
-        ⬇ {{ __('Download') }}
-    </a>
-
-    <a target="_blank" href="{{ route('projects.contract.bank_table.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
-        🖨 {{ __('Print') }}
-    </a>
-</div> 
-
- -->
-
-
-        <!--{{-- فورم الفيوا --}}
-        <div class="d-flex flex-column">
-            <span class="mb-1">{{ __('Fiwa Form') }}</span>
-            <a target="_blank" href="{{ route('projects.contract.owner_consultant.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
+            <a target="_blank" href="{{ route('projects.contract.bank.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
                 👁 {{ __('Preview') }}
             </a>
-            <a href="{{ route('projects.contract.owner_consultant.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
+
+            <a href="{{ route('projects.contract.bank.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
                 ⬇ {{ __('Download') }}
             </a>
-            <a target="_blank" href="{{ route('projects.contract.owner_consultant.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
+
+            <a target="_blank" href="{{ route('projects.contract.bank.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
                 🖨 {{ __('Print') }}
             </a>
-        </div> -->
+            </div>
 
+
+
+
+
+
+
+            <div class="d-flex flex-column">
+            <span class="mb-1">{{ __('Bank Table Contract') }}</span>
+
+            <a target="_blank" href="{{ route('projects.contract.bank_table.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
+                👁 {{ __('Preview') }}
+            </a>
+
+            <a href="{{ route('projects.contract.bank_table.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
+                ⬇ {{ __('Download') }}
+            </a>
+
+            <a target="_blank" href="{{ route('projects.contract.bank_table.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
+                🖨 {{ __('Print') }}
+            </a>
+            </div> 
+
+            -->
+
+
+                <!--{{-- فورم الفيوا --}}
+                <div class="d-flex flex-column">
+                    <span class="mb-1">{{ __('Fiwa Form') }}</span>
+                    <a target="_blank" href="{{ route('projects.contract.owner_consultant.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
+                        👁 {{ __('Preview') }}
+                    </a>
+                    <a href="{{ route('projects.contract.owner_consultant.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
+                        ⬇ {{ __('Download') }}
+                    </a>
+                    <a target="_blank" href="{{ route('projects.contract.owner_consultant.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
+                        🖨 {{ __('Print') }}
+                    </a>
+                </div> -->
+    @endif
        
     </div>
 </div>
