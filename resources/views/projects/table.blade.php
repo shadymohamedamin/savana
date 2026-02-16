@@ -143,7 +143,8 @@
                 style="background-color:#f5f5dc; cursor:pointer;">
                 <th style="background-color:#f5f5dc;">{{ __('Code') }}</th>
                 <th style="background-color:#f5f5dc;">{{ __('Owner') }}</th>
-                <th style="background-color:#f5f5dc;">{{ __('ProjectName') }}</th>
+                <th style="background-color:#f5f5dc;">{{ __('رقم القسيمة') }}</th>
+                <!-- <th style="background-color:#f5f5dc;">{{ __('ProjectName') }}</th> -->
                 <th style="background-color:#f5f5dc;">{{ __('Chosen Contractor') }}</th>
                 <th style="background-color:#f5f5dc;">{{ __('Case #') }}</th>
                 <!-- <th style="background-color:#f5f5dc;">{{ __('Building #') }}</th> -->
@@ -151,7 +152,9 @@
                 <th style="background-color:#f5f5dc;">{{ __(key: 'نوع الحالة') }}</th>
                 <th style="background-color:#f5f5dc;">{{ __(key: 'عدد زيارات الاشراف') }}</th>
                 <th style="background-color:#f5f5dc;">{{ __(key: 'قيمة العقد') }}</th>
-                <th style="background-color:#f5f5dc;">{{ __(key: 'مدة المعاملة') }}</th>
+                <th style="background-color:#f5f5dc;">{{ __(key: 'تاريخ انتهاء العقد') }}</th>
+                
+                <!-- <th style="background-color:#f5f5dc;">{{ __(key: 'مدة المعاملة') }}</th> -->
                 
                 <th style="background-color:#f5f5dc;">{{ __(key: 'المستلم من العقد') }}</th>
                 <th style="background-color:#f5f5dc;">{{ __(key: 'رقم الرخصة') }}</th>
@@ -182,7 +185,8 @@
                     style="background-color:#f5f5dc; cursor:pointer;">
                     <td style="background-color:#f5f5dc;">{{ $project->project_code }}</td>
                     <td style="background-color:#f5f5dc;">{{ $project->ownerUser->name ?? '—' }}</td>
-                   <td style="background-color:#f5f5dc;">
+                    <td style="background-color:#f5f5dc;">{{ $project->qasima_number ?? '—' }}</td>
+                    <!-- <td style="background-color:#f5f5dc;">
                         @if($project->projectName)
                             {{ app()->getLocale() == 'ar'
                                 ? $project->projectName->name_ar
@@ -191,7 +195,7 @@
                         @else
                             —
                         @endif
-                    </td>
+                    </td> -->
 
                     
 
@@ -220,7 +224,9 @@
                             {{ $project->bank_contract_value ?? '—' }}
                         </td>
                         <td style="background-color:#f5f5dc;">
-                            {{ $daysDiff ?? '—' }}
+                           
+                            {{ \Carbon\Carbon::parse($project->contractor_contract_end_date)->format('Y-m-d') }}
+                            <!-- {{ $daysDiff ?? '—' }} -->
                         </td>
                         <td style="background-color:#f5f5dc;">
                             {{ number_format($project->paid_with_vat ?? 0, 0) }}
