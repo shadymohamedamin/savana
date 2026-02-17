@@ -82,7 +82,12 @@
 
             <tbody>
             @foreach($baladyaApprovals as $i => $row)
-                <tr>
+                <tr   data-href="{{ route('projects.baladya-approvals.edit', [
+                        'project' => $projectId,
+                        'id' => $row->id
+                    ]) }}?owner_id={{ request('owner_id') }}"
+                    class="clickable-row"
+                    style="cursor:pointer;">
                     
 
 
@@ -160,7 +165,7 @@
                     </td>
 
 
-                    <td style="background:#f5f5dc;">
+                    <td style="background:#f5f5dc;"  onclick="event.stopPropagation();">
                         <div class="dropdown" style="background:#f5f5dc;">
                             <button class="btn btn-sm btn-olive dropdown-toggle" style="background:#2f3a1f;color:#d4af37;font-weight:600;"
                                     data-bs-toggle="dropdown">
@@ -216,6 +221,27 @@
 
 
 </div>
+
+
+
+
+
+
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.clickable-row').forEach(row => {
+            row.addEventListener('click', function () {
+                window.location.href = this.dataset.href;
+            });
+        });
+    });
+</script>
+@endpush
+
+
+
 
 @endsection
 
