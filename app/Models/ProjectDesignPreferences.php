@@ -32,7 +32,7 @@ class ProjectDesignPreferences extends Model
         'furniture_level',
         'bathroom_chairs',
         'underground_tank',
-        'skirting_type'
+        'insulation'
     ];
 
     protected $casts = [
@@ -57,7 +57,7 @@ class ProjectDesignPreferences extends Model
         'furniture_level' => 'string',
         'bathroom_chairs' => 'string',
         'underground_tank' => 'boolean',
-        'skirting_type' => 'string'
+        'insulation' => 'string'
     ];
 
     public static array $rules = [
@@ -84,7 +84,7 @@ class ProjectDesignPreferences extends Model
         'furniture_level' => 'nullable|string|max:255',
         'bathroom_chairs' => 'nullable|string|max:255',
         'underground_tank' => 'required|boolean',
-        'skirting_type' => 'nullable|string|max:255',
+        'insulation' => 'nullable|string|max:255',
         'created_at' => 'nullable',
         'updated_at' => 'nullable'
     ];

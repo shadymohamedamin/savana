@@ -620,12 +620,12 @@
 
 
 
-
-    <div id="global-loader" class="loader-overlay d-none">
+    
+    <!-- <div id="global-loader" class="loader-overlay d-none">
         <div class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
-    </div> 
+    </div> -->
 
         <main class="">
             @yield('content')
