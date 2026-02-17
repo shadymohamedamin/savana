@@ -88,17 +88,16 @@
 
 
 
-                    @php
+                   @php
                         $excludeTypes = ['رخصة جديدة', 'اعتماد مخطط', 'تعديل وإضافة'];
                         $siteDiff = '-';
 
-                        // نحسب فقط لو الحالة الحالية مش من التلاتة
                         if (
                             $row->opened_at &&
                             !in_array($row->statusType->name_ar ?? '', $excludeTypes)
                         ) {
-                            // ندوّر على أقرب حالة قبلها (تحتها في الجدول)
-                            for ($j = $i + 1; $j < count($baladyaApprovals); $j++) {
+                            // نلف على الحالات اللي قبلها (فوقها في الجدول)
+                            for ($j = $i - 1; $j >= 0; $j--) {
                                 $prev = $baladyaApprovals[$j];
 
                                 if (
@@ -111,6 +110,7 @@
                             }
                         }
                     @endphp
+
 
 
 
