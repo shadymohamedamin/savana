@@ -51,7 +51,8 @@ class ProjectOwnerSpecification extends Model
         'cleanout_rebates',
         'fence_grooves',
         'feeding_pipe_routing',
-        'feeding_pipe_install'
+        'feeding_pipe_install',
+
     ];
 
     protected $casts = [

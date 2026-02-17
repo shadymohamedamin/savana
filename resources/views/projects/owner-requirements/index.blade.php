@@ -565,129 +565,7 @@
 
 <div class="row">
 
-    <!-- {{-- السخان --}}
-    <div class="col-md-2 mb-4">
-        <label class="fw-bold d-block mb-2">السخان</label>
-        @foreach([
-        'مركزي مع سخان واحد  200L MILANO',
-        'مركزي مع 2 سخان 200L  كل واحد MILANO',
-        'عادي فوق كل حمام ArIston',
-        'مركزي مع 2 سخان 200L  كل واحد ARISTON'
-    ] as $opt)
-            <div class="form-check">
-                <input class="form-check-input" required type="radio" name="design[water_heater]" value="{{ $opt }}" {{ ($design?->water_heater == $opt) ? 'checked' : '' }}>
-                <label class="form-check-label">{{ $opt }}</label>
-            </div>
-        @endforeach
-    </div>
-
-    {{-- كراسي الحمامات --}}
-    <div class="col-md-2 mb-4">
-        <label class="fw-bold d-block mb-2">كراسي الحمامات</label>
-        @foreach([
-        'معلق مع سماكة جدار  25 سنتم',
-        'عادي',
-        'معلق بدون خزان  سماكة جدار  25 سنتم'
-    ] as $opt)
-            <div class="form-check">
-                <input class="form-check-input" required type="radio" name="design[bathroom_chairs]" value="{{ $opt }}" {{ ($design?->bathroom_chairs == $opt) ? 'checked' : '' }}>
-                <label class="form-check-label">{{ $opt }}</label>
-            </div>
-        @endforeach
-    </div>
-
-    {{-- خزان تحت الأرض --}}
-    <div class="col-md-2 mb-4">
-        <label class="fw-bold d-block mb-2">خزان تحت الأرض</label>
-        @foreach(['تيست'] as $opt)
-            <div class="form-check">
-                <input class="form-check-input" required type="radio" name="design[underground_tank]" value="{{ $opt }}" {{ ($design?->underground_tank == $opt) ? 'checked' : '' }}>
-                <label class="form-check-label">{{ $opt }}</label>
-            </div>
-        @endforeach
-    </div>
-
-    {{-- نعلة --}}
-    <div class="col-md-2 mb-4">
-        <label class="fw-bold d-block mb-2">نعلة</label>
-        @foreach(['تيست'] as $opt)
-            <div class="form-check">
-                <input class="form-check-input" required type="radio" name="design[skirting_type]" value="{{ $opt }}" {{ ($design?->skirting_type == $opt) ? 'checked' : '' }}>
-                <label class="form-check-label">{{ $opt }}</label>
-            </div>
-        @endforeach
-    </div>
-
-    {{-- الألمنيوم --}}
-    <div class="col-md-2 mb-4">
-        <label class="fw-bold d-block mb-2">الألمنيوم</label>
-        @foreach(['تيست'] as $opt)
-            <div class="form-check">
-                <input class="form-check-input" required type="radio" name="design[aluminum]" value="{{ $opt }}" {{ ($design?->aluminum == $opt) ? 'checked' : '' }}>
-                <label class="form-check-label">{{ $opt }}</label>
-            </div>
-        @endforeach
-    </div>
-
-    {{-- خزان المياه --}}
-    <div class="col-md-2 mb-4">
-        <label class="fw-bold d-block mb-2">خزان المياه</label>
-        @foreach(['تيست'] as $opt)
-            <div class="form-check">
-                <input class="form-check-input" required type="radio" name="design[water_tank]" value="{{ $opt }}" {{ ($design?->water_tank == $opt) ? 'checked' : '' }}>
-                <label class="form-check-label">{{ $opt }}</label>
-            </div>
-        @endforeach
-    </div>
-
-    {{-- الباب الرئيسي كاست المنيوم --}}
-    <div class="col-md-2 mb-4">
-        <label class="fw-bold d-block mb-2">الباب الرئيسي كاست المنيوم</label>
-        @foreach(['تيست'] as $opt)
-            <div class="form-check">
-                <input class="form-check-input" required type="radio" name="design[main_door_aluminum]" value="{{ $opt }}" {{ ($design?->main_door_aluminum == $opt) ? 'checked' : '' }}>
-                <label class="form-check-label">{{ $opt }}</label>
-            </div>
-        @endforeach
-    </div>
-
-    {{-- نوع الصبغ --}}
-    <div class="col-md-2 mb-4">
-        <label class="fw-bold d-block mb-2">نوع الصبغ</label>
-        @foreach(['تيست'] as $opt)
-            <div class="form-check">
-                <input class="form-check-input" required type="radio" name="design[paint_type]" value="{{ $opt }}" {{ ($design?->paint_type == $opt) ? 'checked' : '' }}>
-                <label class="form-check-label">{{ $opt }}</label>
-            </div>
-        @endforeach
-    </div>
-
-    {{-- الماء الحار والبارد للشطاف --}}
-    <div class="col-md-2 mb-4">
-        <label class="fw-bold d-block mb-2">الماء الحار والبارد للشطاف</label>
-        @foreach(['تيست'] as $opt)
-            <div class="form-check">
-                <input class="form-check-input" required type="radio" name="design[hot_cold_water_shattaf]" value="{{ $opt }}" {{ ($design?->hot_cold_water_shattaf == $opt) ? 'checked' : '' }}>
-                <label class="form-check-label">{{ $opt }}</label>
-            </div>
-        @endforeach
-    </div>
-
-    {{-- نقطة كهرباء سيارة --}}
-    <div class="col-md-2 mb-4">
-        <label class="fw-bold d-block mb-2">نقطة كهرباء سيارة</label>
-        @foreach(['تيست'] as $opt)
-            <div class="form-check">
-                <input class="form-check-input" required type="radio" name="design[car_electric_point]" value="{{ $opt }}" {{ ($design?->car_electric_point == $opt) ? 'checked' : '' }}>
-                <label class="form-check-label">{{ $opt }}</label>
-            </div>
-        @endforeach
-    </div> -->
-
-
-
-
-
+    
 
 
 
@@ -709,10 +587,16 @@
 
 @foreach($designOptions as $field => $options)
     <div class="col-md-2 mb-4">
-        <label class="fw-bold d-block mb-2">{{ __('label.'.$field) }}</label>
+        <label class="fw-bold d-block mb-2">{{ __($field) }}</label>
+
         @foreach($options as $opt)
             <div class="form-check">
-                <input class="form-check-input" required type="radio" name="design[{{ $field }}]" value="{{ $opt }}" {{ ($design?->$field == $opt) ? 'checked' : '' }}>
+                <input class="form-check-input"
+                       type="radio"
+                       name="designs[{{ $field }}]"
+                       value="{{ $opt }}"
+                       {{ ($designs?->$field == $opt) ? 'checked' : '' }}>
+
                 <label class="form-check-label">{{ $opt }}</label>
             </div>
         @endforeach
@@ -763,12 +647,20 @@
             <i class="fas fa-save"></i> حفظ الأسعار والكميات
         </button>
 
-        {{-- Preview --}}
+        <!-- {{-- Preview --}}
         <a target="_blank"
         href="{{ url('projects/'.$project->id.'/contract-owner-requirements?action=preview') }}"
         class="btn btn-outline-primary px-4 ">
             👁 معاينة اسعار التوريد والمواصفات 
+        </a> -->
+
+
+        <a target="_blank"
+            href="{{ route('projects.contract.pricing.pdf', $project->id) }}?action=preview"
+            class="btn btn-outline-success px-4">
+                  👁 معاينة اسعار التوريد والمواصفات 
         </a>
+
 
     </div>
 

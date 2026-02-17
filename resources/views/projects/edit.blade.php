@@ -297,7 +297,10 @@
 
 
 
-
+                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+                    {!! Form::label('qasmia_number', __('رقم القسيمة')) !!}
+                    {!! Form::text('qasmia_number', null, ['class' => 'form-control rounded']) !!}
+                </div>
 
 
 

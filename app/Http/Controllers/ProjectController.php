@@ -457,6 +457,111 @@ public function ownerRequirementContractPdf(Request $request, $id)
 }
 
 
+// App\Http\Controllers\OwnerRequirementController.php
+public function pricingContractPdf(Request $request, $id)
+{
+    $project = \App\Models\Project::findOrFail($id);
+
+    /*$items = \App\Models\OwnerRequirement::where('floor', 'pricing')
+        ->with(['projectOwnerRequirements' => function ($q) use ($project) {
+            $q->where('project_id', $project->id)
+              ->where('context', 'pricing');
+        }])
+        ->get()
+        ->map(function ($requirement) use ($project) {
+            if ($requirement->projectOwnerRequirements->isEmpty()) {
+                $requirement->projectOwnerRequirements->push(
+                    new \App\Models\ProjectOwnerRequirement([
+                        'quantity'   => 1,
+                        'unit_price' => 0,
+                        'notes'      => '',
+                        'project_id' => $project->id,
+                        'owner_requirement_id' => $requirement->id,
+                        'context' => 'pricing',
+                    ])
+                );
+            }
+            return $requirement;
+        })
+        ->groupBy('main_category');*/
+
+    $items = \App\Models\ProjectOwnerRequirement::with('ownerRequirement')
+    ->where('project_id', $project->id)
+    ->where('context', 'pricing')
+    ->get()
+    ->groupBy(fn ($row) => $row->ownerRequirement->main_category ?? 'أخرى');
+
+
+    $specs = $project->ownerSpecification;
+
+    $html = view('pdf.contract_pricing', compact('project', 'items', 'specs'))->render();
+
+    $mpdf = new \Mpdf\Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'default_font' => 'amiri',
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+    ]);
+
+    $mpdf->WriteHTML($html);
+
+    $action = $request->get('action', 'preview');
+
+    return match ($action) {
+        'download' => $mpdf->Output("contract_pricing_{$project->id}.pdf", 'D'),
+        'print'    => $mpdf->Output("contract_pricing_{$project->id}.pdf", 'I'),
+        default    => $mpdf->Output("contract_pricing_{$project->id}.pdf", 'I'),
+    };
+}
+
+/*public function pricingContractPdf(Request $request, $id)
+{
+    $project = \App\Models\Project::with([
+        'ownerUser',
+        'contractorUser',
+        'projectRegion',
+        'projectName',
+        'ownerRequirementsPricing.ownerRequirement',
+        'ownerSpecification'
+    ])->findOrFail($id);
+
+    // بنود التسعير (pricing)
+    $items = $project->ownerRequirementsPricing
+        ->groupBy(fn ($row) => $row->ownerRequirement->main_category ?? 'أخرى');
+
+    dd($items);
+
+    // مواصفات المالك (مش design)
+    $specs = $project->ownerSpecification;
+
+    $html = view(
+        'pdf.contract_pricing',
+        compact('project', 'items', 'specs')
+    )->render();
+
+    $mpdf = new \Mpdf\Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'default_font' => 'amiri',
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+    ]);
+
+    $mpdf->WriteHTML($html);
+
+    $action = $request->get('action', 'preview');
+
+    return match ($action) {
+        'download' => $mpdf->Output("contract_pricing_{$project->id}.pdf", 'D'),
+        'print'    => $mpdf->Output("contract_pricing_{$project->id}.pdf", 'I'),
+        default    => $mpdf->Output("contract_pricing_{$project->id}.pdf", 'I'),
+    };
+}*/
+
+
+
+
 public function bankTableContractPdf(Request $request, $id)
 {
     $project = \App\Models\Project::with(['ownerUser', 'contractorUser'])->findOrFail($id);

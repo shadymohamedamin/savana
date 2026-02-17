@@ -246,6 +246,15 @@ Route::get('/projects/{id}/contract-owner-requirements',
 )->name('projects.contract.owner-requirements.pdf');
 
 
+
+Route::get(
+    '/projects/{id}/contract-pricing',
+    [App\Http\Controllers\ProjectController::class, 'pricingContractPdf']
+)->name('projects.contract.pricing.pdf');
+
+
+
+
     Route::get(
         '/projects/{id}/contract',
         [App\Http\Controllers\ProjectController::class, 'contractPdf']

@@ -192,6 +192,8 @@ public function index(Project $project, Request $request)
         ? $project->ownerRequirementsPricing->keyBy('id')
         : $project->ownerRequirementsOwner->keyBy('id');
     $design = $project->designPreferences;
+    $designs = $project->ownerSpecification;
+
 
 
 
@@ -213,7 +215,7 @@ public function index(Project $project, Request $request)
         'عادي',
         'مركزي مخفي للسطح او للجدران الخارجية'
     ],
-    'skirting_type' => [
+    'insulation' => [
         'شامل النعلات - مخفية',
         'شامل النعلات - مخفية مع ستيل',
         'شامل النعلات - عادية',
@@ -372,18 +374,74 @@ public function index(Project $project, Request $request)
     'planting_basins' => [
         'يوجد',
         'لايوجد'
-    ]
+    ],
+    'feeding_pipe_routing' => [
+        'داخلي',
+        'خارجي'
+    ],
+
+    'fence_grooves' => [
+        'يوجد',
+        'لا يوجد'
+    ],
+
 ];
 
 
 
 
+/*$designFieldMap = [
+
+    // اختلاف أسماء
+    'skirting_type'               => 'insulation',
+
+    // نفس الاسم (Direct mapping)
+    'water_heater'                => 'water_heater',
+    'bathroom_chairs'             => 'bathroom_chairs',
+    'exhaust_fan'                 => 'exhaust_fan',
+    'insulation'                  => 'insulation',
+    'aluminum'                    => 'aluminum',
+    'water_tank'                  => 'water_tank',
+    'ac_water_recovery_tank'      => 'ac_water_recovery_tank',
+    'washroom_faucets'            => 'washroom_faucets',
+    'sanitary_drainage'           => 'sanitary_drainage',
+    'ceramic_tiles'               => 'ceramic_tiles',
+    'water_tank_capacity'         => 'water_tank_capacity',
+    'door_heights'                => 'door_heights',
+    'main_door'                   => 'main_door',
+    'paint_type'                  => 'paint_type',
+    'hot_cold_water_for_bidet'    => 'hot_cold_water_for_bidet',
+    'facade_lighting_points'      => 'facade_lighting_points',
+    'fence_water_points'          => 'fence_water_points',
+    'fence_electric_points'       => 'fence_electric_points',
+    'car_electric_point'          => 'car_electric_point',
+    'exterior_stone_tiles'        => 'exterior_stone_tiles',
+    'camera_points'               => 'camera_points',
+    'annex_ceramic_price'         => 'annex_ceramic_price',
+    'pantry_plumbing_first_floor' => 'pantry_plumbing_first_floor',
+    'hidden_plaster_beam'         => 'hidden_plaster_beam',
+    'roof_water_point'            => 'roof_water_point',
+    'roof_electric_point'         => 'roof_electric_point',
+    'feeding_pipe_install'        => 'feeding_pipe_install',
+    'ac_civil_works'              => 'ac_civil_works',
+    'front_stairs'                => 'front_stairs',
+    'floor_protection'            => 'floor_protection',
+    'first_floor_bath_drainage'   => 'first_floor_bath_drainage',
+    'central_exhaust_fans'        => 'central_exhaust_fans',
+    'bath_wall_niches'            => 'bath_wall_niches',
+    'garage_door_electric_point'  => 'garage_door_electric_point',
+    'curb_grooves'                => 'curb_grooves',
+    'window_electric_points'      => 'window_electric_points',
+    'sound_system_pipes'          => 'sound_system_pipes',
+    'cleanout_rebates'            => 'cleanout_rebates',
+    'planting_basins'             => 'planting_basins',
+];*/
 
 
 
 
     return view('projects.owner-requirements.index', compact(
-        'project', 'requirements', 'items', 'context', 'design', 'selected','designOptions'
+        'project', 'requirements', 'items', 'context', 'design', 'selected','designOptions','designs'
     ));
 }
 
@@ -637,15 +695,15 @@ public function savePricing(Request $request, Project $project)
             ];
         }
     }
-    if ($request->filled('design')) {
+    //dd($request);
+    if ($request->filled('designs')) {
 
-    $mappedDesign = $this->mapDesignToSpecification($request->design);
+        $project->ownerSpecification()->updateOrCreate(
+            ['project_id' => $project->id],
+            $request->designs   // 👈 مباشر
+        );
+    }
 
-    $project->ownerSpecification()->updateOrCreate(
-        ['project_id' => $project->id],
-        $mappedDesign
-    );
-}
 
 
 
