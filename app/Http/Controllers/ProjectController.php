@@ -55,7 +55,7 @@ class ProjectController extends AppBaseController
 
 
     if ($request->filled('qasmia_number')) {
-        $query->where('qasmia_number', 'like', '%' . $request->qasima_number . '%');
+        $query->where('qasmia_number', 'like', '%' . $request->qasmia_number . '%');
     }
 
     if ($request->filled('owner_name')) {
