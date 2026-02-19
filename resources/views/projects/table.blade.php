@@ -87,9 +87,9 @@
 
                 {{-- Project Qasmia --}}
                 <div class="col-md">
-                    <input type="text" name="qasima_number" class="form-control rounded-3"
+                    <input type="text" name="qasmia_number" class="form-control rounded-3"
                            placeholder="{{ __('رقم القسيمة') }}"
-                           value="{{ request('qasima_number') }}">
+                           value="{{ request('qasmia_number') }}">
                 </div>
 
 
