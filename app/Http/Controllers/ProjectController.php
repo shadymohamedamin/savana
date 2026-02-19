@@ -54,8 +54,8 @@ class ProjectController extends AppBaseController
     }
 
 
-    if ($request->filled('qasima_number')) {
-        $query->where('qasima_number', 'like', '%' . $request->qasima_number . '%');
+    if ($request->filled('qasmia_number')) {
+        $query->where('qasmia_number', 'like', '%' . $request->qasima_number . '%');
     }
 
     if ($request->filled('owner_name')) {
@@ -462,7 +462,7 @@ public function pricingContractPdf(Request $request, $id)
 {
     $project = \App\Models\Project::findOrFail($id);
 
-    /*$items = \App\Models\OwnerRequirement::where('floor', 'pricing')
+    $items = \App\Models\OwnerRequirement::where('floor', 'pricing')
         ->with(['projectOwnerRequirements' => function ($q) use ($project) {
             $q->where('project_id', $project->id)
               ->where('context', 'pricing');
@@ -483,15 +483,15 @@ public function pricingContractPdf(Request $request, $id)
             }
             return $requirement;
         })
-        ->groupBy('main_category');*/
+        ->groupBy('main_category');
 
-    $items = \App\Models\ProjectOwnerRequirement::with('ownerRequirement')
+    /*$items = \App\Models\ProjectOwnerRequirement::with('ownerRequirement')
     ->where('project_id', $project->id)
     ->where('context', 'pricing')
     ->get()
-    ->groupBy(fn ($row) => $row->ownerRequirement->main_category ?? 'أخرى');
+    ->groupBy(fn ($row) => $row->ownerRequirement->main_category ?? 'أخرى');*/
 
-
+    //dd($items);
     $specs = $project->ownerSpecification;
 
     $html = view('pdf.contract_pricing', compact('project', 'items', 'specs'))->render();

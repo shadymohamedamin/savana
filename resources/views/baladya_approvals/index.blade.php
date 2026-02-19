@@ -141,7 +141,7 @@
 
                     <td style="background:#f5f5dc;">{{ $row->reason }}</td>
                     <td style="background:#f5f5dc;">{{ $row->building_license_number }}</td>
-                    <td style="background:#f5f5dc; max-width:120px;">
+                    <td style="background:#f5f5dc; max-width:120px;" onclick="event.stopPropagation();">
                         @if($row->approved_file)
                             <a href="{{ asset('Files/' . $row->approved_file) }}"
                             target="_blank"
@@ -152,7 +152,7 @@
                             -
                         @endif
                     </td>
-                    <td style="background:#f5f5dc; max-width:120px;">
+                    <td style="background:#f5f5dc; max-width:120px;" onclick="event.stopPropagation();">
                         @if($row->building_license_file)
                             <a href="{{ asset('Files/' . $row->building_license_file) }}"
                             target="_blank"

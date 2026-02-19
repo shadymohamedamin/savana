@@ -185,6 +185,18 @@ public function index(Project $project, Request $request)
             ->groupBy('main_category');
     }
 
+
+    $groups = OwnerRequirement::with([
+            'children.children', // section + items
+            'children.children.projectOwnerRequirements' // pivot
+        ])
+        ->where('floor', $context)
+        ->where('type', 'group')
+        ->whereNull('parent_id')
+        ->get();
+
+
+
     /*$selected = $context === 'pricing'
         ? $project->ownerRequirements->where('pivot.context', $context)->keyBy('id')
         : $project->ownerRequirements->keyBy('id');*/
@@ -441,7 +453,7 @@ public function index(Project $project, Request $request)
 
 
     return view('projects.owner-requirements.index', compact(
-        'project', 'requirements', 'items', 'context', 'design', 'selected','designOptions','designs'
+        'groups','project', 'requirements', 'items', 'context', 'design', 'selected','designOptions','designs'
     ));
 }
 
@@ -721,6 +733,39 @@ public function savePricing(Request $request, Project $project)
 }
 
 
+public function saveTender(Request $request, Project $project)
+{
+    $syncData = [];
+
+    foreach ($request->requirements ?? [] as $ownerRequirementId => $data) {
+
+        $qty   = isset($data['quantity']) ? (int)$data['quantity'] : 0;
+        $price = isset($data['unit_price']) ? (float)$data['unit_price'] : 0;
+        $notes = $data['notes'] ?? '';
+
+        // ✅ الشرط المهم: احفظ العناصر اللي الكمية والسعر أكبر من 0
+        if ($qty > 0 && $price > 0) {
+            $syncData[$ownerRequirementId] = [
+                'quantity'    => $qty,
+                'unit_price'  => $price,
+                'total_price' => $qty * $price,
+                'notes'       => $notes,
+                'context'     => 'tender' // 👈 الفرق: هنا السياق tender
+            ];
+        }
+    }
+
+
+    // حفظ البيانات في الـ pivot table لو في عناصر صالحة
+    if (!empty($syncData)) {
+        $project->ownerRequirementsPricing()->syncWithoutDetaching($syncData);
+    }
+
+    return redirect()->back()->with('toast', [
+        'type'    => 'success',
+        'message' => 'تم حفظ بيانات العطاء بنجاح'
+    ]);
+}
 
 
 
