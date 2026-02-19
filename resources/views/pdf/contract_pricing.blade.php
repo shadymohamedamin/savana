@@ -75,17 +75,24 @@ th, td {
 
 @php $total = 0; @endphp
 
-@foreach($rows as $row)
-@php $total += $row->total_price; @endphp
-<tr class="center">
-    <td>{{ $row->ownerRequirement->name }}</td>
-    <td>{{ $row->ownerRequirement->unit }}</td>
-    <td>{{ $row->quantity }}</td>
-    <td>{{ number_format($row->unit_price) }}</td>
-    <td>{{ number_format($row->total_price) }}</td>
-    <td>{{ $row->notes }}</td>
-</tr>
+@foreach($rows as $requirement)
+
+    @php
+        $pivot = $requirement->projectOwnerRequirements->first();
+        $total = $pivot->quantity * $pivot->unit_price;
+    @endphp
+
+    <tr class="center">
+        <td>{{ $requirement->name }}</td>
+        <td>{{ $requirement->unit }}</td>
+        <td>{{ $pivot->quantity }}</td>
+        <td>{{ number_format($pivot->unit_price) }}</td>
+        <td>{{ number_format($total) }}</td>
+        <td>{{ $pivot->notes }}</td>
+    </tr>
+
 @endforeach
+
 
 <tr class="bold center">
     <td colspan="4">إجمالي {{ $category }}</td>

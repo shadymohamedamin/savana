@@ -86,6 +86,13 @@
     </a>
 
 
+    <a href="{{ route('projects.owner-requirements.index', [$project, 'context' => 'tender']) }}"
+        class="btn btn-sm"
+        style="background:#2f3a1f;color:#d4af37;">
+            <i class="fas fa-file-signature"></i> حساب الكميات
+    </a>
+
+
   
     <a  href="{{ url('#') }}"
        class="btn btn-sm"

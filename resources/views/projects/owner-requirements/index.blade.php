@@ -475,6 +475,107 @@
 
 
 
+
+
+
+
+
+
+@if($context === 'tender')
+
+<h5 class="text-center fw-bold mb-3">حساب الكميات  </h5>
+
+<form action="{{ route('projects.owner-requirements.saveTender', $project->id) }}" method="POST">
+
+    @csrf
+
+    @foreach($groups as $group)
+        <h4 class="fw-bold mt-4">{{ $group->name_ar }}</h4>
+
+        @foreach($group->children as $section)
+            <h5 class="fw-bold mt-3">{{ $section->name_ar }}</h5>
+
+            <table class="table table-bordered text-center">
+                <thead>
+                    <tr>
+                        <th>البند</th>
+                        <th>الوحدة</th>
+                        <th>الكمية</th>
+                        <th>سعر الوحدة</th>
+                        <th>الإجمالي</th>
+                        <th>ملاحظات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php $sectionTotal = 0; @endphp
+                    @foreach($section->children as $item)
+                        @php
+                            $pivot = optional($item->projectOwnerRequirements->first());
+                            $qty = $pivot->quantity ?? 0;
+                            $price = $pivot->unit_price ?? 0;
+                            $total = $qty * $price;
+                            $sectionTotal += $total;
+                        @endphp
+                        <tr>
+                            <td>{{ $item->name_ar }}</td>
+                            <td>{{ $item->unit }}</td>
+                            <td>
+                                <input type="number" name="requirements[{{ $item->id }}][quantity]" value="{{ $qty }}" min="0" class="form-control qty" />
+                            </td>
+                            <td>
+                                <input type="number" name="requirements[{{ $item->id }}][unit_price]" value="{{ $price }}" step="0.01" class="form-control price" />
+                            </td>
+                            <td class="total">{{ number_format($total, 2) }}</td>
+                            <td>
+                                <input type="text" name="requirements[{{ $item->id }}][notes]" value="{{ $pivot->notes ?? '' }}" class="form-control" />
+                            </td>
+                        </tr>
+                    @endforeach
+                    <tr class="table-secondary fw-bold">
+                        <td colspan="4">مجموع {{ $section->name_ar }}</td>
+                        <td colspan="2" class="section-total">{{ number_format($sectionTotal, 2) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        @endforeach
+    @endforeach
+
+    <button type="submit" class="btn btn-primary mt-3">حفظ</button>
+</form>
+
+<script>
+document.querySelectorAll('table').forEach(table => {
+    table.addEventListener('input', e => {
+        if(e.target.classList.contains('qty') || e.target.classList.contains('price')) {
+            let tr = e.target.closest('tr');
+            let qty = parseFloat(tr.querySelector('.qty').value) || 0;
+            let price = parseFloat(tr.querySelector('.price').value) || 0;
+            let total = qty * price;
+            tr.querySelector('.total').textContent = total.toLocaleString(undefined, {minimumFractionDigits: 2});
+            
+            // تحديث إجمالي القسم
+            let sectionTotal = 0;
+            table.querySelectorAll('tbody tr').forEach(r => {
+                let t = parseFloat(r.querySelector('.total')?.textContent.replace(/,/g, '')) || 0;
+                sectionTotal += t;
+            });
+            table.querySelector('.section-total').textContent = sectionTotal.toLocaleString(undefined, {minimumFractionDigits: 2});
+        }
+    });
+});
+</script>
+
+@endif
+
+
+
+
+
+
+
+
+
+
 @if($context === 'pricing')
 
 <h5 class="text-center fw-bold mb-3">أسعار توريد التشطيبات</h5>
@@ -482,63 +583,100 @@
 <form action="{{ route('projects.owner-requirements.savePricing', $project->id) }}" method="POST">
     @csrf
 
-    @foreach($items as $mainCategory => $rows)
+    @foreach($groups as $group)
 
-        <h5 class="fw-bold mt-4">{{ $mainCategory }}</h5>
+    <div class="mt-5">
+        <h3 class="fw-bold text-primary border-bottom pb-2">
+            {{ $group->name_ar }}
+        </h3>
+    </div>
 
-        <table class="table table-bordered text-center category-table" data-category="{{ $mainCategory }}">
-            <thead>
+    @foreach($group->children as $section)
+
+        <div class="mt-4">
+            <h5 class="fw-bold text-dark">
+                {{ $section->name_ar }}
+            </h5>
+        </div>
+
+        <table class="table table-bordered text-center">
+            <thead class="table-light">
                 <tr>
                     <th>البند</th>
                     <th>الوحدة</th>
                     <th>الكمية</th>
-                    <th>سعر التوريد</th>
+                    <th>سعر الوحدة</th>
                     <th>الإجمالي</th>
                     <th>ملاحظات</th>
                 </tr>
             </thead>
             <tbody>
 
-            @php $categoryTotal = 0; @endphp
+                @php $sectionTotal = 0; @endphp
 
-            @foreach($rows as $row)
-                @php
-                    $pivot = optional($row->projectOwnerRequirements->first());
+                @foreach($section->children as $item)
 
-                    $name  = $row->name ?? '';
-                    $unit  = $row->unit ?? '';
-                    $qty   = $pivot->quantity ?? 1; 
-                    $price = $pivot->unit_price ?? 0;
-                    $notes = $pivot->notes ?? '';
-                    $total = $qty * $price;
-                    $categoryTotal += $total;
-                @endphp
+                    @php
+                        $pivot = optional(
+                            $item->projectOwnerRequirements
+                                ->where('pivot.context','tender')
+                                ->first()
+                        );
 
-                <tr>
-                    <td>{{ $name }}</td>
-                    <td>{{ $unit }}</td>
-                    <td>
-                        <input type="number" name="requirements[{{ $row->id }}][quantity]" value="{{ $qty }}" min="1" class="form-control text-center qty" />
+                        $qty = $pivot->quantity ?? 0;
+                        $price = $pivot->unit_price ?? 0;
+                        $total = $qty * $price;
+                        $sectionTotal += $total;
+                    @endphp
+
+                    <tr>
+                        <td class="text-start">{{ $item->name_ar }}</td>
+                        <td>{{ $item->unit }}</td>
+
+                        <td>
+                            <input type="number"
+                                   name="requirements[{{ $item->id }}][quantity]"
+                                   value="{{ $qty }}"
+                                   class="form-control qty">
+                        </td>
+
+                        <td>
+                            <input type="number"
+                                   name="requirements[{{ $item->id }}][unit_price]"
+                                   value="{{ $price }}"
+                                   step="0.01"
+                                   class="form-control price">
+                        </td>
+
+                        <td class="total">
+                            {{ number_format($total,2) }}
+                        </td>
+
+                        <td>
+                            <input type="text"
+                                   name="requirements[{{ $item->id }}][notes]"
+                                   value="{{ $pivot->notes ?? '' }}"
+                                   class="form-control">
+                        </td>
+                    </tr>
+
+                @endforeach
+
+                <tr class="table-secondary fw-bold">
+                    <td colspan="4">
+                        مجموع {{ $section->name_ar }}
                     </td>
-                    <td>
-                        <input type="number" name="requirements[{{ $row->id }}][unit_price]" value="{{ $price }}" step="1" class="form-control text-center price" />
-                    </td>
-                    <td class="total">{{ number_format($total) }}</td>
-                    <td>
-                        <input type="text" name="requirements[{{ $row->id }}][notes]" value="{{ $notes }}" class="form-control" />
+                    <td colspan="2" class="section-total">
+                        {{ number_format($sectionTotal,2) }}
                     </td>
                 </tr>
-            @endforeach
-
-            <tr class="table-secondary fw-bold category-total">
-                <td colspan="4">مجموع {{ $mainCategory }}</td>
-                <td colspan="2">{{ number_format($categoryTotal) }}</td>
-            </tr>
 
             </tbody>
         </table>
 
     @endforeach
+
+@endforeach
 
 
     <input type="hidden" name="context" value="{{ $context }}">

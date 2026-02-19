@@ -167,6 +167,10 @@ Route::middleware(['auth'])->group(function () {
 Route::post('/projects/{project}/owner-requirements/save-pricing', 
     [OwnerRequirementController::class, 'savePricing'])
     ->name('projects.owner-requirements.savePricing');
+    
+Route::post('/projects/{project}/owner-requirements/tender',
+    [ProjectController::class, 'saveTender']
+)->name('projects.owner-requirements.saveTender');
 
 
 
