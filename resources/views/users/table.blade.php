@@ -159,7 +159,7 @@
 
             <tbody style="background-color: #f5f5dc;">
             @foreach($users as $user)
-                <tr class="project-row" data-href="{{ route('users.edit', $user->id) }}" style="background-color: #f5f5dc;">
+                <tr class="project-row" data-href="{{ route('users.edit', $user->id) }}" style="background-color: #f5f5dc; cursor:pointer;">
                     <td style="background-color: #f5f5dc;">
                         {{ $loop->iteration }}
                     </td>
