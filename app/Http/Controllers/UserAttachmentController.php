@@ -189,7 +189,7 @@ public function create(Request $request, $id)
 
     // 👇 if admin or special role, merge types
     if (
-        $currentUser->role_id == 1 &&
+        ($currentUser->role_id == 1 || $currentUser->role_id == 4 || $currentUser->role_id == 11) &&
         $type === 'users' &&
         $model->id === $currentUser->id
     ) {
@@ -400,7 +400,7 @@ public function store(Request $request, $id)
 
     if ($type === 'projects') {
         return redirect()
-            ->route('projects.index')
+            ->back()
             ->with('toast', [
                 'type' => 'success',
                 'message' => __('Saved successfully')
@@ -408,7 +408,7 @@ public function store(Request $request, $id)
     }
 
     return redirect()
-        ->route('users.index')
+        ->back()
         ->with('toast', [
             'type' => 'success',
             'message' => __('Saved successfully')

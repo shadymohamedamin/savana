@@ -73,8 +73,8 @@
                 <th style="background:#f5f5dc;">{{ __('فرق الموقع') }}</th>
                 <th style="background:#f5f5dc;">{{ __('السبب') }}</th>
                 <th style="background:#f5f5dc;">{{ __('رقم الرخصة') }}</th>
-                <th style="background:#f5f5dc;">{{ __('ملف اعتماد البلدية') }}</th>
-                <th style="background:#f5f5dc;">{{ __('ملف رخصة البناء') }}</th>
+                <th style="background:#f5f5dc;">{{ __('مخططات معتمدة') }}</th>
+                <th style="background:#f5f5dc;">{{ __('رخصة البناء') }}</th>
                 <th style="background:#f5f5dc;">{{ __('الإجراءات') }}</th>
 
             </tr>
@@ -163,6 +163,78 @@
                             -
                         @endif
                     </td>
+
+
+
+
+
+
+
+
+<td style="background:#f5f5dc; max-width:120px;" onclick="event.stopPropagation();">
+                        @if($row->architect_file)
+                            <a href="{{ asset('Files/' . $row->architect_file) }}"
+                            target="_blank"
+                            class="text-truncate text-primary fw-semibold" style="max-width:120px;">
+                                📄 {{ 'ملف' }}
+                            </a>
+                        @else
+                            -
+                        @endif
+                    </td>
+                    <td style="background:#f5f5dc; max-width:120px;" onclick="event.stopPropagation();">
+                        @if($row->civil_file)
+                            <a href="{{ asset('Files/' . $row->civil_file) }}"
+                            target="_blank"
+                            class="text-truncate text-primary fw-semibold" style="max-width:120px;">
+                                📄 {{ 'ملف' }}
+                            </a>
+                        @else
+                            -
+                        @endif
+                    </td>
+                    <td style="background:#f5f5dc; max-width:120px;" onclick="event.stopPropagation();">
+                        @if($row->electrical_file)
+                            <a href="{{ asset('Files/' . $row->electrical_file) }}"
+                            target="_blank"
+                            class="text-truncate text-primary fw-semibold" style="max-width:120px;">
+                                📄 {{ 'ملف' }}
+                            </a>
+                        @else
+                            -
+                        @endif
+                    </td>
+                    <td style="background:#f5f5dc; max-width:120px;" onclick="event.stopPropagation();">
+                        @if($row->water_file)
+                            <a href="{{ asset('Files/' . $row->water_file) }}"
+                            target="_blank"
+                            class="text-truncate text-primary fw-semibold" style="max-width:120px;">
+                                📄 {{ 'ملف' }}
+                            </a>
+                        @else
+                            -
+                        @endif
+                    </td>
+                    <td style="background:#f5f5dc; max-width:120px;" onclick="event.stopPropagation();">
+                        @if($row->etisalat_file)
+                            <a href="{{ asset('Files/' . $row->etisalat_file) }}"
+                            target="_blank"
+                            class="text-truncate text-primary fw-semibold" style="max-width:120px;">
+                                📄 {{ 'ملف' }}
+                            </a>
+                        @else
+                            -
+                        @endif
+                    </td>
+
+
+
+
+
+
+
+
+
 
 
                     <td style="background:#f5f5dc;"  onclick="event.stopPropagation();">

@@ -24,7 +24,7 @@
         </button>
 
         {{-- Filter Box --}}
-        <div id="filterBox" class="collapse">
+        <div id="filterBox" class="collaps">
             <form method="GET" action="{{ route('users.index') }}">
                 <div class="row g-2">
 
@@ -142,7 +142,7 @@
                style="border:1px solid #D4AF37">
 
             <thead style="background:#D4AF37;color:#000">
-            <tr style="background-color: #f5f5dc;">
+            <tr  style="background-color: #f5f5dc;">
                 <th style="background-color: #f5f5dc;">#</th>
                 <th  style="background-color: #f5f5dc;">{{ __('Name') }}</th>
                 <th style="background-color: #f5f5dc;">{{ __('Email') }}</th>
@@ -158,7 +158,7 @@
 
             <tbody style="background-color: #f5f5dc;">
             @foreach($users as $user)
-                <tr style="background-color: #f5f5dc;">
+                <tr class="project-row" data-href="{{ route('users.edit', $user->id) }}" style="background-color: #f5f5dc;">
                     <td style="background-color: #f5f5dc;">
                         {{ $loop->iteration }}
                     </td>
@@ -186,7 +186,7 @@
                             {{ $user->is_admin ? __('Yes') : __('No') }}
                         </span>
                     </td> -->
-                    <td style="background-color: #f5f5dc;">
+                    <td style="background-color: #f5f5dc;" onclick="event.stopPropagation();">
                         {{-- Actions Dropdown --}}
 
 <!-- <button class="btn btn-sm btn-secondary dropdown-toggle"
@@ -267,3 +267,27 @@
 }
 </style>
 @endpush
+
+
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.querySelectorAll('.project-row').forEach(row => {
+        row.addEventListener('click', function (e) {
+
+            // امنع التنقل لو الضغط على زر أو لينك أو dropdown
+            if (
+                e.target.closest('a') ||
+                e.target.closest('button') ||
+                e.target.closest('.dropdown')
+            ) {
+                return;
+            }
+
+            window.location = this.dataset.href;
+        });
+    });
+});
+</script>

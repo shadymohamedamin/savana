@@ -145,7 +145,7 @@
 
         {{-- Buttons --}}
         <div class="card-footer d-flex justify-content-center gap-3">
-            {!! Form::submit(__('Save'), [
+            {!! Form::submit(__('حفظ'), [
                 'class' => 'btn btn-olive btn-sm',
                 'style' => 'background-color: #2f3a1f;border: 1px solid #2f3a1f;color: #d4af37;font-weight:600;'
             ]) !!}

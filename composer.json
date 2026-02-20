@@ -13,6 +13,7 @@
         "guzzlehttp/guzzle": "^7.2",
         "infyomlabs/adminlte-templates": "^6.0",
         "infyomlabs/laravel-generator": "6.0",
+        "kwn/number-to-words": "^2.12",
         "laravel/fortify": "^1.25",
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",

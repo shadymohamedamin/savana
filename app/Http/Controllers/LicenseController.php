@@ -49,10 +49,10 @@ class LicenseController extends Controller
             newValues: []
         );
 
-        \Mail::raw("🔐 The website was activated until {$license['valid_until']}.", function ($message) {
+        /*\Mail::raw("🔐 The website was activated until {$license['valid_until']}.", function ($message) {
             $message->to('it@rakcharity.ae')
                     ->subject('✅ Website License Activated');
-        });
+        });*/
         return back()->with('success', '✅ License activated until ' . $request->valid_until);
     }
 }

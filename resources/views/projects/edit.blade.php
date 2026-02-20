@@ -516,7 +516,7 @@
         <div class="card-footer d-flex justify-content-center gap-3">
 
             <button type="submit" class="btn btn-olive btn-sm">
-                💾 {{ __('Edit') }}
+                💾 {{ __('حفظ') }}
             </button>
 
             {{-- 🔹 Edit / Upload Attachments    href="{{ url('users/'.$user->id.'/attachments/create?type=projects') }}" --}}
