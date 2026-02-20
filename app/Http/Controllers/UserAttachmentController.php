@@ -152,6 +152,7 @@ public function create(Request $request, $id)
     $type = $request->query('type', 'users'); // default users
     $mode = $request->query('mode');
     $isTender = $mode === 'tender';
+    $isContractorFiles=$mode === 'contractor_files';
 
     $modelClass = $this->resolveModel($type);
     $model = $modelClass::findOrFail($id);
@@ -218,7 +219,15 @@ public function create(Request $request, $id)
     if ($isTender) {
 
         // tender ==>(25-33-34-35)
-        $defaultTypes = [25, 33, 34, 35];
+        $defaultTypes = [40,41,2,14,13];//[25, 33, 34, 35];
+    }
+
+
+
+    if ($isContractorFiles) {
+
+        // tender ==>(25-33-34-35)
+        $defaultTypes = [25, 33, 34, 35,36,37,38,39];
     }
 
 
