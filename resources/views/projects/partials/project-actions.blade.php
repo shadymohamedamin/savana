@@ -30,8 +30,8 @@
 
 <div class="owner-box" style="margin-right:2rem;width:100%;">
     <i class="fas fa-user-tie"></i>
-    <span>اسم المالك:</span>
-    <strong>{{ optional($project->ownerUser)->name }}</strong>
+    <span style="font-size:22px;">اسم المالك:</span>
+    <strong style="font-size:22px;">{{ optional($project->ownerUser)->name }}</strong>
 </div>
 
 <div class="d-flex flex-wrap gap-2 m-3">
