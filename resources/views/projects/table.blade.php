@@ -74,7 +74,7 @@
     </button>
 
     {{-- Filter Box --}}
-    <div id="filterBox" class="collapse">
+    <div id="filterBox" class="collaps">
         <form method="GET" action="{{ route('projects.index') }}">
             <div class="row g-2">
 
@@ -215,7 +215,8 @@
                     @endphp
                     
                         <td style="background-color:#f5f5dc;">
-                            {{ $lastApproval->statusType->name_ar ?? '—' }}
+                            <!-- {{ $lastApproval->statusType->name_ar ?? '—' }} -->
+                             {{ $project->baladyaStatusType->name_ar ?? '—' }}
                         </td>
                         <td style="background-color:#f5f5dc;">
                             {{ $project->supervision_visits_count ?? '—' }}
@@ -224,10 +225,12 @@
                             {{ $project->bank_contract_value ?? '—' }}
                         </td>
                         <td style="background-color:#f5f5dc;">
-                           
-                            {{ \Carbon\Carbon::parse($project->contractor_contract_end_date)->format('Y-m-d') }}
-                            <!-- {{ $daysDiff ?? '—' }} -->
+                            {{ $project->contractor_contract_end_date 
+                                ? \Carbon\Carbon::parse($project->contractor_contract_end_date)->format('Y-m-d') 
+                                : '-' 
+                            }}
                         </td>
+
                         <td style="background-color:#f5f5dc;">
                             {{ number_format($project->paid_with_vat ?? 0, 0) }}
                         </td>

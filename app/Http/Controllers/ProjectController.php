@@ -600,6 +600,7 @@ public function bankTableContractPdf(Request $request, $id)
     public function store(CreateProjectRequest $request)
     {
         $input = $request->all();
+        //dd($input);
         //$input["duration"] = $request->input("duration", 0);
         // Generate project code
         $lastProject = \App\Models\Project::orderBy('id', 'desc')->first();
@@ -646,7 +647,7 @@ public function bankTableContractPdf(Request $request, $id)
         }
 
         return redirect()
-            ->route('projects.index')
+            ->back()
             ->with('toast', [
                 'type' => 'success',
                 'message' => __('Project saved successfully.')
@@ -719,7 +720,7 @@ public function bankTableContractPdf(Request $request, $id)
     /**
      * Update the specified Project in storage.
      */
-    public function update($id, UpdateProjectRequest $request)
+    /*public function update($id, UpdateProjectRequest $request)
     {
         $project = $this->projectRepository->find($id);
 
@@ -740,7 +741,72 @@ public function bankTableContractPdf(Request $request, $id)
                 'message' => __('Project updated successfully.')
             ]);
 
+    }*/
+
+
+public function update($id, UpdateProjectRequest $request)
+{
+    $project = $this->projectRepository->find($id);
+
+    if (empty($project)) {
+        return redirect()->back()
+            ->with('toast', [
+                'type' => 'error',
+                'message' => __('Project not found.')
+            ]);
     }
+
+    // تحديث بيانات المشروع
+    $project = $this->projectRepository->update($request->all(), $id);
+
+    // =============================
+    // تحديث المستخدمين المرتبطين
+    // =============================
+    $roles = [
+        'owner_id'      => 2,
+        'contractor_id' => 3,
+        'consultant_id' => 7,
+    ];
+
+    foreach ($roles as $field => $roleId) {
+
+        if ($request->filled($field)) {
+
+            \App\Models\ProjectUser::updateOrCreate(
+                [
+                    'project_id' => $project->id,
+                    'role_id'    => $roleId,
+                ],
+                [
+                    'user_id' => $request->$field,
+                ]
+            );
+        }
+    }
+
+    // =============================
+    // لو عايز يروح للمرفقات بعد التحديث
+    // =============================
+    if ($request->action === 'save_attachments') {
+
+        return redirect()->route('users.attachments.create', [
+                'id'   => $project->id,
+                'type' => 'projects'
+            ])->with('toast', [
+                'type'    => 'success',
+                'message' => __('Project updated successfully. You can now upload attachments.')
+            ]);
+    }
+
+    return redirect()
+        ->back()
+        ->with('toast', [
+            'type'    => 'success',
+            'message' => __('Project updated successfully.')
+        ]);
+}
+
+
 
     /**
      * Remove the specified Project from storage.
@@ -754,13 +820,13 @@ public function bankTableContractPdf(Request $request, $id)
         if (empty($project)) {
             Flash::error('Project not found');
 
-            return redirect(route('projects.index'));
+            return redirect()->back();
         }
 
         $this->projectRepository->delete($id);
 
         Flash::success('Project deleted successfully.');
 
-        return redirect(route('projects.index'));
+        return redirect()->back();
     }
 }

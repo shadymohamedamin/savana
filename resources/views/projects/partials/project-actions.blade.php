@@ -17,7 +17,7 @@
     }
 
     .owner-box i {
-        font-size: 16px;
+        font-size: 22px;
     }
 
     .owner-box span {

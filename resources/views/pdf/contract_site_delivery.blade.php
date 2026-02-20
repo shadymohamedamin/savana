@@ -103,15 +103,7 @@ $dateFormatted = $today->translatedFormat('d/m/Y');
     </tr>
 </table>
 
-<!-- ===== Intro ===== -->
-<div class="intro-text">
-    انه في يوم <strong>{{ $dayName }}</strong> الموافق
-    <strong>{{ $dateFormatted }}</strong>
-    تم تسليم الموقع المذكور ادناه الى المقاول خالياً من العوائق وصالحاً للبناء فيه،
-    ويبدأ احتساب مدة التنفيذ من اليوم التالي من تاريخ تسليم الموقع شاملة فترة التحضير.
-    <br><br>
-    ولا مانع من تقديم الدفعة الأولى للبدء في الأعمال.
-</div>
+
 
 <!-- ===== Project Info ===== -->
 <table class="info-table">
@@ -132,7 +124,15 @@ $dateFormatted = $today->translatedFormat('d/m/Y');
         <td>{{ $project->projectRegion->name_ar ?? '—' }}</td>
     </tr>
 </table>
-
+<!-- ===== Intro ===== -->
+<div class="intro-text">
+    انه في يوم <strong>{{ $dayName }}</strong> الموافق
+    <strong>{{ $dateFormatted }}</strong>
+    تم تسليم الموقع المذكور ادناه الى المقاول خالياً من العوائق وصالحاً للبناء فيه،
+    ويبدأ احتساب مدة التنفيذ من يوم    تسليم الموقع شاملة فترة التحضير.
+    <!-- <br><br>
+    ولا مانع من تقديم الدفعة الأولى للبدء في الأعمال. -->
+</div>
 <!-- ===== Spacer ===== -->
 <div class="page-spacer"></div>
 

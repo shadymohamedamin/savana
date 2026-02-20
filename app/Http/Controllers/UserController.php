@@ -264,7 +264,7 @@ class UserController extends AppBaseController
         Flash::success('User updated successfully.');
 
         return redirect()
-    ->route('users.index')
+    ->back()
     ->with('toast', [
         'type' => 'success',
         'message' => __('user updated successfully.')
@@ -292,6 +292,6 @@ class UserController extends AppBaseController
 
         Flash::success('User deleted successfully.');
 
-        return redirect(route('users.index'));
+        return redirect()->back();
     }
 }

@@ -198,6 +198,41 @@ public function index($projectId)
         $input['approved_file'] = $filename;
     }
 
+
+
+
+    if ($request->hasFile('etisalat_file') && $request->file('etisalat_file')->isValid()) {
+        $file = $request->file('etisalat_file');
+        $filename = $projectId.'_baladya_'.time().'_'.$file->getClientOriginalName();
+        $file->move(public_path('Files'), $filename);
+        $input['etisalat_file'] = $filename;
+    }
+    if ($request->hasFile('water_file') && $request->file('water_file')->isValid()) {
+        $file = $request->file('water_file');
+        $filename = $projectId.'_baladya_'.time().'_'.$file->getClientOriginalName();
+        $file->move(public_path('Files'), $filename);
+        $input['water_file'] = $filename;
+    }
+    if ($request->hasFile('electrical_file') && $request->file('electrical_file')->isValid()) {
+        $file = $request->file('electrical_file');
+        $filename = $projectId.'_baladya_'.time().'_'.$file->getClientOriginalName();
+        $file->move(public_path('Files'), $filename);
+        $input['electrical_file'] = $filename;
+    }
+    if ($request->hasFile('civil_file') && $request->file('civil_file')->isValid()) {
+        $file = $request->file('civil_file');
+        $filename = $projectId.'_baladya_'.time().'_'.$file->getClientOriginalName();
+        $file->move(public_path('Files'), $filename);
+        $input['civil_file'] = $filename;
+    }
+    if ($request->hasFile('architect_file') && $request->file('architect_file')->isValid()) {
+        $file = $request->file('architect_file');
+        $filename = $projectId.'_baladya_'.time().'_'.$file->getClientOriginalName();
+        $file->move(public_path('Files'), $filename);
+        $input['architect_file'] = $filename;
+    }
+
+
     /** ✅ ملف رخصة البناء */
     if ($request->hasFile('building_license_file') && $request->file('building_license_file')->isValid()) {
         $file = $request->file('building_license_file');
@@ -287,6 +322,87 @@ public function index($projectId)
             $input['approved_file'] = $filename;
         }
 
+
+
+
+
+
+if ($request->hasFile('architect_file') && $request->file('architect_file')->isValid()) {
+            
+            $file = $request->file('architect_file');
+            
+            $filename = $baladyaApproval->id . '_baladya_' . time() . '_' . $file->getClientOriginalName();
+            
+            // حفظ الملف في public/Files
+            $file->move(public_path('Files'), $filename);
+            //dd($input['approved_file'].'---'.$filename);
+            // حفظ اسم الملف في قاعدة البيانات
+            $input['architect_file'] = $filename;
+        }
+        if ($request->hasFile('civil_file') && $request->file('civil_file')->isValid()) {
+            
+            $file = $request->file('civil_file');
+            
+            $filename = $baladyaApproval->id . '_baladya_' . time() . '_' . $file->getClientOriginalName();
+            
+            // حفظ الملف في public/Files
+            $file->move(public_path('Files'), $filename);
+            //dd($input['civil_file'].'---'.$filename);
+            // حفظ اسم الملف في قاعدة البيانات
+            $input['civil_file'] = $filename;
+        }
+        if ($request->hasFile('electrical_file') && $request->file('electrical_file')->isValid()) {
+            
+            $file = $request->file('electrical_file');
+            
+            $filename = $baladyaApproval->id . '_baladya_' . time() . '_' . $file->getClientOriginalName();
+            
+            // حفظ الملف في public/Files
+            $file->move(public_path('Files'), $filename);
+            //dd($input['electrical_file'].'---'.$filename);
+            // حفظ اسم الملف في قاعدة البيانات
+            $input['electrical_file'] = $filename;
+        }
+        if ($request->hasFile('water_file') && $request->file('water_file')->isValid()) {
+            
+            $file = $request->file('water_file');
+            
+            $filename = $baladyaApproval->id . '_baladya_' . time() . '_' . $file->getClientOriginalName();
+            
+            // حفظ الملف في public/Files
+            $file->move(public_path('Files'), $filename);
+            //dd($input['water_file'].'---'.$filename);
+            // حفظ اسم الملف في قاعدة البيانات
+            $input['water_file'] = $filename;
+        }
+        if ($request->hasFile('etisalat_file') && $request->file('etisalat_file')->isValid()) {
+            
+            $file = $request->file('etisalat_file');
+            
+            $filename = $baladyaApproval->id . '_baladya_' . time() . '_' . $file->getClientOriginalName();
+            
+            // حفظ الملف في public/Files
+            $file->move(public_path('Files'), $filename);
+            //dd($input['etisalat_file'].'---'.$filename);
+            // حفظ اسم الملف في قاعدة البيانات
+            $input['etisalat_file'] = $filename;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
 
         if ($request->hasFile('building_license_file') && $request->file('building_license_file')->isValid()) {
             

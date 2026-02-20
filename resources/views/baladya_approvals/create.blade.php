@@ -65,7 +65,7 @@
 
 
             <div class="flex-grow-1" style="min-width: 250px; max-width: 250px;">
-                {!! Form::label('approved_file', __('الملف المعتمد')) !!}
+                {!! Form::label('approved_file', __('مخططات معتمدة ')) !!}
                 <input type="file" name="approved_file" class="form-control form-control-sm mb-1">
 
                 @if(isset($baladyaApproval) && $baladyaApproval->approved_file)
@@ -86,7 +86,7 @@
 
 
             <div class="flex-grow-1" style="min-width: 250px; max-width: 250px;">
-                {!! Form::label('building_license_file', __('ملف رقم الرخصة')) !!}
+                {!! Form::label('building_license_file', __('رخصة البناء')) !!}
                 <input type="file" name="building_license_file" class="form-control form-control-sm mb-1">
 
                 @if(isset($baladyaApproval) && $baladyaApproval->building_license_file)

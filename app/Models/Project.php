@@ -239,4 +239,11 @@ public function consultant()
     }
 
 
+    public function baladyaStatusType()
+{
+    return $this->belongsTo(\App\Models\BaladyaStatusType::class, 'baladya_status_type_id');
+}
+
+
+
 }

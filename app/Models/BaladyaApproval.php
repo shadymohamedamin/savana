@@ -7,9 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class BaladyaApproval extends Model
 {
     public $table = 'baladya_approvals';
-
     public $fillable = [
         'project_id',
+        'architect_file',
+        'civil_file',
+        'electrical_file',
+        'water_file',
+        'etisalat_file',
         'owner_id',
         'status_type_id',
         'case_number',
@@ -75,8 +79,11 @@ class BaladyaApproval extends Model
         static::saved(function ($row) {
             // 🔥 Sync last case number to projects table
             $row->project()->update([
-                'case_id_number' => $row->case_number
+                'case_id_number' => $row->case_number,
+                'baladya_status_type_id' => $row->status_type_id
             ]);
         });
+        
+        
     }
 }

@@ -115,15 +115,29 @@
             <td class="bold">سعر الفيلا مع السور (بدون الضريبة)</td>
             <td colspan="2">{{ '800,000' }}</td>
         </tr>
+        @php
+            use NumberToWords\NumberToWords;
+
+            $numberToWords = new NumberToWords();
+            $numberTransformer = $numberToWords->getNumberTransformer('ar');
+
+            $amount = 800000; // أو $project->budget
+            $amountInWords = $numberTransformer->toWords($amount);
+        @endphp
 
         <tr>
             <td colspan="3">
                 يقوم الطرف الثاني بتنفيذ وانشاء وانجاز وصيانة المشروع المذكور اعلاه لقاء مبلغ وقدره
                 <br><br>
-                {{ '800,000' . ' درهم ' ?? '—' }}
+
+                {{ number_format($amount) }} درهم
+                <br>
+                ( {{ $amountInWords }} درهم )
+
                 <br><br>
                 و ذلك حسب المتفق عليه والمعتمد وفق للمناقصة التي جرت
             </td>
+
         </tr>
 
     </table>
@@ -703,7 +717,7 @@
         </tr>
         <tr>
             <td colspan="3" class="center">
-                مدة المشروع 14 شهر من تاريخ أمر المباشرة أو من تاريخ إصدار شهادة منسوب الحفر.
+                مدة المشروع {{$project->bank_contract_duration}} شهر من تاريخ أمر المباشرة أو من تاريخ إصدار شهادة منسوب الحفر.
             </td>
         </tr>
     </table>

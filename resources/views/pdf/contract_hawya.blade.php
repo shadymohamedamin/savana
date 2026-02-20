@@ -94,7 +94,7 @@ $dayName = $startDate->translatedFormat('l');
 // التاريخ بشكل منسق بالعربي
 $dateFormatted = $startDate->translatedFormat('d/m/Y'); // مثال: 07/01/2026
 @endphp
-
+<!-- عنوان العقد -->
 <table>
     <tr>
         <td class="title" colspan="3">{{ __('Hawya Contract') /* ar.json: "عقد الحاوية" */ }}</td>
@@ -107,45 +107,128 @@ $dateFormatted = $startDate->translatedFormat('d/m/Y'); // مثال: 07/01/2026
     </tr>
 </table>
 
-<table style="margin-top:10px;">
+
+<!-- بيانات المشروع -->
+<table>
     <tr>
-        <td colspan="3" style="padding:8px;">
-            موضوع التعاقد: {{ $project->name }}<br>
-            قيمة التعاقد: ({{ $project->budget }} الف درهم) اماراتي فقط لا غير<br>
-            الموقع: {{ $project->projectRegion->name_ar ?? '-' }}<br>
-            قسيمة رقم: {{ $project->qasmia_number ?? '406131164' }}<br>
-            مدة التنفيذ الاجمالية: ({{ $project->duration??0}}) شهر من تاريخ أمر المباشرة.
+        <td colspan="2" class="section-header" style="padding:15px;">
+            بيانات المشروع
         </td>
     </tr>
 
     <tr>
-        <td colspan="3" style="padding:8px;">
-            انه في يوم {{ $dayName }} الموافق {{ $dateFormatted }} إتفق كل من:<br>
-            الطرف الأول: {{ $project->ownerUser->name  }}/ موبايل رقم: {{ $project->ownerUser->mobile  }}<br>
-            الطرف الثاني: {{ $project->contractorUser->name  }} / موبايل رقم: {{ $project->contractorUser->mobile  }}<br>
-            وبحضور المكتب الإستشاري (سافانا ديزاين للإستشارات الهندسية) كشاهد على العقد والتوقيع، وعنوانه أبراج جلفار الطابق الرابع مكتب 407، هاتف 2273478/07، متحرك: 0525015080.
+        <td class="label" style="width:35%;">موضوع التعاقد</td>
+        <td class="value" style="width:65%;">{{ $project->name }}</td>
+    </tr>
+
+    <tr>
+        <td class="label">قيمة التعاقد</td>
+        <td class="value">
+            {{ $project->budget }} ألف درهم إماراتي فقط لا غير
         </td>
     </tr>
 
     <tr>
-        <td colspan="3" style="padding:8px;">
-            على أن يقوم المقاول بتنفيذ المشروع المذكور أعلاه حسب المخططات وبنود التعاقد وتعليمات الإستشاري، وعلى أن يكون الإستشاري المذكور أعلاه مفوضاً من طرف المالك للإشراف على التنفيذ، وعلى الطرف الثاني الإلتزام بتنفيذ كافة تعليمات الإستشاري أثناء التنفيذ وكذلك الرجوع إليه للسؤال عن أي إستفسار كما أن للإستشاري جميع الصلاحيات والتي يجب أن يلتزم بها الطرف الثاني. تمت هذه الإتفاقية بموافقة كل من المالك والمقاول بوجود الإستشاري.
+        <td class="label">الموقع</td>
+        <td class="value">
+            {{ optional($project->projectRegion)->name_ar ?? '-' }}
+        </td>
+    </tr>
+
+    <tr>
+        <td class="label">قسيمة رقم</td>
+        <td class="value">
+            {{ $project->qasmia_number ?? '-' }}
+        </td>
+    </tr>
+
+    <tr>
+        <td class="label">مدة التنفيذ</td>
+        <td class="value">
+            {{ $project->duration ?? 0 }} شهر من تاريخ أمر المباشرة
         </td>
     </tr>
 </table>
 
+
+<!-- بيانات الأطراف -->
+<table>
+    <tr>
+        <td colspan="2" class="section-header" style="padding:15px;">
+            بيانات الأطراف
+        </td>
+    </tr>
+
+    <tr>
+        <td class="label" style="width:35%;">الطرف الأول (المالك)</td>
+        <td class="value" style="width:65%;">
+            {{ optional($project->ownerUser)->name ?? '-' }} <br>
+            موبايل: {{ optional($project->ownerUser)->mobile ?? '-' }}
+        </td>
+    </tr>
+
+    <tr>
+        <td class="label">الطرف الثاني (المقاول)</td>
+        <td class="value">
+            {{ optional($project->contractorUser)->name ?? '-' }} <br>
+            موبايل: {{ optional($project->contractorUser)->mobile ?? '-' }}
+        </td>
+    </tr>
+
+    <tr>
+        <td class="label">الإستشاري</td>
+        <td class="value">
+            سافانا ديزاين للإستشارات الهندسية<br>
+            أبراج جلفار – الطابق الرابع – مكتب 407<br>
+            هاتف: 2273478/07 – متحرك: 0525015080
+        </td>
+    </tr>
+</table>
+
+
+<!-- نص التعاقد -->
+<table>
+    <tr>
+        <td class="section-header" style="padding:15px;">
+            نص التعاقد
+        </td>
+    </tr>
+
+    <tr>
+        <td class="text-block" style="padding:25px; line-height:2.4;">
+            يلتزم الطرف الثاني (المقاول) بتنفيذ المشروع المذكور أعلاه وفق المخططات
+            وبنود التعاقد وتعليمات الإستشاري. ويكون الإستشاري مفوضاً من قبل المالك
+            للإشراف الكامل على التنفيذ، ويلتزم المقاول بتنفيذ كافة تعليماته
+            والرجوع إليه في جميع الاستفسارات الفنية والتنفيذية.
+            وقد تم هذا الاتفاق برضا وقبول جميع الأطراف.
+        </td>
+    </tr>
+</table>
+
+
+<!-- التوقيعات -->
 <table class="signature-table">
     <tr>
-        <td class="signature-header">المالك</td>
-        <td class="signature-header">المقاول</td>
-        <td class="signature-header">الإستشاري</td>
+        <td class="signature-header" style="padding:15px;">المالك</td>
+        <td class="signature-header" style="padding:15px;">المقاول</td>
+        <td class="signature-header" style="padding:15px;">الإستشاري</td>
     </tr>
+
     <tr>
-        <td class="signature-space">{{ $project->ownerUser->name ?? 'محمد عبدالله سالم عبيد السويدي' }}</td>
-        <td class="signature-space">الطابوق لمقاولات البناء</td>
-        <td class="signature-space">سافانا ديزاين للإستشارات الهندسية</td>
+        <td style="height:50px; vertical-align:bottom; text-align:center;">
+            {{ optional($project->ownerUser)->name ?? '-' }}
+        </td>
+
+        <td style="height:50px; vertical-align:bottom; text-align:center;">
+            {{ optional($project->contractorUser)->name ?? '-' }}
+        </td>
+
+        <td style="height:50px; vertical-align:bottom; text-align:center;">
+            سافانا ديزاين للإستشارات الهندسية
+        </td>
     </tr>
 </table>
+
 
 </body>
 </html>
