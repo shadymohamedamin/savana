@@ -148,6 +148,7 @@
                 <th style="background-color: #f5f5dc;">{{ __('Email') }}</th>
                 <th style="background-color: #f5f5dc;">{{ __('Mobile') }}</th>
                 <th style="background-color: #f5f5dc;">{{ __('ID Number') }}</th>
+                <th style="background-color: #f5f5dc;">{{ __('رقم الرخصة') }}</th>
                 <!-- <th style="background-color: #f5f5dc;">{{ __('Gender') }}</th> -->
                 <!-- <th style="background-color: #f5f5dc;">{{ __('Active') }}</th> -->
                 <th style="background-color: #f5f5dc;">{{ __('Role') }}</th>
@@ -166,6 +167,7 @@
                     <td style="background-color: #f5f5dc;">{{ $user->email }}</td>
                     <td style="background-color: #f5f5dc;">{{ $user->mobile }}</td>
                     <td style="background-color: #f5f5dc;">{{ $user->uae_id }}</td>
+                    <td style="background-color: #f5f5dc;">{{ $user->license_number }}</td>
                     <!-- <td style="background-color: #f5f5dc;">{{ $user->male ? __('Male') : __('Female') }}</td> -->
                     <!-- <td style="background-color: #f5f5dc;">
                         <span class="badge {{ $user->Active ? 'bg-success':'bg-danger' }}">
