@@ -318,7 +318,7 @@
 
 
             <div class="d-flex flex-column">
-            <span class="mb-1">{{ __('Bank Table Contract') }}</span>
+            <span class="mb-1">{{ __('كميات البنك') }}</span>
 
             <a target="_blank" href="{{ route('projects.contract.bank_table.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
                 👁 {{ __('Preview') }}
