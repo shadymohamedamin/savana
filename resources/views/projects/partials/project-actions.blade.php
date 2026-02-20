@@ -79,6 +79,13 @@
         <i class="fas fa-file-signature"></i> {{ __('المناقصة') }}
     </a>
 
+
+    <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=contractor_files') }}"
+            class="btn btn-sm"
+            style="background:#2f3a1f;color:#d4af37;">
+        <i class="fas fa-file-signature"></i> {{ __('عقود المقاول') }}
+    </a>
+
    <a href="{{ route('projects.owner-requirements.index', [$project, 'context' => 'pricing']) }}"
         class="btn btn-sm"
         style="background:#2f3a1f;color:#d4af37;">
