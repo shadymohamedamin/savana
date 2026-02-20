@@ -108,7 +108,7 @@
 
 
 <div class="flex-grow-1" style="min-width: 250px; max-width: 250px;">
-                {!! Form::label('architect_file', __('رخصة البناء')) !!}
+                {!! Form::label('architect_file', __('مخطط معماري')) !!}
                 <input type="file" name="architect_file" class="form-control form-control-sm mb-1">
 
                 @if(isset($baladyaApproval) && $baladyaApproval->architect_file)
@@ -126,7 +126,7 @@
 
 
 <div class="flex-grow-1" style="min-width: 250px; max-width: 250px;">
-                {!! Form::label('civil_file', __('رخصة البناء')) !!}
+                {!! Form::label('civil_file', __('مخطط انشائي')) !!}
                 <input type="file" name="civil_file" class="form-control form-control-sm mb-1">
 
                 @if(isset($baladyaApproval) && $baladyaApproval->civil_file)
@@ -147,7 +147,7 @@
 
 
 <div class="flex-grow-1" style="min-width: 250px; max-width: 250px;">
-                {!! Form::label('electrical_file', __('رخصة البناء')) !!}
+                {!! Form::label('electrical_file', __('مخطط كهربا')) !!}
                 <input type="file" name="electrical_file" class="form-control form-control-sm mb-1">
 
                 @if(isset($baladyaApproval) && $baladyaApproval->electrical_file)
@@ -167,7 +167,7 @@
 
 
 <div class="flex-grow-1" style="min-width: 250px; max-width: 250px;">
-                {!! Form::label('water_file', __('رخصة البناء')) !!}
+                {!! Form::label('water_file', __('مخطط ماي')) !!}
                 <input type="file" name="water_file" class="form-control form-control-sm mb-1">
 
                 @if(isset($baladyaApproval) && $baladyaApproval->water_file)
@@ -188,7 +188,7 @@
 
 
 <div class="flex-grow-1" style="min-width: 250px; max-width: 250px;">
-                {!! Form::label('etisalat_file', __('رخصة البناء')) !!}
+                {!! Form::label('etisalat_file', __('مخطط اتصالات')) !!}
                 <input type="file" name="etisalat_file" class="form-control form-control-sm mb-1">
 
                 @if(isset($baladyaApproval) && $baladyaApproval->etisalat_file)
