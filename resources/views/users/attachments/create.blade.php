@@ -110,9 +110,46 @@
     @include('projects.partials.project-actions', ['project' => $model])
 
 <div class="card mb-4">
-    <div class="card-header text-white" style="background:#d4af37">
+    <!-- <div class="card-header text-white" style="background:#d4af37">
         {{ __('Standard Templates') }}
+    </div> -->
+
+
+
+
+
+
+    <div class="card-header    d-flex justify-content-between align-items-center" style="background:#d4af37">
+        <span>{{ __('Standard Templates') }}</span>
+  
+
+        @if($isTender)
+        <div class="flex justify-start">
+            <a href="{{ route('projects.owner-requirements.index', [$model, 'context' => 'pricing']) }}"
+                class="btn btn-sm"
+                style="background:#2f3a1f;color:#d4af37;">
+                    <i class="fas fa-file-signature"></i> أسعار توريد التشطيبات
+            </a>
+
+
+            <a href="{{ route('projects.owner-requirements.index', [$model, 'context' => 'tender']) }}"
+                class="btn btn-sm"
+                style="background:#2f3a1f;color:#d4af37;">
+                    <i class="fas fa-file-signature"></i> حساب الكميات
+            </a>
+        </div>
+        @endif
+
     </div>
+
+    
+
+
+
+
+
+
+
 
     <div class="card-body d-flex gap-3 flex-wrap" style="background-color: #f5f5dc;">
 
