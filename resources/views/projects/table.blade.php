@@ -270,7 +270,7 @@
 
 
 
-                    <td style="background-color:#f5f5dc;">
+                    <!-- <td style="background-color:#f5f5dc;">
                         @if($project->stage)
                             <span class="badge bg-info" style="background-color:#f5f5dc;">
                                 {{ app()->getLocale() === 'ar'
@@ -283,7 +283,48 @@
                                 {{ __('Not Started') }}
                             </span>
                         @endif
-                    </td>
+                    </td> -->
+
+                    <td style="background-color:#f5f5dc;">
+
+    @php
+        $stageColors = [
+            1 => '#0d6efd', // Design - أزرق
+            2 => '#fd7e14', // Baladia - برتقالي
+            3 => '#6f42c1', // Supervision - بنفسجي
+            4 => '#ffc107', // Tender - أصفر
+            5 => '#198754', // Completed - أخضر
+        ];
+    @endphp
+
+    @if($project->stage)
+        @php
+            $color = $stageColors[$project->stage->id] ?? '#6c757d';
+        @endphp
+<!-- style="background-color: {{ $color }}; color: #fff; padding:6px 12px; font-size:13px;"> -->
+        <span class="badge"
+              style="
+    background-color: {{ $color }}22;
+    color: {{ $color }};
+    border: 1px solid {{ $color }};
+    font-weight:600;
+    padding:6px 14px;
+    border-radius:20px;
+"
+>
+            {{ app()->getLocale() === 'ar'
+                ? $project->stage->name_ar
+                : $project->stage->name_en
+            }}
+        </span>
+    @else
+        <span class="badge bg-secondary">
+            {{ __('Not Started') }}
+        </span>
+    @endif
+
+</td>
+
 
 
 

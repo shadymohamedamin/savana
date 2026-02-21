@@ -62,7 +62,7 @@ class UserController extends AppBaseController
         $users = $query
             ->with('roleRelation') // لو بتعرض اسم الـ Role
             ->orderBy('created_at') //Desc
-            ->paginate(10)
+            ->paginate(15)
             ->appends($request->query());
 
 
