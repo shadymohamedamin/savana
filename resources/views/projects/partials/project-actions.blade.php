@@ -86,7 +86,7 @@
         <i class="fas fa-file-signature"></i> {{ __('عقود المقاول') }}
     </a>
 
-   <a href="{{ route('projects.owner-requirements.index', [$project, 'context' => 'pricing']) }}"
+   <!-- <a href="{{ route('projects.owner-requirements.index', [$project, 'context' => 'pricing']) }}"
         class="btn btn-sm"
         style="background:#2f3a1f;color:#d4af37;">
             <i class="fas fa-file-signature"></i> أسعار توريد التشطيبات
@@ -97,7 +97,7 @@
         class="btn btn-sm"
         style="background:#2f3a1f;color:#d4af37;">
             <i class="fas fa-file-signature"></i> حساب الكميات
-    </a>
+    </a> -->
 
 
   

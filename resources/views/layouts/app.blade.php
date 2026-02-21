@@ -217,6 +217,51 @@
 
 
 
+
+/* ===== TODAY HEADER BOX ===== */
+.today-box {
+    background: linear-gradient(135deg, #f9e076, #d4af37);
+    padding: 8px 18px;
+    border-radius: 16px;
+    text-align: center;
+    min-width: 160px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    animation: fadeInScale 0.6s ease;
+}
+
+.today-day {
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: #1f2937;
+}
+
+.today-date {
+    font-size: 0.8rem;
+    color: #2f3a1f;
+}
+
+.today-time {
+    font-weight: 700;
+    font-size: 1rem;
+    color: #000;
+    margin-top: 2px;
+}
+
+@keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+
+
+
+
+
+
+
+
+
+
 .loader-overlay {
     position: fixed;
     inset: 0;
@@ -283,7 +328,15 @@
 
 </head>
 <body>
-    
+     @php
+                    use Carbon\Carbon;
+                    Carbon::setLocale(app()->getLocale());
+
+                    $now = Carbon::now();
+                    $dayName = $now->translatedFormat('l');
+                    $dateFormatted = $now->translatedFormat('d F Y');
+                    $timeFormatted = $now->translatedFormat('h:i A');
+                @endphp
     <div class="min-vh-100" id="app" style="background-color:#f5f5dc;">
 
 
@@ -350,9 +403,23 @@
         <nav class="navbar navbar-expand-lg olive-navbar shadow-sm mb-4 {{ app()->getLocale() == 'ar' ? 'navbar-rtl' : '' }}">
 
             <div class="container">
-                <a class="navbar-brand mx-3" href="{{ url('/home') }}">
-                    {{ config('app.name', 'ٍSavana') }}
+                <a class="navbar-brand ml-3" href="{{ url('/home') }}">
+                    <!-- {{ config('app.name', 'ٍSavana') }} -->
+                     <div class="today-box ml-3">
+                        <div class="today-day">{{ $dayName }}</div>
+                        <div class="today-date">{{ $dateFormatted }}</div>
+                        <div class="today-time" id="liveClock">{{ $timeFormatted }}</div>
+                    </div>
                 </a>
+
+                
+
+               
+
+
+                
+
+
                 <button class="navbar-toggler mx-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -583,6 +650,10 @@
                                     @csrf
                                 </form>
                             </li>
+
+
+
+                            
                         @endguest
                     </ul>
 
@@ -721,6 +792,35 @@
         });
     });
 </script>
+
+
+
+
+
+<script>
+function updateClock() {
+    const now = new Date();
+
+    const optionsDay = { weekday: 'long' };
+    const optionsDate = { day: '2-digit', month: 'long', year: 'numeric' };
+
+    const locale = document.documentElement.lang === 'ar' ? 'ar-EG' : 'en-US';
+
+    const day = now.toLocaleDateString(locale, optionsDay);
+    const date = now.toLocaleDateString(locale, optionsDate);
+    const time = now.toLocaleTimeString(locale);
+
+    document.querySelector('.today-day').innerText = day;
+    document.querySelector('.today-date').innerText = date;
+    document.getElementById('liveClock').innerText = time;
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+</script>
+
+
+
 
 
     @stack('scripts')

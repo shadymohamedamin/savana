@@ -167,7 +167,7 @@ Route::middleware(['auth'])->group(function () {
 Route::post('/projects/{project}/owner-requirements/save-pricing', 
     [OwnerRequirementController::class, 'savePricing'])
     ->name('projects.owner-requirements.savePricing');
-    
+
 Route::post('/projects/{project}/owner-requirements/tender',
     [ProjectController::class, 'saveTender']
 )->name('projects.owner-requirements.saveTender');
@@ -395,7 +395,24 @@ Route::get('/projects/{id}/bank-table-contract',
     //Route::get('/send-sms', [SmsController::class, 'sendCampaign']);
     
     
-    
+    Route::resource('roles', App\Http\Controllers\RoleController::class);
+Route::resource('projects', App\Http\Controllers\ProjectController::class);
+Route::resource('statuses', App\Http\Controllers\StatusController::class);
+Route::resource('settings', App\Http\Controllers\SettingController::class);
+Route::resource('project-users', App\Http\Controllers\ProjectUserController::class);
+Route::resource('baladya-approvals', App\Http\Controllers\BaladyaApprovalController::class);
+Route::resource('baladya-status-types', App\Http\Controllers\BaladyaStatusTypeController::class);
+Route::resource('project-stages', App\Http\Controllers\ProjectStageController::class);
+Route::resource('project-names', App\Http\Controllers\ProjectNameController::class);
+Route::resource('project-regions', App\Http\Controllers\ProjectRegionController::class);
+Route::resource('project-payments', App\Http\Controllers\ProjectPaymentController::class);
+Route::resource('owner-requirements', App\Http\Controllers\OwnerRequirementController::class);
+Route::resource('project-owner-requirements', App\Http\Controllers\ProjectOwnerRequirementController::class);
+Route::resource('project-design-preferences', App\Http\Controllers\ProjectDesignPreferencesController::class);
+Route::resource('project-owner-specifications', App\Http\Controllers\ProjectOwnerSpecificationController::class);
+
+Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('register', [RegisterController::class, 'register']);
     
     
     
@@ -463,8 +480,7 @@ Route::get('/reset-password/{token}', function ($token) {
 
 
 
-Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('register', [RegisterController::class, 'register']);
+
 
 //Route::resource('users', App\Http\Controllers\UserController::class);
 // routes/web.php
@@ -487,20 +503,3 @@ Route::post('register', [RegisterController::class, 'register']);
 
 
 
-
-
-Route::resource('roles', App\Http\Controllers\RoleController::class);
-Route::resource('projects', App\Http\Controllers\ProjectController::class);
-Route::resource('statuses', App\Http\Controllers\StatusController::class);
-Route::resource('settings', App\Http\Controllers\SettingController::class);
-Route::resource('project-users', App\Http\Controllers\ProjectUserController::class);
-Route::resource('baladya-approvals', App\Http\Controllers\BaladyaApprovalController::class);
-Route::resource('baladya-status-types', App\Http\Controllers\BaladyaStatusTypeController::class);
-Route::resource('project-stages', App\Http\Controllers\ProjectStageController::class);
-Route::resource('project-names', App\Http\Controllers\ProjectNameController::class);
-Route::resource('project-regions', App\Http\Controllers\ProjectRegionController::class);
-Route::resource('project-payments', App\Http\Controllers\ProjectPaymentController::class);
-Route::resource('owner-requirements', App\Http\Controllers\OwnerRequirementController::class);
-Route::resource('project-owner-requirements', App\Http\Controllers\ProjectOwnerRequirementController::class);
-Route::resource('project-design-preferences', App\Http\Controllers\ProjectDesignPreferencesController::class);
-Route::resource('project-owner-specifications', App\Http\Controllers\ProjectOwnerSpecificationController::class);
