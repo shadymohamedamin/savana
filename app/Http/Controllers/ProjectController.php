@@ -603,8 +603,10 @@ public function bankTableContractPdf(Request $request, $id)
         //dd($input);
         //$input["duration"] = $request->input("duration", 0);
         // Generate project code
-        $lastProject = \App\Models\Project::orderBy('id', 'desc')->first();
-        $nextNumber = $lastProject ? $lastProject->id + 1 : 1;
+        //$lastProject = \App\Models\Project::orderBy('id', 'desc')->first();
+        //$nextNumber = $lastProject ? $lastProject->id + 1 : 1;
+        $projectsCount = \App\Models\Project::count();
+        $nextNumber = $projectsCount + 1;
         $input['project_code'] = 'SAV' . date('ym') . str_pad($nextNumber, 2, '0', STR_PAD_LEFT);
 
         // Create project

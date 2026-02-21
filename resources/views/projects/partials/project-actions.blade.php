@@ -36,11 +36,43 @@
 
 <div class="d-flex flex-wrap gap-2 m-3">
 
-    {{-- زر تعديل المشروع --}}
+
+{{-- زر تعديل المشروع --}}
+    <a href="{{ route('users.index') }}"
+       class="btn btn-sm"
+       style="background:#2f3a1f;color:#d4af37;">
+        <i class="far fa-edit"></i> {{ __('المستخدمين') }}
+    </a>
+
+
+    <a href="{{ route('projects.index') }}"
+    class="btn btn-sm"
+    style="background:#2f3a1f;color:#d4af37;">
+    <i class="far fa-edit"></i> {{ __('المشاريع') }}
+</a>
+
+{{-- احتياجات المالك --}}
+<a href="{{ route('projects.owner-requirements.index', ['project' => $project->id]) }}"
+   class="btn btn-sm"
+   style="background:#2f3a1f;color:#d4af37;">
+    <i class="fas fa-file-signature"></i> {{ __('احتياجات المالك') }}
+</a>
+
+    <a  href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}"
+       class="btn btn-sm"
+       style="background:#2f3a1f;color:#d4af37;">
+        <i class="fas fa-file-signature"></i> {{ __('عقود الاستشاري') }}
+    </a>
+    <!-- {{-- زر تعديل المشروع --}}
     <a href="{{ route('projects.edit', $project->id) }}"
        class="btn btn-sm"
        style="background:#2f3a1f;color:#d4af37;">
         <i class="far fa-edit"></i> {{ __('Edit Project') }}
+    </a> -->
+<a  href="{{ url('#') }}"
+       class="btn btn-sm"
+       style="background:#2f3a1f;color:#d4af37;">
+        <i class="fas fa-file-signature"></i> {{ __('التصميم') }}
     </a>
 
     {{-- اعتمادات البلدية --}}
@@ -49,7 +81,21 @@
        style="background:#2f3a1f;color:#d4af37;">
         <i class="fas fa-file-signature"></i> {{ __('اعتمادات البلدية') }}
     </a>
-
+  <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=tender') }}"
+            class="btn btn-sm"
+            style="background:#2f3a1f;color:#d4af37;">
+        <i class="fas fa-file-signature"></i> {{ __('المناقصة') }}
+    </a>
+  <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=contractor_files') }}"
+            class="btn btn-sm"
+            style="background:#2f3a1f;color:#d4af37;">
+        <i class="fas fa-file-signature"></i> {{ __('عقود المقاول') }}
+    </a>
+     <a  href="{{ url('#') }}"
+       class="btn btn-sm"
+       style="background:#2f3a1f;color:#d4af37;">
+        <i class="fas fa-file-signature"></i> {{ __('الاشراف') }}
+    </a>
     {{-- دفعات المشروع --}}
     <a href="{{ route('projects.project-payments.index', ['project' => $project->id]) }}"
        class="btn btn-sm"
@@ -57,34 +103,14 @@
         <i class="fas fa-money-check-alt"></i> {{ __('دفعات المشروع') }}
     </a>
 
-    {{-- احتياجات المالك --}}
-    <a href="{{ route('projects.owner-requirements.index', ['project' => $project->id]) }}"
-       class="btn btn-sm"
-       style="background:#2f3a1f;color:#d4af37;">
-        <i class="fas fa-file-signature"></i> {{ __('احتياجات المالك') }}
-    </a>
 
 
 
-    <a  href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}"
-       class="btn btn-sm"
-       style="background:#2f3a1f;color:#d4af37;">
-        <i class="fas fa-file-signature"></i> {{ __('عقود الاستشاري') }}
-    </a>
 
 
-    <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=tender') }}"
-            class="btn btn-sm"
-            style="background:#2f3a1f;color:#d4af37;">
-        <i class="fas fa-file-signature"></i> {{ __('المناقصة') }}
-    </a>
+  
 
-
-    <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=contractor_files') }}"
-            class="btn btn-sm"
-            style="background:#2f3a1f;color:#d4af37;">
-        <i class="fas fa-file-signature"></i> {{ __('عقود المقاول') }}
-    </a>
+  
 
    <!-- <a href="{{ route('projects.owner-requirements.index', [$project, 'context' => 'pricing']) }}"
         class="btn btn-sm"
@@ -101,17 +127,9 @@
 
 
   
-    <a  href="{{ url('#') }}"
-       class="btn btn-sm"
-       style="background:#2f3a1f;color:#d4af37;">
-        <i class="fas fa-file-signature"></i> {{ __('الاشراف') }}
-    </a>
+   
 
-    <a  href="{{ url('#') }}"
-       class="btn btn-sm"
-       style="background:#2f3a1f;color:#d4af37;">
-        <i class="fas fa-file-signature"></i> {{ __('التصميم') }}
-    </a>
+    
 
    
 
