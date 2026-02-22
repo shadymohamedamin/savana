@@ -321,7 +321,44 @@
     40% { transform: scale(1); }
 }
 
+.today-inline-box {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 10px 22px;
+    background: linear-gradient(135deg, #2f3a1f, #1f2937);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 40px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
 
+/* Day */
+.today-inline-day {
+    color: #d4af37;
+    font-size: 14px;
+}
+
+/* Date */
+.today-inline-date {
+    color: #f9e076;
+    font-size: 14px;
+}
+
+/* Time */
+.today-inline-time {
+    color: #ffd700;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+/* separator */
+.today-separator {
+    width: 1px;
+    height: 18px;
+    background: rgba(212,175,55,0.5);
+}
 
 
     </style>
@@ -405,11 +442,19 @@
             <div class="container">
                 <a class="navbar-brand ml-3" href="{{ url('/home') }}">
                     <!-- {{ config('app.name', 'ٍSavana') }} -->
-                     <div class="today-box ml-3">
+                     <!-- <div class="today-box ml-3">
                         <div class="today-day">{{ $dayName }}</div>
                         <div class="today-date">{{ $dateFormatted }}</div>
                         <div class="today-time" id="liveClock">{{ $timeFormatted }}</div>
+                    </div> -->
+                    <div class="today-inline-box ml-3">
+                        <div class="today-inline-day" id="liveDay"></div>
+                        <div class="today-separator"></div>
+                        <div class="today-inline-date" id="liveDate"></div>
+                        <div class="today-separator"></div>
+                        <div class="today-inline-time" id="liveClock"></div>
                     </div>
+
                 </a>
 
                 
@@ -797,7 +842,29 @@
 
 
 
+
 <script>
+function updateClock() {
+    const now = new Date();
+
+    const day = now.toLocaleDateString('en-US', { weekday: 'long' });
+    const date = now.toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' });
+    const time = now.toLocaleTimeString('en-US');
+
+    document.getElementById('liveDay').innerText = day;
+    document.getElementById('liveDate').innerText = date;
+    document.getElementById('liveClock').innerText = time;
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+</script>
+
+
+
+
+
+<!-- <script>
 function updateClock() {
     const now = new Date();
 
@@ -817,7 +884,7 @@ function updateClock() {
 
 setInterval(updateClock, 1000);
 updateClock();
-</script>
+</script> -->
 
 
 
