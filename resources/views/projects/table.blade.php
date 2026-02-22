@@ -10,6 +10,103 @@
     tbody tr:hover {
         background-color: #efe8c8 !important;
     }
+/* ===== TABLE DESIGN ===== */
+
+.custom-table {
+    border: 2px solid #000;
+    border-collapse: collapse;
+}
+
+.custom-table th,
+.custom-table td {
+    border: 1px solid #000 !important;
+}
+
+/* Header darker */
+.custom-header {
+    background: linear-gradient(90deg, #b8922e, #d4af37);
+    color: #1f2937;
+    font-weight: 700;
+}
+
+.custom-header th {
+    background: linear-gradient(90deg, #b8922e, #d4af37);
+    border: 1px solid #000 !important;
+    text-align: center;
+}
+
+/* Body color */
+.custom-table tbody tr {
+    background-color: #f5f5dc;
+}
+
+/* Hover effect */
+.custom-table tbody tr:hover {
+    background-color: #ece2b6;
+}
+
+
+    .custom-header {
+    background-color: #2f3a1f;
+    color: #f9e076;
+}
+
+
+
+
+/* ===== GOVERNMENT FILTER DESIGN ===== */
+
+.filter-card {
+    border: 1px solid #000;
+    border-radius: 4px;
+}
+
+.filter-header {
+    background-color: #2f3a1f;
+    color: #d4af37;
+    padding: 12px 18px;
+    font-weight: 600;
+    font-size: 15px;
+    border-bottom: 2px solid #000;
+}
+
+.filter-body {
+    background-color: #f5f5dc;
+}
+
+.filter-input {
+    border: 1px solid #000;
+    border-radius: 3px;
+    background-color: #fff;
+}
+
+.filter-input:focus {
+    border-color: #2f3a1f;
+    box-shadow: none;
+}
+
+/* Buttons */
+
+.btn-apply {
+    background-color: #2f3a1f;
+    color: #d4af37;
+    border: 1px solid #000;
+    padding: 6px 20px;
+    font-weight: 600;
+}
+
+.btn-apply:hover {
+    background-color: #243016;
+    color: #fff;
+}
+
+.btn-reset {
+    background-color: #6c757d;
+    color: #fff;
+    border: 1px solid #000;
+    padding: 6px 20px;
+}
+
 
 </style>
 
@@ -62,16 +159,16 @@
 
 
 
-
-
-
-{{-- Filter Toggle --}}
-<div class="card-body border-bottom" style="background-color: #f5f5dc;">
-    <button class="btn btn-outline-secondary btn-sm mb-3"
+<!-- <button class="btn btn-outline-secondary btn-sm mb-3"
             data-bs-toggle="collapse"
             data-bs-target="#filterBox">
         <i class="fas fa-filter"></i> {{ __('Filter') }}
-    </button>
+    </button> -->
+<!-- 
+
+{{-- Filter Toggle --}}
+<div class="card-body border-bottom" style="background-color: #f5f5dc;">
+    
 
     {{-- Filter Box --}}
     <div id="filterBox" class="collaps">
@@ -93,14 +190,14 @@
                 </div>
 
 
-                {{-- Owner Name --}}
+             
                 <div class="col-md">
                     <input type="text" name="owner_name" class="form-control rounded-3"
                            placeholder="{{ __('اسم المالك') }}"
                            value="{{ request('owner_name') }}">
                 </div>
 
-                {{-- Owner Phone --}}
+            
                 <div class="col-md">
                     <input type="text" name="owner_phone" class="form-control rounded-3"
                            placeholder="{{ __('رقم الهاتف') }}"
@@ -109,7 +206,7 @@
 
                 
 
-                {{-- Buttons --}}
+    
                 <div class="col-md-2 d-grid">
                     <button class="btn btn-olive" style="background-color: #2f3a1f;border: 1px solid #2f3a1f;color: #d4af37;">
                         <i class="fas fa-check me-1"></i> {{ __('Apply') }}
@@ -126,6 +223,69 @@
     </div>
 </div>
 
+ -->
+
+
+<div class="card filter-card shadow-sm mb-4 mt-4">
+
+    <div class="filter-header">
+        <i class="fas fa-search me-2"></i>
+        {{ __('بحث وتصفية المشاريع') }}
+    </div>
+
+    <div class="card-body filter-body">
+        <form method="GET" action="{{ route('projects.index') }}">
+
+            <div class="row g-3">
+
+                <div class="col-md-3">
+                    <label class="form-label">{{ __('كود المشروع') }}</label>
+                    <input type="text" name="project_code"
+                           class="form-control filter-input"
+                           value="{{ request('project_code') }}">
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">{{ __('رقم القسيمة') }}</label>
+                    <input type="text" name="qasmia_number"
+                           class="form-control filter-input"
+                           value="{{ request('qasmia_number') }}">
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">{{ __('اسم المالك') }}</label>
+                    <input type="text" name="owner_name"
+                           class="form-control filter-input"
+                           value="{{ request('owner_name') }}">
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">{{ __('رقم الهاتف') }}</label>
+                    <input type="text" name="owner_phone"
+                           class="form-control filter-input"
+                           value="{{ request('owner_phone') }}">
+                </div>
+
+                <div class="col-12 mt-3 d-flex justify-content-end gap-2">
+
+                    <button type="submit" class="btn btn-apply">
+                        <i class="fas fa-search me-1"></i>
+                        {{ __('بحث') }}
+                    </button>
+
+                    <a href="{{ route('projects.index') }}" class="btn btn-reset">
+                        <i class="fas fa-redo me-1"></i>
+                        {{ __('إعادة تعيين') }}
+                    </a>
+
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+</div>
+
 
 
 
@@ -134,9 +294,9 @@
         <!-- <table class="table table-hover align-middle rounded-4"
                style="border:1px solid #D4AF37;"> -->
 
-        <table class="table table-hover align-middle rounded-4"
+        <table class="table table-hover align-middle rounded-4 custom-table"
                style="border:1px solid #D4AF37;">
-           <thead style="background-color:#d4af37;color:#2f3a1f;">
+           <thead class="custom-header" style="background-color:#d4af37;color:#2f3a1f;">
 
             <tr class="project-roww"
                 

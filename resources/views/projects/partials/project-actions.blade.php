@@ -1,5 +1,5 @@
 
-<script>
+<style>
 
 
     .owner-box {
@@ -24,10 +24,106 @@
         opacity: 0.8;
     }
 
-</script>
 
 
 
+
+
+
+
+
+
+
+
+    /* ===== PROJECT PANEL DESIGN ===== */
+
+.project-panel {
+    border: 2px solid #000;
+    background-color: #f5f5dc;
+    margin: 20px;
+}
+
+.project-panel-header {
+    background-color: #2f3a1f;
+    color: #d4af37;
+    padding: 14px 20px;
+    font-weight: 600;
+    font-size: 16px;
+    border-bottom: 2px solid #000;
+}
+
+.project-panel-body {
+    padding: 20px;
+}
+
+/* Owner Box */
+
+.owner-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: #ffffff;
+    border: 1px solid #000;
+    padding: 15px;
+    margin-bottom: 25px;
+}
+
+.owner-box i {
+    font-size: 28px;
+    color: #2f3a1f;
+}
+
+.owner-label {
+    font-size: 13px;
+    color: #555;
+}
+
+.owner-name {
+    font-size: 20px;
+    font-weight: 700;
+    color: #2f3a1f;
+}
+
+/* Buttons Grid */
+
+.project-actions {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 15px;
+}
+
+.panel-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background-color: #2f3a1f;
+    color: #d4af37;
+    border: 1px solid #000;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.2s ease;
+}
+
+.panel-btn i {
+    font-size: 18px;
+}
+
+.panel-btn:hover {
+    background-color: #243016;
+    color: #ffffff;
+}
+
+
+</style>
+
+    <!-- {{-- زر تعديل المشروع --}}
+    <a href="{{ route('projects.edit', $project->id) }}"
+       class="btn btn-sm"
+       style="background:#2f3a1f;color:#d4af37;">
+        <i class="far fa-edit"></i> {{ __('Edit Project') }}
+    </a> -->
+<!-- 
 <div class="owner-box" style="margin-right:2rem;width:100%;">
     <i class="fas fa-user-tie"></i>
     <span style="font-size:22px;">اسم المالك:</span>
@@ -63,12 +159,7 @@
        style="background:#2f3a1f;color:#d4af37;">
         <i class="fas fa-file-signature"></i> {{ __('عقود الاستشاري') }}
     </a>
-    <!-- {{-- زر تعديل المشروع --}}
-    <a href="{{ route('projects.edit', $project->id) }}"
-       class="btn btn-sm"
-       style="background:#2f3a1f;color:#d4af37;">
-        <i class="far fa-edit"></i> {{ __('Edit Project') }}
-    </a> -->
+
 <a  href="{{ url('#') }}"
        class="btn btn-sm"
        style="background:#2f3a1f;color:#d4af37;">
@@ -102,7 +193,7 @@
        style="background:#2f3a1f;color:#d4af37;">
         <i class="fas fa-money-check-alt"></i> {{ __('دفعات المشروع') }}
     </a>
-
+ -->
 
 
 
@@ -123,7 +214,7 @@
         class="btn btn-sm"
         style="background:#2f3a1f;color:#d4af37;">
             <i class="fas fa-file-signature"></i> حساب الكميات
-    </a> -->
+    </a> 
 
 
   
@@ -134,4 +225,111 @@
    
 
 
+</div>
+-->
+
+
+
+
+<div class="project-panel">
+
+    <div class="project-panel-header">
+        <i class="fas fa-folder-open me-2"></i>
+        {{ __('لوحة إدارة المشروع') }}
+    </div>
+
+    <div class="project-panel-body">
+
+        <!-- Owner Box -->
+        <div class="owner-box">
+            <i class="fas fa-user-tie"></i>
+            <div>
+                <div class="owner-label">اسم المالك</div>
+                <div class="owner-name">
+                    {{ optional($project->ownerUser)->name ?? '—' }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Buttons Grid -->
+        <div class="project-actions">
+
+            <a href="{{ route('users.index') }}" class="panel-btn">
+                <i class="far fa-users"></i>
+                المستخدمين
+            </a>
+
+            <a href="{{ route('projects.index') }}" class="panel-btn">
+                <i class="far fa-folder"></i>
+                المشاريع
+            </a>
+
+            <a href="{{ route('projects.owner-requirements.index', ['project' => $project->id]) }}" class="panel-btn">
+                <i class="fas fa-clipboard-list"></i>
+                احتياجات المالك
+            </a>
+
+
+ <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}" class="panel-btn">
+                <i class="fas fa-clipboard-list"></i>
+               {{ __('عقود الاستشاري') }}
+            </a>
+
+
+
+ <a  href="{{ url('#') }}" class="panel-btn">
+                <i class="fas fa-clipboard-list"></i>
+              {{ __('التصميم') }}
+            </a>
+
+
+ <a  href="{{ route('projects.baladya-approvals.index', ['project' => $project->id]) }}" class="panel-btn">
+                <i class="fas fa-clipboard-list"></i>
+              {{ __('اعتمادات البلدية') }}
+            </a>
+ <a  href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=tender') }}" class="panel-btn">
+                <i class="fas fa-clipboard-list"></i>
+              {{ __('المناقصة') }}
+            </a>
+
+ <a  href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=contractor_files') }}" class="panel-btn">
+                <i class="fas fa-clipboard-list"></i>
+               {{ __('عقود المقاول') }}
+            </a>
+
+ <a  href="{{ url('#') }}" class="panel-btn">
+                <i class="fas fa-clipboard-list"></i>
+              {{ __('الاشراف') }}
+            </a>
+
+ <a  href="{{ route('projects.project-payments.index', ['project' => $project->id]) }}" class="panel-btn">
+                <i class="fas fa-clipboard-list"></i>
+             {{ __('دفعات المشروع') }}
+            </a>
+
+
+
+
+
+
+
+
+            <!-- <a href="{{ route('projects.baladya-approvals.index', ['project' => $project->id]) }}" class="panel-btn">
+                <i class="fas fa-building"></i>
+                اعتمادات البلدية
+            </a>
+
+            <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=tender') }}" class="panel-btn">
+                <i class="fas fa-file-contract"></i>
+                المناقصة
+            </a> -->
+
+            <!-- <a href="{{ route('projects.project-payments.index', ['project' => $project->id]) }}" class="panel-btn">
+                <i class="fas fa-money-check-alt"></i>
+                دفعات المشروع
+            </a> -->
+
+        </div>
+
+    </div>
 </div>
