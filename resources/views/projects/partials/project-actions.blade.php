@@ -260,9 +260,9 @@
                 المستخدمين
             </a>
 
-            <a href="{{ route('projects.index') }}" class="panel-btn">
+            <a href="{{ route('projects.edit', $project->id) }}" class="panel-btn">
                 <i class="far fa-folder"></i>
-                المشاريع
+                تعديل المشروع
             </a>
 
             <a href="{{ route('projects.owner-requirements.index', ['project' => $project->id]) }}" class="panel-btn">
