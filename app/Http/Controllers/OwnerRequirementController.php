@@ -194,7 +194,7 @@ public function index(Project $project, Request $request)
         ->where('type', 'group')
         ->whereNull('parent_id')
         ->get();
-
+//dd($groups);
 
 
     /*$selected = $context === 'pricing'
@@ -736,6 +736,7 @@ public function savePricing(Request $request, Project $project)
 public function saveTender(Request $request, Project $project)
 {
     $syncData = [];
+    //dd($request);
 
     foreach ($request->requirements ?? [] as $ownerRequirementId => $data) {
 

@@ -4,7 +4,7 @@ migrate
 seed
 
 php artisan db:seed --class=OwnerRequirementsSeeder
-
+php artisan db:seed --class=TenderRequirementsSeeder
 
 type = section | item | title | group
 
