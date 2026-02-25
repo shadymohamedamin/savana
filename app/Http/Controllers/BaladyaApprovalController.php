@@ -87,7 +87,7 @@ public function index($projectId)
     $baladyaApprovals = BaladyaApproval::where('project_id', $projectId)
         ->when($ownerId, fn($q) => $q->where('owner_id', $ownerId))
         //->latest() // latest created first
-        ->paginate(15);
+        ->paginate(15);//7
 
     $statusTypes = \App\Models\BaladyaStatusType::where('active', 1)->pluck('name_ar', 'id');
 
