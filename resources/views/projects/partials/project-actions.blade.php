@@ -260,6 +260,11 @@
                 المستخدمين
             </a>
 
+            <a href="{{ route('projects.index') }}" class="panel-btn">
+                <i class="far fa-folder"></i>
+                العودة الي المشاريع
+            </a>
+
             <a href="{{ route('projects.edit', $project->id) }}" class="panel-btn">
                 <i class="far fa-folder"></i>
                 تعديل المشروع
