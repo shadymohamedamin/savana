@@ -181,7 +181,7 @@ public function create(Request $request, $id)
     $userRoleId = $model->role_id;
 
     // 👇 admin extra attachment types
-    $adminExtraTypes = [11,26,27,22,28,29,30,31];
+    $adminExtraTypes = [11,26,27,22,28,29,30,31,44,45];
     $currentUser = auth()->user();
     
 

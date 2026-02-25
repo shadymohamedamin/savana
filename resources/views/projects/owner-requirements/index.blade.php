@@ -2,6 +2,78 @@
 
 @section('content')
 
+<style>
+/* ===== Group Header ===== */
+.group-header {
+    background: linear-gradient(90deg, #2f3a1f 0%, #3e4d2a 100%);
+    color: #d4af37;
+    padding: 14px 20px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+}
+
+/* ===== Section Header ===== */
+.section-header {
+    background: #f5f5dc;
+    background-color: #d4af37;
+    text-align:center;
+    border-right: 6px solid #d4af37;
+    padding: 10px 15px;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 6px;
+    color: #2f3a1f;
+}
+
+/* ===== Table Styling ===== */
+.table {
+    border-radius: 10px;
+    overflow: hidden;
+    background: #ffffff;
+}
+
+.table thead {
+    background-color: #2f3a1f;
+    color: #d4af37;
+}
+
+.table th {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+.table-secondary {
+    background-color: #f1f3f2 !important;
+}
+
+/* Input styling */
+.form-control {
+    border-radius: 6px;
+    border: 1px solid #ced4da;
+}
+
+.form-control:focus {
+    border-color: #d4af37;
+    box-shadow: 0 0 0 0.15rem rgba(212,175,55,0.25);
+}
+
+/* Save Button */
+.btn-primary {
+    background-color: #2f3a1f;
+    border-color: #2f3a1f;
+}
+
+.btn-primary:hover {
+    background-color: #3e4d2a;
+    border-color: #3e4d2a;
+}
+</style>
 
 
 @php
@@ -490,10 +562,16 @@
     @csrf
 
     @foreach($groups as $group)
-        <h4 class="fw-bold mt-4">{{ $group->name_ar }}</h4>
+        <div class="group-header mt-5">
+            <span>{{ $group->name_ar }}</span>
+        </div>
+
 
         @foreach($group->children as $section)
-            <h5 class="fw-bold mt-3">{{ $section->name_ar }}</h5>
+            <div class="section-header w-[100%] mt-4">
+                <span>{{ $section->name_ar }}</span>
+            </div>
+
 
             <table class="table table-bordered text-center">
                 <thead>
@@ -518,12 +596,13 @@
                         @endphp
                         <tr>
                             <td>{{ $item->name_ar }}</td>
+                            
                             <td>{{ $item->unit }}</td>
                             <td>
                                 <input type="number" name="requirements[{{ $item->id }}][quantity]" value="{{ $qty }}" min="0" class="form-control qty" />
                             </td>
                             <td>
-                                <input type="number" name="requirements[{{ $item->id }}][unit_price]" value="{{ $price }}" step="0.01" class="form-control price" />
+                                <input type="number" name="requirements[{{ $item->id }}][unit_price]" value="{{ $price }}" step="1" class="form-control price" />
                             </td>
                             <td class="total">{{ number_format($total, 2) }}</td>
                             <td>
@@ -540,7 +619,29 @@
         @endforeach
     @endforeach
 
-    <button type="submit" class="btn btn-primary mt-3">حفظ</button>
+
+
+
+    <div class="text-center d-flex my-4 justify-content-center gap-2">
+
+        {{-- Save --}}
+        <button type="submit"
+                class="btn btn-olive px-4 "
+                style="background:#2f3a1f;color:#d4af37;">
+            <i class="fas fa-save"></i> حفظ حساب الكميات 
+        </button>
+
+
+        <a target="_blank"
+            href="{{ route('projects.contract.tender.pdf', $project->id) }}?action=preview"
+            class="btn btn-outline-success px-4">
+                  👁 معاينة حساب الكميات   
+        </a>
+
+
+    </div>
+
+    <!-- <button type="submit" class="btn btn-primary mt-3">حفظ</button> -->
 </form>
 
 <script>

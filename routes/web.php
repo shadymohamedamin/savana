@@ -169,7 +169,7 @@ Route::post('/projects/{project}/owner-requirements/save-pricing',
     ->name('projects.owner-requirements.savePricing');
 
 Route::post('/projects/{project}/owner-requirements/tender',
-    [ProjectController::class, 'saveTender']
+    [OwnerRequirementController::class, 'saveTender']
 )->name('projects.owner-requirements.saveTender');
 
 
@@ -256,6 +256,10 @@ Route::get(
     [App\Http\Controllers\ProjectController::class, 'pricingContractPdf']
 )->name('projects.contract.pricing.pdf');
 
+Route::get(
+    '/projects/{id}/contract-tender',
+    [App\Http\Controllers\ProjectController::class, 'tenderContractPdf']
+)->name('projects.contract.tender.pdf');
 
 
 

@@ -515,6 +515,46 @@ public function pricingContractPdf(Request $request, $id)
     };
 }
 
+
+
+
+
+public function tenderContractPdf(Request $request, $id)
+{
+    $project = \App\Models\Project::findOrFail($id);
+
+    // نجيب الجروبات زي صفحة التندر
+    $groups = \App\Models\OwnerRequirement::where('floor', 'tender')
+        ->where('type', 'group')
+        ->with([
+            'children.children.projectOwnerRequirements' => function ($q) use ($project) {
+                $q->where('project_id', $project->id)
+                  ->where('context', 'tender');
+            }
+        ])
+        ->get();
+
+    $html = view('pdf.contract_tender', compact('project', 'groups'))->render();
+
+    $mpdf = new \Mpdf\Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'default_font' => 'amiri',
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+    ]);
+
+    $mpdf->WriteHTML($html);
+
+    $action = $request->get('action', 'preview');
+
+    return match ($action) {
+        'download' => $mpdf->Output("contract_tender_{$project->id}.pdf", 'D'),
+        'print'    => $mpdf->Output("contract_tender_{$project->id}.pdf", 'I'),
+        default    => $mpdf->Output("contract_tender_{$project->id}.pdf", 'I'),
+    };
+}
+
 /*public function pricingContractPdf(Request $request, $id)
 {
     $project = \App\Models\Project::with([

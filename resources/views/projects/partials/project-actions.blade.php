@@ -44,8 +44,8 @@
 }
 
 .project-panel-header {
-    background-color: #2f3a1f;
-    color: #d4af37;
+    background-color:#d4af37;
+    color:  #2f3a1f;
     padding: 14px 20px;
     font-weight: 600;
     font-size: 16px;
@@ -96,17 +96,18 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 12px 16px;
-    background-color: #2f3a1f;
-    color: #d4af37;
+    padding: 6px 10px;
+    background-color: #d4af37;
+    color: #2f3a1f; 
     border: 1px solid #000;
     text-decoration: none;
     font-weight: 500;
     transition: 0.2s ease;
+    
 }
 
 .panel-btn i {
-    font-size: 18px;
+    font-size: 32px;
 }
 
 .panel-btn:hover {
