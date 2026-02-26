@@ -209,6 +209,23 @@
                 </a>
             </div>
 
+
+            <div class="d-flex flex-column">
+                <span class="mb-1">{{ __(' حساب الكميات') }}</span>
+
+                <a target="_blank" href="{{ route('projects.contract.tender.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
+                    👁 {{ __('Preview') }}
+                </a>
+
+                <a href="{{ route('projects.contract.tender.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
+                    ⬇ {{ __('Download') }}
+                </a>
+
+                <a target="_blank" href="{{ route('projects.contract.tender.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
+                    🖨 {{ __('Print') }}
+                </a>
+            </div>
+
         @elseif($isCotractorFiles)
             <div class="d-flex flex-column">
                 <span class="mb-1">{{ __('العقد الاساسي') }}</span>

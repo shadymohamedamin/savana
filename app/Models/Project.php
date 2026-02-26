@@ -58,6 +58,7 @@ class Project extends Model
         'approved_area',
         'linear_meter_area',
         
+        
     ];
 
     /**

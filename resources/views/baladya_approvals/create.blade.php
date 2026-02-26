@@ -30,7 +30,7 @@
             {{-- Case Number --}}
             <div style="min-width: 250px;">
                 {!! Form::label('case_number', __('رقم الحالة')) !!}
-                {!! Form::text('case_number', null, ['class' => 'form-control', 'required']) !!}
+                {!! Form::text('case_number', null, ['class' => 'form-control']) !!}
             </div>
 
             {{-- Opened At --}}

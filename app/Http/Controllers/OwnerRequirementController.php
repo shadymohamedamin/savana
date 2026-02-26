@@ -145,7 +145,87 @@ if ($context === 'pricing') {
 }*/
 
 
+    /**
+     * Store a newly created OwnerRequirement in storage.
+     */
+    /*public function store(Request $request, Project $project)
+{
 
+    $syncData = [];
+
+    foreach ($request->requirements ?? [] as $reqId => $data) {
+
+        $qty = $data['quantity'] ?? null;
+        $notes = $data['notes'] ?? null;
+
+        if (!empty($qty) && $qty > 0) {
+            $syncData[$reqId] = [
+                'quantity' => $qty,
+                'notes' => $notes,
+            ];
+        }
+    }
+
+
+    $project->ownerRequirements()->sync($syncData);
+
+    if ($request->filled('design')) {
+        $project->designPreferences()->updateOrCreate(
+            ['project_id' => $project->id],
+            $request->design
+        );
+    }
+
+    return redirect()->back()->with('toast', [
+        'type' => 'success',
+        'message' => 'تم حفظ متطلبات المالك وأفكار التصميم بنجاح'
+    ]);
+}*/
+
+
+
+
+
+
+/*public function store(Request $request, Project $project)
+{
+    $syncData = [];
+
+    foreach ($request->requirements ?? [] as $reqId => $data) {
+
+        $qty = $data['quantity'] ?? null;
+        $notes = $data['notes'] ?? null;
+
+        if ($qty !== null && $qty > 0) {
+            $syncData[$reqId] = [
+                'quantity' => (int)$qty,
+                'notes' => $notes,
+            ];
+        }
+    }
+
+    try {
+        $project->ownerRequirements()->sync($syncData);
+    } catch (\Throwable $e) {
+        return redirect()->back()->with('toast', [
+            'type' => 'error',
+            'message' => $e->getMessage()
+        ]);
+    }
+
+
+    if ($request->filled('design')) {
+        $project->designPreferences()->updateOrCreate(
+            ['project_id' => $project->id],
+            $request->design
+        );
+    }
+
+    return redirect()->back()->with('toast', [
+        'type' => 'success',
+        'message' => 'تم حفظ متطلبات المالك وأفكار التصميم بنجاح'
+    ]);
+}*/
 
 
 public function index(Project $project, Request $request)
@@ -186,14 +266,27 @@ public function index(Project $project, Request $request)
     }
 
 
+    // $groups = OwnerRequirement::with([
+    //         'children.children', // section + items
+    //         'children.children.projectOwnerRequirements' // pivot
+    //     ])
+    //     ->where('floor', $context)
+    //     ->where('type', 'group')
+    //     ->whereNull('parent_id')
+    //     ->get();
+
     $groups = OwnerRequirement::with([
-            'children.children', // section + items
-            'children.children.projectOwnerRequirements' // pivot
+            'children.children',
+            'children.children.projectOwnerRequirements' => function ($q) use ($project, $context) {
+                $q->where('project_id', $project->id)
+                ->where('context', $context);
+            }
         ])
         ->where('floor', $context)
         ->where('type', 'group')
         ->whereNull('parent_id')
         ->get();
+
 //dd($groups);
 
 
@@ -402,52 +495,7 @@ public function index(Project $project, Request $request)
 
 
 
-/*$designFieldMap = [
 
-    // اختلاف أسماء
-    'skirting_type'               => 'insulation',
-
-    // نفس الاسم (Direct mapping)
-    'water_heater'                => 'water_heater',
-    'bathroom_chairs'             => 'bathroom_chairs',
-    'exhaust_fan'                 => 'exhaust_fan',
-    'insulation'                  => 'insulation',
-    'aluminum'                    => 'aluminum',
-    'water_tank'                  => 'water_tank',
-    'ac_water_recovery_tank'      => 'ac_water_recovery_tank',
-    'washroom_faucets'            => 'washroom_faucets',
-    'sanitary_drainage'           => 'sanitary_drainage',
-    'ceramic_tiles'               => 'ceramic_tiles',
-    'water_tank_capacity'         => 'water_tank_capacity',
-    'door_heights'                => 'door_heights',
-    'main_door'                   => 'main_door',
-    'paint_type'                  => 'paint_type',
-    'hot_cold_water_for_bidet'    => 'hot_cold_water_for_bidet',
-    'facade_lighting_points'      => 'facade_lighting_points',
-    'fence_water_points'          => 'fence_water_points',
-    'fence_electric_points'       => 'fence_electric_points',
-    'car_electric_point'          => 'car_electric_point',
-    'exterior_stone_tiles'        => 'exterior_stone_tiles',
-    'camera_points'               => 'camera_points',
-    'annex_ceramic_price'         => 'annex_ceramic_price',
-    'pantry_plumbing_first_floor' => 'pantry_plumbing_first_floor',
-    'hidden_plaster_beam'         => 'hidden_plaster_beam',
-    'roof_water_point'            => 'roof_water_point',
-    'roof_electric_point'         => 'roof_electric_point',
-    'feeding_pipe_install'        => 'feeding_pipe_install',
-    'ac_civil_works'              => 'ac_civil_works',
-    'front_stairs'                => 'front_stairs',
-    'floor_protection'            => 'floor_protection',
-    'first_floor_bath_drainage'   => 'first_floor_bath_drainage',
-    'central_exhaust_fans'        => 'central_exhaust_fans',
-    'bath_wall_niches'            => 'bath_wall_niches',
-    'garage_door_electric_point'  => 'garage_door_electric_point',
-    'curb_grooves'                => 'curb_grooves',
-    'window_electric_points'      => 'window_electric_points',
-    'sound_system_pipes'          => 'sound_system_pipes',
-    'cleanout_rebates'            => 'cleanout_rebates',
-    'planting_basins'             => 'planting_basins',
-];*/
 
 
 
@@ -474,87 +522,7 @@ public function index(Project $project, Request $request)
         return view('owner_requirements.create');
     }
 
-    /**
-     * Store a newly created OwnerRequirement in storage.
-     */
-    /*public function store(Request $request, Project $project)
-{
 
-    $syncData = [];
-
-    foreach ($request->requirements ?? [] as $reqId => $data) {
-
-        $qty = $data['quantity'] ?? null;
-        $notes = $data['notes'] ?? null;
-
-        if (!empty($qty) && $qty > 0) {
-            $syncData[$reqId] = [
-                'quantity' => $qty,
-                'notes' => $notes,
-            ];
-        }
-    }
-
-
-    $project->ownerRequirements()->sync($syncData);
-
-    if ($request->filled('design')) {
-        $project->designPreferences()->updateOrCreate(
-            ['project_id' => $project->id],
-            $request->design
-        );
-    }
-
-    return redirect()->back()->with('toast', [
-        'type' => 'success',
-        'message' => 'تم حفظ متطلبات المالك وأفكار التصميم بنجاح'
-    ]);
-}*/
-
-
-
-
-
-
-/*public function store(Request $request, Project $project)
-{
-    $syncData = [];
-
-    foreach ($request->requirements ?? [] as $reqId => $data) {
-
-        $qty = $data['quantity'] ?? null;
-        $notes = $data['notes'] ?? null;
-
-        if ($qty !== null && $qty > 0) {
-            $syncData[$reqId] = [
-                'quantity' => (int)$qty,
-                'notes' => $notes,
-            ];
-        }
-    }
-
-    try {
-        $project->ownerRequirements()->sync($syncData);
-    } catch (\Throwable $e) {
-        return redirect()->back()->with('toast', [
-            'type' => 'error',
-            'message' => $e->getMessage()
-        ]);
-    }
-
-
-    if ($request->filled('design')) {
-        $project->designPreferences()->updateOrCreate(
-            ['project_id' => $project->id],
-            $request->design
-        );
-    }
-
-    return redirect()->back()->with('toast', [
-        'type' => 'success',
-        'message' => 'تم حفظ متطلبات المالك وأفكار التصميم بنجاح'
-    ]);
-}*/
 
 
 
@@ -631,59 +599,6 @@ public function store(Request $request, Project $project)
 
 
 
-/*private function mapDesignToSpecification(array $design): array
-{
-    $map = [
-        // اختلاف أسماء
-        'skirting_type'        => 'insulation',
-        'sink_bath_fittings'   => 'washroom_faucets',
-        'sewage_system'        => 'sanitary_drainage',
-        'hot_cold_water'       => 'hot_cold_water_for_bidet',
-        'facade_lights'        => 'facade_lighting_points',
-        'wall_water_points'    => 'fence_water_points',
-        'wall_electric_points' => 'fence_electric_points',
-
-        // نفس الاسم (نثبتهم)
-        'water_heater'                 => 'water_heater',
-        'bathroom_chairs'              => 'bathroom_chairs',
-        'exhaust_fan'                  => 'exhaust_fan',
-        'aluminum'                     => 'aluminum',
-        'water_tank'                   => 'water_tank',
-        'ac_water_recovery_tank'       => 'ac_water_recovery_tank',
-        'ceramic_tiles'                => 'ceramic_tiles',
-        'water_tank_capacity'          => 'water_tank_capacity',
-        'door_heights'                 => 'door_heights',
-        'main_door'                    => 'main_door',
-        'paint_type'                   => 'paint_type',
-        'car_electric_point'           => 'car_electric_point',
-        'exterior_stone_tiles'         => 'exterior_stone_tiles',
-        'camera_points'                => 'camera_points',
-        'annex_ceramic_price'          => 'annex_ceramic_price',
-        'pantry_plumbing_first_floor'  => 'pantry_plumbing_first_floor',
-        'sound_system_pipes'           => 'sound_system_pipes',
-        'cleanout_rebates'             => 'cleanout_rebates',
-        'floor_protection'             => 'floor_protection',
-        'front_stairs'                 => 'front_stairs',
-        'bath_wall_niches'             => 'bath_wall_niches',
-        'ac_civil_works'               => 'ac_civil_works',
-        'central_exhaust_fans'         => 'central_exhaust_fans',
-        'first_floor_bath_drainage'    => 'first_floor_bath_drainage',
-        'hidden_plaster_beam'          => 'hidden_plaster_beam',
-        'planting_basins'              => 'planting_basins',
-        'roof_water_point'             => 'roof_water_point',
-        'roof_electric_point'          => 'roof_electric_point',
-    ];
-
-    $result = [];
-
-    foreach ($map as $formKey => $dbKey) {
-        if (array_key_exists($formKey, $design)) {
-            $result[$dbKey] = $design[$formKey];
-        }
-    }
-
-    return $result;
-}*/
 
 // حفظ أسعار التشطيبات
 public function savePricing(Request $request, Project $project)
@@ -769,6 +684,59 @@ public function saveTender(Request $request, Project $project)
 }
 
 
+/*private function mapDesignToSpecification(array $design): array
+{
+    $map = [
+        // اختلاف أسماء
+        'skirting_type'        => 'insulation',
+        'sink_bath_fittings'   => 'washroom_faucets',
+        'sewage_system'        => 'sanitary_drainage',
+        'hot_cold_water'       => 'hot_cold_water_for_bidet',
+        'facade_lights'        => 'facade_lighting_points',
+        'wall_water_points'    => 'fence_water_points',
+        'wall_electric_points' => 'fence_electric_points',
+
+        // نفس الاسم (نثبتهم)
+        'water_heater'                 => 'water_heater',
+        'bathroom_chairs'              => 'bathroom_chairs',
+        'exhaust_fan'                  => 'exhaust_fan',
+        'aluminum'                     => 'aluminum',
+        'water_tank'                   => 'water_tank',
+        'ac_water_recovery_tank'       => 'ac_water_recovery_tank',
+        'ceramic_tiles'                => 'ceramic_tiles',
+        'water_tank_capacity'          => 'water_tank_capacity',
+        'door_heights'                 => 'door_heights',
+        'main_door'                    => 'main_door',
+        'paint_type'                   => 'paint_type',
+        'car_electric_point'           => 'car_electric_point',
+        'exterior_stone_tiles'         => 'exterior_stone_tiles',
+        'camera_points'                => 'camera_points',
+        'annex_ceramic_price'          => 'annex_ceramic_price',
+        'pantry_plumbing_first_floor'  => 'pantry_plumbing_first_floor',
+        'sound_system_pipes'           => 'sound_system_pipes',
+        'cleanout_rebates'             => 'cleanout_rebates',
+        'floor_protection'             => 'floor_protection',
+        'front_stairs'                 => 'front_stairs',
+        'bath_wall_niches'             => 'bath_wall_niches',
+        'ac_civil_works'               => 'ac_civil_works',
+        'central_exhaust_fans'         => 'central_exhaust_fans',
+        'first_floor_bath_drainage'    => 'first_floor_bath_drainage',
+        'hidden_plaster_beam'          => 'hidden_plaster_beam',
+        'planting_basins'              => 'planting_basins',
+        'roof_water_point'             => 'roof_water_point',
+        'roof_electric_point'          => 'roof_electric_point',
+    ];
+
+    $result = [];
+
+    foreach ($map as $formKey => $dbKey) {
+        if (array_key_exists($formKey, $design)) {
+            $result[$dbKey] = $design[$formKey];
+        }
+    }
+
+    return $result;
+}*/
 
 ////////////////////
 /*
