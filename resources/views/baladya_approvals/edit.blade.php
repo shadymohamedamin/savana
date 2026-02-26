@@ -31,7 +31,7 @@
             {{-- Case Number --}}
             <div style="min-width: 250px;">
                 {!! Form::label('case_number', __('رقم الحالة')) !!}
-                {!! Form::text('case_number', $baladyaApproval->case_number, ['class' => 'form-control', 'required']) !!}
+                {!! Form::text('case_number', $baladyaApproval->case_number, ['class' => 'form-control']) !!}
             </div>
 
             {{-- Opened At --}}
