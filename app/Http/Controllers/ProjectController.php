@@ -797,7 +797,7 @@ public function update($id, UpdateProjectRequest $request)
                 'message' => __('Project not found.')
             ]);
     }
-
+//dd($request->all());
     // تحديث بيانات المشروع
     $project = $this->projectRepository->update($request->all(), $id);
 

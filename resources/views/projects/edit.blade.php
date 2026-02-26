@@ -284,13 +284,13 @@
                 </div> -->
 
                 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
-                    {!! Form::label('approved_area ', __('المساحة المعتمدة من البلدية')) !!}
-                    {!! Form::text('approved_area ', null, ['class' => 'form-control rounded']) !!}
+                    {!! Form::label('approved_area', __('المساحة المعتمدة من البلدية')) !!}
+                    {!! Form::text('approved_area', null, ['class' => 'form-control rounded']) !!}
                 </div>
 
                 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
-                    {!! Form::label('linear_meter_area ', __('مساحة السور بالمتر الطولي')) !!}
-                    {!! Form::text('linear_meter_area ', null, ['class' => 'form-control rounded']) !!}
+                    {!! Form::label('linear_meter_area', __('مساحة السور بالمتر الطولي')) !!}
+                    {!! Form::text('linear_meter_area', null, ['class' => 'form-control rounded']) !!}
                 </div>
 
 
@@ -369,7 +369,7 @@
 
                 {{-- Contract Duration --}}
                 <div class="flex-grow-1" style="min-width:250px;max-width:250px;">
-                    {!! Form::label('bank_contract_duration', __('مدة العقد (بالأشهر)')) !!}
+                    {!! Form::label('bank_contract_duration', __('مدة العقد الاساسي (بالأشهر)')) !!}
                     {!! Form::number(
                         'bank_contract_duration',
                         $project->bank_contract_duration,

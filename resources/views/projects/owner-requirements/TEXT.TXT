@@ -1,3 +1,25 @@
+<tr class="table-warning fw-bold group-total-row">
+            <td colspan="4">
+                إجمالي {{ $group->name_ar }}
+            </td>
+            <td class="group-total-value">
+                0.00
+            </td>
+            <td></td>
+        </tr>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 {{-- السخان --}}

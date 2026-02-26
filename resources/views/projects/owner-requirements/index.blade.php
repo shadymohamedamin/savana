@@ -79,6 +79,7 @@
 @php
     $isOwner   = $context === 'owner';
     $isPricing = $context === 'pricing';
+    $isTender  = $context === 'tender';
 @endphp
 
 <div class="card shadow-sm rounded-4"
@@ -90,11 +91,18 @@
 
         <div>
             <h4 class="mb-0">
-                {{ $isPricing ? 'أسعار توريد التشطيبات' : 'متطلبات المالك' }}
+                @if($isTender)
+                    حساب الكميات
+                @elseif($isPricing)
+                    أسعار توريد التشطيبات
+                @else
+                    متطلبات المالك
+                @endif
+
             </h4>
 
             <small>
-                المشروع: <strong>{{ $project->name }}</strong> |
+                المشروع: <strong>{{ $project->projectName?->name_ar }}</strong> |
                 المالك: <strong>{{ $project->ownerUser?->name ?? '—' }}</strong> |
                 رقم القسيمة: <strong>{{ $project->qasmia_number ?? '—' }}</strong> |
                 المنطقة: <strong>{{ $project->projectRegion?->name_ar ?? '—' }}</strong>
@@ -555,7 +563,7 @@
 
 @if($context === 'tender')
 
-<h5 class="text-center fw-bold mb-3">حساب الكميات  </h5>
+<!-- <h5 class="text-center fw-bold mb-3">حساب الكميات  </h5> -->
 
 <form action="{{ route('projects.owner-requirements.saveTender', $project->id) }}" method="POST">
 
@@ -573,7 +581,9 @@
             </div>
 
 
-            <table class="table table-bordered text-center">
+            <table class="table table-bordered text-center section-table"
+                    data-section-id="{{ $section->id }}">
+
                 <thead>
                     <tr>
                         <th>البند</th>
@@ -617,7 +627,155 @@
                 </tbody>
             </table>
         @endforeach
+
+
+
+        <tr class="table-warning fw-bold group-total-row">
+            <td colspan="4">
+                إجمالي {{ $group->name_ar }}
+            </td>
+            <td colspan="2" class="group-total-value">
+                0.00
+            </td>
+        </tr>
+
+        <!-- <tr class="table-warning fw-bold group-total-row">
+            <td colspan="4">
+                إجمالي {{ $group->name_ar }}
+            </td>
+            <td class="group-total-value">
+                0.00
+            </td>
+            <td></td>
+        </tr> -->
+
     @endforeach
+
+
+
+
+<hr class="my-5">
+
+<h4 class="text-center fw-bold mb-4">ملخص أسعار المشروع</h4>
+
+<table class="table table-bordered text-center">
+
+
+
+    <tr class="table-dark">
+        <th style="width:60%">البند</th>
+        <th style="width:40%">القيمة</th>
+    </tr>
+
+    @foreach($groups as $gIndex => $group)
+        <tr class="table-secondary fw-bold">
+            <td colspan="2">
+                {{ $group->name_ar }}
+            </td>
+        </tr>
+
+        @foreach($group->children as $section)
+            <tr>
+                <td class="ps-4">
+                    {{ $section->name_ar }}
+                </td>
+                <td id="section-summary-{{ $section->id }}">
+                    0.00
+                </td>
+            </tr>
+        @endforeach
+
+
+
+        <tr class="fw-bold bg-light">
+            <td>
+                إجمالي {{ $group->name_ar }}
+            </td>
+            <td id="group-summary-{{ $gIndex }}">
+                0.00
+            </td>
+        </tr>
+
+
+        
+
+    @endforeach
+
+    <tr class="table-success fw-bold">
+        <td>
+            اجمالى سعر المشروع بدون ضريبة <br>
+            Total Project value without VAT
+        </td>
+        <td id="grandTotalWithoutVatDetailed">
+            0.00
+        </td>
+    </tr>
+
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+    <hr class="my-5">
+
+<h4 class="text-center fw-bold mb-4">ملخص البنود</h4>
+
+<table class="table table-bordered text-center" id="summaryTable">
+
+<tr class="table-dark">
+    <th colspan="2">البند</th>
+    <th>القيمة</th>
+</tr>
+
+<tr>
+    <td colspan="2">سعر الهيكل مع الكتروميكانيكال</td>
+    <td id="structureElectro">0.00</td>
+</tr>
+
+<tr>
+    <td colspan="2">سعر الهيكل مع الكتروميكانيكال مع التشطيبات</td>
+    <td id="structureWithFinishes">0.00</td>
+</tr>
+
+<tr>
+    <td colspan="2">سعر الفوت بدون تشطيبات</td>
+    <td id="footWithout">0.00</td>
+</tr>
+
+<tr>
+    <td colspan="2">سعر الفوت مع تشطيبات</td>
+    <td id="footWith">0.00</td>
+</tr>
+
+<tr>
+    <td colspan="2">سعر السور</td>
+    <td id="boundaryWall">0.00</td>
+</tr>
+
+<tr>
+    <td colspan="2">سعر الفيلا مع السور</td>
+    <td id="villaWithWall">0.00</td>
+</tr>
+
+<tr>
+    <td colspan="2">الضريبة 5%</td>
+    <td id="vat">0.00</td>
+</tr>
+
+<tr class="table-success fw-bold">
+    <td colspan="2">السعر النهائي شامل الضريبة</td>
+    <td id="finalTotal">0.00</td>
+</tr>
+
+</table>
 
 
 
@@ -644,7 +802,7 @@
     <!-- <button type="submit" class="btn btn-primary mt-3">حفظ</button> -->
 </form>
 
-<script>
+<!-- <script>
 document.querySelectorAll('table').forEach(table => {
     table.addEventListener('input', e => {
         if(e.target.classList.contains('qty') || e.target.classList.contains('price')) {
@@ -664,7 +822,143 @@ document.querySelectorAll('table').forEach(table => {
         }
     });
 });
+</script> -->
+
+
+
+
+<script>
+
+function calculateAll() {
+
+    let approvedArea = {{ $project->approved_area ?? 1 }};
+    let grandTotalWithoutVat = 0;
+    let groupsTotals = [];
+
+    document.querySelectorAll('.group-header').forEach((groupHeader, gIndex) => {
+
+        let groupTotal = 0;
+        let next = groupHeader.nextElementSibling;
+
+        while(next && !next.classList.contains('group-header')) {
+
+            if(next.classList.contains('section-header')) {
+
+                let table = next.nextElementSibling;
+
+                if(table && table.classList.contains('section-table')) {
+
+                    let sectionTotal = 0;
+
+                    table.querySelectorAll('.total').forEach(cell => {
+                        sectionTotal += parseFloat(cell.textContent.replace(/,/g,'')) || 0;
+                    });
+
+                    let sectionId = table.dataset.sectionId;
+
+                    let sectionCell = document.getElementById('section-summary-' + sectionId);
+                    if(sectionCell){
+                        sectionCell.textContent =
+                            sectionTotal.toLocaleString(undefined,{minimumFractionDigits:2});
+                    }
+
+                    groupTotal += sectionTotal;
+                }
+            }
+
+            next = next.nextElementSibling;
+        }
+
+        groupsTotals.push(groupTotal);
+        grandTotalWithoutVat += groupTotal;
+
+       let groupTotalRow = groupHeader
+            .closest('form')
+            .querySelectorAll('.group-total-row .group-total-value')[gIndex];
+
+
+        if(groupTotalRow){
+            groupTotalRow.textContent =
+                groupTotal.toLocaleString(undefined,{minimumFractionDigits:2});
+        }
+
+
+
+        let groupCell = document.getElementById('group-summary-' + gIndex);
+        if(groupCell){
+            groupCell.textContent =
+                groupTotal.toLocaleString(undefined,{minimumFractionDigits:2});
+        }
+
+    });
+
+    document.getElementById('grandTotalWithoutVatDetailed').textContent =
+        grandTotalWithoutVat.toLocaleString(undefined,{minimumFractionDigits:2});
+
+    /* ===== باقي الحسابات ===== */
+
+    let structureElectro = (groupsTotals[0] || 0) + (groupsTotals[1] || 0);
+    let structureWithFinishes = structureElectro + (groupsTotals[2] || 0);
+    let boundaryWall = groupsTotals[groupsTotals.length - 1] || 0;
+    let villaWithWall = structureWithFinishes + boundaryWall;
+    let vat = villaWithWall * 0.05;
+    let finalTotal = villaWithWall + vat;
+
+    let footWithout = approvedArea > 0 ? structureElectro / approvedArea : 0;
+    let footWith    = approvedArea > 0 ? structureWithFinishes / approvedArea : 0;
+
+    document.getElementById('structureElectro').textContent =
+        structureElectro.toLocaleString(undefined,{minimumFractionDigits:2});
+    document.getElementById('structureWithFinishes').textContent =
+        structureWithFinishes.toLocaleString(undefined,{minimumFractionDigits:2});
+    document.getElementById('footWithout').textContent =
+        footWithout.toLocaleString(undefined,{minimumFractionDigits:2});
+    document.getElementById('footWith').textContent =
+        footWith.toLocaleString(undefined,{minimumFractionDigits:2});
+    document.getElementById('boundaryWall').textContent =
+        boundaryWall.toLocaleString(undefined,{minimumFractionDigits:2});
+    document.getElementById('villaWithWall').textContent =
+        villaWithWall.toLocaleString(undefined,{minimumFractionDigits:2});
+    document.getElementById('vat').textContent =
+        vat.toLocaleString(undefined,{minimumFractionDigits:2});
+    document.getElementById('finalTotal').textContent =
+        finalTotal.toLocaleString(undefined,{minimumFractionDigits:2});
+}
+
+
+document.addEventListener('input', function(e) {
+
+    if(e.target.classList.contains('qty') || e.target.classList.contains('price')) {
+
+        let tr = e.target.closest('tr');
+        let qty = parseFloat(tr.querySelector('.qty').value) || 0;
+        let price = parseFloat(tr.querySelector('.price').value) || 0;
+        let total = qty * price;
+
+        tr.querySelector('.total').textContent =
+            total.toLocaleString(undefined,{minimumFractionDigits:2});
+
+        let table = tr.closest('.section-table');
+        let sectionTotal = 0;
+
+        table.querySelectorAll('.total').forEach(cell => {
+            sectionTotal += parseFloat(cell.textContent.replace(/,/g,'')) || 0;
+        });
+
+        table.querySelector('.section-total').textContent =
+            sectionTotal.toLocaleString(undefined,{minimumFractionDigits:2});
+
+        calculateAll();
+    }
+
+});
+
+calculateAll();
+
 </script>
+
+
+
 
 @endif
 
