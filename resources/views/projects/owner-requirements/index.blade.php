@@ -110,12 +110,27 @@
             </small>
         </div>
 
+        <div class=" d-flex justify-content-between align-items-center gap-2">
+        <a href="{{ route('projects.owner-requirements.index', [$project, 'context' => 'pricing']) }}"
+                class="btn btn-sm"
+                style="background:#2f3a1f;color:#d4af37;">
+                    <i class="fas fa-file-signature"></i> أسعار توريد التشطيبات
+            </a>
+
+
+            <a href="{{ route('projects.owner-requirements.index', [$project, 'context' => 'tender']) }}"
+                class="btn btn-sm"
+                style="background:#2f3a1f;color:#d4af37;">
+                    <i class="fas fa-file-signature"></i> حساب الكميات
+            </a>
         <div class="d-flex gap-2">
             <a href="{{ route('projects.index') }}"
                class="btn btn-olive btn-sm" style="background:#2f3a1f;color:#d4af37;">
                 <i class="fas fa-arrow-left" ></i> {{ __('العودة الي المشاريع') }}
             </a>
         </div>
+        </div>
+
     </div>
 
     {{-- Content --}}
@@ -834,7 +849,7 @@ document.querySelectorAll('table').forEach(table => {
 
 function calculateAll() {
 
-    let approvedArea = {{ $project->approved_area ?? 1 }};
+    let approvedArea = {{ $project->approved_area ?? 0 }};
     let grandTotalWithoutVat = 0;
     let groupsTotals = [];
 
@@ -917,7 +932,7 @@ function calculateAll() {
     let structureWithFinishes = structureElectro + (groupsTotals[2] || 0);
     let boundaryWall = groupsTotals[groupsTotals.length - 1] || 0;
     let villaWithWall = structureWithFinishes + boundaryWall;
-    let vat = villaWithWall * 0.05;
+    let vat = villaWithWall /21;//* 0.05;
     let finalTotal = villaWithWall + vat;
 
     let footWithout = approvedArea > 0 ? structureElectro / approvedArea : 0;
