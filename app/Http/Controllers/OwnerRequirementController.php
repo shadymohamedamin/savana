@@ -664,7 +664,7 @@ public function savePricing(Request $request, Project $project)
         $notes = $data['notes'] ?? '';
 
         // ✅ الشرط المهم: احفظ العناصر اللي الكمية والسعر أكبر من 0
-        if ($qty > 0 && $price > 0) {
+        if ($qty > 0 || $price > 0) {
             $syncData[$ownerRequirementId] = [
                 'quantity'    => $qty,
                 'unit_price'  => $price,
@@ -717,7 +717,7 @@ public function saveTender(Request $request, Project $project)
         $notes = $data['notes'] ?? '';
 
         // ✅ الشرط المهم: احفظ العناصر اللي الكمية والسعر أكبر من 0
-        if ($qty > 0 && $price > 0) {
+        if ($qty > 0 || $price > 0) {
             $syncData[$ownerRequirementId] = [
                 'quantity'    => $qty,
                 'unit_price'  => $price,

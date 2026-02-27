@@ -614,8 +614,8 @@
                     @foreach($section->children as $item)
                         @php
                             $pivot = optional($item->projectOwnerRequirements->first());
-                            $qty = $pivot->quantity ?? 1;
-                            $price = $pivot->unit_price ?? 0;
+                            $qty = $pivot->quantity;
+                            $price = $pivot->unit_price;
                             $total = $qty * $price;
                             $sectionTotal += $total;
                         @endphp
@@ -1139,8 +1139,8 @@ calculateAll();
                     @foreach($section->children as $item)
                         @php
                             $pivot = optional($item->projectOwnerRequirements->first());
-                            $qty = $pivot->quantity ?? 1;
-                            $price = $pivot->unit_price ?? 0;
+                            $qty = $pivot->quantity;
+                            $price = $pivot->unit_price;
                             $total = $qty * $price;
                             $sectionTotal += $total;
                         @endphp
