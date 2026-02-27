@@ -233,6 +233,18 @@ public function consultant()
         return $this->ownerRequirements()->wherePivot('context','pricing');
     }
 
+     public function ownerRequirementsTender()
+    {
+        return $this->ownerRequirements()->wherePivot('context','tender');
+    }
+
+//     public function ownerRequirementsTender()
+// {
+//     return $this->belongsToMany(OwnerRequirement::class, 'project_owner_requirement')
+//         ->withPivot(['quantity','unit_price','total_price','notes','context'])
+//         ->wherePivot('context', 'tender');
+// }
+
 
     public function designPreferences()
     {
@@ -244,6 +256,9 @@ public function consultant()
 {
     return $this->belongsTo(\App\Models\BaladyaStatusType::class, 'baladya_status_type_id');
 }
+
+
+
 
 
 
