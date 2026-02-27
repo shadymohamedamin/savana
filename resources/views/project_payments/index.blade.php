@@ -45,7 +45,7 @@
     {{-- Summary --}}
     @php
     // Base values   $project->bank_contract_value_bank
-    $bankLimit = $project->financing_type == 'bank' || $project->financing_type == 'bank_owner' ? 800000 : 0;//800000; // أو العمود اللي مخزن تمويل البنك
+    $bankLimit = $project->financing_type == 'bank' || $project->financing_type == 'bank_owner' ? $project->project_bank_support : 0;//800000; // أو العمود اللي مخزن تمويل البنك
     $contractWithVat = $project->bank_contract_value; // الإجمالي (مع الضريبة)
 
     $vatRate = 0.05;
