@@ -430,11 +430,10 @@ if ($request->hasFile('architect_file') && $request->file('architect_file')->isV
         //return redirect()->route('projects.baladya-approvals.index', $projectId)
         //                ->with('owner_id', request('owner_id'));
 
-        return redirect()
-            ->route('projects.baladya-approvals.index', [
-                'project' => $projectId,
-                //'owner_id' => request('owner_id'),
-            ])
+        return redirect()->back()
+            //->route('projects.baladya-approvals.index', [
+            //    'project' => $projectId,
+            //])
             ->with('toast', [
                 'type' => 'success',
                 'message' => __('اعتماد البلدية تم تعديله بنجاح'),
