@@ -138,6 +138,12 @@
                     <i class="fas fa-file-signature"></i> حساب الكميات
             </a>
         </div>
+        @elseif($type='projects')
+        <a href="{{ route('projects.owner-requirements.index', ['project' => $model->id]) }}" class="btn btn-sm"
+                style="background:#2f3a1f;color:#d4af37;">
+                <i class="fas fa-clipboard-list"></i>
+                احتياجات المالك
+            </a>
         @endif
 
     </div>

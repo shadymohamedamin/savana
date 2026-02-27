@@ -234,10 +234,23 @@
 
 <div class="project-panel">
 
-    <div class="project-panel-header">
+    <div class="project-panel-header d-flex justify-content-between align-items-center">
+
+    <!-- العنوان -->
+    <div>
         <i class="fas fa-folder-open me-2"></i>
         {{ __('لوحة إدارة المشروع') }}
     </div>
+
+    <!-- زر العودة -->
+    <a href="{{ route('projects.index') }}"
+       class="btn btn-olive btn-sm" style="background:#2f3a1f;color:#d4af37;">
+        <i class="fas fa-arrow-left me-1"></i>
+        العودة إلى المشاريع
+    </a>
+
+</div>
+
 
     <div class="project-panel-body">
 
@@ -270,10 +283,10 @@
                 تعديل المشروع
             </a>
 
-            <a href="{{ route('projects.owner-requirements.index', ['project' => $project->id]) }}" class="panel-btn">
+            <!-- <a href="{{ route('projects.owner-requirements.index', ['project' => $project->id]) }}" class="panel-btn">
                 <i class="fas fa-clipboard-list"></i>
                 احتياجات المالك
-            </a>
+            </a> -->
 
 
  <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}" class="panel-btn">

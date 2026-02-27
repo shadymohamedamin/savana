@@ -630,14 +630,17 @@
 
 
 
-        <tr class="table-warning fw-bold group-total-row">
-            <td colspan="4">
-                إجمالي {{ $group->name_ar }}
-            </td>
-            <td colspan="2" class="group-total-value">
-                0.00
-            </td>
-        </tr>
+        <table class="table table-bordered text-center">
+    <tr class="table-warning fw-bold group-total-row">
+        <td colspan="4">
+            إجمالي {{ $group->name_ar }}
+        </td>
+        <td colspan="2" class="group-total-value">
+            0.00
+        </td>
+    </tr>
+</table>
+
 
         <!-- <tr class="table-warning fw-bold group-total-row">
             <td colspan="4">
@@ -850,9 +853,22 @@ function calculateAll() {
 
                     let sectionTotal = 0;
 
-                    table.querySelectorAll('.total').forEach(cell => {
-                        sectionTotal += parseFloat(cell.textContent.replace(/,/g,'')) || 0;
+                    //table.querySelectorAll('.total').forEach(cell => {
+                    //    sectionTotal += parseFloat(cell.textContent.replace(/,/g,'')) || 0;
+                    //});
+                    table.querySelectorAll('tbody tr').forEach(row => {
+
+                        let qtyInput = row.querySelector('.qty');
+                        let priceInput = row.querySelector('.price');
+
+                        if(qtyInput && priceInput){
+                            let qty = parseFloat(qtyInput.value) || 0;
+                            let price = parseFloat(priceInput.value) || 0;
+                            sectionTotal += qty * price;
+                        }
+
                     });
+
 
                     let sectionId = table.dataset.sectionId;
 

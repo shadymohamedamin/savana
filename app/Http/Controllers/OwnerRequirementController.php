@@ -275,7 +275,7 @@ public function index(Project $project, Request $request)
     //     ->whereNull('parent_id')
     //     ->get();
 
-    $groups = OwnerRequirement::with([
+    /*$groups = OwnerRequirement::with([
             'children.children',
             'children.children.projectOwnerRequirements' => function ($q) use ($project, $context) {
                 $q->where('project_id', $project->id)
@@ -285,7 +285,37 @@ public function index(Project $project, Request $request)
         ->where('floor', $context)
         ->where('type', 'group')
         ->whereNull('parent_id')
-        ->get();
+        ->get();*/
+
+
+
+
+
+
+
+
+$groupsQuery = OwnerRequirement::with([
+        'children.children',
+        'children.children.projectOwnerRequirements' => function ($q) use ($project, $context) {
+            $q->where('project_id', $project->id)
+              ->where('context', $context);
+        }
+    ])
+    ->where('type', 'group')
+    ->whereNull('parent_id');
+
+if ($context === 'pricing') {
+    // 👇 هنا بنجيب جروب توريد التشطيبات فقط
+    $groupsQuery->where('name_ar', 'توريد التشطيبات');
+} else {
+    $groupsQuery->where('floor', $context);
+}
+
+$groups = $groupsQuery->get();
+
+
+
+
 
 //dd($groups);
 
