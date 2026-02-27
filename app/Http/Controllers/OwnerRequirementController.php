@@ -298,7 +298,7 @@ $groupsQuery = OwnerRequirement::with([
         'children.children',
         'children.children.projectOwnerRequirements' => function ($q) use ($project, $context) {
             $q->where('project_id', $project->id)
-              ->where('context', $context);
+              ->where('context', 'tender');//$context);
         }
     ])
     ->where('type', 'group')

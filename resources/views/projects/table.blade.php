@@ -345,7 +345,7 @@
                     style="background-color:#f5f5dc; cursor:pointer;">
                     <td style="background-color:#f5f5dc;">{{ $project->project_code }}</td>
                     <td style="background-color:#f5f5dc;">{{ $project->ownerUser->name ?? '—' }}</td>
-                    <td style="background-color:#f5f5dc;">{{ $project->qasmia_number ?? '—' }}</td>
+                    <td style="background-color:#f5f5dc;" onclick="event.stopPropagation();">{{ $project->qasmia_number ?? '—' }}</td>
                     <!-- <td style="background-color:#f5f5dc;">
                         @if($project->projectName)
                             {{ app()->getLocale() == 'ar'
