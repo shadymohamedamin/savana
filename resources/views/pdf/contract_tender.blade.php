@@ -511,7 +511,7 @@ $structureWithFinishes =
     ($groupsValues[2] ?? 0);
 
 // سعر الفوت
-$approvedArea = $project->approved_area ?? 1;
+$approvedArea = $project->approved_area ?? 0;
 
 $footWithoutFinishes = $approvedArea > 0 ? $structureElectro / $approvedArea : 0;
 $footWithFinishes    = $approvedArea > 0 ? $structureWithFinishes / $approvedArea : 0;

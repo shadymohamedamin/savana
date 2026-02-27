@@ -388,14 +388,41 @@ P : أعمال الواجهات
 =====================================================
 */
 
-$P = OwnerRequirement::create([
+/*$P = OwnerRequirement::create([
     'name_ar' => 'أعمال الواجهات توريد و تركيب',
     'name_en' => 'Elevation Works supply and install',
     'floor' => 'tender',
     'type' => 'section',
     'parent_id' => $SupplyGroup->id,
     'is_general' => 0,
+]);*/
+
+
+
+
+/*
+=====================================================
+4️⃣ رابعاً : أعمال الواجهات
+=====================================================
+*/
+
+$ElevationGroup = OwnerRequirement::create([
+    'name_ar' => 'رابعا : أعمال الواجهات',
+    'name_en' => 'Elevation Works',
+    'floor' => 'tender',
+    'type' => 'group', // 👈 جروب
+    'is_general' => 0,
 ]);
+
+$P = OwnerRequirement::create([
+    'name_ar' => 'أعمال الواجهات توريد و تركيب',
+    'name_en' => 'Elevation Works supply and install',
+    'floor' => 'tender',
+    'type' => 'section',
+    'parent_id' => $ElevationGroup->id, // 👈 تابع للجروب الجديد
+    'is_general' => 0,
+]);
+
 
 $this->item($P,'تيوبات كاست المنيوم خامة حسب 3د','Cast Aluminum Tubes Same 3d','L.S');
 $this->item($P,'تنفيذ طبقين معجون خارجي للكورنيش مع صبغ باللون الاسود حسب 3د ان وجد','2 layers stucco','L.S');
@@ -413,14 +440,40 @@ Q : أعمال السور
 =====================================================
 */
 
-$Q = OwnerRequirement::create([
+/*$Q = OwnerRequirement::create([
     'name_ar' => 'أعمال السور الخارجي للفيلا',
     'name_en' => 'Boundary Wall Works',
     'floor' => 'tender',
     'type' => 'section',
     'parent_id' => $SupplyGroup->id,
     'is_general' => 0,
+]);*/
+
+
+
+/*
+=====================================================
+5️⃣ خامساً : أعمال السور
+=====================================================
+*/
+
+$BoundaryGroup = OwnerRequirement::create([
+    'name_ar' => 'خامساً : أعمال السور',
+    'name_en' => 'Boundary Wall Works',
+    'floor' => 'tender',
+    'type' => 'group',
+    'is_general' => 0,
 ]);
+
+$Q = OwnerRequirement::create([
+    'name_ar' => 'أعمال السور الخارجي للفيلا',
+    'name_en' => 'Boundary Wall Works Details',
+    'floor' => 'tender',
+    'type' => 'section',
+    'parent_id' => $BoundaryGroup->id,
+    'is_general' => 0,
+]);
+
 
 $this->item($Q,'أعمال تحت منسوب الارض','Substructure works','L.M');
 $this->item($Q,'اعمال فوق منسوب السور بما يشمل (الخرسانة-اعمال الطابوق -اعمال بلاستر)','Super structure works (concrete - block - plaster)','M3');
