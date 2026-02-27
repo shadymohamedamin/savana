@@ -59,7 +59,7 @@ th, td {
 </table>
 
 {{-- ================= أسعار توريد التشطيبات ================= --}}
-@foreach($items as $category => $rows)
+<!-- @foreach($items as $category => $rows)
 <table>
 <tr>
     <td class="section-title" colspan="6">{{ $category }}</td>
@@ -99,7 +99,117 @@ th, td {
     <td colspan="2">{{ number_format($total) }}</td>
 </tr>
 </table>
+@endforeach -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+@php
+$grandTotal = 0;
+$groupsTotals = [];
+$sectionsTotals = [];
+@endphp
+
+{{-- ================= الجروبات ================= --}}
+@foreach($groups as $group)
+
+<table>
+<tr>
+    <td class="group-title" colspan="6">
+        {{ $group->name_ar }}
+    </td>
+</tr>
+
+@php $groupTotal = 0; @endphp
+
+@foreach($group->children as $section)
+
+<tr>
+    <td class="section-title" colspan="6">
+        {{ $section->name_ar }}
+    </td>
+</tr>
+
+<tr class="bold center">
+    <td>البند</td>
+    <td>الوحدة</td>
+    <td>الكمية</td>
+    <td>سعر الوحدة</td>
+    <td>الإجمالي</td>
+    <td>ملاحظات</td>
+</tr>
+
+@php $sectionTotal = 0; @endphp
+
+@foreach($section->children as $item)
+
+@php
+$pivot = $item->projectOwnerRequirements
+              ->where('project_id',$project->id)
+              ->first();
+
+$qty = $pivot->quantity ?? 0;
+$price = $pivot->unit_price ?? 0;
+$total = $qty * $price;
+$sectionTotal += $total;
+@endphp
+
+<tr class="center">
+    <td>{{ $item->name_ar }}</td>
+    <td>{{ $item->unit }}</td>
+    <td>{{ $qty }}</td>
+    <td>{{ number_format($price,2) }}</td>
+    <td>{{ number_format($total,2) }}</td>
+    <td>{{ $pivot->notes ?? '' }}</td>
+</tr>
+
 @endforeach
+
+<tr class="total-row center">
+    <td colspan="4">مجموع {{ $section->name_ar }}</td>
+    <td colspan="2">{{ number_format($sectionTotal,2) }}</td>
+</tr>
+
+@php
+$sectionsTotals[$section->id] = $sectionTotal;
+$groupTotal += $sectionTotal;
+@endphp
+
+@endforeach
+
+<tr class="total-row center">
+    <td colspan="4">إجمالي {{ $group->name_ar }}</td>
+    <td colspan="2">{{ number_format($groupTotal,2) }}</td>
+</tr>
+
+</table>
+
+
+@endforeach
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 {{-- ================= مواصفات من اختيار المالك ================= --}}
 @if($specs)

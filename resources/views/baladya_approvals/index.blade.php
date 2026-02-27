@@ -124,7 +124,7 @@
                         {{ $row->statusType->name_ar ?? '-' }}
                     </td>
 
-                    <td style="background:#f5f5dc;">{{ $row->case_number }}</td>
+                    <td style="background:#f5f5dc;" onclick="event.stopPropagation();">{{ $row->case_number }}</td>
                     <td style="background:#f5f5dc;">{{ $row->opened_at ? $row->opened_at->format('Y-m-d') : '-' }}</td>
                     <td style="background:#f5f5dc;">{{ $row->approved_at ? $row->approved_at->format('Y-m-d') : '-' }}</td>
                     <!-- <td style="background:#f5f5dc;">{{ $row->days_diff ?? '-' }}</td> -->
