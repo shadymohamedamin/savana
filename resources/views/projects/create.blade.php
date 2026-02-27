@@ -182,7 +182,7 @@
 
                 <div class="flex-grow-1" style="min-width:250px;max-width:250px;">
                     {!! Form::label('project_bank_support', __('تمويل البنك '))!!}
-                    {!! Form::number('project_bank_support', null, [
+                    {!! Form::number('project_bank_support', 800000, [
                         'class' => 'form-control rounded',
                         'min' => 800000,
                     ]) !!}
