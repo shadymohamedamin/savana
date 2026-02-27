@@ -37,7 +37,7 @@ class BaladyaApproval extends Model
         'project_id' => 'required',
         'owner_id' => 'nullable',
         'status_type_id' => 'required',
-        'case_number' => 'required|string|max:255',
+        'case_number' => 'nullable|string|max:255',
         'opened_at' => 'required',
         'approved_at' => 'nullable',
         'days_diff' => 'nullable',

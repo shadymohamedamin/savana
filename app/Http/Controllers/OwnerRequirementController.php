@@ -306,7 +306,7 @@ $groupsQuery = OwnerRequirement::with([
 
 if ($context === 'pricing') {
     // 👇 هنا بنجيب جروب توريد التشطيبات فقط
-    $groupsQuery->where('name_ar', 'توريد التشطيبات');
+    $groupsQuery->where('name_en', 'Supply Finishings');
 } else {
     $groupsQuery->where('floor', $context);
 }
@@ -315,7 +315,7 @@ $groups = $groupsQuery->get();
 
 
 
-
+//dd($groups);
 
 //dd($groups);
 
@@ -633,7 +633,7 @@ public function store(Request $request, Project $project)
 // حفظ أسعار التشطيبات
 public function savePricing(Request $request, Project $project)
 {
-    $syncData = [];
+    /*$syncData = [];
 
     foreach ($request->requirements ?? [] as $ownerRequirementId => $data) {
 
@@ -651,7 +651,34 @@ public function savePricing(Request $request, Project $project)
                 'context'     => 'pricing'
             ];
         }
+    }*/
+
+
+    $syncData = [];
+    //dd($request->all());
+
+    foreach ($request->requirements ?? [] as $ownerRequirementId => $data) {
+
+        $qty   = isset($data['quantity']) ? (int)$data['quantity'] : 0;
+        $price = isset($data['unit_price']) ? (float)$data['unit_price'] : 0;
+        $notes = $data['notes'] ?? '';
+
+        // ✅ الشرط المهم: احفظ العناصر اللي الكمية والسعر أكبر من 0
+        if ($qty > 0 && $price > 0) {
+            $syncData[$ownerRequirementId] = [
+                'quantity'    => $qty,
+                'unit_price'  => $price,
+                'total_price' => $qty * $price,
+                'notes'       => $notes,
+                'context'     => 'tender' // 👈 الفرق: هنا السياق tender
+            ];
+        }
     }
+
+
+    // حفظ البيانات في الـ pivot table لو في عناصر صالحة
+    //if (!empty($syncData)) {
+    $project->ownerRequirementsTender()->sync($syncData);
     //dd($request);
     if ($request->filled('designs')) {
 
@@ -666,10 +693,10 @@ public function savePricing(Request $request, Project $project)
 
 
     // لو مفيش ولا عنصر صالح
-    if (!empty($syncData)) {
+    //if (!empty($syncData)) {
         //dd($syncData);
-        $project->ownerRequirementsPricing()->syncWithoutDetaching($syncData);
-    }
+    //    $project->ownerRequirementsPricing()->syncWithoutDetaching($syncData);
+    //}
 
     return redirect()->back()->with('toast', [
         'type'    => 'success',
@@ -703,13 +730,13 @@ public function saveTender(Request $request, Project $project)
 
 
     // حفظ البيانات في الـ pivot table لو في عناصر صالحة
-    if (!empty($syncData)) {
-        $project->ownerRequirementsPricing()->syncWithoutDetaching($syncData);
-    }
+    //if (!empty($syncData)) {
+        $project->ownerRequirementsTender()->sync($syncData);//syncWithoutDetaching($syncData);
+    //}
 
     return redirect()->back()->with('toast', [
         'type'    => 'success',
-        'message' => 'تم حفظ بيانات العطاء بنجاح'
+        'message' => 'تم حفظ بيانات  بنجاح'
     ]);
 }
 

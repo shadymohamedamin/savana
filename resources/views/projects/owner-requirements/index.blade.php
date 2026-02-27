@@ -631,15 +631,15 @@
 
 
         <table class="table table-bordered text-center">
-    <tr class="table-warning fw-bold group-total-row">
-        <td colspan="4">
-            إجمالي {{ $group->name_ar }}
-        </td>
-        <td colspan="2" class="group-total-value">
-            0.00
-        </td>
-    </tr>
-</table>
+            <tr class="table-warning fw-bold group-total-row">
+                <td colspan="4">
+                    إجمالي {{ $group->name_ar }}
+                </td>
+                <td colspan="2" class="group-total-value">
+                    0.00
+                </td>
+            </tr>
+        </table>
 
 
         <!-- <tr class="table-warning fw-bold group-total-row">
@@ -994,7 +994,7 @@ calculateAll();
 <form action="{{ route('projects.owner-requirements.savePricing', $project->id) }}" method="POST">
     @csrf
 
-    @foreach($groups as $group)
+    <!-- @foreach($groups as $group)
 
     <div class="mt-5">
         <h3 class="fw-bold text-primary border-bottom pb-2">
@@ -1087,7 +1087,101 @@ calculateAll();
 
     @endforeach
 
-@endforeach
+@endforeach -->
+
+
+
+
+
+
+@foreach($groups as $group)
+        <div class="group-header mt-5">
+            <span>{{ $group->name_ar }}</span>
+        </div>
+
+
+        @foreach($group->children as $section)
+            <div class="section-header w-[100%] mt-4">
+                <span>{{ $section->name_ar }}</span>
+            </div>
+
+
+            <table class="table table-bordered text-center section-table"
+                    data-section-id="{{ $section->id }}">
+
+                <thead>
+                    <tr>
+                        <th>البند</th>
+                        <th>الوحدة</th>
+                        <th>الكمية</th>
+                        <th>سعر الوحدة</th>
+                        <th>الإجمالي</th>
+                        <th>ملاحظات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php $sectionTotal = 0; @endphp
+                    @foreach($section->children as $item)
+                        @php
+                            $pivot = optional($item->projectOwnerRequirements->first());
+                            $qty = $pivot->quantity ?? 0;
+                            $price = $pivot->unit_price ?? 0;
+                            $total = $qty * $price;
+                            $sectionTotal += $total;
+                        @endphp
+                        <tr>
+                            <td>{{ $item->name_ar }}</td>
+                            
+                            <td>{{ $item->unit }}</td>
+                            <td>
+                                <input type="number" name="requirements[{{ $item->id }}][quantity]" value="{{ $qty }}" min="0" class="form-control qty" />
+                            </td>
+                            <td>
+                                <input type="number" name="requirements[{{ $item->id }}][unit_price]" value="{{ $price }}" step="1" class="form-control price" />
+                            </td>
+                            <td class="total">{{ number_format($total, 2) }}</td>
+                            <td>
+                                <input type="text" name="requirements[{{ $item->id }}][notes]" value="{{ $pivot->notes ?? '' }}" class="form-control" />
+                            </td>
+                        </tr>
+                    @endforeach
+                    <tr class="table-secondary fw-bold">
+                        <td colspan="4">مجموع {{ $section->name_ar }}</td>
+                        <td colspan="2" class="section-total">{{ number_format($sectionTotal, 2) }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        @endforeach
+
+
+
+        <table class="table table-bordered text-center">
+            <tr class="table-warning fw-bold group-total-row">
+                <td colspan="4">
+                    إجمالي {{ $group->name_ar }}
+                </td>
+                <td colspan="2" class="group-total-value">
+                    0.00
+                </td>
+            </tr>
+        </table>
+
+
+        <!-- <tr class="table-warning fw-bold group-total-row">
+            <td colspan="4">
+                إجمالي {{ $group->name_ar }}
+            </td>
+            <td class="group-total-value">
+                0.00
+            </td>
+            <td></td>
+        </tr> -->
+
+    @endforeach
+
+
+
+
 
 
     <input type="hidden" name="context" value="{{ $context }}">
@@ -1216,6 +1310,152 @@ calculateAll();
 </form>
 
 <script>
+
+
+
+
+function calculateAll() {
+
+    let approvedArea = {{ $project->approved_area ?? 1 }};
+    let grandTotalWithoutVat = 0;
+    let groupsTotals = [];
+
+    document.querySelectorAll('.group-header').forEach((groupHeader, gIndex) => {
+
+        let groupTotal = 0;
+        let next = groupHeader.nextElementSibling;
+
+        while(next && !next.classList.contains('group-header')) {
+
+            if(next.classList.contains('section-header')) {
+
+                let table = next.nextElementSibling;
+
+                if(table && table.classList.contains('section-table')) {
+
+                    let sectionTotal = 0;
+
+                    //table.querySelectorAll('.total').forEach(cell => {
+                    //    sectionTotal += parseFloat(cell.textContent.replace(/,/g,'')) || 0;
+                    //});
+                    table.querySelectorAll('tbody tr').forEach(row => {
+
+                        let qtyInput = row.querySelector('.qty');
+                        let priceInput = row.querySelector('.price');
+
+                        if(qtyInput && priceInput){
+                            let qty = parseFloat(qtyInput.value) || 0;
+                            let price = parseFloat(priceInput.value) || 0;
+                            sectionTotal += qty * price;
+                        }
+
+                    });
+
+
+                    let sectionId = table.dataset.sectionId;
+
+                    let sectionCell = document.getElementById('section-summary-' + sectionId);
+                    if(sectionCell){
+                        sectionCell.textContent =
+                            sectionTotal.toLocaleString(undefined,{minimumFractionDigits:2});
+                    }
+
+                    groupTotal += sectionTotal;
+                }
+            }
+
+            next = next.nextElementSibling;
+        }
+
+        groupsTotals.push(groupTotal);
+        grandTotalWithoutVat += groupTotal;
+
+       let groupTotalRow = groupHeader
+            .closest('form')
+            .querySelectorAll('.group-total-row .group-total-value')[gIndex];
+
+
+        if(groupTotalRow){
+            groupTotalRow.textContent =
+                groupTotal.toLocaleString(undefined,{minimumFractionDigits:2});
+        }
+
+
+
+        let groupCell = document.getElementById('group-summary-' + gIndex);
+        if(groupCell){
+            groupCell.textContent =
+                groupTotal.toLocaleString(undefined,{minimumFractionDigits:2});
+        }
+
+    });
+
+    document.getElementById('grandTotalWithoutVatDetailed').textContent =
+        grandTotalWithoutVat.toLocaleString(undefined,{minimumFractionDigits:2});
+
+    /* ===== باقي الحسابات ===== */
+
+    let structureElectro = (groupsTotals[0] || 0) + (groupsTotals[1] || 0);
+    let structureWithFinishes = structureElectro + (groupsTotals[2] || 0);
+    let boundaryWall = groupsTotals[groupsTotals.length - 1] || 0;
+    let villaWithWall = structureWithFinishes + boundaryWall;
+    let vat = villaWithWall * 0.05;
+    let finalTotal = villaWithWall + vat;
+
+    let footWithout = approvedArea > 0 ? structureElectro / approvedArea : 0;
+    let footWith    = approvedArea > 0 ? structureWithFinishes / approvedArea : 0;
+
+    document.getElementById('structureElectro').textContent =
+        structureElectro.toLocaleString(undefined,{minimumFractionDigits:2});
+    document.getElementById('structureWithFinishes').textContent =
+        structureWithFinishes.toLocaleString(undefined,{minimumFractionDigits:2});
+    document.getElementById('footWithout').textContent =
+        footWithout.toLocaleString(undefined,{minimumFractionDigits:2});
+    document.getElementById('footWith').textContent =
+        footWith.toLocaleString(undefined,{minimumFractionDigits:2});
+    document.getElementById('boundaryWall').textContent =
+        boundaryWall.toLocaleString(undefined,{minimumFractionDigits:2});
+    document.getElementById('villaWithWall').textContent =
+        villaWithWall.toLocaleString(undefined,{minimumFractionDigits:2});
+    document.getElementById('vat').textContent =
+        vat.toLocaleString(undefined,{minimumFractionDigits:2});
+    document.getElementById('finalTotal').textContent =
+        finalTotal.toLocaleString(undefined,{minimumFractionDigits:2});
+}
+
+
+document.addEventListener('input', function(e) {
+
+    if(e.target.classList.contains('qty') || e.target.classList.contains('price')) {
+
+        let tr = e.target.closest('tr');
+        let qty = parseFloat(tr.querySelector('.qty').value) || 0;
+        let price = parseFloat(tr.querySelector('.price').value) || 0;
+        let total = qty * price;
+
+        tr.querySelector('.total').textContent =
+            total.toLocaleString(undefined,{minimumFractionDigits:2});
+
+        let table = tr.closest('.section-table');
+        let sectionTotal = 0;
+
+        table.querySelectorAll('.total').forEach(cell => {
+            sectionTotal += parseFloat(cell.textContent.replace(/,/g,'')) || 0;
+        });
+
+        table.querySelector('.section-total').textContent =
+            sectionTotal.toLocaleString(undefined,{minimumFractionDigits:2});
+
+        calculateAll();
+    }
+
+});
+
+calculateAll();
+
+
+
+
 document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.category-table').forEach(function(table) {
         const updateTotals = () => {
