@@ -614,7 +614,7 @@
                     @foreach($section->children as $item)
                         @php
                             $pivot = optional($item->projectOwnerRequirements->first());
-                            $qty = $pivot->quantity ?? 0;
+                            $qty = $pivot->quantity ?? 1;
                             $price = $pivot->unit_price ?? 0;
                             $total = $qty * $price;
                             $sectionTotal += $total;
@@ -624,7 +624,7 @@
                             
                             <td>{{ $item->unit }}</td>
                             <td>
-                                <input type="number" name="requirements[{{ $item->id }}][quantity]" value="{{ $qty }}" min="0" class="form-control qty" />
+                                <input type="number" name="requirements[{{ $item->id }}][quantity]" value="{{ $qty }}" min="1" class="form-control qty" />
                             </td>
                             <td>
                                 <input type="number" name="requirements[{{ $item->id }}][unit_price]" value="{{ $price }}" step="1" class="form-control price" />
@@ -877,7 +877,7 @@ function calculateAll() {
                         let priceInput = row.querySelector('.price');
 
                         if(qtyInput && priceInput){
-                            let qty = parseFloat(qtyInput.value) || 0;
+                            let qty = parseFloat(qtyInput.value) || 1;
                             let price = parseFloat(priceInput.value) || 0;
                             sectionTotal += qty * price;
                         }
@@ -1139,7 +1139,7 @@ calculateAll();
                     @foreach($section->children as $item)
                         @php
                             $pivot = optional($item->projectOwnerRequirements->first());
-                            $qty = $pivot->quantity ?? 0;
+                            $qty = $pivot->quantity ?? 1;
                             $price = $pivot->unit_price ?? 0;
                             $total = $qty * $price;
                             $sectionTotal += $total;
@@ -1149,7 +1149,7 @@ calculateAll();
                             
                             <td>{{ $item->unit }}</td>
                             <td>
-                                <input type="number" name="requirements[{{ $item->id }}][quantity]" value="{{ $qty }}" min="0" class="form-control qty" />
+                                <input type="number" name="requirements[{{ $item->id }}][quantity]" value="{{ $qty }}" min="1" class="form-control qty" />
                             </td>
                             <td>
                                 <input type="number" name="requirements[{{ $item->id }}][unit_price]" value="{{ $price }}" step="1" class="form-control price" />
@@ -1359,7 +1359,7 @@ function calculateAll() {
                         let priceInput = row.querySelector('.price');
 
                         if(qtyInput && priceInput){
-                            let qty = parseFloat(qtyInput.value) || 0;
+                            let qty = parseFloat(qtyInput.value) || 1;
                             let price = parseFloat(priceInput.value) || 0;
                             sectionTotal += qty * price;
                         }
