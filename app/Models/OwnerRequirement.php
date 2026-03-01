@@ -71,6 +71,7 @@ class OwnerRequirement extends Model
         return $this->children()->where('type', 'item');
     }
 
+
     public function sections()
     {
         return $this->children()->where('type', 'section');

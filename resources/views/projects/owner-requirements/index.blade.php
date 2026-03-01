@@ -111,7 +111,14 @@
         </div>
 
         <div class=" d-flex justify-content-between align-items-center gap-2">
-        <a href="{{ route('projects.owner-requirements.index', [$project, 'context' => 'pricing']) }}"
+
+            <a href="{{ route('projects.tender.contractors', $project->id) }}"
+                class="btn btn-sm"
+                style="background:#8B0000;color:#fff;">
+                    <i class="fas fa-users"></i> المقاولين المرشحين
+            </a>
+
+            <a href="{{ route('projects.owner-requirements.index', [$project, 'context' => 'pricing']) }}"
                 class="btn btn-sm"
                 style="background:#2f3a1f;color:#d4af37;">
                     <i class="fas fa-file-signature"></i> أسعار توريد التشطيبات
@@ -668,6 +675,11 @@
         </tr> -->
 
     @endforeach
+
+
+
+
+<input type="hidden" name="contractor" value="{{ $contractor }}">
 
 
 

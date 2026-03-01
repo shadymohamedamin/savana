@@ -125,6 +125,12 @@
 
         @if($isTender)
         <div class="flex justify-start">
+            
+            <a href="{{ route('projects.tender.contractors', $model->id) }}"
+                class="btn btn-sm"
+                style="background:#8B0000;color:#fff;">
+                    <i class="fas fa-users"></i> المقاولين المرشحين
+            </a>
             <a href="{{ route('projects.owner-requirements.index', [$model, 'context' => 'pricing']) }}"
                 class="btn btn-sm"
                 style="background:#2f3a1f;color:#d4af37;">

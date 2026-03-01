@@ -99,7 +99,7 @@ class Project extends Model
         'foot_price'        => 'nullable|numeric|min:0',
         'approved_area'     => 'nullable|numeric|min:0',
         'linear_meter_area' => 'nullable|numeric|min:0',
-        'project_bank_support' => 'numeric|min:800000',
+        'project_bank_support' => 'numeric|min:0',
     ];
 
     /* ===================== Relationships ===================== */

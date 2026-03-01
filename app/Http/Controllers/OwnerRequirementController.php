@@ -231,7 +231,7 @@ if ($context === 'pricing') {
 public function index(Project $project, Request $request)
 {
     $context = $request->get('context', 'owner');
-
+    //$contractor = $request->get('contractor');
     $requirements = collect();
     $items = collect();
 
@@ -242,7 +242,7 @@ public function index(Project $project, Request $request)
             ->groupBy('floor');
     }
 
-    if ($context === 'pricing') {
+    /*if ($context === 'pricing') {
         $items = OwnerRequirement::where('floor', 'pricing')
             ->with(['projectOwnerRequirements' => function ($q) use ($project) {
                 $q->where('project_id', $project->id)
@@ -263,7 +263,7 @@ public function index(Project $project, Request $request)
                 return $requirement;
             })
             ->groupBy('main_category');
-    }
+    }*/
 
 
     // $groups = OwnerRequirement::with([
@@ -294,11 +294,18 @@ public function index(Project $project, Request $request)
 
 
 
+
+
 $groupsQuery = OwnerRequirement::with([
         'children.children',
-        'children.children.projectOwnerRequirements' => function ($q) use ($project, $context) {
+        'children.children.projectOwnerRequirements' => function ($q) use ($project, $context,$contractorId) {
             $q->where('project_id', $project->id)
-              ->where('context', 'tender');//$context);
+              ->where('context', 'tender');
+              
+              if ($contractorId) {
+                $q->where('tender_user_id', $contractorId);
+            }
+              //->where('tender_user_id', $contractorId);//$context);
         }
     ])
     ->where('type', 'group')
@@ -310,6 +317,8 @@ if ($context === 'pricing') {
 } else {
     $groupsQuery->where('floor', $context);
 }
+
+
 
 $groups = $groupsQuery->get();
 
@@ -709,7 +718,8 @@ public function saveTender(Request $request, Project $project)
 {
     $syncData = [];
     //dd($request);
-
+     $contractorId = $request->contractor;
+//dd($contractorId);
     foreach ($request->requirements ?? [] as $ownerRequirementId => $data) {
 
         $qty   = isset($data['quantity']) ? (int)$data['quantity'] : 0;
@@ -723,7 +733,8 @@ public function saveTender(Request $request, Project $project)
                 'unit_price'  => $price,
                 'total_price' => $qty * $price,
                 'notes'       => $notes,
-                'context'     => 'tender' // 👈 الفرق: هنا السياق tender
+                'context'     => 'tender',
+                'tender_user_id' => $contractorId // 👈 الفرق: هنا السياق tender
             ];
         }
     }
@@ -731,9 +742,12 @@ public function saveTender(Request $request, Project $project)
 
     // حفظ البيانات في الـ pivot table لو في عناصر صالحة
     //if (!empty($syncData)) {
-        $project->ownerRequirementsTender()->sync($syncData);//syncWithoutDetaching($syncData);
+        //$project->ownerRequirementsTender()->sync($syncData);//syncWithoutDetaching($syncData);
     //}
 
+    $project->ownerRequirementsTender()
+            ->wherePivot('tender_user_id', $contractorId)
+            ->sync($syncData);
     return redirect()->back()->with('toast', [
         'type'    => 'success',
         'message' => 'تم حفظ بيانات  بنجاح'
