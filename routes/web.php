@@ -124,8 +124,13 @@ Route::middleware(['auth', 'checkRole:co-admin,admin'])->group(function () {
     Route::resource('primaryDatasSubmissions', App\Http\Controllers\PrimaryDataSubmissionController::class);
     Route::get('/mySubmissions', [App\Http\Controllers\PrimaryDataController::class, 'index'])->name('primary_datas.mySubmissions');
 
-    
+    Route::get('/projects/{project}/tender-contractors', 
+    [App\Http\Controllers\TenderController::class, 'contractors'])->name('projects.tender.contractors');
 
+
+Route::post('/projects/{project}/tender-contractors',
+    [App\Http\Controllers\TenderController::class, 'store']
+)->name('projects.tender.contractors.store');
 
 
 
