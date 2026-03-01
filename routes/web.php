@@ -128,10 +128,6 @@ Route::middleware(['auth', 'checkRole:co-admin,admin'])->group(function () {
     [App\Http\Controllers\TenderController::class, 'contractors'])->name('projects.tender.contractors');
 
 
-Route::post('/projects/{project}/tender-contractors',
-    [App\Http\Controllers\TenderController::class, 'store']
-)->name('projects.tender.contractors.store');
-
 
 
     
@@ -145,6 +141,10 @@ Route::middleware(['auth'])->group(function () {
 
 
 
+
+Route::post('/projects/{project}/tender-contractors',
+    [App\Http\Controllers\TenderController::class, 'store']
+)->name('projects.tender.contractors.store');
 
 
 

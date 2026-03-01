@@ -231,7 +231,8 @@ if ($context === 'pricing') {
 public function index(Project $project, Request $request)
 {
     $context = $request->get('context', 'owner');
-    //$contractor = $request->get('contractor');
+    $contractor = $request->get('contractor');
+    $contractorId = $request->contractor;
     $requirements = collect();
     $items = collect();
 
@@ -540,7 +541,7 @@ $groups = $groupsQuery->get();
 
 
     return view('projects.owner-requirements.index', compact(
-        'groups','project', 'requirements', 'items', 'context', 'design', 'selected','designOptions','designs'
+        'contractor','groups','project', 'requirements', 'items', 'context', 'design', 'selected','designOptions','designs'
     ));
 }
 

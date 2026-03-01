@@ -47,6 +47,18 @@
                             <th>البريد</th>
                             <th>الموبايل</th>
                             <th>رقم الرخصة</th>
+
+
+                            <th>الهيكل + الكتروميكانيكال</th>
+                            <th>الهيكل +الكتروميكانيكال+ التشطيبات</th>
+                            <th>سعر الفوت بدون تشطيبات </th>
+                            <th> سعر الفوت مع تشطيبات</th>
+                            <th>سعر السور</th>
+                            <th>الفيلا مع السور</th>
+                            <th>الضريبة</th>
+                            <th>الإجمالي النهائي</th>
+
+
                             <th>الحالة</th>
                             <th width="80">الإجراءات</th>
                         </tr>
@@ -81,6 +93,18 @@
                             <td>{{ $contractor->email }}</td>
                             <td>{{ $contractor->mobile }}</td>
                             <td>{{ $contractor->license_number }}</td>
+
+
+                            <td>AED {{ number_format($contractor->structureElectro,2) }}</td>
+                            <td>AED {{ number_format($contractor->structureWithFinishes,2) }}</td>
+                            <td>AED {{ number_format($contractor->footWithoutFinishes,2) }}</td>
+                            <td>AED {{ number_format($contractor->footWithFinishes,2) }}</td>
+                            <td>AED {{ number_format($contractor->boundaryWall,2) }}</td>
+                            <td>AED {{ number_format($contractor->totalVillaWithWall,2) }}</td>
+                            <td>AED {{ number_format($contractor->vat,2) }}</td>
+                            <td class="{{ $contractor->finalTotal == $lowestPrice ? 'text-success fw-bold' : '' }}">
+                                AED {{ number_format($contractor->finalTotal,2) }}
+                            </td>
 
                             {{-- Status --}}
                             <td>
@@ -126,6 +150,19 @@
                                                 حساب الكميات
                                             </a>
                                         </li>
+
+                                        <li>
+                                            <a class="dropdown-item" target="_blank"
+                                        href="{{ route('projects.contract.tender.pdf', [
+                                                'id' => $project->id,
+                                                'contractor' => $contractor->id,
+                                                'action' => 'preview'
+                                        ]) }}">
+                                                <i class="fas fa-calculator me-1"></i>
+                                                👁 معاينة العقد
+                                            </a>
+                                        </li>
+                                        
 
                                     </ul>
                                 </div>

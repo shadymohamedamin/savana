@@ -527,14 +527,18 @@ public function pricingContractPdf(Request $request, $id)
 public function tenderContractPdf(Request $request, $id)
 {
     $project = \App\Models\Project::findOrFail($id);
-
+    $contractorId = $request->contractor;
     // نجيب الجروبات زي صفحة التندر
     $groups = \App\Models\OwnerRequirement::where('floor', 'tender')
         ->where('type', 'group')
         ->with([
-            'children.children.projectOwnerRequirements' => function ($q) use ($project) {
+            'children.children.projectOwnerRequirements' => function ($q) use ($project,$contractorId) {
                 $q->where('project_id', $project->id)
                   ->where('context', 'tender');
+                if($contractorId)
+                    {
+                        $q->where('tender_user_id', $contractorId);
+                    }
             }
         ])
         ->get();
