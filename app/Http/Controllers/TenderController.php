@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Project;
 use App\Models\User;
 use App\Models\OwnerRequirement;
+use App\Models\ProjectOwnerRequirement;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -29,7 +31,7 @@ class TenderController extends Controller
 
         $lowestPrice = null;
 
-        foreach ($contractors as $contractor) {
+        /*foreach ($contractors as $contractor) {
 
             $rows = DB::table('project_owner_requirements')
                 ->where('project_id', $project->id)
@@ -77,7 +79,56 @@ class TenderController extends Controller
             $contractor->totalVillaWithWall = $totalVillaWithWall;
             $contractor->vat = $vat;
             $contractor->finalTotal = $finalTotal;
-        }
+        }*/
+
+
+foreach ($contractors as $contractor) {
+
+    $rows = DB::table('project_owner_requirements as por')
+        ->join('owner_requirements as or', 'por.owner_requirement_id', '=', 'or.id')
+        ->leftJoin('owner_requirements as parent', 'or.parent_id', '=', 'parent.id')
+        ->where('por.project_id', $project->id)
+        ->where('por.context', 'tender')
+        ->where('por.tender_user_id', $contractor->id)
+        ->select(
+            'por.total_price',
+            DB::raw('COALESCE(parent.name_en, or.name_en) as parent_group')
+        )
+        ->get();   
+         $contractor->tender_total = ProjectOwnerRequirement::where('project_id', $project->id)
+        ->where('context', 'tender')
+        ->where('tender_user_id', $contractor->id)
+        ->sum('total_price');
+    dd($contractor);
+    $structure = $rows->where('parent_group', 'Main Structure')->sum('total_price');
+    $mep = $rows->where('parent_group', 'Electromechanical Works')->sum('total_price');
+    $finishes = $rows->where('parent_group', 'Supply Finishings')->sum('total_price');
+    $elevation = $rows->where('parent_group', 'Elevation Works')->sum('total_price');
+    $boundary = $rows->where('parent_group', 'Boundary Wall Works')->sum('total_price');
+
+    $structureElectro = $structure + $mep;
+    $structureWithFinishes = $structureElectro + $finishes + $elevation;
+
+    $approvedArea = $project->approved_area ?? 0;
+
+    $footWithoutFinishes = $approvedArea > 0 ? $structureElectro / $approvedArea : 0;
+    $footWithFinishes    = $approvedArea > 0 ? $structureWithFinishes / $approvedArea : 0;
+
+    $totalVillaWithWall = $structureWithFinishes + $boundary;
+    $vat = $totalVillaWithWall * 0.05;
+    $finalTotal = $totalVillaWithWall + $vat;
+
+    $contractor->structureElectro = $structureElectro;
+    $contractor->structureWithFinishes = $structureWithFinishes;
+    $contractor->footWithoutFinishes = $footWithoutFinishes;
+    $contractor->footWithFinishes = $footWithFinishes;
+    $contractor->boundaryWall = $boundary;
+    $contractor->totalVillaWithWall = $totalVillaWithWall;
+    $contractor->vat = $vat;
+    $contractor->finalTotal = $finalTotal;
+    //dd($contractor);
+}
+
         
 
         return view('projects.tender.contractors', compact(
