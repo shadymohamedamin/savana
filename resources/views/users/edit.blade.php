@@ -32,6 +32,70 @@
                     {!! Form::email('email', null, ['class' => 'form-control rounded']) !!}
                 </div>
 
+
+
+                {{-- Password --}}
+<!-- <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+    {!! Form::label('password', __('New Password')) !!}
+    {!! Form::password('password', [
+        'class' => 'form-control rounded',
+        'autocomplete' => 'new-password'
+    ]) !!}
+</div>
+
+{{-- Confirm Password --}}
+<div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+    {!! Form::label('password_confirmation', __('Confirm Password')) !!}
+    {!! Form::password('password_confirmation', [
+        'class' => 'form-control rounded',
+        'autocomplete' => 'new-password'
+    ]) !!}
+</div> -->
+
+
+
+
+
+
+
+
+ {{-- Password --}}
+<div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+    {!! Form::label('password', __('Password'), ['class' => 'font-semibold text-gray-600']) !!}
+
+    <div style="position: relative;">
+        {!! Form::password('password', [
+            'class' => 'form-control rounded pr-0',
+            'id' => 'password'
+        ]) !!}
+
+        <span onclick="togglePassword('password', this)"
+              style="position:absolute; left:10px; top:50%; transform:translateY(-50%); cursor:pointer;">
+            👁️
+        </span>
+    </div>
+</div>
+
+{{-- Confirm Password --}}
+<div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+    {!! Form::label('password_confirmation', __('Confirm Password'), ['class' => 'font-semibold text-gray-600']) !!}
+
+    <div style="position: relative;">
+        {!! Form::password('password_confirmation', [
+            'class' => 'form-control rounded pr-0',
+            'id' => 'password_confirmation'
+        ]) !!}
+
+        <span onclick="togglePassword('password_confirmation', this)"
+              style="position:absolute; left:10px; top:50%; transform:translateY(-50%); cursor:pointer;">
+            👁️
+        </span>
+    </div>
+</div>
+
+
+
+
                 <!-- {{-- Password --}}
                 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
                     {!! Form::label('password', __('Password'), ['class' => 'font-semibold text-gray-600']) !!}
@@ -271,6 +335,24 @@ document.addEventListener('input', function (e) {
 
 
 @push('scripts')
+
+
+
+
+<script>
+function togglePassword(inputId, el) {
+    const input = document.getElementById(inputId);
+
+    if (input.type === "password") {
+        input.type = "text";
+        el.innerText = "🙈";
+    } else {
+        input.type = "password";
+        el.innerText = "👁️";
+    }
+}
+</script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const roleSelect = document.querySelector('select[name="role_id"]');

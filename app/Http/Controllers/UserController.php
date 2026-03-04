@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Flash;
 use App\Helpers\AuditHelper;
 use App\Models\Nationalit;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends AppBaseController
 {
@@ -300,8 +301,17 @@ class UserController extends AppBaseController
         }
 
         $oldValues = $user->getAttributes(); // Or limit fields like: $user->only(['name', 'email'])
+        $data = $request->all();
 
-        $user = $this->userRepository->update($request->all(), $id);
+        // لو فيه باسورد
+        if (!empty($request->password)) {
+            $data['password'] = Hash::make($request->password);
+        } else {
+            unset($data['password']); // متحدثوش لو فاضي
+        }
+
+        //$user = $this->userRepository->update($data, $id);
+        $user = $this->userRepository->update($data, $id);
 
         $newValues = $user->getAttributes();
 
