@@ -231,7 +231,7 @@
 
 
 
-
+@if (in_array(auth()->user()->role_id, [1,4,11,12]))
 <div class="project-panel">
 
     <div class="project-panel-header d-flex justify-content-between align-items-center">
@@ -352,3 +352,4 @@
 
     </div>
 </div>
+@endif

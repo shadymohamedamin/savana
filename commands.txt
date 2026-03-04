@@ -12,6 +12,20 @@ type = section | item | title | group
 
 
 
+
+
+if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    return redirect()->back()->with('toast', [
+        'type' => 'error',
+        'message' => 'ليس لديك الصلاحيات الكافية'
+    ]);
+}
+
+
+
+
+
+
 $totals = ProjectOwnerRequirement::with('ownerRequirement')
     ->where('project_id', $project->id)
     ->get()

@@ -311,10 +311,12 @@ public function create(Request $request, $id)
 
 public function store(Request $request, $id)
 {
+    //
     $type = $request->query('type', 'users');
     $isTender = $request->query('mode') === 'tender';
-
+//dd($request);
     $modelClass = $this->resolveModel($type);
+    
     $model = $modelClass::findOrFail($id);
 
     if ($request->has('attachments')) {
