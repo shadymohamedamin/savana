@@ -22,6 +22,7 @@ class ProjectUser extends Model
         'project_id' => 'required',
         'user_id' => 'required',
         'role_id' => 'required',
+        'status' =>'nullable',
         'created_at' => 'nullable',
         'updated_at' => 'nullable'
     ];
