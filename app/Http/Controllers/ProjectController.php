@@ -89,6 +89,12 @@ $allowedRoles = [1,4,11,12];
      */
     public function create(Request $request)
     {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    return redirect()->back()->with('toast', [
+        'type' => 'error',
+        'message' => 'ليس لديك الصلاحيات الكافية'
+    ]);
+}
         $stages =  \App\Models\ProjectStage::where('active', 1)
             ->orderBy('order')
             ->pluck(
@@ -656,6 +662,12 @@ public function bankTableContractPdf(Request $request, $id)
 
     public function store(CreateProjectRequest $request)
     {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    return redirect()->back()->with('toast', [
+        'type' => 'error',
+        'message' => 'ليس لديك الصلاحيات الكافية'
+    ]);
+}
         $input = $request->all();
         //dd($input);
         //$input["duration"] = $request->input("duration", 0);
@@ -721,6 +733,12 @@ public function bankTableContractPdf(Request $request, $id)
      */
     public function show($id)
     {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    return redirect()->back()->with('toast', [
+        'type' => 'error',
+        'message' => 'ليس لديك الصلاحيات الكافية'
+    ]);
+}
         $project = $this->projectRepository->find($id);
 
         if (empty($project)) {
@@ -737,6 +755,12 @@ public function bankTableContractPdf(Request $request, $id)
      */
     public function edit($id)
 {
+    if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    return redirect()->back()->with('toast', [
+        'type' => 'error',
+        'message' => 'ليس لديك الصلاحيات الكافية'
+    ]);
+}
     $project = $this->projectRepository->find($id);
 
     if (empty($project)) {
@@ -805,6 +829,12 @@ public function bankTableContractPdf(Request $request, $id)
 
 public function update($id, UpdateProjectRequest $request)
 {
+    if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    return redirect()->back()->with('toast', [
+        'type' => 'error',
+        'message' => 'ليس لديك الصلاحيات الكافية'
+    ]);
+}
     $project = $this->projectRepository->find($id);
 
     if (empty($project)) {
@@ -884,6 +914,12 @@ public function update($id, UpdateProjectRequest $request)
      */
     public function destroy($id)
     {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    return redirect()->back()->with('toast', [
+        'type' => 'error',
+        'message' => 'ليس لديك الصلاحيات الكافية'
+    ]);
+}
         $project = $this->projectRepository->find($id);
 
         if (empty($project)) {

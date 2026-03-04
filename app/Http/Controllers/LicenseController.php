@@ -25,6 +25,12 @@ class LicenseController extends Controller
 
     public function activate(Request $request)
     {
+        if (!in_array(auth()->user()->role_id, [1])) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'ليس لديك الصلاحيات الكافية'
+            ]);
+        }
         $request->validate([
             'password' => 'required|string',
             'valid_until' => 'required|date|after:now',

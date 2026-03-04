@@ -39,6 +39,12 @@ class TenderController extends Controller
     }*/
     public function contractors(Project $project)
     {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    return redirect()->back()->with('toast', [
+        'type' => 'error',
+        'message' => 'ليس لديك الصلاحيات الكافية'
+    ]);
+}
         // كل المقاولين
         $contractors = User::where('role_id', 3)->get();
 
@@ -150,6 +156,12 @@ class TenderController extends Controller
 
     public function award(Project $project, $contractorId)
     {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    return redirect()->back()->with('toast', [
+        'type' => 'error',
+        'message' => 'ليس لديك الصلاحيات الكافية'
+    ]);
+}
         DB::transaction(function () use ($project, $contractorId) {
 
             // 1️⃣ حساب الإجمالي النهائي
@@ -224,7 +236,7 @@ class TenderController extends Controller
 
             ProjectUser::where('project_id',$project->id)
                 ->where('user_id',$contractorId)
-                ->update(['status'=>'awarded','role_id'=>3]);
+                ->update(['status'=>'awarded','role_id'=>8]);//3
 
             // 3️⃣ حذف كل المرشحين
             /*$project->users()
@@ -253,6 +265,12 @@ class TenderController extends Controller
 
     public function unaward(Project $project)
     {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    return redirect()->back()->with('toast', [
+        'type' => 'error',
+        'message' => 'ليس لديك الصلاحيات الكافية'
+    ]);
+}
         if (!$project->contractor_id) {
             return back()->with('error','لا يوجد مقاول متعين');
         }
@@ -350,6 +368,12 @@ class TenderController extends Controller
 
         public function store(Request $request, Project $project)
         {
+            if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    return redirect()->back()->with('toast', [
+        'type' => 'error',
+        'message' => 'ليس لديك الصلاحيات الكافية'
+    ]);
+}
             $contractorIds = $request->contractors ?? [];
 
             // حضر البيانات بالـ role

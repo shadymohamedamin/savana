@@ -338,10 +338,13 @@
                 @php
                     $owner = $project->users->firstWhere('pivot.role_id', 1);
                     $contractor = $project->users->firstWhere('pivot.role_id', 3);
+                    $targetUrl = in_array(auth()->user()->role_id, [1,4,11,12])
+                        ? route('projects.edit', $project->id)
+                        : url('users/'.$project->id.'/attachments/create?type=projects&mode=tender');
                 @endphp
 
                 <tr class="project-row"
-                    data-href="{{ route('projects.edit', $project->id) }}"
+                    data-href="{{ $targetUrl }}"
                     style="background-color:#f5f5dc; cursor:pointer;">
                     <td style="background-color:#f5f5dc;">{{ $project->project_code }}</td>
                     <td style="background-color:#f5f5dc;">{{ $project->ownerUser->name ?? '—' }}</td>

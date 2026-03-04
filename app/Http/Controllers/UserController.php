@@ -26,6 +26,12 @@ class UserController extends AppBaseController
      */
     public function index(Request $request)
     {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'ليس لديك الصلاحيات الكافية'
+            ]);
+        }
         $query = \App\Models\User::query();
 
         if ($request->filled('name')) {
@@ -52,6 +58,9 @@ class UserController extends AppBaseController
             $query->where('is_admin', $request->is_admin);
         }
 
+
+
+        $query->where('id', '!=', 13);
         // Add more filters here if needed
 
         //$users = $query->paginate(10)->appends($request->all());
@@ -82,6 +91,12 @@ class UserController extends AppBaseController
      */
     public function create(Request $request)
     {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'ليس لديك الصلاحيات الكافية'
+            ]);
+        }
         //$nationalities = Nationalit::pluck('nationality', 'id');
         $nationalities = Nationalit::whereIn('id', [1, 58,19,31,12,26,8])->pluck('nationality', 'id');
 
@@ -106,7 +121,12 @@ class UserController extends AppBaseController
     public function store(CreateUserRequest $request)
     {
 
-
+        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'ليس لديك الصلاحيات الكافية'
+            ]);
+        }
         /*$request->validate([
             'mobile' => [
                 'required',
@@ -197,6 +217,12 @@ class UserController extends AppBaseController
      */
     public function show($id)
     {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'ليس لديك الصلاحيات الكافية'
+            ]);
+        }
         $user = $this->userRepository->find($id);
 
         if (empty($user)) {
@@ -213,6 +239,12 @@ class UserController extends AppBaseController
      */
     public function edit($id)
 {
+    if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        return redirect()->back()->with('toast', [
+            'type' => 'error',
+            'message' => 'ليس لديك الصلاحيات الكافية'
+        ]);
+    }
     $user = $this->userRepository->find($id);
 
     if (empty($user)) {
@@ -234,6 +266,15 @@ class UserController extends AppBaseController
      */
     public function update($id, UpdateUserRequest $request)
     {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'ليس لديك الصلاحيات الكافية'
+            ]);
+        }
+
+        
+        //->where('id', '!=', 13)
         /*$request->validate([
             'mobile' => [
                 'required',
@@ -246,7 +287,12 @@ class UserController extends AppBaseController
         ]);*/
 
         $user = $this->userRepository->find($id);
-
+        if ($user->id == 13) {
+            return redirect(route('users.index'));//->back();//->with('toast', [
+                //'type' => 'error',
+                //'message' => 'لا يمكن التعديل  '
+            //]);
+        }
         if (empty($user)) {
             Flash::error('User not found');
 
@@ -279,7 +325,21 @@ class UserController extends AppBaseController
      */
     public function destroy($id)
     {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'ليس لديك الصلاحيات الكافية'
+            ]);
+        }
         $user = $this->userRepository->find($id);
+
+        if ($user->id == 13) {
+            return redirect(route('users.index'));//->back();//->with('toast', [
+                //'type' => 'error',
+                //'message' => 'لا يمكن التعديل  '
+            //]);
+        }
+
 
         if (empty($user)) {
             Flash::error('User not found');

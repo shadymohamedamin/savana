@@ -311,6 +311,12 @@ public function create(Request $request, $id)
 
 public function store(Request $request, $id)
 {
+    if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    return redirect()->back()->with('toast', [
+        'type' => 'error',
+        'message' => 'ليس لديك الصلاحيات الكافية'
+    ]);
+}
     //
     $type = $request->query('type', 'users');
     $isTender = $request->query('mode') === 'tender';

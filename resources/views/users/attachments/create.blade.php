@@ -260,8 +260,8 @@
                 </a>
                 @endif
             </div>
-
-            @if(!in_array(auth()->user()->role_id, [1,4,11,12]) && $isTender)
+<!-- !in_array(auth()->user()->role_id, [1,4,11,12]) && -->
+            @if($isTender) 
                 @foreach($rows as $row)
                     @php
                         $typeId = $row['type_id'];
@@ -279,18 +279,18 @@
                                 <a target="_blank"
                                 href="{{ asset($att->web_path) }}"
                                 class="btn btn-outline-primary btn-sm mb-1">
-                                    👁 Preview
+                                    👁 معاينة
                                 </a>
 
                                 <a href="{{ asset($att->web_path) }}"
                                 class="btn btn-success btn-sm mb-1">
-                                    ⬇ Download
+                                    ⬇ تعديل
                                 </a>
 
                                 <a target="_blank"
                                 href="{{ asset($att->web_path) }}"
                                 class="btn btn-warning btn-sm">
-                                    🖨 Print
+                                    🖨 طباعة
                                 </a>
                                 @else <div>غير موجود</div>
                                 @endif
