@@ -519,9 +519,11 @@
 
                                     {{-- Only for admins or researchers --}}
                                     @if(Auth::user()->role !== 'public_user')
+                                       @if(in_array(Auth::user()->role_id, [1,4,11,12]))
                                         <li class="nav-item">
                                             <a class="nav-link" href="{{ url('/users') }}">{{ __('Users') }}</a>
                                         </li>
+                                        @endif
                                         <li class="nav-item">
                                             <a class="nav-link" href="{{ url('/projects') }}">{{ __('Projects') }}</a>
                                         </li>

@@ -7,8 +7,14 @@
     @include('flash::message')
 
     <div class="clearfix mb-3"></div>
+@include('projects.partials.project-actions', ['project' => $project])
+    <!-- <form method="POST" action="{{ route('projects.tender.contractors.store', $project->id) }}">
+        @csrf -->
 
-    <form method="POST" action="{{ route('projects.tender.contractors.store', $project->id) }}">
+
+    <form method="POST" 
+      action="{{ route('projects.tender.contractors.store', $project->id) }}"
+      id="contractorsForm">
         @csrf
 
         <div class="card shadow-sm rounded-4 m-0" style="background-color:#f5f5dc;">
@@ -23,7 +29,9 @@
 
                 <div class="d-flex gap-2">
 
-                    <button type="submit"
+                
+                    <button type="button"
+        onclick="document.getElementById('contractorsForm').submit();"
                             class="btn btn-olive btn-sm" style="background:#2f3a1f;color:#d4af37;">
                         <i class="fas fa-save me-1"></i> حفظ الاختيار
                     </button>
@@ -44,9 +52,9 @@
                             <th width="40"></th>
                             <th>#</th>
                             <th>الاسم</th>
-                            <th>البريد</th>
+                            <!-- <th>البريد</th>
                             <th>الموبايل</th>
-                            <th>رقم الرخصة</th>
+                            <th>رقم الرخصة</th> -->
 
 
                             <th>الهيكل + الكتروميكانيكال</th>
@@ -59,7 +67,10 @@
                             <th>الإجمالي النهائي</th>
 
 
-                            <th>الحالة</th>
+
+
+                            <th>نوعه</th>
+                            <th>حالة الطلب</th>
                             <th width="80">الإجراءات</th>
                         </tr>
                     </thead>
@@ -90,9 +101,9 @@
 
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $contractor->name }}</td>
-                            <td>{{ $contractor->email }}</td>
+                            <!-- <td>{{ $contractor->email }}</td>
                             <td>{{ $contractor->mobile }}</td>
-                            <td>{{ $contractor->license_number }}</td>
+                            <td>{{ $contractor->license_number }}</td> -->
 
 
                             <td>AED {{ number_format($contractor->structureElectro,2) }}</td>
@@ -106,7 +117,42 @@
                                 AED {{ number_format($contractor->finalTotal,2) }}
                             </td>
 
-                            {{-- Status --}}
+                            <td>
+                                @if($contractor->project_status == 'awarded')
+                                    <span class="badge bg-success">متعين</span>
+
+                                @elseif($contractor->project_status == 'candidate')
+                                    <span class="badge bg-warning text-dark">مرشح</span>
+
+                                @else
+                                    <span class="badge bg-secondary">غير مرشح</span>
+                                @endif
+                            </td>
+
+
+                            <td>
+                                @if($contractor->tender_status == 'draft')
+                                    <span class="badge bg-info">مسودة</span>
+
+                                @elseif($contractor->tender_status == 'submitted')
+                                    <span class="badge bg-primary">مرسل</span>
+
+                                @elseif($contractor->tender_status == 'approved')
+                                    <span class="badge bg-success">معتمد</span>
+
+                                @elseif($contractor->tender_status == 'rejected')
+                                    <span class="badge bg-danger">مرفوض</span>
+
+                                @else
+                                    <span class="badge bg-secondary">لم يبدأ</span>
+                                @endif
+                            </td>
+
+
+
+                            
+
+                            <!-- {{-- Status --}}
                             <td>
                                 @if($isSelected)
                                     <span class="badge bg-success">
@@ -117,7 +163,7 @@
                                         غير مرشح
                                     </span>
                                 @endif
-                            </td>
+                            </td> -->
 
                             {{-- Actions --}}
                             <td onclick="event.stopPropagation();">
@@ -138,6 +184,44 @@
                                                 تعديل
                                             </a>
                                         </li>
+
+
+
+<!-- onsubmit="return confirm('هل تريد ترسية المناقصة على هذا المقاول؟');" -->
+                                        
+                                        <!-- <li>
+                                            <button type="button"
+                                                    class="dropdown-item text-success award-btn"
+                                                    data-project="{{ $project->id }}"
+                                                    data-contractor="{{ $contractor->id }}">
+                                                <i class="fas fa-check me-1"></i>
+                                                تعيين
+                                            </button>
+                                        </li> -->
+                                        @if($awardedContractorId == $contractor->id )
+                                            <li>
+                                            <button type="button"
+                                                class="dropdown-item text-danger unaward-btn"
+                                                data-project="{{ $project->id }}" >
+                                                <i class="fas fa-times me-1"></i>
+                                                إلغاء التعيين
+                                            </button>
+                                            </li>
+                                        @elseif(!$awardedContractorId && $isSelected)
+                                            <li>
+                                            <button type="button"
+                                                class="dropdown-item text-success award-btn"
+                                                data-project="{{ $project->id }}"
+                                                data-contractor="{{ $contractor->id }}">
+                                                <i class="fas fa-check me-1"></i>
+                                                تعيين
+                                            </button>
+                                            </li>
+                                        @endif
+                                        
+
+
+
 
                                         <li>
                                             <a class="dropdown-item"
@@ -252,6 +336,55 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             window.location = this.dataset.href;
+        });
+    });
+
+});
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    document.querySelectorAll('.award-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+
+            if (!confirm('هل تريد تعيين المناقصة على هذا المقاول؟')) {
+                return;
+            }
+
+            let projectId = this.dataset.project;
+            let contractorId = this.dataset.contractor;
+
+            let form = document.getElementById('awardForm');
+            form.action = `/projects/${projectId}/tender/${contractorId}/award`;
+            form.submit();
+        });
+    });
+
+});
+</script>
+
+
+<form id="awardForm" method="POST" style="display:none;">
+    @csrf
+</form>
+
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    document.querySelectorAll('.unaward-btn').forEach(btn => {
+        btn.addEventListener('click', function () {
+
+            if (!confirm('هل تريد إلغاء التعيين؟')) return;
+
+            let projectId = this.dataset.project;
+
+            let form = document.getElementById('awardForm');
+            form.action = `/projects/${projectId}/tender/unaward`;
+            form.submit();
         });
     });
 

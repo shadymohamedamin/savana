@@ -57,7 +57,8 @@ class Project extends Model
         'foot_price',
         'approved_area',
         'linear_meter_area',
-        'project_bank_support'
+        'project_bank_support',
+        'project_owner_support'
         
         
     ];
@@ -202,6 +203,10 @@ public function consultant()
     {
         return $this->hasMany(\App\Models\BaladyaApproval::class, 'project_id', 'id');
     }
+    public function projectUsers()
+{
+    return $this->hasMany(\App\Models\ProjectUser::class);
+}
     /*public function ownerRequirements()
     {
         return $this->belongsToMany(

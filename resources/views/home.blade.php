@@ -19,13 +19,15 @@
                     {{ __('You are logged in!') }} -->
                     <h3>👤 {{ __('Welcome') }}, {{ Auth::user()->name }}</h3>
 
-
+                    @if(in_array(Auth::user()->role_id, [1,4,11,12]))
+                    
                     <div class="mt-4">
                         <a href="{{ url('/users/' . Auth::id() . '/attachments/create?type=users') }}"
                         class="btn btn-olive px-4 py-2">
                             📁 {{ __('My Documents') }}
                         </a>
                     </div>
+                    @endif
                         <!-- @if ($data)
                             
                             <div class="card mb-4">

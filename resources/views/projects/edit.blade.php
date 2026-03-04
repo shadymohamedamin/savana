@@ -240,6 +240,15 @@
                     ]) !!}
                 </div>
 
+                <div class="flex-grow-1" style="min-width:250px;max-width:250px;">
+                    {!! Form::label('project_owner_support', __('تمويل المالك '))!!}
+                    {!! Form::number('project_owner_support', null, [
+                        'class' => 'form-control rounded',
+                        'id' => 'project_owner_support',
+                        'readonly' => true
+                    ]) !!}
+                </div>
+
 
 
 
@@ -581,6 +590,43 @@ document.addEventListener('DOMContentLoaded', function () {
     calculateArea();
 });
 </script>
+
+
+
+
+
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    function calculateArea() {
+        const bank_contract_value = parseFloat(document.getElementById('bank_contract_value')?.value);
+        const project_bank_support = parseFloat(document.getElementById('project_bank_support')?.value);
+
+        if (!bank_contract_value || !project_bank_support) {
+            document.getElementById('project_owner_support').value = '';
+            return;
+        }
+
+        const project_owner_support=bank_contract_value-project_bank_support;
+
+        // تقريب لرقمين عشريين
+        document.getElementById('project_owner_support').value = project_owner_support.toFixed(2);
+    }
+
+    document.getElementById('bank_contract_value')
+        .addEventListener('input', calculateArea);
+
+    document.getElementById('project_bank_support')
+        .addEventListener('input', calculateArea);
+
+    // مهم جدًا في edit
+    calculateArea();
+});
+</script>
+
 
 
 

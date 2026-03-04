@@ -26,13 +26,14 @@ class ProjectController extends AppBaseController
      */
     public function index(Request $request)
 {
+    $user = auth()->user();
     /*$query = \App\Models\Project::with([
         'status',
         'ownerUser', // owner relation for name/phone
         'contractor',
         'baladyaApprovals' => fn($q) => $q->latest()->take(1),
     ]);*///vat_amount
-
+$allowedRoles = [1,4,11,12];
     $query = \App\Models\Project::query()
         ->with([
             'status',
@@ -47,6 +48,13 @@ class ProjectController extends AppBaseController
                 );
             }
         ], 'id');
+
+    if (!in_array($user->role_id, $allowedRoles)) {
+
+        $query->whereHas('projectUsers', function ($q) use ($user) {
+            $q->where('user_id', $user->id);
+        });
+    }
 
     // Filters
     if ($request->filled('project_code')) {
@@ -823,13 +831,23 @@ public function update($id, UpdateProjectRequest $request)
 
         if ($request->filled($field)) {
 
+            // \App\Models\ProjectUser::updateOrCreate(
+            //     [
+            //         'project_id' => $project->id,
+            //         'role_id'    => $roleId,
+            //     ],
+            //     [
+            //         'user_id' => $request->$field,
+            //     ]
+            // );
             \App\Models\ProjectUser::updateOrCreate(
                 [
                     'project_id' => $project->id,
-                    'role_id'    => $roleId,
+                    'user_id'    => $request->$field,
                 ],
                 [
-                    'user_id' => $request->$field,
+                    'role_id' => $roleId,
+                    'status'  => 'candidate'
                 ]
             );
         }

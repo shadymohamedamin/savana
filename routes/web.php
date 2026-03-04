@@ -135,7 +135,15 @@ Route::middleware(['auth', 'checkRole:co-admin,admin'])->group(function () {
 });
 Route::middleware(['auth'])->group(function () {
 
+Route::post(
+    '/projects/{project}/tender/{contractor}/award',
+    [App\Http\Controllers\TenderController::class, 'award']
+)->name('projects.tender.award');
 
+Route::post(
+    '/projects/{project}/tender/unaward',
+    [App\Http\Controllers\TenderController::class, 'unaward']
+)->name('projects.tender.unaward');
 
  Route::get('/projects/{project}/tender-contractors', 
     [App\Http\Controllers\TenderController::class, 'contractors'])->name('projects.tender.contractors');

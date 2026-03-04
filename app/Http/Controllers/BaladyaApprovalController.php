@@ -88,7 +88,7 @@ public function index($projectId)
         ->when($ownerId, fn($q) => $q->where('owner_id', $ownerId))
         ->orderBy('created_at')//->latest() // latest created first
         ->paginate(15);//7
-
+ 
     $statusTypes = \App\Models\BaladyaStatusType::where('active', 1)->pluck('name_ar', 'id');
 
     $editId = request('edit_id'); // ID الذي سيتم تعديله
