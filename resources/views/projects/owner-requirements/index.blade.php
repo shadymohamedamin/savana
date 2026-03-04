@@ -110,6 +110,7 @@
             </small>
         </div>
 
+        @if (in_array(auth()->user()->role_id, [1,4,11,12]))
         <div class=" d-flex justify-content-between align-items-center gap-2">
 
             <a href="{{ route('projects.tender.contractors', $project->id) }}"
@@ -130,13 +131,14 @@
                 style="background:#2f3a1f;color:#d4af37;">
                     <i class="fas fa-file-signature"></i> حساب الكميات
             </a>
-        <div class="d-flex gap-2">
-            <a href="{{ route('projects.index') }}"
-               class="btn btn-olive btn-sm" style="background:#2f3a1f;color:#d4af37;">
-                <i class="fas fa-arrow-left" ></i> {{ __('العودة الي المشاريع') }}
-            </a>
+            <div class="d-flex gap-2">
+                <a href="{{ route('projects.index') }}"
+                class="btn btn-olive btn-sm" style="background:#2f3a1f;color:#d4af37;">
+                    <i class="fas fa-arrow-left" ></i> {{ __('العودة الي المشاريع') }}
+                </a>
+            </div>
         </div>
-        </div>
+        @endif
 
     </div>
 

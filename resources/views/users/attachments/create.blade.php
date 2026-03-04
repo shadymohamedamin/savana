@@ -67,11 +67,15 @@
     <!-- <h3>{{ __('Manage Attachments for') }}: {{ $model->name }}</h3> -->
 
 
-
+@if (in_array(auth()->user()->role_id, [1,4,11,12]))
     <h3>
         {{ $isEdit ? __('Edit Attachments for') : __('Manage Attachments for') }}
         : {{ $model->name }}
     </h3>
+@else <h3>
+        المناقصة
+    </h3>
+@endif
     @include('flash::message')
 
    
@@ -123,7 +127,7 @@
         <span>{{ __('Standard Templates') }}</span>
   
 
-        @if($isTender)
+        @if($isTender&&in_array(Auth::user()->role_id, [1,4,11,12]))
         <div class="flex justify-start">
             
             <a href="{{ route('projects.tender.contractors', $model->id) }}"
@@ -144,7 +148,7 @@
                     <i class="fas fa-file-signature"></i> حساب الكميات
             </a>
         </div>
-        @elseif($type='projects')
+        @elseif($type='projects'&&in_array(Auth::user()->role_id, [1,4,11,12]))
         <a href="{{ route('projects.owner-requirements.index', ['project' => $model->id]) }}" class="btn btn-sm"
                 style="background:#2f3a1f;color:#d4af37;">
                 <i class="fas fa-clipboard-list"></i>
@@ -225,6 +229,8 @@
             <div class="d-flex flex-column">
                 <span class="mb-1">{{ __(' حساب الكميات') }}</span>
 
+
+                @if(in_array(Auth::user()->role_id, [1,4,11,12]))
                 <a target="_blank" href="{{ route('projects.contract.tender.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
                     👁 {{ __('Preview') }}
                 </a>
@@ -236,7 +242,107 @@
                 <a target="_blank" href="{{ route('projects.contract.tender.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
                     🖨 {{ __('Print') }}
                 </a>
+                @elseif(Auth::user()->role_id==3)
+                <a href="{{ route('projects.owner-requirements.index', [
+                                                    'project'=>$model->id,
+                                                    'context'=>'tender',
+                                                    'contractor'=>Auth::user()->id
+                                                ]) }}" class="btn btn-outline-primary btn-sm mb-1">
+                     {{ __('تعديل') }}
+                </a>
+
+                 <a target="_blank" href="{{ route('projects.contract.tender.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
+                    👁 {{ __('معاينة') }}
+                </a>
+
+                <a href="{{ route('projects.contract.tender.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
+                    🖨 {{ __('تحميل') }}
+                </a>
+                @endif
             </div>
+
+            @if(!in_array(auth()->user()->role_id, [1,4,11,12]) && $isTender)
+                @foreach($rows as $row)
+                    @php
+                        $typeId = $row['type_id'];
+                        $att = $row['attachment'];
+                        //dd($row);
+                    @endphp
+                    <div class="d-flex flex-column">
+                        
+                    
+                        <span class="mb-2 fw-bold">
+                                    {{ $attTypes[$typeId] ?? 'File '.$typeId }}
+                                </span>
+
+                                @if($att)
+                                <a target="_blank"
+                                href="{{ asset($att->web_path) }}"
+                                class="btn btn-outline-primary btn-sm mb-1">
+                                    👁 Preview
+                                </a>
+
+                                <a href="{{ asset($att->web_path) }}"
+                                class="btn btn-success btn-sm mb-1">
+                                    ⬇ Download
+                                </a>
+
+                                <a target="_blank"
+                                href="{{ asset($att->web_path) }}"
+                                class="btn btn-warning btn-sm">
+                                    🖨 Print
+                                </a>
+                                @else <div>غير موجود</div>
+                                @endif
+                    </div>
+                @endforeach
+
+
+            @endif
+
+                    <!-- @if(!in_array(auth()->user()->role_id, [1,4,11,12]) && $isTender)
+
+                    <div class="card-body d-flex flex-wrap gap-4" style="background:#f5f5dc">
+
+                        @foreach($rows as $row)
+                            @php
+                                $typeId = $row['type_id'];
+                                $att = $row['attachment'];
+                                //dd($row);
+                            @endphp
+
+                            <div class="d-flex flex-column border p-3 rounded bg-light" style="min-width:200px">
+
+                                <span class="mb-2 fw-bold">
+                                    {{ $attTypes[$typeId] ?? 'File '.$typeId }}
+                                </span>
+
+                                @if($att)
+                                <a target="_blank"
+                                href="{{ asset($att->web_path) }}"
+                                class="btn btn-outline-primary btn-sm mb-1">
+                                    👁 Preview
+                                </a>
+
+                                <a href="{{ asset($att->web_path) }}"
+                                class="btn btn-success btn-sm mb-1">
+                                    ⬇ Download
+                                </a>
+
+                                <a target="_blank"
+                                href="{{ asset($att->web_path) }}"
+                                class="btn btn-warning btn-sm">
+                                    🖨 Print
+                                </a>
+                                @else <div>غير موجود</div>
+                                @endif
+
+                            </div>
+                        @endforeach
+
+                    </div>
+
+                    @endif -->
 
         @elseif($isCotractorFiles)
             <div class="d-flex flex-column">
@@ -506,7 +612,7 @@
 @endif
 
 
-
+@if(in_array(auth()->user()->role_id, [1,4,11,12]))
     {{-- Upload attachments --}}
     <form action="{{ route('users.attachments.store', ['id' => $model->id, 'type' => $type]) }}"
       method="POST"
@@ -830,6 +936,8 @@
 
         </div>
     </form>
+
+@endif
 </div>
 @endsection
 
