@@ -230,6 +230,7 @@ if ($context === 'pricing') {
 
 public function index(Project $project, Request $request)
 {
+    
     $context = $request->get('context', 'owner');
     $contractor = $request->get('contractor');
     $contractorId = $request->contractor;
@@ -559,6 +560,12 @@ $groups = $groupsQuery->get();
      */
     public function create()
     {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    return redirect()->back()->with('toast', [
+        'type' => 'error',
+        'message' => 'ليس لديك الصلاحيات الكافية'
+    ]);
+}
         return view('owner_requirements.create');
     }
 
@@ -607,6 +614,12 @@ $groups = $groupsQuery->get();
 // حفظ متطلبات المالك
 public function store(Request $request, Project $project)
 {
+    if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    return redirect()->back()->with('toast', [
+        'type' => 'error',
+        'message' => 'ليس لديك الصلاحيات الكافية'
+    ]);
+}
     $syncData = [];
     foreach ($request->requirements ?? [] as $reqId => $data) {
         $qty = $data['quantity'] ?? null;
@@ -643,6 +656,12 @@ public function store(Request $request, Project $project)
 // حفظ أسعار التشطيبات
 public function savePricing(Request $request, Project $project)
 {
+    if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    return redirect()->back()->with('toast', [
+        'type' => 'error',
+        'message' => 'ليس لديك الصلاحيات الكافية'
+    ]);
+}
     /*$syncData = [];
 
     foreach ($request->requirements ?? [] as $ownerRequirementId => $data) {
@@ -898,6 +917,12 @@ public function store(Request $request, Project $project)
 
     public function print(Project $project)
     {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    return redirect()->back()->with('toast', [
+        'type' => 'error',
+        'message' => 'ليس لديك الصلاحيات الكافية'
+    ]);
+}
         $requirements = $project->ownerRequirements
             ->groupBy('floor');
 
@@ -912,6 +937,12 @@ public function store(Request $request, Project $project)
      */
     public function show($id)
     {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    return redirect()->back()->with('toast', [
+        'type' => 'error',
+        'message' => 'ليس لديك الصلاحيات الكافية'
+    ]);
+}
         $ownerRequirement = $this->ownerRequirementRepository->find($id);
 
         if (empty($ownerRequirement)) {
@@ -928,6 +959,12 @@ public function store(Request $request, Project $project)
      */
     public function edit($id)
     {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    return redirect()->back()->with('toast', [
+        'type' => 'error',
+        'message' => 'ليس لديك الصلاحيات الكافية'
+    ]);
+}
         $ownerRequirement = $this->ownerRequirementRepository->find($id);
 
         if (empty($ownerRequirement)) {
@@ -944,6 +981,12 @@ public function store(Request $request, Project $project)
      */
     public function update($id, UpdateOwnerRequirementRequest $request)
     {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    return redirect()->back()->with('toast', [
+        'type' => 'error',
+        'message' => 'ليس لديك الصلاحيات الكافية'
+    ]);
+}
         $ownerRequirement = $this->ownerRequirementRepository->find($id);
 
         if (empty($ownerRequirement)) {
@@ -966,6 +1009,12 @@ public function store(Request $request, Project $project)
      */
     public function destroy($id)
     {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    return redirect()->back()->with('toast', [
+        'type' => 'error',
+        'message' => 'ليس لديك الصلاحيات الكافية'
+    ]);
+}
         $ownerRequirement = $this->ownerRequirementRepository->find($id);
 
         if (empty($ownerRequirement)) {

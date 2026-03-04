@@ -78,6 +78,12 @@ class ProjectPaymentController extends AppBaseController
 
     public function index(Project $project)
     {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    return redirect()->back()->with('toast', [
+        'type' => 'error',
+        'message' => 'ليس لديك الصلاحيات الكافية'
+    ]);
+}
         $payments = ProjectPayment::where('project_id', $project->id)->get();
 
         return view('project_payments.index', compact(
@@ -93,6 +99,12 @@ class ProjectPaymentController extends AppBaseController
      */
     public function create($projectId)
     {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    return redirect()->back()->with('toast', [
+        'type' => 'error',
+        'message' => 'ليس لديك الصلاحيات الكافية'
+    ]);
+}
         $project = Project::findOrFail($projectId);
 
         return view('project_payments.create', compact('project'));
@@ -105,6 +117,12 @@ class ProjectPaymentController extends AppBaseController
      */
     public function store(Request $request, $projectId)
     {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    return redirect()->back()->with('toast', [
+        'type' => 'error',
+        'message' => 'ليس لديك الصلاحيات الكافية'
+    ]);
+}
         //dd($request->all());
         $request->validate([
             'payer_type'   => 'required',
@@ -170,6 +188,12 @@ class ProjectPaymentController extends AppBaseController
      */
     public function show($id)
     {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    return redirect()->back()->with('toast', [
+        'type' => 'error',
+        'message' => 'ليس لديك الصلاحيات الكافية'
+    ]);
+}
         $projectPayment = $this->projectPaymentRepository->find($id);
 
         if (empty($projectPayment)) {
@@ -186,6 +210,12 @@ class ProjectPaymentController extends AppBaseController
      */
     public function edit(Project $project, $id)
     {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    return redirect()->back()->with('toast', [
+        'type' => 'error',
+        'message' => 'ليس لديك الصلاحيات الكافية'
+    ]);
+}
         $projectPayment = ProjectPayment::findOrFail($id);
 
         return view('project_payments.edit', compact(
@@ -271,6 +301,12 @@ class ProjectPaymentController extends AppBaseController
 
 public function update($id, UpdateProjectPaymentRequest $request)
 {
+    if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    return redirect()->back()->with('toast', [
+        'type' => 'error',
+        'message' => 'ليس لديك الصلاحيات الكافية'
+    ]);
+}
     $projectPayment = $this->projectPaymentRepository->find($id);
 
     if (!$projectPayment) {
@@ -368,6 +404,12 @@ public function update($id, UpdateProjectPaymentRequest $request)
 
     public function destroy($project, $id)
     {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    return redirect()->back()->with('toast', [
+        'type' => 'error',
+        'message' => 'ليس لديك الصلاحيات الكافية'
+    ]);
+}
         $projectPayment = $this->projectPaymentRepository->find($id);
 
         if (empty($projectPayment)) {
