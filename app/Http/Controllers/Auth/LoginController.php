@@ -40,8 +40,5 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
     }
-    //protected function credentials(\Illuminate\Http\Request $request)
-    //{
-    //    return $request->only('email', 'password');
-    //}
+    
 }
