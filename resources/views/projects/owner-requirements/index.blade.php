@@ -73,6 +73,200 @@
     background-color: #3e4d2a;
     border-color: #3e4d2a;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* ===== Floating Save Buttons ===== */
+
+.floating-actions {
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 15px;
+    z-index: 9999;
+
+    backdrop-filter: blur(15px);
+    background: rgba(255,255,255,0.15);
+    padding: 12px 20px;
+    border-radius: 50px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+/* زر الحفظ */
+.main-save-btn {
+    background: #2f3a1f;
+    color: #d4af37;
+    border-radius: 40px;
+    font-weight: 600;
+}
+
+.main-save-btn:hover {
+    background: #243016;
+}
+
+/* زر المعاينة */
+.btn-preview {
+    background: rgba(255,255,255,0.8);
+    color: #2f3a1f;
+    border-radius: 40px;
+    font-weight: 600;
+}
+
+.btn-preview:hover {
+    background: #ffffff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* كارت ملخص البنود */
+.summary-card{
+
+position:fixed;
+top:120px;
+right:20px;
+
+width:320px;
+
+background:white;
+
+border-radius:15px;
+
+box-shadow:0 15px 40px rgba(0,0,0,0.2);
+
+z-index:9999;
+
+overflow:hidden;
+
+}
+
+.summary-header{
+
+background:#212529;
+color:white;
+
+padding:10px 15px;
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+cursor:move;
+
+font-weight:bold;
+
+}
+
+.summary-buttons button{
+
+border:none;
+
+background:white;
+
+color:black;
+
+width:28px;
+
+height:28px;
+
+border-radius:6px;
+
+margin-left:5px;
+
+cursor:pointer;
+
+}
+
+.summary-body{
+
+padding:10px;
+
+max-height:400px;
+
+overflow:auto;
+
+}
+
+.summary-card table td,
+.summary-card table th{
+
+font-size:13px;
+
+padding:6px;
+
+}
+
+.summary-collapsed .summary-body{
+
+display:none;
+
+}
+
+.summary-hidden{
+
+width:120px;
+
+}
+
+.summary-hidden .summary-body{
+
+display:none;
+
+}
+
+.summary-hidden .summary-header{
+
+justify-content:center;
+
+}
+body{
+
+/* padding-right:350px; */
+
+}
+
+
+
+
 </style>
 
 
@@ -748,10 +942,76 @@
 
 
 
+<div class="summary-card" id="summaryCard">
 
+<div class="summary-header" id="summaryHeader">
 
+ملخص البنود
 
+<div class="summary-buttons">
 
+<button type="button" id="toggleSummary">−</button>
+
+<button type="button" id="hideSummary">×</button>
+
+</div>
+
+</div>
+
+<div class="summary-body">
+
+<table class="table table-bordered text-center">
+
+<tr class="table-dark">
+<th colspan="2">البند</th>
+<th>القيمة</th>
+</tr>
+
+<tr>
+<td colspan="2">سعر الهيكل مع الكتروميكانيكال</td>
+<td id="structureElectroCard">0.00</td>
+</tr>
+
+<tr>
+<td colspan="2">سعر الهيكل مع الكتروميكانيكال مع التشطيبات</td>
+<td id="structureWithFinishesCard">0.00</td>
+</tr>
+
+<tr>
+<td colspan="2">سعر الفوت بدون تشطيبات</td>
+<td id="footWithoutCard">0.00</td>
+</tr>
+
+<tr>
+<td colspan="2">سعر الفوت مع تشطيبات</td>
+<td id="footWithCard">0.00</td>
+</tr>
+
+<tr>
+<td colspan="2">سعر السور</td>
+<td id="boundaryWallCard">0.00</td>
+</tr>
+
+<tr>
+<td colspan="2">سعر الفيلا مع السور</td>
+<td id="villaWithWallCard">0.00</td>
+</tr>
+
+<tr>
+<td colspan="2">الضريبة 5%</td>
+<td id="vatCard">0.00</td>
+</tr>
+
+<tr class="table-success fw-bold">
+<td colspan="2">السعر النهائي شامل الضريبة</td>
+<td id="finalTotalCard">0.00</td>
+</tr>
+
+</table>
+
+</div>
+
+</div>
 
 
 
@@ -811,8 +1071,21 @@
 
 
 
+<div class="floating-actions">
 
-    <div class="text-center d-flex my-4 justify-content-center gap-2">
+    <button type="submit"
+            class="btn btn-olive px-4 main-save-btn">
+        <i class="fas fa-save"></i> حفظ حساب الكميات 
+    </button>
+
+    <a target="_blank"
+        href="{{ route('projects.contract.tender.pdf', $project->id) }}?action=preview"
+        class="btn btn-preview px-4">
+        👁 معاينة حساب الكميات
+    </a>
+
+</div>
+    <!-- <div class="text-center d-flex my-4 justify-content-center gap-2">
 
         {{-- Save --}}
         <button type="submit"
@@ -829,7 +1102,7 @@
         </a>
 
 
-    </div>
+    </div> -->
 
     <!-- <button type="submit" class="btn btn-primary mt-3">حفظ</button> -->
 </form>
@@ -856,6 +1129,63 @@ document.querySelectorAll('table').forEach(table => {
 });
 </script> -->
 
+
+<script>
+
+const card = document.getElementById("summaryCard");
+const header = document.getElementById("summaryHeader");
+
+const toggleBtn = document.getElementById("toggleSummary");
+const hideBtn = document.getElementById("hideSummary");
+
+
+// collapse
+toggleBtn.onclick = function(){
+
+card.classList.toggle("summary-collapsed");
+
+};
+
+
+// hide
+hideBtn.onclick = function(){
+
+card.style.display="none";
+
+};
+
+
+// drag
+let isDragging = false;
+let offsetX, offsetY;
+
+header.addEventListener("mousedown",function(e){
+
+isDragging = true;
+
+offsetX = e.clientX - card.offsetLeft;
+offsetY = e.clientY - card.offsetTop;
+
+});
+
+
+document.addEventListener("mousemove",function(e){
+
+if(!isDragging) return;
+
+card.style.left = (e.clientX - offsetX) + "px";
+card.style.top = (e.clientY - offsetY) + "px";
+
+});
+
+
+document.addEventListener("mouseup",function(){
+
+isDragging = false;
+
+});
+
+</script>
 
 
 
@@ -954,19 +1284,47 @@ function calculateAll() {
 
     document.getElementById('structureElectro').textContent =
         structureElectro.toLocaleString(undefined,{minimumFractionDigits:2});
+document.getElementById('structureElectroCard').textContent =
+        structureElectro.toLocaleString(undefined,{minimumFractionDigits:2});
+        
     document.getElementById('structureWithFinishes').textContent =
         structureWithFinishes.toLocaleString(undefined,{minimumFractionDigits:2});
+
+document.getElementById('structureWithFinishesCard').textContent =
+        structureWithFinishes.toLocaleString(undefined,{minimumFractionDigits:2});
+
+
     document.getElementById('footWithout').textContent =
         footWithout.toLocaleString(undefined,{minimumFractionDigits:2});
+
+document.getElementById('footWithoutCard').textContent =
+        footWithout.toLocaleString(undefined,{minimumFractionDigits:2});
+
     document.getElementById('footWith').textContent =
         footWith.toLocaleString(undefined,{minimumFractionDigits:2});
+
+document.getElementById('footWithCard').textContent =
+        footWith.toLocaleString(undefined,{minimumFractionDigits:2});
+
     document.getElementById('boundaryWall').textContent =
         boundaryWall.toLocaleString(undefined,{minimumFractionDigits:2});
+
+document.getElementById('boundaryWallCard').textContent =
+        boundaryWall.toLocaleString(undefined,{minimumFractionDigits:2});
+
     document.getElementById('villaWithWall').textContent =
+        villaWithWall.toLocaleString(undefined,{minimumFractionDigits:2});
+
+document.getElementById('villaWithWallCard').textContent =
         villaWithWall.toLocaleString(undefined,{minimumFractionDigits:2});
     document.getElementById('vat').textContent =
         vat.toLocaleString(undefined,{minimumFractionDigits:2});
+
+document.getElementById('vatCard').textContent =
+        vat.toLocaleString(undefined,{minimumFractionDigits:2});
     document.getElementById('finalTotal').textContent =
+        finalTotal.toLocaleString(undefined,{minimumFractionDigits:2});
+document.getElementById('finalTotalCard').textContent =
         finalTotal.toLocaleString(undefined,{minimumFractionDigits:2});
 }
 
@@ -1338,7 +1696,22 @@ calculateAll();
 
 </form>
 
+
+
+
+
+
+
+
+
+
+
+
 <script>
+
+
+
+
 
 
 

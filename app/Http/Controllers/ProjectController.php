@@ -61,6 +61,10 @@ $allowedRoles = [1,4,11,12];
         $query->where('project_code', 'like', '%' . $request->project_code . '%');
     }
 
+    if ($request->filled('contractor_id')) {
+    $query->where('contractor_id', $request->contractor_id);
+}
+
 
     if ($request->filled('qasmia_number')) {
         $query->where('qasmia_number', 'like', '%' . $request->qasmia_number . '%');
@@ -77,8 +81,9 @@ $allowedRoles = [1,4,11,12];
     $projects = $query->orderByDesc('created_at')->paginate(15);
 
     $toast = session('toast', null);
+    $contractors = \App\Models\User::where('role_id', 3)->get();
 
-    return view('projects.index', compact('projects', 'toast'));
+    return view('projects.index', compact('projects', 'toast','contractors'));
 }
 
 

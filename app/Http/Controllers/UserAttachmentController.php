@@ -152,10 +152,16 @@ public function create(Request $request, $id)
     $type = $request->query('type', 'users'); // default users
     $mode = $request->query('mode');
     $isTender = $mode === 'tender';
+    
     $isContractorFiles=$mode === 'contractor_files';
 
     $modelClass = $this->resolveModel($type);
     $model = $modelClass::findOrFail($id);
+    $project = null;
+    //$project = null;$project = null;
+    if ($type === 'projects') {
+        $project = $model;
+    }
     $isAdminFiles=false;
 
     // Attachment types
@@ -286,7 +292,8 @@ public function create(Request $request, $id)
         'attTypes',
         'defaultTypes',
         'attachments',
-        'isAdminFiles'
+        'isAdminFiles',
+        'project'
     ));
 }
 

@@ -378,7 +378,7 @@
 .project-panel-full {
     width: 100%;
     background: #d4af37;
-    padding: 35px 60px;
+    padding: 15px 30px;
     margin: 0;
 }
 
@@ -431,6 +431,7 @@
 .project-actions-full {
     display: flex;
     flex-wrap: wrap;
+    
     gap: 35px;
 }
 
@@ -476,7 +477,7 @@
 .project-panel-full {
     width: 100%;
     background: #d4af37;
-    padding: 25px 60px;
+    padding: 15px 30px;
     margin: 0;
 }
 
@@ -493,8 +494,9 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    background: #2f3a1f;
-    color: #d4af37;
+    background: #d4af37;
+    /* background: #2f3a1f; */
+    color: #2f3a1f;
     padding: 10px 22px;
     /* border-radius: 50px; */
     font-weight: 600;
@@ -514,7 +516,8 @@
 
 /* زر المنتصف */
 .center-pill {
-    background: #ffffff;
+    background: #d4af37;
+    /* background: #ffffff; */
     color: #2f3a1f;
 }
 
@@ -549,8 +552,11 @@
 
                     $now = Carbon::now();
                     $dayName = $now->translatedFormat('l');
-                    $dateFormatted = $now->translatedFormat('d F Y');
-                    $timeFormatted = $now->translatedFormat('h:i A');
+                    $timeFormatted = $now->format('H:i:s'); // 22:10:05
+
+                    $dateFormatted = strtoupper($now->format('Y-M-d')); // 2026-FEB-22
+                    //$dateFormatted = $now->translatedFormat('d F Y');
+                    //$timeFormatted = $now->translatedFormat('h:i A');
                 @endphp
     <div class="min-vh-100" id="app" style="background-color:#f5f5dc;">
 
@@ -618,13 +624,7 @@
         <nav class="navbar navbar-expand-lg olive-navbar shadow-sm  {{ app()->getLocale() == 'ar' ? 'navbar-rtl' : '' }}">
 
             <div class="container">
-                <a class="navbar-brand ml-3" href="{{ url('/home') }}">
-                    <!-- {{ config('app.name', 'ٍSavana') }} -->
-                     <!-- <div class="today-box ml-3">
-                        <div class="today-day">{{ $dayName }}</div>
-                        <div class="today-date">{{ $dateFormatted }}</div>
-                        <div class="today-time" id="liveClock">{{ $timeFormatted }}</div>
-                    </div> -->
+                <!-- <a class="navbar-brand ml-3" href="{{ url('/home') }}">
                     <div class="today-inline-box ml-3">
                         <div class="today-inline-day" id="liveDay"></div>
                         <div class="today-separator"></div>
@@ -633,6 +633,19 @@
                         <div class="today-inline-time" id="liveClock"></div>
                     </div>
 
+                </a> -->
+                <a class="navbar-brand ml-3" href="{{ url('/home') }}">
+                <div class="today-inline-box ml-3">
+                    <div class="today-inline-time" id="liveClock">
+                        {{ $timeFormatted }}
+                    </div>
+
+                    <div class="today-separator"></div>
+
+                    <div class="today-inline-date" id="liveDate" dir="ltr">
+                        {{ $dateFormatted }}
+                    </div>
+                </div>
                 </a>
 
                 
@@ -962,7 +975,17 @@
 
             <a href="{{ url('#') }}" class="panel-btn-full">
                 <i class="fas fa-clipboard-list"></i>
-                التصميم
+                مستندات المشروع
+            </a>
+
+            <a href="{{ url('#') }}" class="panel-btn-full">
+                <i class="fas fa-clipboard-list"></i>
+                المخططات المعتمدة
+            </a>
+
+            <a href="{{ url('#') }}" class="panel-btn-full">
+                <i class="fas fa-clipboard-list"></i>
+                الرسائل والتنبيهات
             </a>
 
 <a href="{{ route('projects.baladya-approvals.index', ['project' => $project->id]) }}"
@@ -1163,7 +1186,31 @@
 </script>
 
 
+<script>
+function updateClock() {
+    const now = new Date();
 
+    // Time 24h with seconds
+    const time = now.toLocaleTimeString('en-GB', { hour12: false });
+
+    // Format date like 2026-FEB-22
+    const year = now.getFullYear();
+    const day = String(now.getDate()).padStart(2, '0');
+
+    const monthNames = ["JAN","FEB","MAR","APR","MAY","JUN",
+                        "JUL","AUG","SEP","OCT","NOV","DEC"];
+
+    const month = monthNames[now.getMonth()];
+
+    const formattedDate = `${year}-${month}-${day}`;
+
+    document.getElementById('liveClock').textContent = time;
+    document.getElementById('liveDate').textContent = formattedDate;
+}
+
+setInterval(updateClock, 1000);
+updateClock();
+</script>
 
 
 
