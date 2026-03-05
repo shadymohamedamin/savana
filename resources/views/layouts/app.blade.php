@@ -361,6 +361,184 @@
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+/* ===== FULL WIDTH PROJECT PANEL ===== */
+
+.project-panel-full {
+    width: 100%;
+    background: #d4af37;
+    padding: 35px 60px;
+    margin: 0;
+}
+
+.project-panel-header-full {
+    font-size: 22px;
+    font-weight: 700;
+    color: #2f3a1f;
+    margin-bottom: 25px;
+}
+
+.project-back-btn {
+    background: transparent;
+    border: none;
+    color: #2f3a1f;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.project-back-btn:hover {
+    text-decoration: underline;
+}
+
+.project-panel-body-full {
+    width: 100%;
+}
+
+.owner-box-full {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.owner-box-full i {
+    font-size: 26px;
+    color: #2f3a1f;
+}
+
+.owner-label {
+    font-size: 14px;
+    opacity: 0.7;
+}
+
+.owner-name {
+    font-size: 22px;
+    font-weight: 700;
+    color: #2f3a1f;
+}
+
+.project-actions-full {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 35px;
+}
+
+/* 🔥 الأزرار بدون خلفية */
+.panel-btn-full {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    color: #2f3a1f;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.panel-btn-full i {
+    font-size: 18px;
+}
+
+.panel-btn-full:hover {
+    color: #000;
+    transform: translateX(5px);
+}
+
+
+.panel-btn-full.active {
+    background: #556b2f;
+    color: #fff !important;
+    border-radius: 50px;
+    padding: 8px 18px;
+}
+
+
+
+
+
+
+
+
+/* ===== TOP GOLD BAR ===== */
+
+.project-panel-full {
+    width: 100%;
+    background: #d4af37;
+    padding: 25px 60px;
+    margin: 0;
+}
+
+/* شريط الثلاث أزرار */
+.project-top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+/* شكل الزر الدائري */
+.top-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #2f3a1f;
+    color: #d4af37;
+    padding: 10px 22px;
+    /* border-radius: 50px; */
+    font-weight: 600;
+    font-size: 14px;
+    transition: 0.2s ease;
+}
+
+/* زر الرابط */
+.link-pill {
+    text-decoration: none;
+}
+
+.link-pill:hover {
+    background: #243016;
+    transform: translateY(-2px);
+}
+
+/* زر المنتصف */
+.center-pill {
+    background: #ffffff;
+    color: #2f3a1f;
+}
+
+/* باقي الأزرار */
+.panel-btn-full {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    color: #2f3a1f;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.2s ease;
+}
+
+.panel-btn-full:hover {
+    transform: translateX(5px);
+}
+
+
+
+
+
     </style>
 
 </head>
@@ -437,7 +615,7 @@
         
         
         
-        <nav class="navbar navbar-expand-lg olive-navbar shadow-sm mb-4 {{ app()->getLocale() == 'ar' ? 'navbar-rtl' : '' }}">
+        <nav class="navbar navbar-expand-lg olive-navbar shadow-sm  {{ app()->getLocale() == 'ar' ? 'navbar-rtl' : '' }}">
 
             <div class="container">
                 <a class="navbar-brand ml-3" href="{{ url('/home') }}">
@@ -732,6 +910,150 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{-- ✅ حط هنا كود لوحة المشروع --}}
+
+@if(isset($project) && in_array(auth()->user()->role_id, [1,4,11,12]))
+<div class="project-panel-full">
+
+    
+    <div class="project-panel-body-full">
+
+        
+
+        <div class="project-actions-full">
+
+            <a href="{{ route('users.index') }}" class="panel-btn-full">
+                <i class="far fa-users"></i>
+                المستخدمين
+            </a>
+
+            <a href="{{ route('projects.edit', $project->id) }}"
+   class="panel-btn-full {{ Route::currentRouteName() == 'projects.edit' ? 'active' : '' }}">
+    <i class="far fa-folder"></i>
+    تعديل المشروع
+</a>
+
+            <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}"
+   class="panel-btn-full {{ request()->is('users/*/attachments/create') && !request('mode') ? 'active' : '' }}">
+    <i class="fas fa-clipboard-list"></i>
+    عقود الاستشاري
+</a>
+
+            <a href="{{ url('#') }}" class="panel-btn-full">
+                <i class="fas fa-clipboard-list"></i>
+                التصميم
+            </a>
+
+<a href="{{ route('projects.baladya-approvals.index', ['project' => $project->id]) }}"
+   class="panel-btn-full {{ Route::currentRouteName() == 'projects.baladya-approvals.index' ? 'active' : '' }}">
+    <i class="fas fa-clipboard-list"></i>
+    اعتمادات البلدية
+</a>
+
+            <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=tender') }}"
+   class="panel-btn-full {{ request('mode') == 'tender' ? 'active' : '' }}">
+    <i class="fas fa-clipboard-list"></i>
+    المناقصة
+</a>
+
+            <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=contractor_files') }}"
+   class="panel-btn-full {{ request('mode') == 'contractor_files' ? 'active' : '' }}">
+    <i class="fas fa-clipboard-list"></i>
+    عقود المقاول
+</a>
+
+            <a href="{{ url('#') }}" class="panel-btn-full">
+                <i class="fas fa-clipboard-list"></i>
+                الاشراف
+            </a>
+
+<a href="{{ route('projects.project-payments.index', ['project' => $project->id]) }}"
+   class="panel-btn-full {{ Route::currentRouteName() == 'projects.project-payments.index' ? 'active' : '' }}">
+    <i class="fas fa-clipboard-list"></i>
+    دفعات المشروع
+</a>
+
+        </div>
+
+    </div>
+    
+
+
+
+</div>
+
+<div class="project-top-bar">
+
+    <!-- زر اسم المالك -->
+    <div class="top-pill">
+        <i class="fas fa-user-tie me-2"></i>
+        {{ optional($project->ownerUser)->name ?? '—' }}
+    </div>
+
+    <!-- زر عنوان الصفحة -->
+    <div class="top-pill center-pill">
+        <i class="fas fa-folder-open me-2"></i>
+        @php
+    $routeName = Route::currentRouteName();
+
+    $titles = [
+        'projects.edit' => 'تعديل المشروع',
+        'users.index' => 'المستخدمين',
+        'projects.baladya-approvals.index' => 'اعتمادات البلدية',
+        'projects.project-payments.index' => 'دفعات المشروع',
+    ];
+
+    // صفحات المرفقات حسب mode
+    if(request()->is('users/*/attachments/create')) {
+        if(request('mode') === 'tender') {
+            $pageTitle = 'المناقصة';
+        } elseif(request('mode') === 'contractor_files') {
+            $pageTitle = 'عقود المقاول';
+        } else {
+            $pageTitle = 'عقود الاستشاري';
+        }
+    } else {
+        $pageTitle = $titles[$routeName] ?? 'لوحة المشروع';
+    }
+@endphp
+{{ $pageTitle }}
+        <!-- <div class="top-pill center-pill">
+            <i class="fas fa-folder-open me-2"></i>
+            
+        </div> -->
+    </div>
+
+    <!-- زر العودة -->
+    <a href="{{ route('projects.index') }}" class="top-pill link-pill">
+        <i class="fas fa-arrow-left me-2"></i>
+        العودة إلى المشاريع
+    </a>
+
+</div>
+
+
+@endif
 
 
 
