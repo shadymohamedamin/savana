@@ -109,7 +109,9 @@
     padding: 6px 20px;
 }
 
-
+.bold-input{
+    font-weight:700;
+}
 </style>
 
 
@@ -257,7 +259,7 @@
                 <div class="col-md-2">
                     <label class="form-label">{{ __('اسم المالك') }}</label>
                     <input type="text" name="owner_name"
-                           class="form-control filter-input"
+                           class="form-control filter-input bold-input"
                            style="text-font:bold;"
                            value="{{ request('owner_name') }}">
                 </div>
