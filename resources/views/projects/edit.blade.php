@@ -25,7 +25,7 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-12">
-                <h3>{{ __('Edit Project') }}</h3>
+                <!-- <h3>{{ __('Edit Project') }}</h3> -->
             </div>
         </div>
     </div>
