@@ -15,9 +15,9 @@
 
 
     .btn-olive {
-        background-color: #2f3a1f;   /* زيتوني غامق */
+        background-color:#d4af37 ;   /*#2f3a1f زيتوني غامق */
         border: 1px solid #2f3a1f;
-        color: #d4af37;              /* ذهبي */
+        color: #2f3a1f;              /* ذهبي */
         font-weight: 600;
         letter-spacing: 0.5px;
         transition: all 0.3s ease;
@@ -133,26 +133,26 @@
         <div class="flex justify-start">
             
             <a href="{{ route('projects.tender.contractors', $model->id) }}"
-                class="btn btn-sm"
-                style="background:#8B0000;color:#fff;">
+                class="btn btn-sm" ;   
+                style="background:#d4af37;color:#2f3a1f;">
                     <i class="fas fa-users"></i> المقاولين المرشحين
             </a>
             <a href="{{ route('projects.owner-requirements.index', [$model, 'context' => 'pricing']) }}"
                 class="btn btn-sm"
-                style="background:#2f3a1f;color:#d4af37;">
+                style="background:#d4af37;color:#2f3a1f;">
                     <i class="fas fa-file-signature"></i> أسعار توريد التشطيبات
             </a>
 
 
             <a href="{{ route('projects.owner-requirements.index', [$model, 'context' => 'tender']) }}"
                 class="btn btn-sm"
-                style="background:#2f3a1f;color:#d4af37;">
+                style="background:#d4af37;color:#2f3a1f;">
                     <i class="fas fa-file-signature"></i> حساب الكميات
             </a>
         </div>
         @elseif($type='projects'&&in_array(Auth::user()->role_id, [1,4,11,12]))
         <a href="{{ route('projects.owner-requirements.index', ['project' => $model->id]) }}" class="btn btn-sm"
-                style="background:#2f3a1f;color:#d4af37;">
+                style="background:#d4af37;color:#2f3a1f;">
                 <i class="fas fa-clipboard-list"></i>
                 احتياجات المالك
             </a>

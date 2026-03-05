@@ -24,13 +24,15 @@
 
 /* Header darker */
 .custom-header {
-    background: linear-gradient(90deg, #b8922e, #d4af37);
+    /* background: linear-gradient(90deg, #b8922e, #d4af37); */
+    background: #d4af37;
     color: #1f2937;
     font-weight: 700;
 }
 
 .custom-header th {
-    background: linear-gradient(90deg, #b8922e, #d4af37);
+    /* linear-gradient(90deg, #b8922e, #d4af37); */
+    background: #d4af37;
     border: 1px solid #000 !important;
     text-align: center;
 }
@@ -238,35 +240,51 @@
 
             <div class="row g-3">
 
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label class="form-label">{{ __('كود المشروع') }}</label>
                     <input type="text" name="project_code"
                            class="form-control filter-input"
                            value="{{ request('project_code') }}">
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label class="form-label">{{ __('رقم القسيمة') }}</label>
                     <input type="text" name="qasmia_number"
                            class="form-control filter-input"
                            value="{{ request('qasmia_number') }}">
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label class="form-label">{{ __('اسم المالك') }}</label>
                     <input type="text" name="owner_name"
                            class="form-control filter-input"
+                           style="text-font:bold;"
                            value="{{ request('owner_name') }}">
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-md-2">
                     <label class="form-label">{{ __('رقم الهاتف') }}</label>
                     <input type="text" name="owner_phone"
                            class="form-control filter-input"
                            value="{{ request('owner_phone') }}">
                 </div>
 
-                <div class="col-12 mt-3 d-flex justify-content-end gap-2">
+
+
+                <div class="col-md-2">
+                    <label class="form-label">{{ __('المقاول') }}</label>
+                    <select name="contractor_id" class="form-control filter-input">
+                        <option value="">{{ __('اختر المقاول') }}</option>
+                        @foreach($contractors as $contractor)
+                            <option value="{{ $contractor->id }}"
+                                {{ request('contractor_id') == $contractor->id ? 'selected' : '' }}>
+                                {{ $contractor->name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+<!-- col-12 mt-3 d-flex justify-content-end gap-2 -->
+                <div class="col-md-2 d-flex justify-content-end gap-2 " style="margin-top:3rem;height:2.6rem;">
 
                     <button type="submit" class="btn btn-apply">
                         <i class="fas fa-search me-1"></i>
@@ -300,35 +318,35 @@
 
             <tr class="project-roww"
                 
-                style="background-color:#f5f5dc; cursor:pointer;">
-                <th style="background-color:#f5f5dc;">{{ __('Code') }}</th>
-                <th style="background-color:#f5f5dc;">{{ __('Owner') }}</th>
-                <th style="background-color:#f5f5dc;">{{ __('رقم القسيمة') }}</th>
-                <!-- <th style="background-color:#f5f5dc;">{{ __('ProjectName') }}</th> -->
-                <th style="background-color:#f5f5dc;">{{ __('Chosen Contractor') }}</th>
-                <th style="background-color:#f5f5dc;">{{ __('Case #') }}</th>
-                <!-- <th style="background-color:#f5f5dc;">{{ __('Building #') }}</th> -->
-                <!-- <th style="background-color:#f5f5dc;">{{ __('Building #') }}</th> -->
-                <th style="background-color:#f5f5dc;">{{ __(key: 'نوع الحالة') }}</th>
-                <th style="background-color:#f5f5dc;">{{ __(key: 'عدد زيارات الاشراف') }}</th>
-                <th style="background-color:#f5f5dc;">{{ __(key: 'قيمة العقد') }}</th>
-                <th style="background-color:#f5f5dc;">{{ __(key: 'تاريخ انتهاء العقد') }}</th>
+                style="background-color:#d4af37; cursor:pointer;">
+                <th style="background-color:#d4af37;">{{ __('Code') }}</th>
+                <th style="background-color:#d4af37;">{{ __('Owner') }}</th>
+                <th style="background-color:#d4af37;">{{ __('رقم القسيمة') }}</th>
+                <!-- <th style="background-color:#d4af37;">{{ __('ProjectName') }}</th> -->
+                <th style="background-color:#d4af37;">{{ __('Chosen Contractor') }}</th>
+                <th style="background-color:#d4af37;">{{ __('Case #') }}</th>
+                <!-- <th style="background-color:#d4af37;">{{ __('Building #') }}</th> -->
+                <!-- <th style="background-color:#d4af37;">{{ __('Building #') }}</th> -->
+                <th style="background-color:#d4af37;">{{ __(key: 'نوع الحالة') }}</th>
+                <th style="background-color:#d4af37;">{{ __(key: 'عدد زيارات الاشراف') }}</th>
+                <th style="background-color:#d4af37;">{{ __(key: 'قيمة العقد') }}</th>
+                <th style="background-color:#d4af37;">{{ __(key: 'تاريخ انتهاء العقد') }}</th>
                 
-                <!-- <th style="background-color:#f5f5dc;">{{ __(key: 'مدة المعاملة') }}</th> -->
+                <!-- <th style="background-color:#d4af37;">{{ __(key: 'مدة المعاملة') }}</th> -->
                 
-                <th style="background-color:#f5f5dc;">{{ __(key: 'المستلم من العقد') }}</th>
-                <th style="background-color:#f5f5dc;">{{ __(key: 'رقم الرخصة') }}</th>
+                <th style="background-color:#d4af37;">{{ __(key: 'المستلم من العقد') }}</th>
+                <th style="background-color:#d4af37;">{{ __(key: 'رقم الرخصة') }}</th>
                 
-                <!-- <th style="background-color:#f5f5dc;">{{ __(key: 'Case Type') }}</th> -->
+                <!-- <th style="background-color:#d4af37;">{{ __(key: 'Case Type') }}</th> -->
                 
                  
-                <!-- <th style="background-color:#f5f5dc;">{{ __('Fence #') }}</th>
-                <th style="background-color:#f5f5dc;">{{ __('Status') }}</th>
-                <th style="background-color:#f5f5dc;">{{ __('Start Date') }}</th>
-                <th style="background-color:#f5f5dc;">{{ __('End Date') }}</th> -->
-                <!-- <th style="background-color:#f5f5dc;">{{ __('Status') }}</th> -->
-                <th style="background-color:#f5f5dc;">{{ __(key: 'مرحلة المشروع') }}</th>
-                <th style="width: 80px;background-color:#f5f5dc;" >{{ __('Action') }}</th>
+                <!-- <th style="background-color:#d4af37;">{{ __('Fence #') }}</th>
+                <th style="background-color:#d4af37;">{{ __('Status') }}</th>
+                <th style="background-color:#d4af37;">{{ __('Start Date') }}</th>
+                <th style="background-color:#d4af37;">{{ __('End Date') }}</th> -->
+                <!-- <th style="background-color:#d4af37;">{{ __('Status') }}</th> -->
+                <th style="background-color:#d4af37;">{{ __(key: 'مرحلة المشروع') }}</th>
+                <!-- <th style="width: 80px;background-color:#d4af37;" >{{ __('Action') }}</th> -->
             </tr>
             </thead>
 
@@ -447,46 +465,34 @@
                             </span>
                         @endif
                     </td> -->
+@php
+    $stageColors = [
+        1 => 'rgba(13, 110, 253, 0.5)',   // Design - أزرق شفاف
+        2 => 'rgba(253, 126, 20, 0.5)',   // Baladia - برتقالي شفاف
+        3 => 'rgba(111, 66, 193, 0.5)',   // Supervision - بنفسجي شفاف
+        4 => 'rgba(255, 193, 7, 0.5)',    // Tender - أصفر شفاف
+        5 => 'rgba(25, 135, 84, 0.5)',    // Completed - أخضر شفاف
+    ];
+@endphp
 
-                    <td style="background-color:#f5f5dc;">
-
-    @php
-        $stageColors = [
-            1 => '#0d6efd', // Design - أزرق
-            2 => '#fd7e14', // Baladia - برتقالي
-            3 => '#6f42c1', // Supervision - بنفسجي
-            4 => '#ffc107', // Tender - أصفر
-            5 => '#198754', // Completed - أخضر
-        ];
-    @endphp
-
-    @if($project->stage)
-        @php
-            $color = $stageColors[$project->stage->id] ?? '#6c757d';
-        @endphp
-<!-- style="background-color: {{ $color }}; color: #fff; padding:6px 12px; font-size:13px;"> -->
-        <span class="badge"
-              style="
-    background-color: {{ $color }}22;
-    color: {{ $color }};
-    border: 1px solid {{ $color }};
+<td style="
+    text-align:center;
+    vertical-align:middle;
     font-weight:600;
-    padding:6px 14px;
-    border-radius:20px;
-"
->
-            {{ app()->getLocale() === 'ar'
-                ? $project->stage->name_ar
-                : $project->stage->name_en
-            }}
-        </span>
-    @else
-        <span class="badge bg-secondary">
-            {{ __('Not Started') }}
-        </span>
-    @endif
+    color: #fff;
+    background-color: {{ $project->stage ? ($stageColors[$project->stage->id] ?? 'rgba(108, 117, 125,0.5)') : 'rgba(108, 117, 125,0.5)' }};
+    backdrop-filter: blur(6px);
+    border-radius:6px;
+">
+
+    {{ $project->stage
+        ? (app()->getLocale() === 'ar' ? $project->stage->name_ar : $project->stage->name_en)
+        : __('Not Started') 
+    }}
 
 </td>
+
+    
 
 
 
@@ -498,7 +504,7 @@
                         {{ \Carbon\Carbon::parse($project->end_date)->format('Y-m-d') }}
                     </td> -->
 
-                    <td style="background-color:#f5f5dc;">
+                    <!-- <td style="background-color:#f5f5dc;">
 
                         @php
                             $owner = $project->users->firstWhere('pivot.role', __('Owner'));
@@ -515,12 +521,7 @@
                             </button>
 
                             <ul class="dropdown-menu dropdown-menu-end" style="background-color:#f5f5dc;">
-                                <!-- <li>
-                                    <a class="dropdown-item"
-                                       href="{{ route('projects.show', $project->id) }}">
-                                        <i class="far fa-eye me-1"></i> {{ __('Preview') }}
-                                    </a>
-                                </li> -->
+                                
                                
 
                                 <li>
@@ -632,11 +633,11 @@
                                     </a>
                                 </li>
 
-                                <!-- <li>
+                                 <li>
                                     <a class="dropdown-item" href="#">
                                         <i class="fas fa-money-check-alt me-1"></i> {{ __('الدفعات') }}
                                     </a>
-                                </li> -->
+                                </li> 
 
                                 <li>
                                     <a class="dropdown-item"
@@ -682,7 +683,7 @@
                                 </li>
                             </ul>
                         </div>
-                    </td>
+                    </td> -->
                 </tr> 
             @endforeach  
             </tbody>
