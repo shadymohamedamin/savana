@@ -295,7 +295,7 @@
 
                     <a href="{{ route('projects.index') }}" class="btn btn-reset">
                         <i class="fas fa-redo me-1"></i>
-                        {{ __('إعادة تعيين') }}
+                        {{ __(' الرجوع الي المشاريع') }}
                     </a>
 
                 </div>
