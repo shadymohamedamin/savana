@@ -63,7 +63,7 @@
                 @endif
             </div> -->
             <div class="flex-grow-1" style="min-width: 250px; max-width: 250px;">
-                {!! Form::label('approved_file', __('مخططات معتمدة ')) !!}
+                {!! Form::label('approved_file', __('مخطط صرف صحي  ')) !!}
                 <input type="file" name="approved_file" class="form-control form-control-sm mb-1">
 
                 @if(isset($baladyaApproval) && $baladyaApproval->approved_file)

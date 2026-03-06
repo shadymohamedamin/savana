@@ -73,8 +73,18 @@
                 <th style="background:#f5f5dc;">{{ __('فرق الموقع') }}</th>
                 <th style="background:#f5f5dc;">{{ __('السبب') }}</th>
                 <th style="background:#f5f5dc;">{{ __('رقم الرخصة') }}</th>
-                <th style="background:#f5f5dc;">{{ __('مخططات معتمدة') }}</th>
+                <th style="background:#f5f5dc;">{{ __('مخطط صرف صحي ') }}</th>
                 <th style="background:#f5f5dc;">{{ __('رخصة البناء') }}</th>
+                
+
+                <th style="background:#f5f5dc;">{{ __('مخطط معماري') }}</th>
+                <th style="background:#f5f5dc;">{{ __('مخطط انشائي') }}</th>
+                <th style="background:#f5f5dc;">{{ __('مخطط كهربا') }}</th>
+                <th style="background:#f5f5dc;">{{ __('مخطط ماي') }}</th>
+                <th style="background:#f5f5dc;">{{ __('مخطط اتصالات') }}</th>
+
+
+                
                 <th style="background:#f5f5dc;">{{ __('الإجراءات') }}</th>
 
             </tr>
@@ -146,7 +156,7 @@
                             <a href="{{ asset('Files/' . $row->approved_file) }}"
                             target="_blank"
                             class="text-truncate text-primary fw-semibold" style="max-width:120px;">
-                                📄 {{ 'ملف' }}
+                                📄 {{ 'مخطط صرف صحي' }}
                             </a>
                         @else
                             -
@@ -157,7 +167,7 @@
                             <a href="{{ asset('Files/' . $row->building_license_file) }}"
                             target="_blank"
                             class="text-truncate text-primary fw-semibold" style="max-width:120px;">
-                                📄 {{ 'ملف' }}
+                                📄 {{ 'رخصة البناء' }}
                             </a>
                         @else
                             -
@@ -176,7 +186,7 @@
                             <a href="{{ asset('Files/' . $row->architect_file) }}"
                             target="_blank"
                             class="text-truncate text-primary fw-semibold" style="max-width:120px;">
-                                📄 {{ 'ملف' }}
+                                📄 {{ 'مخطط معماري' }}
                             </a>
                         @else
                             -
@@ -187,7 +197,7 @@
                             <a href="{{ asset('Files/' . $row->civil_file) }}"
                             target="_blank"
                             class="text-truncate text-primary fw-semibold" style="max-width:120px;">
-                                📄 {{ 'ملف' }}
+                                📄 {{ 'مخطط انشائي' }}
                             </a>
                         @else
                             -
@@ -198,7 +208,7 @@
                             <a href="{{ asset('Files/' . $row->electrical_file) }}"
                             target="_blank"
                             class="text-truncate text-primary fw-semibold" style="max-width:120px;">
-                                📄 {{ 'ملف' }}
+                                📄 {{ 'مخطط كهربا' }}
                             </a>
                         @else
                             -
@@ -209,7 +219,7 @@
                             <a href="{{ asset('Files/' . $row->water_file) }}"
                             target="_blank"
                             class="text-truncate text-primary fw-semibold" style="max-width:120px;">
-                                📄 {{ 'ملف' }}
+                                📄 {{ '	مخطط ماي' }}
                             </a>
                         @else
                             -
@@ -220,7 +230,7 @@
                             <a href="{{ asset('Files/' . $row->etisalat_file) }}"
                             target="_blank"
                             class="text-truncate text-primary fw-semibold" style="max-width:120px;">
-                                📄 {{ 'ملف' }}
+                                📄 {{ 'مخطط اتصالات' }}
                             </a>
                         @else
                             -
