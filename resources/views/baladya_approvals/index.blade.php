@@ -156,7 +156,7 @@
                             <a href="{{ asset('Files/' . $row->approved_file) }}"
                             target="_blank"
                             class="text-truncate text-primary fw-semibold" style="max-width:120px;">
-                                📄 {{ 'مخطط صرف صحي' }}
+                                📄 {{ ' صرف صحي' }}
                             </a>
                         @else
                             -
@@ -186,7 +186,7 @@
                             <a href="{{ asset('Files/' . $row->architect_file) }}"
                             target="_blank"
                             class="text-truncate text-primary fw-semibold" style="max-width:120px;">
-                                📄 {{ 'مخطط معماري' }}
+                                📄 {{ ' معماري' }}
                             </a>
                         @else
                             -
@@ -197,7 +197,7 @@
                             <a href="{{ asset('Files/' . $row->civil_file) }}"
                             target="_blank"
                             class="text-truncate text-primary fw-semibold" style="max-width:120px;">
-                                📄 {{ 'مخطط انشائي' }}
+                                📄 {{ ' انشائي' }}
                             </a>
                         @else
                             -
@@ -208,7 +208,7 @@
                             <a href="{{ asset('Files/' . $row->electrical_file) }}"
                             target="_blank"
                             class="text-truncate text-primary fw-semibold" style="max-width:120px;">
-                                📄 {{ 'مخطط كهربا' }}
+                                📄 {{ ' كهربا' }}
                             </a>
                         @else
                             -
@@ -219,7 +219,7 @@
                             <a href="{{ asset('Files/' . $row->water_file) }}"
                             target="_blank"
                             class="text-truncate text-primary fw-semibold" style="max-width:120px;">
-                                📄 {{ '	مخطط ماي' }}
+                                📄 {{ '	 ماي' }}
                             </a>
                         @else
                             -
@@ -230,7 +230,7 @@
                             <a href="{{ asset('Files/' . $row->etisalat_file) }}"
                             target="_blank"
                             class="text-truncate text-primary fw-semibold" style="max-width:120px;">
-                                📄 {{ 'مخطط اتصالات' }}
+                                📄 {{ ' اتصالات' }}
                             </a>
                         @else
                             -
