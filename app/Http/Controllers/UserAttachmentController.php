@@ -154,6 +154,7 @@ public function create(Request $request, $id)
     $isTender = $mode === 'tender';
     
     $isContractorFiles=$mode === 'contractor_files';
+    $projectDocuments=$mode === 'project_documents';
 
     $modelClass = $this->resolveModel($type);
     $model = $modelClass::findOrFail($id);
@@ -175,9 +176,13 @@ public function create(Request $request, $id)
     // contractor specific attachments
     $contractorTypes = [11,21,22,23,24];
     $defaultTypes = $type === 'projects'
-        ? [2,10,12,13,14,15,16,17,18,19,32]  //20,25
+        ? [18,19,32]  //20,25
         : [1,3]; 
 
+
+    if($projectDocuments) {
+        $defaultTypes=[2,10,12,13,14,15,16,17];
+    }
 
         // default user attachments
     
