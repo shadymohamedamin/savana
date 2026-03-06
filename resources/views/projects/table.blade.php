@@ -112,6 +112,33 @@
 .bold-input{
     font-weight:700;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+.form-item label{
+    font-weight:1000;
+}
+
+.card-section label{
+    font-weight:1000;
+}
+
+.form-label{
+    font-weight:700;
+    color:#2f3a1f;
+    margin-bottom:4px;
+    display:block;
+}
+
 </style>
 
 
