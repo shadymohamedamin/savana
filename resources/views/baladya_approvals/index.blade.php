@@ -73,7 +73,7 @@
                 <th style="background:#f5f5dc;">{{ __('فرق الموقع') }}</th>
                 <th style="background:#f5f5dc;">{{ __('السبب') }}</th>
                 <th style="background:#f5f5dc;">{{ __('رقم الرخصة') }}</th>
-                <th style="background:#f5f5dc;">{{ __('مخطط صرف صحي ') }}</th>
+                {{-- <th style="background:#f5f5dc;">{{ __('مخطط صرف صحي ') }}</th>
                 <th style="background:#f5f5dc;">{{ __('رخصة البناء') }}</th>
                 
 
@@ -81,9 +81,9 @@
                 <th style="background:#f5f5dc;">{{ __('مخطط انشائي') }}</th>
                 <th style="background:#f5f5dc;">{{ __('مخطط كهربا') }}</th>
                 <th style="background:#f5f5dc;">{{ __('مخطط ماي') }}</th>
-                <th style="background:#f5f5dc;">{{ __('مخطط اتصالات') }}</th>
+                <th style="background:#f5f5dc;">{{ __('مخطط اتصالات') }}</th> --}}
 
-
+                <th style="background:#f5f5dc;">{{ __('الملفات') }}</th>
                 
                 <th style="background:#f5f5dc;">{{ __('الإجراءات') }}</th>
 
@@ -151,7 +151,114 @@
 
                     <td style="background:#f5f5dc;">{{ $row->reason }}</td>
                     <td style="background:#f5f5dc;">{{ $row->building_license_number }}</td>
-                    <td style="background:#f5f5dc; max-width:120px;" onclick="event.stopPropagation();">
+                    
+                    
+                    
+{{-- <td style="background:#f5f5dc;" onclick="event.stopPropagation();">
+
+@php
+    $files = [
+        'مخطط صرف صحي' => $row->approved_file,
+        'رخصة البناء' => $row->building_license_file,
+        'مخطط معماري' => $row->architect_file,
+        'مخطط انشائي' => $row->civil_file,
+        'مخطط كهربا' => $row->electrical_file,
+        'مخطط ماي' => $row->water_file,
+        'مخطط اتصالات' => $row->etisalat_file,
+    ];
+
+    $hasFiles = collect($files)->filter()->count();
+@endphp
+
+@if($hasFiles)
+
+<button class="btn btn-sm btn-dark"
+        data-bs-toggle="modal"
+        data-bs-target="#filesModal{{ $row->id }}">
+
+📁 {{ $hasFiles }} ملف
+
+</button>
+
+@else
+-
+@endif
+
+</td> --}}
+                    
+      
+
+
+
+
+
+
+
+<td style="background:#f5f5dc;" onclick="event.stopPropagation();">
+
+@php
+$files = [
+'مخطط صرف صحي' => $row->approved_file,
+'رخصة البناء' => $row->building_license_file,
+'مخطط معماري' => $row->architect_file,
+'مخطط انشائي' => $row->civil_file,
+'مخطط كهربا' => $row->electrical_file,
+'مخطط ماي' => $row->water_file,
+'مخطط اتصالات' => $row->etisalat_file,
+];
+
+$hasFiles = collect($files)->filter()->count();
+@endphp
+
+@if($hasFiles)
+
+<div class="dropdown">
+
+<button class="btn btn-sm btn-dark dropdown-toggle files-btn"
+        data-bs-toggle="dropdown">
+
+📁 {{ $hasFiles }} ملف
+
+</button>
+
+<ul class="dropdown-menu dropdown-menu-end glass-files">
+
+@foreach($files as $name => $file)
+
+@if($file)
+
+<li>
+
+<a href="{{ asset('Files/' . $file) }}"
+   target="_blank"
+   class="dropdown-item file-link">
+
+📄 {{ $name }}
+
+</a>
+
+</li>
+
+@endif
+
+@endforeach
+
+</ul>
+
+</div>
+
+@else
+-
+@endif
+
+</td>
+
+
+
+
+
+                    
+                    {{-- <td style="background:#f5f5dc; max-width:120px;" onclick="event.stopPropagation();">
                         @if($row->approved_file)
                             <a href="{{ asset('Files/' . $row->approved_file) }}"
                             target="_blank"
@@ -235,7 +342,7 @@
                         @else
                             -
                         @endif
-                    </td>
+                    </td> --}}
 
 
 
@@ -285,6 +392,41 @@
                         </div>
                     </td>
                 </tr>
+
+{{-- <div class="modal fade" id="filesModal{{ $row->id }}" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content">
+
+<div class="modal-header">
+<h5 class="modal-title">ملفات المعاملة</h5>
+<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+
+<div class="modal-body">
+
+@foreach($files as $name => $file)
+
+@if($file)
+
+<a href="{{ asset('Files/' . $file) }}"
+   target="_blank"
+   class="d-block mb-2 p-2 border rounded text-decoration-none">
+
+📄 {{ $name }}
+
+</a>
+
+@endif
+
+@endforeach
+
+</div>
+
+</div>
+</div>
+</div> --}}
+
+
             @endforeach
             </tbody>
 
@@ -352,6 +494,112 @@
     transform: translateY(-1px);
     box-shadow: 0 6px 18px rgba(212,175,55,0.35);
 }
+
+
+.glass-dropdown {
+    background: rgba(255, 255, 255, 0.4); /* لون تلجي */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); /* للمتصفحات القديمة */
+
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.3);
+
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+
+
+
+.files-hover-box{
+    cursor:pointer;
+    position:relative;
+    font-weight:600;
+}
+
+.files-popup{
+    display:none;
+    position:absolute;
+    top:100%;
+    right:0;
+    background:white;
+    border:1px solid #ddd;
+    border-radius:10px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.15);
+    padding:8px;
+    min-width:160px;
+    z-index:999;
+}
+
+.file-item{
+    display:block;
+    padding:6px 10px;
+    color:#2f3a1f;
+    text-decoration:none;
+    font-size:13px;
+}
+
+.file-item:hover{
+    background:#f5f5dc;
+    border-radius:6px;
+}
+
+.files-hover-box:hover .files-popup{
+    display:block;
+}
+
+
+
+
+
+.glass-files{
+
+background: rgba(255,255,255,0.35);
+backdrop-filter: blur(14px);
+-webkit-backdrop-filter: blur(14px);
+
+border-radius:12px;
+border:1px solid rgba(255,255,255,0.4);
+
+box-shadow:0 10px 25px rgba(0,0,0,0.15);
+
+padding:6px;
+min-width:200px;
+
+animation: filesFade 0.25s ease;
+
+}
+
+.file-link{
+
+font-weight:600;
+border-radius:8px;
+transition:0.25s;
+
+}
+
+.file-link:hover{
+
+background:rgba(212,175,55,0.18);
+transform:translateX(-3px);
+
+}
+
+@keyframes filesFade{
+
+from{
+opacity:0;
+transform:translateY(6px);
+}
+
+to{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+
+
 </style>
 @endpush
 

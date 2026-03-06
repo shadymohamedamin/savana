@@ -342,14 +342,15 @@
 
 /* Date */
 .today-inline-date {
-    color: #f9e076;
-    font-size: 18px;
+    color:#fff;
+    font-size: 21px;
 }
 
 /* Time */
 .today-inline-time {
-    color: #ffd700;
-    font-size: 19px;
+    /* color: #ffd700; */
+    color:#fff;
+    font-size: 22px;
     font-weight: 700;
 }
 
@@ -655,16 +656,23 @@
                     </div>
 
                 </a> -->
+
+
+                
                 <a class="navbar-brand ml-3" href="{{ url('/home') }}">
+
+                    
                 <div class="today-inline-box ml-3">
-                    <div class="today-inline-time" id="liveClock">
-                        {{ $timeFormatted }}
+                    
+                    <div class="today-inline-date" id="liveDate" dir="ltr">
+                        {{ $dateFormatted }}
                     </div>
+                    
 
                     <div class="today-separator"></div>
 
-                    <div class="today-inline-date" id="liveDate" dir="ltr">
-                        {{ $dateFormatted }}
+                    <div class="today-inline-time" id="liveClock">
+                        {{ $timeFormatted }}
                     </div>
                 </div>
                 </a>
@@ -736,6 +744,13 @@
                                             <a class="nav-link" href="{{ url('/users') }}">{{ __('Users') }}</a>
                                         </li>
                                         @endif
+
+
+                                            <div class="mx-auto text-center">
+                                                <a href="{{ url('/') }}">
+                                                    <img src="{{ asset('images/logo1.png') }}" alt="Logo" style="height:50px;">
+                                                </a>
+                                            </div>
                                         <li class="nav-item">
                                             <a class="nav-link" href="{{ url('/projects') }}">{{ __('Projects') }}</a>
                                         </li>

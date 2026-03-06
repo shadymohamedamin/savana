@@ -309,25 +309,25 @@ body{
 
             <a href="{{ route('projects.tender.contractors', $project->id) }}"
                 class="btn btn-sm"
-                style="background:#8B0000;color:#fff;">
+                style="background:#d4af37;color:#2f3a1f;font-weight:700;font-size:1rem;">
                     <i class="fas fa-users"></i> المقاولين المرشحين
             </a>
 
             <a href="{{ route('projects.owner-requirements.index', [$project, 'context' => 'pricing']) }}"
                 class="btn btn-sm"
-                style="background:#2f3a1f;color:#d4af37;">
+                style="background:#d4af37;color:#2f3a1f;font-weight:700;font-size:1rem;">
                     <i class="fas fa-file-signature"></i> أسعار توريد التشطيبات
             </a>
 
 
             <a href="{{ route('projects.owner-requirements.index', [$project, 'context' => 'tender']) }}"
                 class="btn btn-sm"
-                style="background:#2f3a1f;color:#d4af37;">
+                style="background:#d4af37;color:#2f3a1f;font-weight:700;font-size:1rem;">
                     <i class="fas fa-file-signature"></i> حساب الكميات
             </a>
             <div class="d-flex gap-2">
                 <a href="{{ route('projects.index') }}"
-                class="btn btn-olive btn-sm" style="background:#2f3a1f;color:#d4af37;">
+                class="btn btn-olive btn-sm" style="background:#d4af37;color:#2f3a1f;font-weight:700;font-size:1rem;">
                     <i class="fas fa-arrow-left" ></i> {{ __('العودة الي المشاريع') }}
                 </a>
             </div>
@@ -788,15 +788,23 @@ body{
     @csrf
 
     @foreach($groups as $group)
-        <div class="group-header mt-5">
+        <div class="group-header mt-5 text-center">
             <span>{{ $group->name_ar }}</span>
         </div>
 
 
         @foreach($group->children as $section)
-            <div class="section-header w-[100%] mt-4">
+            <div  class="section-header w-[100%] mt-4">
                 <span>{{ $section->name_ar }}</span>
             </div>
+
+            {{-- @php
+            $colors = ['#EFEFEF','#FFF3E0','#E0F7FA','#F3E5F5']; 
+            $color = $colors[$loop->index % count($colors)];
+            @endphp
+            <div style="background-color:{{ $color }}; padding:8px; font-weight:bold; text-align:center;" class="section-header w-[100%] mt-4">
+                <span>{{ $section->name_ar }}</span>
+            </div> --}}
 
 
             <table class="table table-bordered text-center section-table"
@@ -804,6 +812,7 @@ body{
 
                 <thead>
                     <tr>
+                        <th>م</th> <!-- الرقم -->
                         <th>البند</th>
                         <th>الوحدة</th>
                         <th>الكمية</th>
@@ -823,6 +832,7 @@ body{
                             $sectionTotal += $total;
                         @endphp
                         <tr>
+                            <td>{{ $loop->iteration }}</td> <!-- الرقم -->
                             <td>{{ $item->name_ar }}</td>
                             
                             <td>{{ $item->unit }}</td>
@@ -1361,7 +1371,37 @@ calculateAll();
 </script>
 
 
+<style>
+    /* كل section-table */
+.section-table {
+    table-layout: fixed; /* هذا يفرض توزيع الأعمدة حسب العرض المحدد */
+    width: 100%;
+}
 
+/* تحديد عرض كل عمود */
+.section-table th, .section-table td {
+    white-space: nowrap;          /* لا يلتف النص */
+    overflow: hidden;             /* يخفي النص الزائد */
+    text-overflow: ellipsis;      /* يظهر ... للنص الطويل */
+    text-align: center;
+}
+
+/* عرض مخصص لكل عمود */
+.section-table th:nth-child(1),
+.section-table td:nth-child(1) { width: 4%; }   /* البند */
+.section-table th:nth-child(2),
+.section-table td:nth-child(2) { width: 30%; }   /* البند */
+.section-table th:nth-child(3),
+.section-table td:nth-child(3) { width: 10%; }   /* الوحدة */
+.section-table th:nth-child(4),
+.section-table td:nth-child(4) { width: 14%; }   /* الكمية */
+.section-table th:nth-child(5),
+.section-table td:nth-child(5) { width: 14%; }   /* سعر الوحدة */
+.section-table th:nth-child(6),
+.section-table td:nth-child(6) { width: 14%; }   /* الإجمالي */
+.section-table th:nth-child(7),
+.section-table td:nth-child(7) { width: 14%; }   /* ملاحظات */
+</style>
 
 @endif
 
@@ -1482,7 +1522,7 @@ calculateAll();
 
 
 @foreach($groups as $group)
-        <div class="group-header mt-5">
+        <div class="group-header mt-5 text-center">
             <span>{{ $group->name_ar }}</span>
         </div>
 
@@ -1498,6 +1538,7 @@ calculateAll();
 
                 <thead>
                     <tr>
+                        <th>م</th>
                         <th>البند</th>
                         <th>الوحدة</th>
                         <th>الكمية</th>
@@ -1517,6 +1558,7 @@ calculateAll();
                             $sectionTotal += $total;
                         @endphp
                         <tr>
+                            <td style="font-size: 1.3rem;">{{ $loop->iteration }}</td> <!-- الرقم -->
                             <td>{{ $item->name_ar }}</td>
                             
                             <td>{{ $item->unit }}</td>
@@ -1664,25 +1706,31 @@ calculateAll();
 
 
 
+<div class="floating-actions">
+
+    <button type="submit"
+            class="btn btn-olive px-4 main-save-btn">
+        <i class="fas fa-save"></i> حفظ الأسعار والكميات
+    </button>
+
+    <a target="_blank"
+        href="{{ route('projects.contract.pricing.pdf', $project->id) }}?action=preview"
+        class="btn btn-preview px-4">
+        👁 معاينة اسعار التوريد والمواصفات 
+    </a>
+
+</div>
 
 
 
+    {{-- <div class="text-center d-flex my-4 justify-content-center gap-2">
 
-    <div class="text-center d-flex my-4 justify-content-center gap-2">
-
-        {{-- Save --}}
+     
         <button type="submit"
                 class="btn btn-olive px-4 "
                 style="background:#2f3a1f;color:#d4af37;">
             <i class="fas fa-save"></i> حفظ الأسعار والكميات
         </button>
-
-        <!-- {{-- Preview --}}
-        <a target="_blank"
-        href="{{ url('projects/'.$project->id.'/contract-owner-requirements?action=preview') }}"
-        class="btn btn-outline-primary px-4 ">
-            👁 معاينة اسعار التوريد والمواصفات 
-        </a> -->
 
 
         <a target="_blank"
@@ -1692,7 +1740,7 @@ calculateAll();
         </a>
 
 
-    </div>
+    </div> --}}
 
 </form>
 
@@ -1887,6 +1935,46 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 </script>
 
+
+
+
+
+
+<style>
+    /* كل section-table */
+.section-table {
+    table-layout: fixed; /* هذا يفرض توزيع الأعمدة حسب العرض المحدد */
+    width: 100%;
+}
+
+/* تحديد عرض كل عمود */
+.section-table th, .section-table td {
+    white-space: nowrap;          /* لا يلتف النص */
+    overflow: hidden;             /* يخفي النص الزائد */
+    text-overflow: ellipsis;      /* يظهر ... للنص الطويل */
+    text-align: center;
+}
+
+/* عرض مخصص لكل عمود */
+.section-table th:nth-child(1),
+.section-table td:nth-child(1) { width: 4%; }   /* البند */
+.section-table th:nth-child(2),
+.section-table td:nth-child(2) { width: 30%; }   /* البند */
+.section-table th:nth-child(3),
+.section-table td:nth-child(3) { width: 10%; }   /* الوحدة */
+.section-table th:nth-child(4),
+.section-table td:nth-child(4) { width: 14%; }   /* الكمية */
+.section-table th:nth-child(5),
+.section-table td:nth-child(5) { width: 14%; }   /* سعر الوحدة */
+.section-table th:nth-child(6),
+.section-table td:nth-child(6) { width: 14%; }   /* الإجمالي */
+.section-table th:nth-child(7),
+.section-table td:nth-child(7) { width: 14%; }   /* ملاحظات */
+</style>
+
+
+
+
 @endif
 
 
@@ -1929,6 +2017,19 @@ document.addEventListener('DOMContentLoaded', function() {
     transform: translateY(-1px);
     box-shadow: 0 6px 18px rgba(212,175,55,0.35);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
 </style>
 @endpush
 

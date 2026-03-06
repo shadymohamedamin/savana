@@ -570,7 +570,13 @@ public function tenderContractPdf(Request $request, $id)
         'default_font' => 'amiri',
         'autoScriptToLang' => true,
         'autoLangToFont' => true,
+        'margin_footer' => 15,
     ]);
+    $mpdf->SetHTMLFooter('
+        <div style="text-align:center; font-size:12px;">
+            صفحة {PAGENO} من {nbpg}
+        </div>
+    ');
 
     $mpdf->WriteHTML($html);
 
