@@ -536,7 +536,7 @@
 </div>
 
 <div class="form-item">
-{!! Form::label('building_number', __('Building #1')) !!}
+{!! Form::label('building_number', __('رقم المبني 1')) !!}
 {!! Form::text('building_number', null, ['class'=>'form-control']) !!}
 </div>
 
