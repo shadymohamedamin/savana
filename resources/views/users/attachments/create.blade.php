@@ -56,6 +56,7 @@
     $type = request('type');
     $isTender = request('mode') === 'tender';
     $isCotractorFiles=request('mode') === 'contractor_files';
+    $projectDocuments=request('mode') === 'project_documents';
     $mode=request('mode');
     
 @endphp

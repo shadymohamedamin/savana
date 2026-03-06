@@ -1027,10 +1027,14 @@
 
 
 
-<a href="{{ url('#') }}" class="panel-btn-full">
-                <i class="fas fa-clipboard-list"></i>
-                مستندات المشروع
-            </a>
+
+
+            <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=project_documents') }}"
+   class="panel-btn-full {{ request('mode') == 'project_documents' ? 'active' : '' }}">
+    <i class="fas fa-clipboard-list"></i>
+  مستندات المشروع
+</a>
+
 
             <a href="{{ url('#') }}" class="panel-btn-full">
                 <i class="fas fa-clipboard-list"></i>
