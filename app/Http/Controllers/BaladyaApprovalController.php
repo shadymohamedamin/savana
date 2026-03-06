@@ -344,6 +344,33 @@ public function index($projectId)
         }
 
         $input = $request->all();
+
+
+        // حذف الملفات
+$files = [
+    'approved_file',
+    'architect_file',
+    'civil_file',
+    'electrical_file',
+    'water_file',
+    'etisalat_file',
+    'building_license_file'
+];
+
+foreach ($files as $fileField) {
+
+    if ($request->input($fileField.'_delete') == 1 && $baladyaApproval->$fileField) {
+
+        $path = public_path('Files/'.$baladyaApproval->$fileField);
+
+        if (file_exists($path)) {
+            unlink($path);
+        }
+
+        $input[$fileField] = null;
+    }
+
+}
         
         if ($request->hasFile('approved_file') && $request->file('approved_file')->isValid()) {
             

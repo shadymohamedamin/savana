@@ -67,14 +67,24 @@
                 <input type="file" name="approved_file" class="form-control form-control-sm mb-1">
 
                 @if(isset($baladyaApproval) && $baladyaApproval->approved_file)
-                    <div class="border rounded p-2 small bg-light mt-1">
+                    <div class="border rounded p-2 small bg-light mt-1 attachment-box">
                         <div class="text-truncate" title="{{ $baladyaApproval->approved_file }}">
                             📄 {{ $baladyaApproval->approved_file }}
                         </div>
                         <a href="{{ asset('Files/' . $baladyaApproval->approved_file) }}" target="_blank"
-                        class="btn btn-sm btn-outline-primary w-100 mt-1">
+                            target="_blank"
+                            class="btn btn-sm btn-outline-primary w-100 mt-1 stored-file">
                             👁 {{ __('View') }}
                         </a>
+
+
+
+                        <input type="hidden" name="approved_file_delete" value="0" class="delete-flag">
+
+    <button type="button"
+            class="btn btn-sm btn-outline-danger w-100 mt-1 remove-file">
+        🗑 Remove
+    </button>
                     </div>
                 @endif
             </div>
@@ -85,14 +95,21 @@
                 <input type="file" name="building_license_file" class="form-control form-control-sm mb-1">
 
                 @if(isset($baladyaApproval) && $baladyaApproval->building_license_file)
-                    <div class="border rounded p-2 small bg-light mt-1">
+                    <div class="border rounded p-2 small bg-light mt-1 attachment-box">
                         <div class="text-truncate" title="{{ $baladyaApproval->building_license_file }}">
                             📄 {{ $baladyaApproval->building_license_file }}
                         </div>
                         <a href="{{ asset('Files/' . $baladyaApproval->building_license_file) }}" target="_blank"
-                        class="btn btn-sm btn-outline-primary w-100 mt-1">
+                        class="btn btn-sm btn-outline-primary w-100 mt-1 stored-file">
                             👁 {{ __('View') }}
                         </a>
+
+                        <input type="hidden" name="building_license_file_delete" value="0" class="delete-flag">
+
+    <button type="button"
+            class="btn btn-sm btn-outline-danger w-100 mt-1 remove-file">
+        🗑 Remove
+    </button>
                     </div>
                 @endif
             </div> 
@@ -109,14 +126,21 @@
                 <input type="file" name="architect_file" class="form-control form-control-sm mb-1">
 
                 @if(isset($baladyaApproval) && $baladyaApproval->architect_file)
-                    <div class="border rounded p-2 small bg-light mt-1">
+                    <div class="border rounded p-2 small bg-light mt-1 attachment-box">
                         <div class="text-truncate" title="{{ $baladyaApproval->architect_file }}">
                             📄 {{ $baladyaApproval->architect_file }}
                         </div>
                         <a href="{{ asset('Files/' . $baladyaApproval->architect_file) }}" target="_blank"
-                        class="btn btn-sm btn-outline-primary w-100 mt-1">
+                        class="btn btn-sm btn-outline-primary w-100 mt-1 stored-file">
                             👁 {{ __('View') }}
                         </a>
+
+                        <input type="hidden" name="architect_file_delete" value="0" class="delete-flag">
+
+    <button type="button"
+            class="btn btn-sm btn-outline-danger w-100 mt-1 remove-file">
+        🗑 Remove
+    </button>
                     </div>
                 @endif
             </div> 
@@ -126,14 +150,21 @@
                 <input type="file" name="civil_file" class="form-control form-control-sm mb-1">
 
                 @if(isset($baladyaApproval) && $baladyaApproval->civil_file)
-                    <div class="border rounded p-2 small bg-light mt-1">
+                    <div class="border rounded p-2 small bg-light mt-1 attachment-box">
                         <div class="text-truncate" title="{{ $baladyaApproval->civil_file }}">
                             📄 {{ $baladyaApproval->civil_file }}
                         </div>
                         <a href="{{ asset('Files/' . $baladyaApproval->civil_file) }}" target="_blank"
-                        class="btn btn-sm btn-outline-primary w-100 mt-1">
+                        class="btn btn-sm btn-outline-primary w-100 mt-1 stored-file">
                             👁 {{ __('View') }}
                         </a>
+
+                        <input type="hidden" name="civil_file_delete" value="0" class="delete-flag">
+
+    <button type="button"
+            class="btn btn-sm btn-outline-danger w-100 mt-1 remove-file">
+        🗑 Remove
+    </button>
                     </div>
                 @endif
             </div> 
@@ -142,14 +173,21 @@
                 <input type="file" name="electrical_file" class="form-control form-control-sm mb-1">
 
                 @if(isset($baladyaApproval) && $baladyaApproval->electrical_file)
-                    <div class="border rounded p-2 small bg-light mt-1">
+                    <div class="border rounded p-2 small bg-light mt-1 attachment-box">
                         <div class="text-truncate" title="{{ $baladyaApproval->electrical_file }}">
                             📄 {{ $baladyaApproval->electrical_file }}
                         </div>
                         <a href="{{ asset('Files/' . $baladyaApproval->electrical_file) }}" target="_blank"
-                        class="btn btn-sm btn-outline-primary w-100 mt-1">
+                        class="btn btn-sm btn-outline-primary w-100 mt-1 stored-file">
                             👁 {{ __('View') }}
                         </a>
+
+                        <input type="hidden" name="electrical_file_delete" value="0" class="delete-flag">
+
+    <button type="button"
+            class="btn btn-sm btn-outline-danger w-100 mt-1 remove-file">
+        🗑 Remove
+    </button>
                     </div>
                 @endif
             </div> 
@@ -158,14 +196,21 @@
                 <input type="file" name="water_file" class="form-control form-control-sm mb-1">
 
                 @if(isset($baladyaApproval) && $baladyaApproval->water_file)
-                    <div class="border rounded p-2 small bg-light mt-1">
+                    <div class="border rounded p-2 small bg-light mt-1 attachment-box">
                         <div class="text-truncate" title="{{ $baladyaApproval->water_file }}">
                             📄 {{ $baladyaApproval->water_file }}
                         </div>
                         <a href="{{ asset('Files/' . $baladyaApproval->water_file) }}" target="_blank"
-                        class="btn btn-sm btn-outline-primary w-100 mt-1">
+                        class="btn btn-sm btn-outline-primary w-100 mt-1 stored-file">
                             👁 {{ __('View') }}
                         </a>
+
+                        <input type="hidden" name="water_file_delete" value="0" class="delete-flag">
+
+    <button type="button"
+            class="btn btn-sm btn-outline-danger w-100 mt-1 remove-file">
+        🗑 Remove
+    </button>
                     </div>
                 @endif
             </div>
@@ -174,14 +219,21 @@
                 <input type="file" name="etisalat_file" class="form-control form-control-sm mb-1">
 
                 @if(isset($baladyaApproval) && $baladyaApproval->etisalat_file)
-                    <div class="border rounded p-2 small bg-light mt-1">
+                    <div class="border rounded p-2 small bg-light mt-1 attachment-box">
                         <div class="text-truncate" title="{{ $baladyaApproval->etisalat_file }}">
                             📄 {{ $baladyaApproval->etisalat_file }}
                         </div>
                         <a href="{{ asset('Files/' . $baladyaApproval->etisalat_file) }}" target="_blank"
-                        class="btn btn-sm btn-outline-primary w-100 mt-1">
+                        class="btn btn-sm btn-outline-primary w-100 mt-1 stored-file">
                             👁 {{ __('View') }}
                         </a>
+
+                        <input type="hidden" name="etisalat_file_delete" value="0" class="delete-flag">
+
+    <button type="button"
+            class="btn btn-sm btn-outline-danger w-100 mt-1 remove-file">
+        🗑 Remove
+    </button>
                     </div>
                 @endif
             </div>
@@ -219,3 +271,59 @@
     </div>
 </div>
 @endsection
+
+
+
+
+
+@push('scripts')
+
+
+<script>
+/*document.querySelectorAll('.remove-file').forEach(btn => {
+
+    btn.addEventListener('click', function(){
+
+        const field = this.dataset.target;
+
+        const hidden = document.querySelector(
+            'input[name="'+field+'_delete"]'
+        );
+
+        if(hidden){
+            hidden.value = 1;
+        }
+
+        this.closest('.attachment-box')
+            ?.querySelector('.stored-file')
+            ?.remove();
+
+        this.style.display = 'none';
+
+    });
+
+});*/
+document.addEventListener('DOMContentLoaded', function () {
+
+    document.querySelectorAll('.remove-file').forEach(btn => {
+
+        btn.addEventListener('click', function () {
+
+            const box = this.closest('.attachment-box');
+
+            const flag = box.querySelector('.delete-flag');
+
+            if(flag){
+                flag.value = 1;
+            }
+
+            box.style.display = 'none';
+
+        });
+
+    });
+
+});
+</script>
+
+@endpush
