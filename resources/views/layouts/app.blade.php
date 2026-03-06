@@ -326,8 +326,8 @@
     align-items: center;
     gap: 18px;
     padding: 10px 22px;
-    background: linear-gradient(135deg, #2f3a1f, #1f2937);
-    border: 1px solid rgba(212, 175, 55, 0.4);
+    /* background: linear-gradient(135deg, #2f3a1f, #1f2937);
+    border: 1px solid rgba(212, 175, 55, 0.4); */
     border-radius: 40px;
     box-shadow: 0 6px 20px rgba(0,0,0,0.4);
     font-weight: 600;
@@ -343,13 +343,13 @@
 /* Date */
 .today-inline-date {
     color: #f9e076;
-    font-size: 14px;
+    font-size: 18px;
 }
 
 /* Time */
 .today-inline-time {
     color: #ffd700;
-    font-size: 16px;
+    font-size: 19px;
     font-weight: 700;
 }
 
@@ -542,6 +542,27 @@
 
 
 
+
+
+
+
+
+.owner-title{
+    text-align:center;
+    font-size:30px;
+    font-weight:700;
+    margin:25px 0 30px 0;
+    color:#2f3a1f;
+}
+
+.owner-title i{
+    color:#d4af37;
+}
+
+
+
+
+
     </style>
 
 </head>
@@ -653,7 +674,7 @@
                
 
 
-                
+                <a class="navbar-brand" style="margin-right: 9rem;" href="{{ url('/') }}">Home</a>
 
 
                 <button class="navbar-toggler mx-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -973,20 +994,7 @@
     عقود الاستشاري
 </a>
 
-            <a href="{{ url('#') }}" class="panel-btn-full">
-                <i class="fas fa-clipboard-list"></i>
-                مستندات المشروع
-            </a>
-
-            <a href="{{ url('#') }}" class="panel-btn-full">
-                <i class="fas fa-clipboard-list"></i>
-                المخططات المعتمدة
-            </a>
-
-            <a href="{{ url('#') }}" class="panel-btn-full">
-                <i class="fas fa-clipboard-list"></i>
-                الرسائل والتنبيهات
-            </a>
+            
 
 <a href="{{ route('projects.baladya-approvals.index', ['project' => $project->id]) }}"
    class="panel-btn-full {{ Route::currentRouteName() == 'projects.baladya-approvals.index' ? 'active' : '' }}">
@@ -1017,6 +1025,29 @@
     دفعات المشروع
 </a>
 
+
+
+<a href="{{ url('#') }}" class="panel-btn-full">
+                <i class="fas fa-clipboard-list"></i>
+                مستندات المشروع
+            </a>
+
+            <a href="{{ url('#') }}" class="panel-btn-full">
+                <i class="fas fa-clipboard-list"></i>
+                المخططات المعتمدة
+            </a>
+
+            <a href="{{ url('#') }}" class="panel-btn-full">
+                <i class="fas fa-clipboard-list"></i>
+                الرسائل والتنبيهات
+            </a>
+
+<a href="{{ route('projects.index') }}" class="top-pill link-pill">
+        <i class="fas fa-arrow-left me-2"></i>
+        العودة إلى المشاريع
+    </a>
+
+
         </div>
 
     </div>
@@ -1025,7 +1056,7 @@
 
 
 </div>
-
+{{-- 
 <div class="project-top-bar">
 
     <!-- زر اسم المالك -->
@@ -1073,7 +1104,19 @@
         العودة إلى المشاريع
     </a>
 
+</div> --}}
+
+
+
+<div class="owner-title">
+    <i class="fas fa-user-tie me-2"></i>
+    {{ optional($project->ownerUser)->name ?? '—' }}
 </div>
+
+
+
+
+
 
 
 @endif

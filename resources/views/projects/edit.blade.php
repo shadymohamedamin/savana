@@ -52,6 +52,23 @@
     max-width:250px;
 }
 
+
+
+.card-section label{
+    font-weight:700;
+}
+
+.form-item label{
+    font-weight:700;
+}
+
+.flex-grow-1 label{
+    font-weight:700;
+}
+
+
+
+
 </style>
 
 <section class="content-header">

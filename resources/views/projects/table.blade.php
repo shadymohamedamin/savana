@@ -145,7 +145,7 @@
 
 
 
-<div class="card shadow-sm rounded-4 m-0" style="background-color: #f5f5dc;">
+<div class="pt-4 card shadow-sm rounded-4 m-0" style="background-color: #f5f5dc;">
 
     {{-- Header --}}
 
@@ -155,7 +155,7 @@
 
 
 
-    <div class="card-header d-flex justify-content-between align-items-center"
+    <div class="card-header  d-flex justify-content-between align-items-center"
          style="background:#D4AF37;color:#2f3a1f;font-size:1.3rem;font-weight:600;">
 
 
@@ -165,7 +165,7 @@
 
 
 
-        <h4 class="mb-0">{{ __('Projects') }}</h4>
+        <h4 class="mx-auto">{{ __('Projects') }}</h4>
 
         <div class="d-flex gap-2">
             <a href="{{ route('projects.index') }}"
@@ -257,12 +257,12 @@
  -->
 
 
-<div class="card filter-card shadow-sm mb-4 mt-4">
+<div class="card filter-card shadow-sm mb-4 mt-0">
 
-    <div class="filter-header">
+    {{-- <div class="filter-header">
         <i class="fas fa-search me-2"></i>
         {{ __('بحث وتصفية المشاريع') }}
-    </div>
+    </div> --}}
 
     <div class="card-body filter-body">
         <form method="GET" action="{{ route('projects.index') }}">
