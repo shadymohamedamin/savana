@@ -70,10 +70,11 @@
 
 
 @if (in_array(auth()->user()->role_id, [1,4,11,12]))
-    <h3>
+    <div></div>
+    <!-- <h3>
         {{ $isEdit ? __('Edit Attachments for') : __('Manage Attachments for') }}
         : {{ $model->name }}
-    </h3>
+    </h3> -->
 @else <h3>
         المناقصة
     </h3>
