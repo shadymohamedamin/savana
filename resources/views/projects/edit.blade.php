@@ -592,6 +592,14 @@
 {!! Form::select('owner_id',$owners,null,['class'=>'form-control','placeholder'=>'-- اختياري --']) !!}
 </div>
 
+
+<div class="w-100">
+                    {!! Form::label('description', __('Description')) !!}
+                    {!! Form::textarea('description', null, ['class'=>'form-control rounded','rows'=>3]) !!}
+                </div>
+
+
+
 </div>
 </div>
 </div>
@@ -722,10 +730,6 @@
 
 
 
-<input type="hidden"
-                    name="contractor_contract_end_date"
-                    id="contractor_contract_end_date"
-                    value="{{ optional($project->contractor_contract_end_date)->format('Y-m-d') }}"/>
 
 
 
@@ -735,7 +739,39 @@
 {!! Form::number('bank_contract_duration',$project->bank_contract_duration,['class'=>'form-control','id'=>'bank_contract_duration']) !!}
 </div>
 
-<div class="form-item">
+
+
+
+
+
+
+
+
+
+
+
+<div class="flex-grow-1" style="min-width:250px;max-width:250px;">
+                    {!! Form::label('contractor_contract_end_date_display', __('تاريخ انتهاء عقد المقاول')) !!}
+                    <input type="date"
+                        id="contractor_contract_end_date_display"
+                        class="form-control rounded"
+                        value="{{ optional($project->contractor_contract_end_date)->format('Y-m-d') }}"
+                        readonly>
+                </div>
+
+                {{-- Hidden --}}
+                <input type="hidden"
+                    name="contractor_contract_end_date"
+                    id="contractor_contract_end_date"
+                    value="{{ optional($project->contractor_contract_end_date)->format('Y-m-d') }}"/>
+
+
+
+
+
+
+
+{{-- <div class="form-item">
 {!! Form::label('contractor_contract_end_date_display', __('تاريخ انتهاء عقد المقاول')) !!}
 <input type="date" id="contractor_contract_end_date_display" class="form-control"
 value="{{ optional($project->contractor_contract_end_date)->format('Y-m-d') }}" readonly>
@@ -744,7 +780,7 @@ value="{{ optional($project->contractor_contract_end_date)->format('Y-m-d') }}" 
 <input type="hidden"
 name="contractor_contract_end_date"
 id="contractor_contract_end_date"
-value="{{ optional($project->contractor_contract_end_date)->format('Y-m-d') }}"/>
+value="{{ optional($project->contractor_contract_end_date)->format('Y-m-d') }}"/> --}}
 
 <div class="form-item">
 {!! Form::label('contractor_id', __('Contractor')) !!}
