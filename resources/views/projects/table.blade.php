@@ -434,12 +434,36 @@
                         <td style="background-color:#f5f5dc;">
                             {{ $project->bank_contract_value ?? '—' }}
                         </td>
-                        <td style="background-color:#f5f5dc;">
+
+                        @php
+                            //use Carbon\Carbon;
+
+                            $endDate = $project->contractor_contract_end_date 
+                                ? \Carbon\Carbon::parse($project->contractor_contract_end_date) 
+                                : null;
+
+                            $bgColor = '#f5f5dc';
+
+                            if($endDate){
+                                if(now()->gt($endDate)){
+                                    $bgColor = '#e91e0c'; // أحمر
+                                } elseif(now()->diffInDays($endDate, false) <= 30){
+                                    $bgColor = '#ffe5b4'; // برتقالي
+                                }
+                                else $bgColor = '#f5f5dc';
+                            }
+                            
+                        @endphp
+
+                        <td style="background-color:{{ $bgColor }};">
+                            {{ $endDate ? $endDate->format('Y-m-d') : '-' }}
+                        </td>
+                        {{-- <td style="background-color:#e91e0c;">
                             {{ $project->contractor_contract_end_date 
                                 ? \Carbon\Carbon::parse($project->contractor_contract_end_date)->format('Y-m-d') 
                                 : '-' 
                             }}
-                        </td>
+                        </td> --}}
 
                         <td style="background-color:#f5f5dc;">
                             {{ number_format($project->paid_with_vat ?? 0, 0) }}
