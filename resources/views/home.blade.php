@@ -67,7 +67,7 @@
                                                     <th>Custom Reply</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody>                   
                                                 @php
                                                     $allCompleted = true;
                                                 @endphp
