@@ -25,7 +25,7 @@ yarn-error.log
 
 
 
-/public/Files/
-/storage/app/
-/storage/framework/
-/storage/logs/
+#/public/Files/
+#/storage/app/
+#/storage/framework/
+#/storage/logs/

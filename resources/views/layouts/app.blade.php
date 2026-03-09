@@ -1030,7 +1030,7 @@
 
         <span class="text-mute" style="color:#d4af37; font-weight:600;">
             {{ $endDate->format('d M Y')  }} ---
-        </span>
+        </span>      
 
         
 
