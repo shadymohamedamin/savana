@@ -84,7 +84,7 @@ class FortifyServiceProvider extends ServiceProvider
             $login = $request->email;
 
             $user = \App\Models\User::firstWhere('email', $request->email);//$user = \App\Models\User::whereRaw('LOWER(email) = ?', [strtolower($request->email)])->first();
-        //dd($user  . $login);
+        //dd($user  . $login);    
             if ($user && \Illuminate\Support\Facades\Hash::check($request->password, $user->password)) {
                 return $user;
             }
