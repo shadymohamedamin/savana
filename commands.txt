@@ -168,7 +168,7 @@ exit;
 mysql -u root savana < C:\database\savana.sql
 
 savana
-hsoxkamy_savana
+hsoxkamy_savana    
 
 public_html/website_1ab3dbcc
         
