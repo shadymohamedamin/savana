@@ -113,14 +113,14 @@
         </tr>
         <tr>
             <td class="bold">سعر الفيلا مع السور (بدون الضريبة)</td>
-            <td colspan="2">{{ $project->budget ?? '—' }}</td>
+            <td colspan="2">{{ $project->bank_contract_value ?? '—' }}</td>
         </tr>
 
         <tr>
             <td colspan="3">
                 يقوم الطرف الثاني بتنفيذ وانشاء وانجاز وصيانة المشروع المذكور اعلاه لقاء مبلغ وقدره
                 <br><br>
-                {{ $project->budget . ' درهم ' ?? '—' }}
+                {{ $project->bank_contract_value . ' درهم ' ?? '—' }}
                 <br><br>
                 و ذلك حسب المتفق عليه والمعتمد وفق للمناقصة التي جرت
             </td>

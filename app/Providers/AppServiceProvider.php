@@ -61,9 +61,13 @@ class AppServiceProvider extends ServiceProvider
             ->whereDate('expiration_date', '<=', now()->addDays(10))
             ->orderBy('expiration_date')
             ->get();
+        $expiringProjects = \App\Models\Project::whereNotNull('contractor_contract_end_date')
+            ->whereDate('contractor_contract_end_date', '>=', now()) // لم تنته بعد
+            ->whereDate('contractor_contract_end_date', '<=', now()->addDays(30)) // أقل من شهر
+            ->orderBy('contractor_contract_end_date')
+            ->get();
 
-            $view->with('expiringAttachments', $expiringAttachments);
-
+        $view->with(compact('expiringProjects', 'expiringAttachments'));
         });
 
                 //if (env('APP_ENV') !== 'local') {

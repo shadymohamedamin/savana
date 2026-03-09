@@ -429,12 +429,15 @@
     color: #2f3a1f;
 }
 
-.project-actions-full {
+/* .project-actions-full {
     display: flex;
     flex-wrap: wrap;
     
     gap: 35px;
-}
+} */
+
+
+
 
 /* 🔥 الأزرار بدون خلفية */
 .panel-btn-full {
@@ -478,7 +481,7 @@
 .project-panel-full {
     width: 100%;
     background: #d4af37;
-    padding: 15px 30px;
+    padding: 10px 20px;
     margin: 0;
 }
 
@@ -564,6 +567,127 @@
 
 
 
+
+
+
+
+/* .project-actions-full{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:35px;
+
+    flex-wrap:nowrap;
+
+    width:100%;
+    max-width:100%;
+    overflow-x:auto;
+    overflow-y:hidden;
+
+    white-space:nowrap;
+
+    padding:5px 10px;
+
+    scrollbar-width:none;
+}
+
+.project-actions-full::-webkit-scrollbar{
+    display:none;
+}
+
+.panel-btn-full{
+    flex:0 0 auto;
+}
+
+
+.project-actions-full{
+    cursor: grab;
+}
+.project-actions-full:active{
+    cursor: grabbing;
+}
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*.project-actions-scroll{
+    width:100%;
+    overflow-x:auto;
+    overflow-y:hidden;
+    display:flex;
+    justify-content:center;
+}
+
+
+.project-actions-full{
+    display:flex;
+    width:100%;
+    overflow-x:auto;
+    overflow-y:hidden;
+    align-items:center;
+    gap:35px;
+
+    width:max-content;  
+    padding:5px 10px;
+
+    white-space:nowrap;
+}
+
+
+.panel-btn-full{
+    flex:0 0 auto;
+}
+ .project-actions-scroll{
+    display:flex;
+    justify-content:center;
+} 
+
+.project-actions-scroll::-webkit-scrollbar{
+    height:6px;
+}
+
+.project-actions-scroll::-webkit-scrollbar-thumb{
+    background:#756a46;
+    border-radius:10px;
+}*/
+
+
+
+
+
+
+
+
+.project-actions-full{
+    display:grid;
+
+    grid-template-columns: repeat(6, auto); /* 6 عناصر في الصف */
+
+    justify-content:center; /* يجعلهم في المنتصف */
+
+    gap:25px 35px; /* مسافة بين الصفوف والأعمدة */
+
+    padding:5px 0;
+}
+
+
+
+
+
+
+
+
+
     </style>
 
 </head>
@@ -643,7 +767,7 @@
         
         
         
-        <nav class="navbar navbar-expand-lg olive-navbar shadow-sm  {{ app()->getLocale() == 'ar' ? 'navbar-rtl' : '' }}">
+        <nav class="navbar navbar-expand-xl olive-navbar shadow-sm  {{ app()->getLocale() == 'ar' ? 'navbar-rtl' : '' }}">
 
             <div class="container">
                 <!-- <a class="navbar-brand ml-3" href="{{ url('/home') }}">
@@ -877,14 +1001,53 @@
 
                                     🔔
 
-                                    @if(isset($expiringAttachments) && $expiringAttachments->count())
+                                    @if((isset($expiringAttachments) && $expiringAttachments->count())||(isset($expiringProjects) && $expiringProjects->count()))
                                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                            {{ $expiringAttachments->count() }}
+                                            {{ ($expiringAttachments->count() ?? 0) + ($expiringProjects->count() ?? 0) }}
                                         </span>
                                     @endif
+
+                                    
                                 </a>
 
                                 <ul class="dropdown-menu dropdown-menu-end shadow" style="width:320px">
+                                    <li><hr class="dropdown-divider"></li>
+
+                                        <li class="dropdown-header fw-bold">
+                                            {{ __('Expiring Projects') }}
+                                        </li>
+
+                                        @forelse($expiringProjects as $projected)
+                                        @php
+                                            $endDate = \Carbon\Carbon::parse($projected->contractor_contract_end_date);
+                                            $daysLeft = now()->diffInDays($endDate, false);
+                                        @endphp
+                                            <li>
+    <a class="dropdown-item small flex flex-row"
+       href="{{ url('/projects?project_code=' . $projected->project_code) }}">
+        
+        📁 <strong style="color:#d4af37;">{{ $projected->project_code }}</strong><br>
+
+        <span class="text-mute" style="color:#d4af37; font-weight:600;">
+            {{ $endDate->format('d M Y')  }} ---
+        </span>         
+      
+        
+
+        <span style="color:#d4af37; font-weight:600;">
+            متبقي {{ $daysLeft }} يوم
+        </span>
+
+    </a>
+</li>
+                                        @empty
+                                            <li class="dropdown-item text-muted small">
+                                                {{ __('No expiring projects') }}
+                                            </li>
+                                        @endforelse
+                                    
+                                    
+                                    
                                     <li class="dropdown-header fw-bold">
                                         {{ __('Expiring Documents') }}
                                     </li>
@@ -990,7 +1153,8 @@
 
         
 
-        <div class="project-actions-full">
+        <div class="project-actions-scroll">
+            <div class="project-actions-full">
 
             <a href="{{ route('users.index') }}" class="panel-btn-full">
                 <i class="far fa-users"></i>
@@ -998,16 +1162,16 @@
             </a>
 
             <a href="{{ route('projects.edit', $project->id) }}"
-   class="panel-btn-full {{ Route::currentRouteName() == 'projects.edit' ? 'active' : '' }}">
-    <i class="far fa-folder"></i>
-    تعديل المشروع
-</a>
+                class="panel-btn-full {{ Route::currentRouteName() == 'projects.edit' ? 'active' : '' }}">
+                    <i class="far fa-folder"></i>
+                    تعديل المشروع
+                </a>
 
             <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}"
-   class="panel-btn-full {{ request()->is('users/*/attachments/create') && !request('mode') ? 'active' : '' }}">
-    <i class="fas fa-clipboard-list"></i>
-    عقود الاستشاري
-</a>
+                class="panel-btn-full {{ request()->is('users/*/attachments/create') && !request('mode') ? 'active' : '' }}">
+                    <i class="fas fa-clipboard-list"></i>
+                    عقود الاستشاري
+                </a>
 
             
 
@@ -1066,7 +1230,7 @@
         العودة إلى المشاريع
     </a>
 
-
+            </div>
         </div>
 
     </div>
@@ -1146,11 +1310,11 @@
 
 
     
-    <!-- <div id="global-loader" class="loader-overlay d-none">
+    <div id="global-loader" class="loader-overlay d-none">
         <div class="spinner-border" role="status">
             <span class="visually-hidden">Loading...</span>
         </div>
-    </div> -->
+    </div>
 
         <main class="">
             @yield('content')
