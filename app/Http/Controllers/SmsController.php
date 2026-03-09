@@ -5,10 +5,10 @@ use Illuminate\Http\Request;
 use App\Services\Reason8SmsService;
 
 class SmsController extends Controller
-{
+{                        
     /**
      * Send SMS to users using Reson8 service.
-     *
+     *             
      * @param  \App\Services\Reason8SmsService  $smsService
      * @return \Illuminate\Http\JsonResponse
      */
