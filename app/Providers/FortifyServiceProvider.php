@@ -80,16 +80,17 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::resetUserPasswordsUsing(ResetUserPassword::class);
 
         Fortify::authenticateUsing(function (Request $request) {
-            $user = \App\Models\User::where('email', $request->email)
-                                    ->orWhere('uae_id', $request->uae_id)
-                                    ->first();
 
-            if ($user &&
-                \Illuminate\Support\Facades\Hash::check($request->password, $user->password)) {
+            $login = $request->email;
+
+            $user = \App\Models\User::firstWhere('email', $request->email);//$user = \App\Models\User::whereRaw('LOWER(email) = ?', [strtolower($request->email)])->first();
+        //dd($user  . $login);
+            if ($user && \Illuminate\Support\Facades\Hash::check($request->password, $user->password)) {
                 return $user;
             }
+
+            return null;
         });
-        
         //$this->app->singleton(ConfirmPasswordViewResponse::class, ConfirmPasswordView::class);
 
         $this->app->singleton(
