@@ -571,95 +571,6 @@
 
 
 
-/* .project-actions-full{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:35px;
-
-    flex-wrap:nowrap;
-
-    width:100%;
-    max-width:100%;
-    overflow-x:auto;
-    overflow-y:hidden;
-
-    white-space:nowrap;
-
-    padding:5px 10px;
-
-    scrollbar-width:none;
-}
-
-.project-actions-full::-webkit-scrollbar{
-    display:none;
-}
-
-.panel-btn-full{
-    flex:0 0 auto;
-}
-
-
-.project-actions-full{
-    cursor: grab;
-}
-.project-actions-full:active{
-    cursor: grabbing;
-}
- */
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*.project-actions-scroll{
-    width:100%;
-    overflow-x:auto;
-    overflow-y:hidden;
-    display:flex;
-    justify-content:center;
-}
-
-
-.project-actions-full{
-    display:flex;
-    width:100%;
-    overflow-x:auto;
-    overflow-y:hidden;
-    align-items:center;
-    gap:35px;
-
-    width:max-content;  
-    padding:5px 10px;
-
-    white-space:nowrap;
-}
-
-
-.panel-btn-full{
-    flex:0 0 auto;
-}
- .project-actions-scroll{
-    display:flex;
-    justify-content:center;
-} 
-
-.project-actions-scroll::-webkit-scrollbar{
-    height:6px;
-}
-
-.project-actions-scroll::-webkit-scrollbar-thumb{
-    background:#756a46;
-    border-radius:10px;
-}*/
 
 
 
@@ -682,8 +593,103 @@
 
 
 
+@media (max-width:768px){
+
+.project-actions-full{
+    grid-template-columns: repeat(2, 1fr);
+    gap:15px;
+}
+
+.panel-btn-full{
+    justify-content:center;
+    font-size:14px;
+}
+
+.back-projects-btn{
+    position:static;
+    width:100%;
+    text-align:center;
+    margin-top:10px;
+}
+
+}
 
 
+/* CLOCK RIGHT SIDE */
+
+.navbar-clock{
+    position:absolute;
+    right:10px;
+    top:50%;
+    transform:translateY(-50%);
+    align-items:center;
+}
+
+/* remove background */
+
+.today-inline-box{
+    background:none !important;
+    box-shadow:none !important;
+    padding:0;
+}
+
+/* MOBILE NAVBAR FIX */
+
+@media (max-width:991px){
+
+.mobile-navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.navbar-toggler{
+    order:1;
+}
+
+.navbar-brand{
+    order:2;
+}
+
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+/* NAVBAR LOGO SIZE */
+
+.navbar-logo{
+    height:60px;
+    width:auto;
+    
+    transition:0.3s ease;
+}
+
+/* تكبير بسيط عند hover */
+.navbar-logo:hover{
+    transform:scale(1.05);
+}
+
+
+/* BACK TO PROJECTS BUTTON */
+
+.back-projects-btn{
+    position:absolute;
+    left:25px;
+    font-size:18px;
+    font-weight:700;
+    padding:12px 26px;
+}
 
 
 
@@ -769,7 +775,7 @@
         
         <nav class="navbar navbar-expand-xl olive-navbar shadow-sm  {{ app()->getLocale() == 'ar' ? 'navbar-rtl' : '' }}">
 
-            <div class="container">
+            <div class="container mobile-navbar">
                 <!-- <a class="navbar-brand ml-3" href="{{ url('/home') }}">
                     <div class="today-inline-box ml-3">
                         <div class="today-inline-day" id="liveDay"></div>
@@ -783,23 +789,19 @@
 
 
                 
-                <a class="navbar-brand ml-3" href="{{ url('/home') }}">
+                <div class="navbar-clock d-none d-xl-flex">
+                    <div class="today-inline-box">
+                        <div class="today-inline-date" id="liveDate" dir="ltr">
+                            {{ $dateFormatted }}
+                        </div>
 
-                    
-                <div class="today-inline-box ml-3">
-                    
-                    <div class="today-inline-date" id="liveDate" dir="ltr">
-                        {{ $dateFormatted }}
-                    </div>
-                    
+                        <div class="today-separator"></div>
 
-                    <div class="today-separator"></div>
-
-                    <div class="today-inline-time" id="liveClock">
-                        {{ $timeFormatted }}
+                        <div class="today-inline-time" id="liveClock">
+                            {{ $timeFormatted }}
+                        </div>
                     </div>
                 </div>
-                </a>
 
                 
 
@@ -815,44 +817,9 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-                    <!-- <ul class="navbar-nav me-auto mx-4">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/users') }}">Users</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/primaryDatas') }}">Primary Data</a>
-                            </li>
-                            
-                            
-                        </ul>
-                    </ul> -->
-                    @auth
-                    <!-- <ul class="navbar-nav me-auto mx-4">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/users') }}">Users</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/primaryDatas') }}">Primary Data</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/primaryDatasSubmissions') }}">submissions</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ route('primary_datas.mySubmissions') }}">My Submissions</a>
-                            </li>
-                            @if(Auth::user()->email == "it@rakcharity.ae")
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('/logs') }}">logs</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ url('/audit-logs') }}">actions</a>
-                                </li>
 
-                            @endif
-                        </ul>
-                    </ul> -->
+                    @auth
+    
 
 
 
@@ -865,18 +832,18 @@
                                     @if(Auth::user()->role !== 'public_user')
                                        @if(in_array(Auth::user()->role_id, [1,4,11,12]))
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{{ url('/users') }}">{{ __('Users') }}</a>
+                                            <a style="font-size: 1.4rem;" class="nav-link" href="{{ url('/users') }}">{{ __('Users') }}</a>
                                         </li>
                                         @endif
 
 
                                             <div class="mx-auto text-center">
                                                 <a href="{{ url('/') }}">
-                                                    <img src="{{ asset('images/logo1.png') }}" alt="Logo" style="height:50px;">
+                                                    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="navbar-logo">
                                                 </a>
                                             </div>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{{ url('/projects') }}">{{ __('Projects') }}</a>
+                                            <a style="font-size: 1.4rem;" class="nav-link" href="{{ url('/projects') }}">{{ __('Projects') }}</a>
                                         </li>
                                         <!-- <li class="nav-item">
                                             <a class="nav-link" href="{{ url('/primaryDatas') }}">Primary Data</a>
@@ -951,6 +918,7 @@
                                 <a class="nav-link dropdown-toggle btn btn-sm btn-outline-warning px-3"
                                 href="#"
                                 role="button"
+                                style="font-size: 1.3rem;"
                                 data-bs-toggle="dropdown">
                                     🌐 {{ strtoupper(app()->getLocale()) }}
                                 </a>
@@ -960,7 +928,7 @@
                                         <form method="POST" action="{{ route('change.lang') }}">
                                             @csrf
                                             <input type="hidden" name="lang" value="en">
-                                            <button class="dropdown-item">🇬🇧 English</button>
+                                            <button  class="dropdown-item">🇬🇧 English</button>
                                         </form>
                                     </li>
                                     <li>
@@ -978,7 +946,7 @@
                         @guest
                             @if (Route::has('login'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                    <a style="font-size: 1.3rem;" class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
                                 </li>
                             @endif
 
@@ -1197,6 +1165,10 @@
                 <i class="fas fa-clipboard-list"></i>
                 الاشراف
             </a>
+            <a href="{{ url('#') }}" class="panel-btn-full">
+                <i class="fas fa-clipboard-list"></i>
+                التصميم
+            </a>
 
 <a href="{{ route('projects.project-payments.index', ['project' => $project->id]) }}"
    class="panel-btn-full {{ Route::currentRouteName() == 'projects.project-payments.index' ? 'active' : '' }}">
@@ -1225,7 +1197,7 @@
                 الرسائل والتنبيهات
             </a>
 
-<a href="{{ route('projects.index') }}" class="top-pill link-pill">
+<a href="{{ route('projects.index') }}" class="top-pill link-pill back-projects-btn">
         <i class="fas fa-arrow-left me-2"></i>
         العودة إلى المشاريع
     </a>

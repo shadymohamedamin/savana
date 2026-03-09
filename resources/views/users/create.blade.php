@@ -55,6 +55,7 @@
         {!! Form::password('password', [
             'class' => 'form-control rounded pr-0',
             'id' => 'password'
+            
         ]) !!}
 
         <span onclick="togglePassword('password', this)"
