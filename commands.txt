@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
-
+ssh -i C:\Users\shadi\.ssh\id_rsa hsoxkamy@50.6.108.100
 
 php artisan tinker
 bcrypt('savana@2024');
@@ -167,6 +167,11 @@ mysql -u root
 exit;
 mysql -u root savana < C:\database\savana.sql
 
+savana
+hsoxkamy_savana
+
+public_html/website_1ab3dbcc
+   
 
 New-NetFirewallRule -DisplayName "Laravel 8000" -Direction Inbound -Protocol TCP -LocalPort 8000 -Action Allow
 New-NetFirewallRule -DisplayName "Vite 5173" -Direction Inbound -Protocol TCP -LocalPort 5173 -Action Allow
