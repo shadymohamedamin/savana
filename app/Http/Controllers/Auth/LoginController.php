@@ -34,6 +34,9 @@ class LoginController extends Controller
      */
     public function __construct()
     {
+        //if (Auth::attempt($credentials)) {
+        //    dd(Auth::user());
+        //}
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
     }

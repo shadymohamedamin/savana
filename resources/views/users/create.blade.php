@@ -232,7 +232,7 @@ function togglePassword(inputId, el) {
 
     if (input.type === "password") {
         input.type = "text";
-        el.innerText = "🙈";
+        el.innerText = "🙈";   
     } else {
         input.type = "password";
         el.innerText = "👁️";
