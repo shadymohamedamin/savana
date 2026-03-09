@@ -30,20 +30,7 @@
                     @endif
                         <!-- @if ($data)
                             
-                            <div class="card mb-4">
-                                <div class="card-header bg-success text-white">📄 Your Information</div>
-                                <div class="card-body">
-                                    <p><strong>ID Number:</strong> {{ $data->IDNo }}</p>
-                                    <p><strong>file_number:</strong> {{ $data->FileNo }}</p>
-                                    <p><strong>Name:</strong> {{ $data->Nam }}</p>
-                                    <p><strong>Phone:</strong> {{ $data->mob }}</p>
-                                    <p><strong>Email:</strong> {{ $data->Email }}</p>
-                                    
-
-                                    <a href="{{ route('support.primaryDatas.edit', $data->ID) }}" class="btn btn-primary">✏️ Edit My Info</a>
-
-                                </div>
-                            </div>
+                            
 
 
 

@@ -91,7 +91,6 @@ class FortifyServiceProvider extends ServiceProvider
 
             return null;
         });
-        
         //$this->app->singleton(ConfirmPasswordViewResponse::class, ConfirmPasswordView::class);
 
         $this->app->singleton(

@@ -128,7 +128,7 @@
 
 
     <div class="card-header    d-flex justify-content-between align-items-center" style="background:#d4af37">
-        <span>{{ __('Standard Templates') }}</span>
+        <span>{{ __('معاينة وطباعة المستندات ') }}</span>
   
 
         @if($isTender&&in_array(Auth::user()->role_id, [1,4,11,12]))
@@ -152,7 +152,7 @@
                     <i class="fas fa-file-signature"></i> حساب الكميات
             </a>
         </div>
-        @elseif($type='projects'&&in_array(Auth::user()->role_id, [1,4,11,12]))
+        @elseif(!$projectDocuments&&$type='projects'&&in_array(Auth::user()->role_id, [1,4,11,12]))
         <a href="{{ route('projects.owner-requirements.index', ['project' => $model->id]) }}" class="btn btn-sm"
                 style="background:#d4af37;color:#2f3a1f;">
                 <i class="fas fa-clipboard-list"></i>
