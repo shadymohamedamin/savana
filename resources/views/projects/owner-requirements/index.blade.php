@@ -265,7 +265,102 @@ body{
 }
 
 
+.btn-olive {
+        background-color:#d4af37 ;   /*#2f3a1f زيتوني غامق */
+        border: 1px solid #2f3a1f;
+        color: #2f3a1f;              /* ذهبي */
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        transition: all 0.3s ease;
+    }
 
+    .btn-olive:hover {
+        background-color: #3e4a29;  /* زيتوني أفتح */
+        border-color: #d4af37;       /* إطار ذهبي */
+        color: #fff;                /* أبيض أنيق */
+        transform: translateY(-1px);
+        box-shadow: 0 6px 18px rgba(212,175,55,0.35);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* CARD STYLE */
+
+.design-card{
+    background:#fff;
+    border:1px solid #e6e6e6;
+    border-radius:14px;
+    padding:18px 20px;
+    box-shadow:0 4px 14px rgba(0,0,0,0.06);
+    transition:0.25s;
+    height:100%;
+}
+
+.design-card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 24px rgba(0,0,0,0.12);
+}
+
+
+/* TITLE */
+
+.design-title{
+    font-size:17px;
+    font-weight:700;
+    color:#2f3a1f;
+    margin-bottom:12px;
+    display:block;
+    border-bottom:1px solid #eee;
+    padding-bottom:6px;
+}
+
+
+/* OPTION */
+
+.design-option{
+    margin-bottom:8px;
+}
+
+
+/* TEXT */
+
+.design-label{
+    font-size:15px;
+    font-weight:600;
+    margin-right:6px;
+}
+
+
+/* RADIO STYLE */
+
+.design-radio{
+    border:2px solid #000 !important;
+    width:18px;
+    height:18px;
+}
+
+.design-radio:checked{
+    background-color:#2f3a1f;
+    border-color:#2f3a1f;
+}
+
+
+.row{
+    row-gap:20px;
+}
 
 </style>
 
@@ -308,26 +403,26 @@ body{
         <div class=" d-flex justify-content-between align-items-center gap-2">
 
             <a href="{{ route('projects.tender.contractors', $project->id) }}"
-                class="btn btn-sm"
+                class="btn btn-olive px-4 btn-sm"
                 style="background:#d4af37;color:#2f3a1f;font-weight:700;font-size:1rem;">
                     <i class="fas fa-users"></i> المقاولين المرشحين
             </a>
 
             <a href="{{ route('projects.owner-requirements.index', [$project, 'context' => 'pricing']) }}"
-                class="btn btn-sm"
+                class="btn btn-olive px-4 btn-sm"
                 style="background:#d4af37;color:#2f3a1f;font-weight:700;font-size:1rem;">
                     <i class="fas fa-file-signature"></i> أسعار توريد التشطيبات
             </a>
 
 
             <a href="{{ route('projects.owner-requirements.index', [$project, 'context' => 'tender']) }}"
-                class="btn btn-sm"
+                class="btn btn-olive px-4 btn-sm"
                 style="background:#d4af37;color:#2f3a1f;font-weight:700;font-size:1rem;">
                     <i class="fas fa-file-signature"></i> حساب الكميات
             </a>
             <div class="d-flex gap-2">
                 <a href="{{ route('projects.index') }}"
-                class="btn btn-olive btn-sm" style="background:#d4af37;color:#2f3a1f;font-weight:700;font-size:1rem;">
+                class="btn btn-olive px-4 btn-sm" style="background:#d4af37;color:#2f3a1f;font-weight:700;font-size:1rem;">
                     <i class="fas fa-arrow-left" ></i> {{ __('العودة الي المشاريع') }}
                 </a>
             </div>
@@ -789,13 +884,13 @@ body{
 
     @foreach($groups as $group)
         <div class="group-header mt-5 text-center">
-            <span>{{ $group->name_ar }}</span>
+            <span style="font-weight: 700;font-size:1.6rem;">{{ $group->name_ar }}</span>
         </div>
 
 
         @foreach($group->children as $section)
             <div  class="section-header w-[100%] mt-4">
-                <span>{{ $section->name_ar }}</span>
+                <span style="font-weight: 700;font-size:1.4rem;">{{ $section->name_ar }}</span>
             </div>
 
             {{-- @php
@@ -812,13 +907,13 @@ body{
 
                 <thead>
                     <tr>
-                        <th>م</th> <!-- الرقم -->
-                        <th>البند</th>
-                        <th>الوحدة</th>
-                        <th>الكمية</th>
-                        <th>سعر الوحدة</th>
-                        <th>الإجمالي</th>
-                        <th>ملاحظات</th>
+                        <th style="font-weight: 700;font-size:1.2rem;">{{ chr(64 + $loop->iteration) }}</th>
+                        <th style="font-weight: 700;font-size:1.2rem;">البند</th>
+                        <th style="font-weight: 700;font-size:1.2rem;">الوحدة</th>
+                        <th style="font-weight: 700;font-size:1.2rem;">الكمية</th>
+                        <th style="font-weight: 700;font-size:1.2rem;">سعر الوحدة</th>
+                        <th style="font-weight: 700;font-size:1.2rem;">الإجمالي</th>
+                        <th style="font-weight: 700;font-size:1.2rem;">ملاحظات</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -833,7 +928,7 @@ body{
                         @endphp
                         <tr>
                             <td>{{ $loop->iteration }}</td> <!-- الرقم -->
-                            <td>{{ $item->name_ar }}</td>
+                            <td style="font-weight: 700;font-size:1.1rem; text-align: start;">{{ $item->name_ar }}</td>
                             
                             <td>{{ $item->unit }}</td>
                             <td>
@@ -849,8 +944,8 @@ body{
                         </tr>
                     @endforeach
                     <tr class="table-secondary fw-bold">
-                        <td colspan="4">مجموع {{ $section->name_ar }}</td>
-                        <td colspan="2" class="section-total">{{ number_format($sectionTotal, 2) }}</td>
+                        <td style="font-weight: 700;font-size:1.2rem;" colspan="4">مجموع {{ $section->name_ar }}</td>
+                        <td style="font-weight: 700;font-size:1.2rem;" colspan="2" class="section-total">{{ number_format($sectionTotal, 2) }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -860,10 +955,10 @@ body{
 
         <table class="table table-bordered text-center">
             <tr class="table-warning fw-bold group-total-row">
-                <td colspan="4">
+                <td style="font-weight: 700;font-size:1.2rem;" colspan="4">
                     إجمالي {{ $group->name_ar }}
                 </td>
-                <td colspan="2" class="group-total-value">
+                <td style="font-weight: 700;font-size:1.2rem;" colspan="2" class="group-total-value">
                     0.00
                 </td>
             </tr>
@@ -1522,14 +1617,14 @@ calculateAll();
 
 
 @foreach($groups as $group)
-        <div class="group-header mt-5 text-center">
+        {{-- <div class="group-header mt-5 text-center">
             <span>{{ $group->name_ar }}</span>
-        </div>
+        </div> --}}
 
 
         @foreach($group->children as $section)
-            <div class="section-header w-[100%] mt-4">
-                <span>{{ $section->name_ar }}</span>
+            <div class="section-header w-[100%] mt-4" style="font-weight: 700;">
+                <span style="font-weight: 700;font-size:1.4rem;">{{ $section->name_ar }}</span>
             </div>
 
 
@@ -1538,13 +1633,14 @@ calculateAll();
 
                 <thead>
                     <tr>
-                        <th>م</th>
-                        <th>البند</th>
-                        <th>الوحدة</th>
-                        <th>الكمية</th>
-                        <th>سعر الوحدة</th>
-                        <th>الإجمالي</th>
-                        <th>ملاحظات</th>
+                        <th style="font-weight: 700;font-size:1.3rem;">{{ chr(64 + $loop->iteration) }}</th>
+                       
+                        <th style="font-weight: 700;font-size:1.3rem;">البند</th>
+                        <th style="font-weight: 700;font-size:1.3rem;">الوحدة</th>
+                        <th style="font-weight: 700;font-size:1.3rem;">الكمية</th>
+                        <th style="font-weight: 700;font-size:1.3rem;">سعر الوحدة</th>
+                        <th style="font-weight: 700;font-size:1.3rem;">الإجمالي</th>
+                        <th style="font-weight: 700;font-size:1.3rem;">ملاحظات</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -1558,25 +1654,25 @@ calculateAll();
                             $sectionTotal += $total;
                         @endphp
                         <tr>
-                            <td style="font-size: 1.3rem;">{{ $loop->iteration }}</td> <!-- الرقم -->
-                            <td>{{ $item->name_ar }}</td>
+                            <td style="font-size: 1.2rem;font-weight: 700;">{{ $loop->iteration }}</td> <!-- الرقم -->
+                            <td style="font-weight: 700;font-size:1.2rem;">{{ $item->name_ar }}</td>
                             
-                            <td>{{ $item->unit }}</td>
+                            <td style="font-weight: 700;font-size:1.2rem;">{{ $item->unit }}</td>
                             <td>
                                 <input type="number" name="requirements[{{ $item->id }}][quantity]" value="{{ $qty }}" min="1" class="form-control qty" />
                             </td>
                             <td>
                                 <input type="number" name="requirements[{{ $item->id }}][unit_price]" value="{{ $price }}" step="1" class="form-control price" />
                             </td>
-                            <td class="total">{{ number_format($total, 2) }}</td>
+                            <td style="font-weight: 700;font-size:1.2rem;" class="total">{{ number_format($total, 2) }}</td>
                             <td>
                                 <input type="text" name="requirements[{{ $item->id }}][notes]" value="{{ $pivot->notes ?? '' }}" class="form-control" />
                             </td>
                         </tr>
                     @endforeach
                     <tr class="table-secondary fw-bold">
-                        <td colspan="4">مجموع {{ $section->name_ar }}</td>
-                        <td colspan="2" class="section-total">{{ number_format($sectionTotal, 2) }}</td>
+                        <td style="font-weight: 700;font-size:1.3rem;" colspan="4">مجموع {{ $section->name_ar }}</td>
+                        <td style="font-weight: 700;font-size:1.3rem;" colspan="2" class="section-total">{{ number_format($sectionTotal, 2) }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -1586,10 +1682,10 @@ calculateAll();
 
         <table class="table table-bordered text-center">
             <tr class="table-warning fw-bold group-total-row">
-                <td colspan="4">
+                <td style="font-weight: 700;font-size:1.3rem;" colspan="4">
                     إجمالي {{ $group->name_ar }}
                 </td>
-                <td colspan="2" class="group-total-value">
+                <td style="font-weight: 700;font-size:1.3rem;" colspan="2" class="group-total-value">
                     0.00
                 </td>
             </tr>
@@ -1653,13 +1749,87 @@ calculateAll();
 
 
 
+@php
+$fieldLabels = [
+'water_heater' => 'السخان',
+'bathroom_chairs' => 'كراسي الحمامات',
+'exhaust_fan' => 'الشفط',
+'insulation' => 'النعلة',
+'aluminum' => 'الألمنيوم',
+'water_tank' => 'خزان المياه',
+'main_door' => 'الباب الرئيسي كاست المنيوم',
+'paint_type' => 'نوع الصبغ',
+'hot_cold_water_for_bidet' => 'الماء الحار والبارد للشطاف',
+'car_electric_point' => 'نقطة كهرباء سيارة',
+'facade_lighting_points' => 'نقاط اضاءة بالواجهات',
+'pantry_plumbing_first_floor' => 'نقطة صرف وتغذية للبانتري في الدور الأول',
+'roof_electric_point' => 'نقطة كهرباء السطح',
+'roof_water_point' => 'نقطة مياه السطح',
+'feeding_pipe_install' => 'تركيب تمديدات التغذية',
+'ac_civil_works' => 'اعمال مدنية للتكييف',
+'front_stairs' => 'الدرج الامامي لمدخل الفيلا',
+'floor_protection' => 'حماية الارضيات بعد تركيب البورسلان',
+'ac_water_recovery_tank' => 'خزان استرجاع مياه التكييف',
+'washroom_faucets' => 'مكسرات المغاسل والحمامات',
+'sanitary_drainage' => 'نظام الصرف الصحي',
+'ceramic_tiles' => 'حبات السيراميك',
+'water_tank_capacity' => 'سعة خزان المياه',
+'door_heights' => 'ارتفاعات الأبواب',
+'fence_water_points' => 'نقاط مياه في السور',
+'fence_electric_points' => 'نقاط كهرباء في السور',
+'exterior_stone_tiles' => 'الحجر والبورسلان الخارجي',
+'camera_points' => 'نقاط الكاميرا',
+'annex_ceramic_price' => 'سعر سيراميك الملاحق',
+'planting_basins' => 'أحواض الزراعة',
+'hidden_plaster_beam' => 'نعلة مخفية للجبس بلاستر',
+'first_floor_bath_drainage' => 'صرف الحمامات الدور الاول',
+'central_exhaust_fans' => 'مراوح الشفاط المركزي',
+'bath_wall_niches' => 'تجويفات جدران الحمامات',
+'garage_door_electric_point' => 'نقطة كهرباء ماكينة باب الكراج',
+'curb_grooves' => 'توريد و تركيب رداد للكلين اوت',
+'fence_grooves' => 'تركيب قروفات بالسور',
+'window_electric_points' => 'نقاط كهرباء لشبابيك الصالة',
+'sound_system_pipes' => 'تركيب بايبات ساوند سيستم',
+];
+@endphp
 
 
 
 
 @foreach($designOptions as $field => $options)
+<div class="col-md-3 mb-4">
+
+    <div class="design-card">
+
+        <label class="design-title rounded-xl "  style="background:#d4af37; color:#2f3a1f;  text-align: center">
+            {{ $fieldLabels[$field] ?? $field }}
+        </label>
+
+        @foreach($options as $opt)
+        <div class="form-check design-option">
+
+            <input class="form-check-input design-radio"
+                   type="radio"
+                   name="designs[{{ $field }}]"
+                   value="{{ $opt }}"
+                   {{ ($designs?->$field == $opt) ? 'checked' : '' }}>
+
+            <label class="form-check-label design-label">
+                {{ $opt }}
+            </label>
+
+        </div>
+        @endforeach
+
+    </div>
+
+</div>
+@endforeach
+
+
+{{-- @foreach($designOptions as $field => $options)
     <div class="col-md-2 mb-4">
-        <label class="fw-bold d-block mb-2">{{ __($field) }}</label>
+        <label class="fw-bold d-block mb-2">{{ $fieldLabels[$field] ?? $field }}</label>
 
         @foreach($options as $opt)
             <div class="form-check">
@@ -1673,7 +1843,7 @@ calculateAll();
             </div>
         @endforeach
     </div>
-@endforeach
+@endforeach --}}
 
 
 

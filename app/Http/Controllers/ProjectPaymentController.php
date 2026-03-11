@@ -78,7 +78,7 @@ class ProjectPaymentController extends AppBaseController
 
     public function index(Project $project)
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (false){//!in_array(auth()->user()->role_id, [1,4,11,12])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'

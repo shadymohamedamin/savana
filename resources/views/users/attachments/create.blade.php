@@ -77,7 +77,7 @@
         : {{ $model->name }}
     </h3> -->
 @else <h3>
-        المناقصة
+        {{-- المناقصة --}}
     </h3>
 @endif
     @include('flash::message')
@@ -128,33 +128,33 @@
 
 
     <div class="card-header    d-flex justify-content-between align-items-center" style="background:#d4af37">
-        <span>{{ __('معاينة وطباعة المستندات ') }}</span>
+        <span style="font-weight: 700;">{{ __('معاينة وطباعة المستندات ') }}</span>
   
 
         @if($isTender&&in_array(Auth::user()->role_id, [1,4,11,12]))
-        <div class="flex justify-start">
+        <div class="flex justify-start" style="gap: 1rem;">
             
             <a href="{{ route('projects.tender.contractors', $model->id) }}"
-                class="btn btn-sm" ;   
-                style="background:#d4af37;color:#2f3a1f;">
+                class="btn btn-olive px-4 btn-sm"  
+                style="background:#d4af37;color:#2f3a1f;font-weight: 700; margin-right: 1rem;">
                     <i class="fas fa-users"></i> المقاولين المرشحين
             </a>
             <a href="{{ route('projects.owner-requirements.index', [$model, 'context' => 'pricing']) }}"
-                class="btn btn-sm"
-                style="background:#d4af37;color:#2f3a1f;">
+                class="btn btn-olive px-4 btn-sm"
+                style="background:#d4af37;color:#2f3a1f;font-weight: 700;margin-right: 1rem;">
                     <i class="fas fa-file-signature"></i> أسعار توريد التشطيبات
             </a>
 
 
             <a href="{{ route('projects.owner-requirements.index', [$model, 'context' => 'tender']) }}"
-                class="btn btn-sm"
-                style="background:#d4af37;color:#2f3a1f;">
+                class="btn btn-olive px-4 btn-sm"
+                style="background:#d4af37;color:#2f3a1f;font-weight: 700;margin-right: 1rem;">
                     <i class="fas fa-file-signature"></i> حساب الكميات
             </a>
         </div>
         @elseif(!$projectDocuments&&$type='projects'&&in_array(Auth::user()->role_id, [1,4,11,12]))
-        <a href="{{ route('projects.owner-requirements.index', ['project' => $model->id]) }}" class="btn btn-sm"
-                style="background:#d4af37;color:#2f3a1f;">
+        <a href="{{ route('projects.owner-requirements.index', ['project' => $model->id]) }}" class="btn btn-olive px-4 btn-sm"
+                style="background:#d4af37;color:#2f3a1f; font-weight: 700;margin-right: 1rem;">
                 <i class="fas fa-clipboard-list"></i>
                 احتياجات المالك
             </a>
@@ -162,10 +162,7 @@
 
     </div>
 
-    
-
-
-
+ 
 
 
 
@@ -514,6 +511,50 @@
 
 
 
+
+
+
+
+
+
+
+            @foreach($rows as $row)
+                    @php
+                        $typeId = $row['type_id'];
+                        $att = $row['attachment'];
+                        //dd($row);
+                    @endphp
+                    <div class="d-flex flex-column">
+                        
+                    
+                        <span class="mb-2 fw-bold">
+                                    {{ $attTypes[$typeId] ?? 'File '.$typeId }}
+                                </span>
+
+                                @if($att)
+                                <a target="_blank"
+                                href="{{ asset($att->web_path) }}"
+                                class="btn btn-outline-primary btn-sm mb-1">
+                                    👁 معاينة
+                                </a>
+
+                                <a href="{{ asset($att->web_path) }}"
+                                class="btn btn-success btn-sm mb-1">
+                                    ⬇ تعديل
+                                </a>
+
+                                <a target="_blank"
+                                href="{{ asset($att->web_path) }}"
+                                class="btn btn-warning btn-sm">
+                                    🖨 طباعة
+                                </a>
+                                @else <div>غير موجود</div>
+                                @endif
+                    </div>
+                @endforeach
+
+
+
         @else
         
                 {{--    Owner And Consultant Contract عقد المالك والاستشاري والمقاول --}}
@@ -590,7 +631,40 @@
 
 
 
+                @foreach($rows as $row)
+                    @php
+                        $typeId = $row['type_id'];
+                        $att = $row['attachment'];
+                        //dd($row);
+                    @endphp
+                    <div class="d-flex flex-column">
+                        
+                    
+                        <span class="mb-2 fw-bold">
+                                    {{ $attTypes[$typeId] ?? 'File '.$typeId }}
+                                </span>
 
+                                @if($att)
+                                <a target="_blank"
+                                href="{{ asset($att->web_path) }}"
+                                class="btn btn-outline-primary btn-sm mb-1">
+                                    👁 معاينة
+                                </a>
+
+                                <a href="{{ asset($att->web_path) }}"
+                                class="btn btn-success btn-sm mb-1">
+                                    ⬇ تعديل
+                                </a>
+
+                                <a target="_blank"
+                                href="{{ asset($att->web_path) }}"
+                                class="btn btn-warning btn-sm">
+                                    🖨 طباعة
+                                </a>
+                                @else <div>غير موجود</div>
+                                @endif
+                    </div>
+                @endforeach
 
 
           
@@ -641,7 +715,7 @@
         <div class="card mb-4" style="background:#d4af37">
             <div class="card-header    d-flex justify-content-between align-items-center" style="background:#d4af37">
                 <span>{{ __('Upload Attachments') }}</span>
-                <button type="button" id="addAttachment" class="btn btn-olive px-4 btn-sm">
+                <button type="button" id="addAttachment" class="btn btn-olive px-4 btn-sm" style="font-weight: 700;">
                     {{ __('Add Attachment') }}
                 </button>
 
@@ -754,7 +828,7 @@
         name="action"
         value="save"
         class="btn btn-olive px-4">
-    💾 {{ __('Save') }}
+    💾 {{ __('حفظ') }}
 </button>
 
 {{-- Show ONLY when type != projects --}}

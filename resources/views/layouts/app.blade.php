@@ -839,7 +839,7 @@
 
                                             <div class="mx-auto text-center">
                                                 <a href="{{ url('/') }}">
-                                                    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="navbar-logo">
+                                                    <img src="{{ asset('images/logo.jpeg') }}" alt="Logo" class="navbar-logo">
                                                 </a>
                                             </div>
                                         <li class="nav-item">
@@ -1113,7 +1113,7 @@
 
 {{-- ✅ حط هنا كود لوحة المشروع --}}
 
-@if(isset($project) && in_array(auth()->user()->role_id, [1,4,11,12]))
+@if(isset($project))
 <div class="project-panel-full">
 
     
@@ -1123,17 +1123,23 @@
 
         <div class="project-actions-scroll">
             <div class="project-actions-full">
-
-            <a href="{{ route('users.index') }}" class="panel-btn-full">
-                <i class="far fa-users"></i>
-                المستخدمين
-            </a>
+            @if(isset($project) && in_array(auth()->user()->role_id, [1,4,11,12]))
+                <a href="{{ route('users.index') }}" class="panel-btn-full">
+                    <i class="far fa-users"></i>
+                    المستخدمين
+                </a>
+            
 
             <a href="{{ route('projects.edit', $project->id) }}"
                 class="panel-btn-full {{ Route::currentRouteName() == 'projects.edit' ? 'active' : '' }}">
                     <i class="far fa-folder"></i>
                     تعديل المشروع
                 </a>
+
+
+
+
+            @endif
 
             <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}"
                 class="panel-btn-full {{ request()->is('users/*/attachments/create') && !request('mode') ? 'active' : '' }}">
@@ -1160,7 +1166,8 @@
     <i class="fas fa-clipboard-list"></i>
     عقود المقاول
 </a>
-
+@if(isset($project) && in_array(auth()->user()->role_id, [1,4,11,12]))
+            
             <a href="{{ url('#') }}" class="panel-btn-full">
                 <i class="fas fa-clipboard-list"></i>
                 الاشراف
@@ -1169,7 +1176,7 @@
                 <i class="fas fa-clipboard-list"></i>
                 التصميم
             </a>
-
+@endif
 <a href="{{ route('projects.project-payments.index', ['project' => $project->id]) }}"
    class="panel-btn-full {{ Route::currentRouteName() == 'projects.project-payments.index' ? 'active' : '' }}">
     <i class="fas fa-clipboard-list"></i>
@@ -1181,10 +1188,10 @@
 
 
             <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=project_documents') }}"
-   class="panel-btn-full {{ request('mode') == 'project_documents' ? 'active' : '' }}">
-    <i class="fas fa-clipboard-list"></i>
-  مستندات المشروع
-</a>
+            class="panel-btn-full {{ request('mode') == 'project_documents' ? 'active' : '' }}">
+                <i class="fas fa-clipboard-list"></i>
+            مستندات المشروع
+            </a>
 
 
             <a href="{{ url('#') }}" class="panel-btn-full">

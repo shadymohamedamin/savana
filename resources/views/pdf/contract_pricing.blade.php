@@ -209,7 +209,56 @@ $groupTotal += $sectionTotal;
 
 
 
+@php
+$fieldLabels = [
+'water_heater' => 'السخان',
+'bathroom_chairs' => 'كراسي الحمامات',
+'exhaust_fan' => 'الشفط',
+'insulation' => 'النعلة',
+'aluminum' => 'الألمنيوم',
+'water_tank' => 'خزان المياه',
+'main_door' => 'الباب الرئيسي كاست المنيوم',
+'paint_type' => 'نوع الصبغ',
+'hot_cold_water_for_bidet' => 'الماء الحار والبارد للشطاف',
+'car_electric_point' => 'نقطة كهرباء سيارة',
+'facade_lighting_points' => 'نقاط اضاءة بالواجهات',
+'pantry_plumbing_first_floor' => 'نقطة صرف وتغذية للبانتري في الدور الأول',
+'roof_electric_point' => 'نقطة كهرباء السطح',
+'roof_water_point' => 'نقطة مياه السطح',
+'feeding_pipe_install' => 'تركيب تمديدات التغذية',
+'ac_civil_works' => 'اعمال مدنية للتكييف',
+'front_stairs' => 'الدرج الامامي لمدخل الفيلا',
+'floor_protection' => 'حماية الارضيات بعد تركيب البورسلان',
+'ac_water_recovery_tank' => 'خزان استرجاع مياه التكييف',
+'washroom_faucets' => 'مكسرات المغاسل والحمامات',
+'sanitary_drainage' => 'نظام الصرف الصحي',
+'ceramic_tiles' => 'حبات السيراميك',
+'water_tank_capacity' => 'سعة خزان المياه',
+'door_heights' => 'ارتفاعات الأبواب',
+'fence_water_points' => 'نقاط مياه في السور',
+'fence_electric_points' => 'نقاط كهرباء في السور',
+'exterior_stone_tiles' => 'الحجر والبورسلان الخارجي',
+'camera_points' => 'نقاط الكاميرا',
+'annex_ceramic_price' => 'سعر سيراميك الملاحق',
+'planting_basins' => 'أحواض الزراعة',
+'hidden_plaster_beam' => 'نعلة مخفية للجبس بلاستر',
+'first_floor_bath_drainage' => 'صرف الحمامات الدور الاول',
+'central_exhaust_fans' => 'مراوح الشفاط المركزي',
+'bath_wall_niches' => 'تجويفات جدران الحمامات',
+'garage_door_electric_point' => 'نقطة كهرباء ماكينة باب الكراج',
+'curb_grooves' => 'توريد و تركيب رداد للكلين اوت',
+'fence_grooves' => 'تركيب قروفات بالسور',
+'window_electric_points' => 'نقاط كهرباء لشبابيك الصالة',
+'sound_system_pipes' => 'تركيب بايبات ساوند سيستم',
+];
+@endphp
 
+
+
+
+{{-- <label class="fw-bold d-block mb-2">
+    {{ $fieldLabels[$field] ?? $field }}
+</label> --}}
 
 {{-- ================= مواصفات من اختيار المالك ================= --}}
 @if($specs)
@@ -222,7 +271,7 @@ $groupTotal += $sectionTotal;
     @continue(in_array($key, ['id','project_id','created_at','updated_at']))
     @if(!is_null($value))
     <tr>
-        <td class="bold center">{{ __($key) }}</td>
+        <td class="bold center">{{ $fieldLabels[$key] ?? $key }}</td>
         <td class="center">{{ $value }}</td>
     </tr>
     @endif
