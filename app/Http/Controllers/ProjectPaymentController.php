@@ -89,7 +89,7 @@ class ProjectPaymentController extends AppBaseController
         return view('project_payments.index', compact(
             'project',
             'payments'
-        ));
+        ));          
     }
 
 
