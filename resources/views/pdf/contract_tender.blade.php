@@ -91,6 +91,10 @@ thead {
     display: table-header-group;
 } */
 
+thead {
+    display: table-header-group;
+}
+
 </style>
 </head>
 
