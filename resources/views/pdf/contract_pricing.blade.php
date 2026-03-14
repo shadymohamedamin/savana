@@ -280,20 +280,29 @@ $fieldLabels = [
 @endif
 
 {{-- ================= التوقيعات ================= --}}
-<table class="signature-table" style="margin-top:2rem;">
+
+<table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:50px;">
     <tr>
-        <td class="section-title">المالك</td>
-        <td class="section-title">الاستشاري</td>
-    </tr>
-    <tr>
-        <td>
-            <strong>{{ $project->ownerUser?->name ?? 'المالك' }}</strong>
+       
+        <td class="bold center section-title" style="text-align:center; font-weight:bold;">
+            توقيع المالك
         </td>
-        <td>
-            سافانا ديزاين للاستشارات الهندسية
+        <td class="bold center section-title" style="text-align:center; font-weight:bold;">
+            توقيع وختم الاستشاري
+        </td>
+    </tr>
+
+    <tr>
+        
+        <td class="signature" style="height:80px; border-bottom:1px solid #000;"></td>
+
+        <td class="signature" style="height:80px; border-bottom:1px solid #000; text-align:center;">
+           <img src="{{ public_path('images/signature.jpeg') }}" style="height:60px;">
         </td>
     </tr>
 </table>
+
+
 
 </body>
 </html>

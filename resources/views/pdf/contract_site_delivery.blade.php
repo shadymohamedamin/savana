@@ -137,35 +137,32 @@ $dateFormatted = $today->translatedFormat('d/m/Y');
 <div class="page-spacer"></div>
 
 <!-- ===== Signatures ===== -->
-<table class="signature-table">
-    <tr class="signature-header">
-        <td>المالك</td>
-        <td>اسم وتوقيع المقاول</td>
-        <td>الاستشاري</td>
-    </tr>
-    <tr class="signature-space">
-        <td >
-            <strong >{{ $project->ownerUser->name ?? 'المالك' }}</strong>
+
+<table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:50px;">
+    <tr>
+        <td class="bold center section-title" style="text-align:center; font-weight:bold;">
+            توقيع وختم المقاول
         </td>
-        <td >
-            {{ $project->contractorUser->name ?? 'المقاول' }}
+        <td class="bold center section-title" style="text-align:center; font-weight:bold;">
+            توقيع المالك
         </td>
-        <td >
-            سافانا ديزاين للاستشارات الهندسية
+        <td class="bold center section-title" style="text-align:center; font-weight:bold;">
+            توقيع وختم الاستشاري
         </td>
     </tr>
-    <tr class="signature-space">
-        <td style="height: 100px;margin-bottom:auto;">
-            <strong style="margin-bottom: auto;"></strong>
-        </td>
-        <td style="height: 100px;">
-            
-        </td>
-        <td style="height: 100px;">
-           
+
+    <tr>
+        <td class="signature" style="height:80px; border-bottom:1px solid #000;"></td>
+
+        <td class="signature" style="height:80px; border-bottom:1px solid #000;"></td>
+
+        <td class="signature" style="height:80px; border-bottom:1px solid #000; text-align:center;">
+           <img src="{{ public_path('images/signature.jpeg') }}" style="height:60px;">
         </td>
     </tr>
 </table>
+
+
 
 </body>
 </html>

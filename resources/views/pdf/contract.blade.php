@@ -1466,7 +1466,7 @@
         <td class="signature" style="height:80px; border-bottom:1px solid #000;"></td>
 
         <td class="signature" style="height:80px; border-bottom:1px solid #000; text-align:center;">
-           
+           <img src="{{ public_path('images/signature.jpeg') }}" style="height:60px;">
         </td>
     </tr>
 </table>

@@ -604,16 +604,29 @@ $finalTotal = $totalVillaWithWall + $vat;
 
 
 {{-- ================= التوقيعات ================= --}}
-<table style="margin-top:10px;">
-<tr>
-    <td class="section-title">المالك</td>
-    <td class="section-title">الاستشاري</td>
-</tr>
-<tr>
-    <td class="center">{{ $project->ownerUser?->name ?? 'المالك' }}</td>
-    <td class="center">سافانا ديزاين للاستشارات الهندسية</td>
-</tr>
+
+<table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:50px;">
+    <tr>
+        
+        <td class="bold center section-title" style="text-align:center; font-weight:bold;">
+            توقيع المالك
+        </td>
+        <td class="bold center section-title" style="text-align:center; font-weight:bold;">
+            توقيع وختم الاستشاري
+        </td>
+    </tr>
+
+    <tr>
+        
+        <td class="signature" style="height:80px; border-bottom:1px solid #000;"></td>
+
+        <td class="signature" style="height:80px; border-bottom:1px solid #000; text-align:center;">
+           <img src="{{ public_path('images/signature.jpeg') }}" style="height:60px;">
+        </td>
+    </tr>
 </table>
+
+
 
 </body>
 </html>
