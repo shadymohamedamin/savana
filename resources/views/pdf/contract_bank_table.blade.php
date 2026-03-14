@@ -281,24 +281,13 @@ $dateFormatted = $today->translatedFormat('d/m/Y');
         <td class="signature" style="height:80px; border-bottom:1px solid #000;"></td>
 
         <td class="signature" style="height:80px; border-bottom:1px solid #000; text-align:center;">
-           <img src="{{ public_path('images/signature.jpeg') }}" style="height:60px;">
+           <img src="{{ public_path('images/signature.jpeg') }}" style="height:100px;">
         </td>
     </tr>
 </table>
 
 
-{{-- <table class="signature-table">
-    <tr>
-        <td class="signature-header">توقيع المقاول</td>
-        <td class="signature-header">توقيع المالك</td>
-        <td class="signature-header">توقيع الاستشاري</td>
-    </tr>
-    <tr>
-        <td class="signature-space">{{ $project->contractorUser->name ?? 'المقاول' }}</td>
-        <td class="signature-space">{{ $project->ownerUser->name ?? 'المالك' }}</td>
-        <td class="signature-space">سافانا ديزاين للاستشارات الهندسية</td>
-    </tr>
-</table> --}}
+
 
 
 

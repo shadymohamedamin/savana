@@ -1434,31 +1434,7 @@
 
     <!-- Clause 79 -->
     <!-- Agreement Header -->
-<table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:70px;">
-    <tr>
-        <td colspan="3" class="section-title" style="text-align:center; font-weight:bold; font-size:16px;">
-            تم الاتفاق بين كل من
-        </td>
-    </tr>
-    <tr>
-        <td class="bold" style="width:20%; font-weight:bold; padding:5px;">الطرف الأول</td>
-        <td colspan="2" style="width:80%; padding:5px;">
-            {{ $project->ownerUser->name ?? 'المالك' }}
-        </td>
-    </tr>
-    <tr>
-        <td class="bold" style="font-weight:bold; padding:5px;">الطرف الثاني</td>
-        <td colspan="2" style="padding:5px;">
-            {{ $project->contractorUser->name ?? 'المقاول' }}
-        </td>
-    </tr>
-    <tr>
-        <td class="bold" style="font-weight:bold; padding:5px;">الطرف الثالث (الاستشاري)</td>
-        <td colspan="2" style="padding:5px;">
-            سافانا ديزاين للاستشارات الهندسية
-        </td>
-    </tr>
-</table>
+
 
 <!-- Signatures -->
 
@@ -1481,7 +1457,7 @@
         <td class="signature" style="height:80px; border-bottom:1px solid #000;"></td>
 
         <td class="signature" style="height:80px; border-bottom:1px solid #000; text-align:center;">
-           <img src="{{ public_path('images/signature.jpeg') }}" style="height:60px;">
+           <img src="{{ public_path('images/signature.jpeg') }}" style="height:100px;">
         </td>
     </tr>
 </table>

@@ -14,7 +14,7 @@ class TenderRequirementsSeeder extends Seeder
         1️⃣ أولا : أعمال الهيكل
         =====================================================
         */
-        //OwnerRequirement::where('floor', 'tender')->delete();
+        OwnerRequirement::where('floor', 'tender')->delete();
 
         $mainStructure = OwnerRequirement::updateOrCreate([
             'name_ar' => 'أولا : أعمال الهيكل',

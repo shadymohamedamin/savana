@@ -206,28 +206,7 @@ $dateFormatted = $startDate->translatedFormat('d/m/Y'); // مثال: 07/01/2026
 </table>
 
 
-<!-- التوقيعات -->
-{{-- <table class="signature-table">
-    <tr>
-        <td class="signature-header" style="padding:15px;">المالك</td>
-        <td class="signature-header" style="padding:15px;">المقاول</td>
-        <td class="signature-header" style="padding:15px;">الإستشاري</td>
-    </tr>
 
-    <tr>
-        <td style="height:50px; vertical-align:bottom; text-align:center;">
-            {{ optional($project->ownerUser)->name ?? '-' }}
-        </td>
-
-        <td style="height:50px; vertical-align:bottom; text-align:center;">
-            {{ optional($project->contractorUser)->name ?? '-' }}
-        </td>
-
-        <td style="height:50px; vertical-align:bottom; text-align:center;">
-            سافانا ديزاين للإستشارات الهندسية
-        </td>
-    </tr>
-</table> --}}
 
 <table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:50px;">
     <tr>
@@ -248,7 +227,7 @@ $dateFormatted = $startDate->translatedFormat('d/m/Y'); // مثال: 07/01/2026
         <td class="signature" style="height:80px; border-bottom:1px solid #000;"></td>
 
         <td class="signature" style="height:80px; border-bottom:1px solid #000; text-align:center;">
-           <img src="{{ public_path('images/signature.jpeg') }}" style="height:60px;">
+           <img src="{{ public_path('images/signature.jpeg') }}" style="height:100px;">
         </td>
     </tr>
 </table>

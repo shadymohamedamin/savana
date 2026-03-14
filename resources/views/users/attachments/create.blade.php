@@ -77,7 +77,21 @@
     box-shadow:0 2px 6px rgba(0,0,0,0.05);
     transition:0.2s;
 }
+.edit-btn{
+    background: linear-gradient(45deg,#ff9800,#ff5722);
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    padding: 6px 14px;
+    border-radius: 6px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+    transition: all 0.2s ease;
+}
 
+.edit-btn:hover{
+    transform: scale(1.05);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.35);
+}
 /* hover */
 
 .contract-box:hover{
@@ -294,11 +308,12 @@
                 </a>
                 @elseif(Auth::user()->role_id==3)
                 <a href="{{ route('projects.owner-requirements.index', [
-                                                    'project'=>$model->id,
-                                                    'context'=>'tender',
-                                                    'contractor'=>Auth::user()->id
-                                                ]) }}" class="btn btn-outline-primary btn-sm mb-1">
-                     {{ __('تعديل') }}
+                        'project'=>$model->id,
+                        'context'=>'tender',
+                        'contractor'=>Auth::user()->id
+                    ]) }}" 
+                class="btn btn-warning btn-sm mb-1 edit-btn">
+                ✏️ {{ __('تعديل') }}
                 </a>
 
                  <a target="_blank" href="{{ route('projects.contract.tender.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
