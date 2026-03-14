@@ -520,3 +520,5 @@ Route::get('/reset-password/{token}', function ($token) {
 
 
 
+
+Route::resource('owner-requirment-tender-totals', App\Http\Controllers\OwnerRequirmentTenderTotalController::class);

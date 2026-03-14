@@ -1446,20 +1446,30 @@
     </tr>
 </table>
 
-<!-- Signatures -->
+
 <table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:50px;">
     <tr>
-        <td class="bold center section-title" style="text-align:center; font-weight:bold;">توقيع وختم المقاول</td>
-        <td class="bold center section-title" style="text-align:center; font-weight:bold;">توقيع المالك</td>
-        <td class="bold center section-title" style="text-align:center; font-weight:bold;">توقيع وختم الاستشاري</td>
+        <td class="bold center section-title" style="text-align:center; font-weight:bold;">
+            توقيع وختم المقاول
+        </td>
+        <td class="bold center section-title" style="text-align:center; font-weight:bold;">
+            توقيع المالك
+        </td>
+        <td class="bold center section-title" style="text-align:center; font-weight:bold;">
+            توقيع وختم الاستشاري
+        </td>
     </tr>
+
     <tr>
         <td class="signature" style="height:80px; border-bottom:1px solid #000;"></td>
+
         <td class="signature" style="height:80px; border-bottom:1px solid #000;"></td>
-        <td class="signature" style="height:80px; border-bottom:1px solid #000;"></td>
+
+        <td class="signature" style="height:80px; border-bottom:1px solid #000; text-align:center;">
+           
+        </td>
     </tr>
 </table>
-
 
 
 

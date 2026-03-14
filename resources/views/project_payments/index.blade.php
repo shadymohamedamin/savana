@@ -191,8 +191,9 @@
 
 
 
+<div class="table-responsive">
+    <table class="table table-bordered table-sm text-center align-middle text-nowrap">
 
-<table class="table table-bordered table-sm text-center align-middle ">
     <tbody>
 
         {{-- الأطراف --}}
@@ -263,7 +264,7 @@
 
     </tbody>
 </table>
-
+</div>
 
 
 
@@ -310,7 +311,8 @@
 
 
 {{-- Owner Payments Table --}}
-<table class="table table-bordered text-center mt-4">
+<div class="table-responsive">
+    <table class="table table-bordered table-sm text-center align-middle text-nowrap">
     <thead class="table-warning text-center align-middle fw-bold">
         <tr><th colspan="7" style="text-align: center; margin:auto;">دفعات المالك</th></tr>
         <tr>
@@ -412,7 +414,7 @@
         </tr>
     </tbody>
 </table>
-
+</div>
 
 
 <hr class="my-4">
@@ -421,7 +423,8 @@
 
 
 {{-- Bank Payments Table --}}
-<table class="table table-bordered text-center mt-4">
+<div class="table-responsive">
+    <table class="table table-bordered table-sm text-center align-middle text-nowrap">
     <thead class="table-warning text-center align-middle fw-bold">
         <tr><th colspan="7" style="text-align: center; margin:auto;">دفعات البنك</th></tr>
         <tr>
@@ -529,7 +532,7 @@
         </tr>
     </tbody>
 </table>
-
+</div>
 
 
 
@@ -554,7 +557,8 @@
 
 <hr class="my-4">
 
-<table class="table table-bordered text-center mt-4">
+<div class="table-responsive">
+    <table class="table table-bordered table-sm text-center align-middle text-nowrap">
     <thead class="table-warning align-middle fw-bold">
         <tr>
             <th colspan="4">ملخص الضرائب</th>
@@ -599,7 +603,7 @@
         </tr>
     </tbody>
 </table>
-
+</div>
 
 
 

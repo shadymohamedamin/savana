@@ -51,6 +51,55 @@
     text-overflow: ellipsis;
 }
 
+
+
+/* container */
+
+.contract-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:16px;
+    background:#f5f5dc;
+    padding:15px;
+}
+
+/* box */
+
+.contract-box{
+    background:white;
+    border:1px solid #e5e5e5;
+    border-radius:10px;
+    padding:15px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    min-height:170px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.05);
+    transition:0.2s;
+}
+
+/* hover */
+
+.contract-box:hover{
+    transform:translateY(-2px);
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* title */
+
+.contract-box span{
+    font-weight:600;
+    font-size:14px;
+    text-align:center;
+    margin-bottom:10px;
+}
+
+/* buttons */
+
+.contract-box .btn{
+    width:100%;
+}
+
 </style>
 @php
     $type = request('type');
@@ -168,12 +217,12 @@
 
 
 
-    <div class="card-body d-flex gap-3 flex-wrap" style="background-color: #f5f5dc;">
+    <div class="card-body contract-grid" style="background-color: #f5f5dc;">
 
 
         @if($isTender)
 
-            <div class="d-flex flex-column">
+            <div class="contract-box">
                 <span class="mb-1">{{ __('العقد الاساسي') }}</span>
                 <a target="_blank" href="{{ route('projects.contract.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
                     👁 {{ __('Preview') }}
@@ -188,7 +237,7 @@
 
 
 
-            <div class="d-flex flex-column">
+           <div class="contract-box">
                 <span class="mb-1">{{ __('المواصفات الفنية والشروط العامة') }}</span>
 
                 <a target="_blank"
@@ -210,7 +259,7 @@
             </div>
 
 
-            <div class="d-flex flex-column">
+            <div class="contract-box">
                 <span class="mb-1">{{ __('اسعار التوريد') }}</span>
 
                 <a target="_blank" href="{{ route('projects.contract.pricing.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
@@ -227,7 +276,7 @@
             </div>
 
 
-            <div class="d-flex flex-column">
+            <div class="contract-box">
                 <span class="mb-1">{{ __(' حساب الكميات') }}</span>
 
 
@@ -269,7 +318,7 @@
                         $att = $row['attachment'];
                         //dd($row);
                     @endphp
-                    <div class="d-flex flex-column">
+                    <div class="contract-box">
                         
                     
                         <span class="mb-2 fw-bold">
@@ -346,7 +395,7 @@
                     @endif -->
 
         @elseif($isCotractorFiles)
-            <div class="d-flex flex-column">
+            <div class="contract-box">
                 <span class="mb-1">{{ __('العقد الاساسي') }}</span>
                 <a target="_blank" href="{{ route('projects.contract.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
                     👁 {{ __('Preview') }}
@@ -361,7 +410,7 @@
 
 
 
-            <div class="d-flex flex-column">
+            <div class="contract-box">
                 <span class="mb-1">{{ __('المواصفات الفنية والشروط العامة') }}</span>
 
                 <a target="_blank"
@@ -383,7 +432,7 @@
             </div>
 
 
-            <div class="d-flex flex-column">
+            <div class="contract-box">
                 <span class="mb-1">{{ __('اسعار التوريد') }}</span>
 
                 <a target="_blank" href="{{ route('projects.contract.pricing.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
@@ -402,7 +451,7 @@
 
 
 
-            <div class="d-flex flex-column">
+            <div class="contract-box">
                 <span class="mb-1">{{ __(' حساب الكميات') }}</span>
 
                 <a target="_blank" href="{{ route('projects.contract.pricing.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
@@ -429,7 +478,7 @@
 
 
                   {{-- Hawya Contract --}}
-             <div class="d-flex flex-column">
+             <div class="contract-box">
                 <span class="mb-1">{{ __('Hawya Contract') }}</span>
 
              <a target="_blank" href="{{ route('projects.contract.hawya.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
@@ -448,7 +497,7 @@
 
 
         
-            <div class="d-flex flex-column">
+            <div class="contract-box">
             <span class="mb-1">{{ __('Site Delivery Contract') }}</span>
 
             <a target="_blank" href="{{ route('projects.contract.site_delivery.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
@@ -468,7 +517,7 @@
 
 
 
-            <div class="d-flex flex-column">
+            <div class="contract-box">
             <span class="mb-1">{{ __('Bank Contract') }}</span>
 
             <a target="_blank" href="{{ route('projects.contract.bank.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
@@ -490,7 +539,7 @@
 
 
 
-            <div class="d-flex flex-column">
+            <div class="contract-box">
             <span class="mb-1">{{ __('كميات البنك') }}</span>
 
             <a target="_blank" href="{{ route('projects.contract.bank_table.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
@@ -524,7 +573,7 @@
                         $att = $row['attachment'];
                         //dd($row);
                     @endphp
-                    <div class="d-flex flex-column">
+                    <div class="contract-box">
                         
                     
                         <span class="mb-2 fw-bold">
@@ -572,57 +621,59 @@
                 </div>  -->
 
                 {{-- عقد المالك والاستشاري --}}
-                <div class="d-flex flex-column">
-                    <span class="mb-1">{{ __('Owner And Consultant And Contractor Contract') }}</span>
-                    <a target="_blank" href="{{ route('projects.contract.owner_consultant.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
-                        👁 {{ __('Preview') }}
-                    </a>
-                    <a href="{{ route('projects.contract.owner_consultant.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
-                        ⬇ {{ __('Download') }}
-                    </a>
-                    <a target="_blank" href="{{ route('projects.contract.owner_consultant.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
-                        🖨 {{ __('Print') }}
-                    </a>
-                </div>
+                @if(!$projectDocuments)
+                    <div class="contract-box">
+                        <span class="mb-1">{{ __('Owner And Consultant And Contractor Contract') }}</span>
+                        <a target="_blank" href="{{ route('projects.contract.owner_consultant.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
+                            👁 {{ __('Preview') }}
+                        </a>
+                        <a href="{{ route('projects.contract.owner_consultant.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
+                            ⬇ {{ __('Download') }}
+                        </a>
+                        <a target="_blank" href="{{ route('projects.contract.owner_consultant.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
+                            🖨 {{ __('Print') }}
+                        </a>
+                    </div>
 
-                {{-- خطاب التكليف --}}
-                <div class="d-flex flex-column">
-                    <span class="mb-1">{{ __('Takleef Contract') }}</span>
+                    {{-- خطاب التكليف --}}
+                    <div class="contract-box">
+                        <span class="mb-1">{{ __('Takleef Contract') }}</span>
 
-                    <a target="_blank"
-                    href="{{ route('projects.contract.takleef.pdf', ['id' => $model->id, 'action' => 'preview']) }}"
-                    class="btn btn-outline-primary btn-sm mb-1">
-                        👁 {{ __('Preview') }}
-                    </a>
+                        <a target="_blank"
+                        href="{{ route('projects.contract.takleef.pdf', ['id' => $model->id, 'action' => 'preview']) }}"
+                        class="btn btn-outline-primary btn-sm mb-1">
+                            👁 {{ __('Preview') }}
+                        </a>
 
-                    <a href="{{ route('projects.contract.takleef.pdf', ['id' => $model->id, 'action' => 'download']) }}"
-                    class="btn btn-success btn-sm mb-1">
-                        ⬇ {{ __('Download') }}
-                    </a>
+                        <a href="{{ route('projects.contract.takleef.pdf', ['id' => $model->id, 'action' => 'download']) }}"
+                        class="btn btn-success btn-sm mb-1">
+                            ⬇ {{ __('Download') }}
+                        </a>
 
-                    <a target="_blank"
-                    href="{{ route('projects.contract.takleef.pdf', ['id' => $model->id, 'action' => 'print']) }}"
-                    class="btn btn-warning btn-sm">
-                        🖨 {{ __('Print') }}
-                    </a>
-                </div>
+                        <a target="_blank"
+                        href="{{ route('projects.contract.takleef.pdf', ['id' => $model->id, 'action' => 'print']) }}"
+                        class="btn btn-warning btn-sm">
+                            🖨 {{ __('Print') }}
+                        </a>
+                    </div>
 
 
-                <div class="d-flex flex-column">
-                    <span class="mb-1">{{ __('احتياجات المالك') }}</span>
+                    <div class="contract-box">
+                        <span class="mb-1">{{ __('احتياجات المالك') }}</span>
 
-                    <a target="_blank" href="{{ route('projects.contract.owner-requirements.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
-                        👁 {{ __('Preview') }}
-                    </a>
+                        <a target="_blank" href="{{ route('projects.contract.owner-requirements.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
+                            👁 {{ __('Preview') }}
+                        </a>
 
-                    <a href="{{ route('projects.contract.owner-requirements.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
-                        ⬇ {{ __('Download') }}
-                    </a>
+                        <a href="{{ route('projects.contract.owner-requirements.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
+                            ⬇ {{ __('Download') }}
+                        </a>
 
-                    <a target="_blank" href="{{ route('projects.contract.owner-requirements.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
-                        🖨 {{ __('Print') }}
-                    </a>
-                </div>
+                        <a target="_blank" href="{{ route('projects.contract.owner-requirements.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
+                            🖨 {{ __('Print') }}
+                        </a>
+                    </div>
+                @endif
 
 
 
@@ -637,7 +688,7 @@
                         $att = $row['attachment'];
                         //dd($row);
                     @endphp
-                    <div class="d-flex flex-column">
+                    <div class="contract-box">
                         
                     
                         <span class="mb-2 fw-bold">

@@ -108,14 +108,15 @@
 
                             <td>AED {{ number_format($contractor->structureElectro,2) }}</td>
                             <td>AED {{ number_format($contractor->structureWithFinishes,2) }}</td>
-                            <td>AED {{ number_format($contractor->footWithoutFinishes,2) }}</td>
-                            <td>AED {{ number_format($contractor->footWithFinishes,2) }}</td>
+                            <td>AED {{ number_format($contractor->footWithout,2) }}</td>
+                            <td>AED {{ number_format($contractor->footWith,2) }}</td>
                             <td>AED {{ number_format($contractor->boundaryWall,2) }}</td>
-                            <td>AED {{ number_format($contractor->totalVillaWithWall,2) }}</td>
+                            <td>AED {{ number_format($contractor->villaWithWall,2) }}</td>
                             <td>AED {{ number_format($contractor->vat,2) }}</td>
-                            <td class="{{ $contractor->finalTotal == $lowestPrice ? 'text-success fw-bold' : '' }}">
+                            {{-- <td class="{{ $contractor->finalTotal == $lowestPrice ? 'text-success fw-bold' : '' }}">
                                 AED {{ number_format($contractor->finalTotal,2) }}
-                            </td>
+                            </td> --}}
+                            <td class="{{ $contractor->finalTotal == $lowestPrice ? 'text-success fw-bold' : '' }}">AED {{ number_format($contractor->finalTotal,2) }}</td>
 
                             <td>
                                 @if($contractor->project_status == 'awarded')
@@ -221,8 +222,12 @@
                                         
 
 
+                                    @php
+                                    $allowed = ['candidate','awarded'];
+                                    @endphp
 
-
+                                    @if(in_array($contractor->project_status,$allowed))
+                                    
                                         <li>
                                             <a class="dropdown-item"
                                                href="{{ route('projects.owner-requirements.index', [
@@ -246,6 +251,7 @@
                                                 👁 معاينة العقد
                                             </a>
                                         </li>
+                                    @endif
                                         
 
                                     </ul>

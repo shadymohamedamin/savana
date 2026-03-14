@@ -39,6 +39,7 @@ $allowedRoles = [1,4,11,12];
             'status',
             'ownerUser',
             'contractor',
+            'users',
             'baladyaApprovals' => fn($q) => $q->latest()->take(1),
         ])
         ->withSum([
@@ -49,12 +50,30 @@ $allowedRoles = [1,4,11,12];
             }
         ], 'id');
 
-    if (!in_array($user->role_id, $allowedRoles)) {
+if (!in_array(auth()->user()->role_id, $allowedRoles)) {
+    //dd($user);
+    $query->whereHas('projectUsers', function ($q) {
+        $q->where('user_id', auth()->id())
+          ->where('role_id', 8);
+    });
+
+}
+
+
+
+    /*if (!in_array($user->role_id, $allowedRoles)) {
 
         $query->whereHas('projectUsers', function ($q) use ($user) {
             $q->where('user_id', $user->id);
         });
-    }
+    }*/
+
+       /* if (!in_array($user->role_id, $allowedRoles)) {
+            //dd($user);
+            $query->whereHas('users', function ($q) use ($user) {
+                $q->where('users.id', $user->id);
+            });
+        }*/
 
     // Filters
     if ($request->filled('project_code')) {
@@ -82,6 +101,10 @@ $allowedRoles = [1,4,11,12];
 
     $toast = session('toast', null);
     $contractors = \App\Models\User::where('role_id', 3)->get();
+
+
+
+    
 
     return view('projects.index', compact('projects', 'toast','contractors'));
 }

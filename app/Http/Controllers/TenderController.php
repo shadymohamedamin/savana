@@ -9,7 +9,7 @@ use App\Models\ProjectOwnerRequirement;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+use App\Models\OwnerRequirmentTenderTotal;
 
 use App\Models\ProjectUser;
 
@@ -37,124 +37,255 @@ class TenderController extends Controller
     }else{
         $contractor->tender_status = $tender->tender_status;
     }*/
-    public function contractors(Project $project)
-    {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
-    return redirect()->back()->with('toast', [
-        'type' => 'error',
-        'message' => 'ليس لديك الصلاحيات الكافية'
-    ]);
-}
-        // كل المقاولين
-        $contractors = User::where('role_id', 3)->get();
+//     public function contractors(Project $project)
+//     {
+//         if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+//             return redirect()->back()->with('toast', [
+//                 'type' => 'error',
+//                 'message' => 'ليس لديك الصلاحيات الكافية'
+//             ]);
+//         }
+//         // كل المقاولين
+//         $contractors = User::where('role_id', 3)->get();
 
-        // المقاولين المرشحين في المشروع
-        $selected = $project->users()
-            ->wherePivot('role_id', 8)
-            ->pluck('users.id')
-            ->toArray();
+//         // المقاولين المرشحين في المشروع
+//         $selected = $project->users()
+//             ->wherePivot('role_id', 8)
+//             ->pluck('users.id')
+//             ->toArray();
 
-        // جروبات التندر
-        $groups = OwnerRequirement::where('floor', 'tender')
-            ->where('type', 'group')
-            ->orderBy('id')
-            ->get();
+//         // جروبات التندر
+//         $groups = OwnerRequirement::where('floor', 'tender')
+//             ->where('type', 'group')
+//             ->orderBy('id')
+//             ->get();
 
-        $lowestPrice = null;
-        $awardedContractorId = $project->contractor_id;
-
-        foreach ($contractors as $contractor) {
-
-            $rows = DB::table('project_owner_requirements')
-                ->where('project_id', $project->id)
-                ->where('context', 'tender')
-                ->where('tender_user_id', $contractor->id)
-                ->get();
+//         $lowestPrice = null;
+//         $awardedContractorId = $project->contractor_id;
 
 
+//         $groups = OwnerRequirement::where('floor', 'tender')
+//             ->where('type', 'group')
+//             ->orderBy('id')
+//             ->get();
 
-            $projectUser = DB::table('project_users')
-                ->where('project_id',$project->id)
-                ->where('user_id',$contractor->id)
-                ->first();
 
-            if(!$projectUser){
-                $contractor->project_status = 'not_selected';
-            }else{
-                $contractor->project_status = $projectUser->status; 
-            }
+                   
+// $structureIds = OwnerRequirement::where('name_ar','like','%الهيكل%')
+//     ->orWhere('name_ar','like','%الكتروميكانيكال%')
+//     ->pluck('id')
+//     ->toArray();
+
+// // التشطيبات
+// $finishIds = OwnerRequirement::where('name_ar','like','%التشطيب%')
+//     ->pluck('id')
+//     ->toArray();
+
+// // السور
+// $boundaryIds = OwnerRequirement::where('name_ar','like','%السور%')
+//     ->pluck('id')
+//     ->toArray();
+
+
+//         foreach ($contractors as $contractor) {
+
+//             /*$rows = DB::table('project_owner_requirements')
+//                 ->where('project_id', $project->id)
+//                 ->where('context', 'tender')
+//                 ->where('tender_user_id', $contractor->id)
+//                 ->get();*/
+//             $rows = OwnerRequirmentTenderTotal::where('project_id', $project->id)
+//                 ->where('context', 'tender')
+//                 ->where('tender_user_id', $contractor->id)
+//                 ->get();
+
+
+
+//             $projectUser = DB::table('project_users')
+//                 ->where('project_id',$project->id)
+//                 ->where('user_id',$contractor->id)
+//                 ->first();
+
+//             if(!$projectUser){
+//                 $contractor->project_status = 'not_selected';
+//             }else{
+//                 $contractor->project_status = $projectUser->status; 
+//             }
 
             
 
-            $tender = DB::table('project_owner_requirements')
-                ->where('project_id',$project->id)
-                ->where('tender_user_id',$contractor->id)
-                ->where('context','tender')
-                ->first();
+//             /*$tender = DB::table('project_owner_requirements')
+//                 ->where('project_id',$project->id)
+//                 ->where('tender_user_id',$contractor->id)
+//                 ->where('context','tender')
+//                 ->first();*/
 
-            if(!$tender){
-                $contractor->tender_status = 'not_started';
-            }else{
-                $contractor->tender_status = $tender->tender_status;
-            }
+//                 $tender = OwnerRequirmentTenderTotal::where('project_id',$project->id)
+//                     ->where('tender_user_id',$contractor->id)
+//                     ->where('context','tender')
+//                     ->first();
 
-            // نجيب الإجماليات حسب owner_requirement_id
-            $structureElectro = $rows
-                ->whereIn('owner_requirement_id', [378,438]) // عدلهم حسب البنود عندك
-                ->sum('total_price');
+//             if(!$tender){
+//                 $contractor->tender_status = 'not_started';
+//             }else{
+//                 $contractor->tender_status = $tender->tender_status;
+//             }
 
-            $finishes = $rows
-                ->whereIn('owner_requirement_id', [452]) // مثال
-                ->sum('total_price');
+//             // نجيب الإجماليات حسب owner_requirement_id
+//             /*$structureElectro = $rows
+//                 ->whereIn('owner_requirement_id', [378,438]) // عدلهم حسب البنود عندك
+//                 ->sum('total_price');
 
-            $boundaryWall = $rows
-                ->whereIn('owner_requirement_id', [496]) // مثال
-                ->sum('total_price');
+//             $finishes = $rows
+//                 ->whereIn('owner_requirement_id', [452]) // مثال
+//                 ->sum('total_price');
 
-            $structureWithFinishes = $structureElectro + $finishes;
+//             $boundaryWall = $rows
+//                 ->whereIn('owner_requirement_id', [496]) // مثال
+//                 ->sum('total_price');*/
 
-            $approvedArea = $project->approved_area ?? 0;
+//             $structureElectro = $rows
+//     ->whereIn('owner_requirement_id', $structureIds)
+//     ->sum('total_price');
 
-            $footWithoutFinishes = $approvedArea > 0
-                ? $structureElectro / $approvedArea
-                : 0;
+// $finishes = $rows
+//     ->whereIn('owner_requirement_id', $finishIds)
+//     ->sum('total_price');
 
-            $footWithFinishes = $approvedArea > 0
-                ? $structureWithFinishes / $approvedArea
-                : 0;
+// $boundaryWall = $rows
+//     ->whereIn('owner_requirement_id', $boundaryIds)
+//     ->sum('total_price');
 
-            $totalVillaWithWall = $structureWithFinishes + $boundaryWall;
+//             $structureWithFinishes = $structureElectro + $finishes;
 
-            $vat = $totalVillaWithWall /21;//* 0.05;
+//             $approvedArea = $project->approved_area ?? 0;
 
-            $finalTotal = $totalVillaWithWall + $vat;
+//             $footWithoutFinishes = $approvedArea > 0
+//                 ? $structureElectro / $approvedArea
+//                 : 0;
 
-            // نخزنهم
-            $contractor->structureElectro = $structureElectro;
-            $contractor->structureWithFinishes = $structureWithFinishes;
-            $contractor->footWithoutFinishes = $footWithoutFinishes;
-            $contractor->footWithFinishes = $footWithFinishes;
-            $contractor->boundaryWall = $boundaryWall;
-            $contractor->totalVillaWithWall = $totalVillaWithWall;
-            $contractor->vat = $vat;
-            $contractor->finalTotal = $finalTotal;
-        }
+//             $footWithFinishes = $approvedArea > 0
+//                 ? $structureWithFinishes / $approvedArea
+//                 : 0;
 
-        return view('projects.tender.contractors', compact(
-            'project',
-            'contractors',
-            'selected',
-            'lowestPrice',
-            'awardedContractorId'
-        ));
+//             $totalVillaWithWall = $structureWithFinishes + $boundaryWall;
+
+//             $vat = $totalVillaWithWall /21;//* 0.05;
+
+//             $finalTotal = $totalVillaWithWall + $vat;
+
+//             // نخزنهم
+//             /*$contractor->structureElectro = $structureElectro;
+//             $contractor->structureWithFinishes = $structureWithFinishes;
+//             $contractor->footWithoutFinishes = $footWithoutFinishes;
+//             $contractor->footWithFinishes = $footWithFinishes;
+//             $contractor->boundaryWall = $boundaryWall;
+//             $contractor->totalVillaWithWall = $totalVillaWithWall;
+//             $contractor->vat = $vat;
+//             $contractor->finalTotal = $finalTotal;*/
+
+//             $totals = OwnerRequirmentTenderTotal::totals($project);
+
+//             $contractor->structureElectro = $totals['structureElectro'];
+//             $contractor->structureWithFinishes = $totals['structureWithFinishes'];
+//             $contractor->footWithoutFinishes = $totals['footWithoutFinishes'];
+//             $contractor->footWithFinishes = $totals['footWithFinishes'];
+//             $contractor->boundaryWall = $totals['boundaryWall'];
+//             $contractor->totalVillaWithWall = $totals['totalVillaWithWall'];
+//             $contractor->vat = $totals['vat'];
+//             $contractor->finalTotal = $totals['finalTotal'];
+//             //dd($contractor);
+//         }
+
+//         return view('projects.tender.contractors', compact(
+//             'project',
+//             'contractors',
+//             'selected',
+//             'lowestPrice',
+//             'awardedContractorId'
+//         ));
+//     }
+
+public function contractors(Project $project)
+{
+    if (!in_array(auth()->user()->role_id, [1, 4, 11, 12])) {
+        return redirect()->back()->with('toast', [
+            'type' => 'error',
+            'message' => 'ليس لديك الصلاحيات الكافية'
+        ]);
     }
 
+    // كل المقاولين
+    $contractors = User::where('role_id', 3)->get();
+
+    // المقاولين المختارين للمشروع
+    $selected = $project->users()
+        ->wherePivot('role_id', 8)
+        ->pluck('users.id')
+        ->toArray();
+
+    foreach ($contractors as $contractor) {
+
+    $projectUser = $project->users()
+        ->where('users.id', $contractor->id)
+        ->first();
+    //dd($projectUser->pivot);
+
+    if ($projectUser) {
+
+        $pivot = $projectUser->pivot;
+
+        $contractor->project_status = $pivot->status ?? 'not_selected';
+
+        $contractor->structureElectro       = $pivot->structureElectro ?? 0;
+        $contractor->structureWithFinishes  = $pivot->structureWithFinishes ?? 0;
+        $contractor->footWithout            = $pivot->footWithout ?? 0;
+        $contractor->footWith               = $pivot->footWith ?? 0;
+        $contractor->boundaryWall           = $pivot->boundaryWall ?? 0;
+        $contractor->villaWithWall          = $pivot->villaWithWall ?? 0;
+        $contractor->vat                    = $pivot->vat ?? 0;
+        $contractor->finalTotal             = $pivot->finalTotal ?? 0;
+
+        $contractor->tender_status = $pivot->status ?? 'not_started';
+
+    } else {
+
+        $contractor->project_status = 'not_selected';
+        $contractor->structureElectro = 0;
+        $contractor->structureWithFinishes = 0;
+        $contractor->footWithout = 0;
+        $contractor->footWith = 0;
+        $contractor->boundaryWall = 0;
+        $contractor->villaWithWall = 0;
+        $contractor->vat = 0;
+        $contractor->finalTotal = 0;
+        $contractor->tender_status = 'not_started';
+    }
+}
+
+    // أقل سعر
+    $lowestPrice = $contractors->min('finalTotal');
+
+    $awardedContractorId = $project->contractor_id;
+
+    return view('projects.tender.contractors', compact(
+        'project',
+        'contractors',
+        'selected',
+        'lowestPrice',
+        'awardedContractorId'
+    ));
+}
 
 
 
 
 
-    public function award(Project $project, $contractorId)
+
+
+
+
+    /*public function award(Project $project, $contractorId)
     {
         if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
     return redirect()->back()->with('toast', [
@@ -164,67 +295,7 @@ class TenderController extends Controller
 }
         DB::transaction(function () use ($project, $contractorId) {
 
-            // 1️⃣ حساب الإجمالي النهائي
-            /*$total = ProjectOwnerRequirement::where('project_id', $project->id)
-                ->where('context', 'tender')
-                ->where('tender_user_id', $contractorId)
-                ->sum('total_price');
-
-            $vat = $total /21;
-            $finalTotal = $total + $vat;*/
-            //$contractor = User::where('id', $contractorId);
-            $rows = DB::table('project_owner_requirements')
-                ->where('project_id', $project->id)
-                ->where('context', 'tender')
-                ->where('tender_user_id', $contractorId)
-                ->get();
-
-            // ProjectUser::where('project_id',$project->id)
-            //     ->where('user_id',$contractorId)
-            //     ->update(['status'=>'awarded']);
-
-            // نجيب الإجماليات حسب owner_requirement_id
-            $structureElectro = $rows
-                ->whereIn('owner_requirement_id', [378,438]) // عدلهم حسب البنود عندك
-                ->sum('total_price');
-
-            $finishes = $rows
-                ->whereIn('owner_requirement_id', [452]) // مثال
-                ->sum('total_price');
-
-            $boundaryWall = $rows
-                ->whereIn('owner_requirement_id', [496]) // مثال
-                ->sum('total_price');
-
-            $structureWithFinishes = $structureElectro + $finishes;
-
-            $approvedArea = $project->approved_area ?? 0;
-
-            $footWithoutFinishes = $approvedArea > 0
-                ? $structureElectro / $approvedArea
-                : 0;
-
-            $footWithFinishes = $approvedArea > 0
-                ? $structureWithFinishes / $approvedArea
-                : 0;
-
-            $totalVillaWithWall = $structureWithFinishes + $boundaryWall;
-
-            $vat = $totalVillaWithWall /21;//* 0.05;
-
-            $finalTotal = $totalVillaWithWall + $vat;
-
-            // نخزنهم
-            /*$contractor->structureElectro = $structureElectro;
-            $contractor->structureWithFinishes = $structureWithFinishes;
-            $contractor->footWithoutFinishes = $footWithoutFinishes;
-            $contractor->footWithFinishes = $footWithFinishes;
-            $contractor->boundaryWall = $boundaryWall;
-            $contractor->totalVillaWithWall = $totalVillaWithWall;
-            $contractor->vat = $vat;
-            $contractor->finalTotal = $finalTotal;*/
-
-
+          
             //dd($finalTotal);
             // 2️⃣ تحديث جدول المشاريع
             $project->update([
@@ -248,17 +319,63 @@ class TenderController extends Controller
                 $contractorId => ['role_id' => 3]
             ]);*/
 
-        });
+        //});
 
-        return redirect()
+        /*return redirect()
         ->back()
         ->with('toast', [
             'type' => 'success',
             'message' => 'تم التعيين بنجاح'
         ]);
     }
+*/
+public function award(Project $project, $contractorId)
+{
+    if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        return redirect()->back()->with('toast', [
+            'type' => 'error',
+            'message' => 'ليس لديك الصلاحيات الكافية'
+        ]);
+    }
 
+    DB::transaction(function () use ($project, $contractorId) {
 
+        // 1️⃣ جلب القيم المحسوبة من project_users
+        $pivot = ProjectUser::where('project_id', $project->id)
+            ->where('user_id', $contractorId)
+            ->first();
+
+        if (!$pivot) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'لا يوجد بيانات مقاول'
+            ]);
+        }
+
+        $finalTotal = $pivot->finalTotal;
+
+        // 2️⃣ تحديث المشروع بالقيم المخزنة
+        $project->update([
+            'contractor_id' => $contractorId,
+            'bank_contract_value' => $finalTotal,
+            'project_owner_support' => ($finalTotal - ($project->project_bank_support))
+        ]);
+
+        // 3️⃣ تحديث حالة المقاول
+        $pivot->update([
+            'status' => 'awarded',
+            'role_id' => 8
+        ]);
+
+    });
+
+    return redirect()
+        ->back()
+        ->with('toast', [
+            'type' => 'success',
+            'message' => 'تم التعيين بنجاح'
+        ]);
+}
 
 
 

@@ -194,3 +194,10 @@
         <p>Project Owner Specifications</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('ownerRequirmentTenderTotals.index') }}" class="nav-link {{ Request::is('ownerRequirmentTenderTotals*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Owner Requirment Tender Totals</p>
+    </a>
+</li>

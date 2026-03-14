@@ -693,7 +693,7 @@ public function savePricing(Request $request, Project $project)
         $notes = $data['notes'] ?? '';
 
         // ✅ الشرط المهم: احفظ العناصر اللي الكمية والسعر أكبر من 0
-        if ($qty > 0 || $price > 0) {
+        if ($qty >= 0 || $price >= 0) {
             $syncData[$ownerRequirementId] = [
                 'quantity'    => $qty,
                 'unit_price'  => $price,
@@ -737,7 +737,7 @@ public function savePricing(Request $request, Project $project)
 public function saveTender(Request $request, Project $project)
 {
     $syncData = [];
-    //dd($request);
+    
      $contractorId = $request->contractor;
 //dd($contractorId);
     foreach ($request->requirements ?? [] as $ownerRequirementId => $data) {
@@ -756,8 +756,65 @@ public function saveTender(Request $request, Project $project)
                 'context'     => 'tender',
                 'tender_user_id' => $contractorId // 👈 الفرق: هنا السياق tender
             ];
+            
         }
     }
+
+
+    // استلام القيم المرسلة
+    $structureElectro = $request->structureElectro;
+    $structureWithFinishes = $request->structureWithFinishes;
+    $footWithout = $request->footWithout;
+    $footWith = $request->footWith;
+    $boundaryWall = $request->boundaryWall;
+    $villaWithWall = $request->villaWithWall;
+    $vat = $request->vat;
+    $finalTotal = $request->finalTotal;
+
+
+    //dd($request->finalTotal);
+    $context = "tender";
+
+    // هنا ممكن تحفظهم في جدول pivot او جدول summary
+    // مثلا في جدول OwnerRequirmentTenderTotal
+    \App\Models\OwnerRequirmentTenderTotal::updateOrCreate(
+        [
+            'project_id' => $project->id,
+            'tender_user_id' => $contractorId,
+            'context' => $context
+        ],
+        [
+            'structureElectro' => $structureElectro,
+            'structureWithFinishes' => $structureWithFinishes,
+            'footWithout' => $footWithout,
+            'footWith' => $footWith,
+            'boundaryWall' => $boundaryWall,
+            'villaWithWall' => $villaWithWall,
+            'vat' => $vat,
+            'finalTotal' => $finalTotal
+        ]
+    );
+
+    
+
+    \App\Models\ProjectUser::updateOrCreate(
+        [
+            'project_id' => $project->id,
+            'user_id' => $contractorId,
+            'context' => $context
+        ],
+        [
+            'structureElectro' => $structureElectro,
+            'structureWithFinishes' => $structureWithFinishes,
+            'footWithout' => $footWithout,
+            'footWith' => $footWith,
+            'boundaryWall' => $boundaryWall,
+            'villaWithWall' => $villaWithWall,
+            'vat' => $vat,
+            'finalTotal' => $finalTotal,
+            'role_id'=>8
+        ]
+    );
 
 
     // حفظ البيانات في الـ pivot table لو في عناصر صالحة

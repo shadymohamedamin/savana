@@ -1176,6 +1176,26 @@ body{
 
 
 
+
+
+
+
+<!-- Hidden inputs موجودة مع الفورم الرئيسي -->
+<input type="hidden" name="structureElectro" id="hiddenStructureElectro" value="0.00">
+<input type="hidden" name="structureWithFinishes" id="hiddenStructureWithFinishes" value="0.00">
+<input type="hidden" name="footWithout" id="hiddenFootWithout" value="0.00">
+<input type="hidden" name="footWith" id="hiddenFootWith" value="0.00">
+<input type="hidden" name="boundaryWall" id="hiddenBoundaryWall" value="0.00">
+<input type="hidden" name="villaWithWall" id="hiddenVillaWithWall" value="0.00">
+<input type="hidden" name="vat" id="hiddenVat" value="0.00">
+<input type="hidden" name="finalTotal" id="hiddenFinalTotal" value="0.00">
+<input type="hidden" name="context" value="{{ $context }}">
+
+
+
+
+
+
 <div class="floating-actions">
 
     <button type="submit"
@@ -1462,6 +1482,32 @@ document.addEventListener('input', function(e) {
 });
 
 calculateAll();
+
+
+
+function prepareHiddenInputs() {
+    document.getElementById('hiddenStructureElectro').value =
+        document.getElementById('structureElectro').textContent.replace(/,/g,'');
+    document.getElementById('hiddenStructureWithFinishes').value =
+        document.getElementById('structureWithFinishes').textContent.replace(/,/g,'');
+    document.getElementById('hiddenFootWithout').value =
+        document.getElementById('footWithout').textContent.replace(/,/g,'');
+    document.getElementById('hiddenFootWith').value =
+        document.getElementById('footWith').textContent.replace(/,/g,'');
+    document.getElementById('hiddenBoundaryWall').value =
+        document.getElementById('boundaryWall').textContent.replace(/,/g,'');
+    document.getElementById('hiddenVillaWithWall').value =
+        document.getElementById('villaWithWall').textContent.replace(/,/g,'');
+    document.getElementById('hiddenVat').value =
+        document.getElementById('vat').textContent.replace(/,/g,'');
+    document.getElementById('hiddenFinalTotal').value =
+        document.getElementById('finalTotal').textContent.replace(/,/g,'');
+}
+
+
+document.querySelector('.main-save-btn').addEventListener('click', function(e){
+    prepareHiddenInputs();
+});
 
 </script>
 

@@ -345,36 +345,43 @@
                style="border:1px solid #D4AF37;">
            <thead class="custom-header" style="background-color:#d4af37;color:#2f3a1f;">
 
-            <tr class="project-roww"
-                
-                style="background-color:#d4af37; cursor:pointer;">
-                <th style="background-color:#d4af37;">{{ __('Code') }}</th>
-                <th style="background-color:#d4af37;">{{ __('Owner') }}</th>
-                <th style="background-color:#d4af37;">{{ __('رقم القسيمة') }}</th>
-                <!-- <th style="background-color:#d4af37;">{{ __('ProjectName') }}</th> -->
-                <th style="background-color:#d4af37;">{{ __('Chosen Contractor') }}</th>
-                <th style="background-color:#d4af37;">{{ __('Case #') }}</th>
-                <!-- <th style="background-color:#d4af37;">{{ __('Building #') }}</th> -->
-                <!-- <th style="background-color:#d4af37;">{{ __('Building #') }}</th> -->
-                <th style="background-color:#d4af37;">{{ __(key: 'نوع الحالة') }}</th>
-                <th style="background-color:#d4af37;">{{ __(key: 'عدد زيارات الاشراف') }}</th>
-                <th style="background-color:#d4af37;">{{ __(key: 'قيمة العقد') }}</th>
-                <th style="background-color:#d4af37;">{{ __(key: 'تاريخ انتهاء العقد') }}</th>
-                
+            <tr class="project-roww"style="background-color:#d4af37; cursor:pointer;">
+                @if(in_array(auth()->user()->role_id, [1,4,11,12]))
+                    <th style="background-color:#d4af37;">{{ __('Code') }}</th>
+                    <th style="background-color:#d4af37;">{{ __('Owner') }}</th>
+                    <th style="background-color:#d4af37;">{{ __('رقم القسيمة') }}</th>
+                    <th style="background-color:#d4af37;">{{ __('Chosen Contractor') }}</th>
+                    <th style="background-color:#d4af37;">{{ __('Case #') }}</th>
+                    <th style="background-color:#d4af37;">{{ __(key: 'نوع الحالة') }}</th>
+                    <th style="background-color:#d4af37;">{{ __(key: 'عدد زيارات الاشراف') }}</th>
+                    <th style="background-color:#d4af37;">{{ __(key: 'قيمة العقد') }}</th>
+                    <th style="background-color:#d4af37;">{{ __(key: 'تاريخ انتهاء العقد') }}</th>
+                    <th style="background-color:#d4af37;">{{ __(key: 'المستلم من العقد') }}</th>
+                    <th style="background-color:#d4af37;">{{ __(key: 'رقم الرخصة') }}</th>
+                    <th style="background-color:#d4af37;">{{ __(key: 'مرحلة المشروع') }}</th>
+                @else 
+                    <th style="background-color:#d4af37;">{{ __(key: 'اسم المالك') }}</th>
+                    <th style="background-color:#d4af37;">سعر الهيكل مع الكتروميكانيكال</th>
+                    <th style="background-color:#d4af37;">سعر الهيكل مع الكتروميكانيكال مع التشطيبات</th>
+                    <th style="background-color:#d4af37;">سعر الفوت بدون تشطيبات</th>
+                    <th style="background-color:#d4af37;">سعر الفوت مع تشطيبات</th>
+                    <th style="background-color:#d4af37;">سعر السور</th>
+                    <th style="background-color:#d4af37;">سعر الفيلا مع السور</th>
+                    <th style="background-color:#d4af37;">الضريبة 5%</th>
+                    <th style="background-color:#d4af37;">السعر النهائي شامل الضريبة</th>
+                @endif
                 <!-- <th style="background-color:#d4af37;">{{ __(key: 'مدة المعاملة') }}</th> -->
-                
-                <th style="background-color:#d4af37;">{{ __(key: 'المستلم من العقد') }}</th>
-                <th style="background-color:#d4af37;">{{ __(key: 'رقم الرخصة') }}</th>
-                
+                <!-- <th style="background-color:#d4af37;">{{ __('Building #') }}</th> -->
+                <!-- <th style="background-color:#d4af37;">{{ __('Building #') }}</th> -->
                 <!-- <th style="background-color:#d4af37;">{{ __(key: 'Case Type') }}</th> -->
                 
-                 
+                
+                <!-- <th style="background-color:#d4af37;">{{ __('ProjectName') }}</th> -->
                 <!-- <th style="background-color:#d4af37;">{{ __('Fence #') }}</th>
-                <th style="background-color:#d4af37;">{{ __('Status') }}</th>
+                    <th style="background-color:#d4af37;">{{ __('Status') }}</th>
                 <th style="background-color:#d4af37;">{{ __('Start Date') }}</th>
                 <th style="background-color:#d4af37;">{{ __('End Date') }}</th> -->
                 <!-- <th style="background-color:#d4af37;">{{ __('Status') }}</th> -->
-                <th style="background-color:#d4af37;">{{ __(key: 'مرحلة المشروع') }}</th>
                 <!-- <th style="width: 80px;background-color:#d4af37;" >{{ __('Action') }}</th> -->
             </tr>
             </thead>
@@ -393,6 +400,13 @@
                 <tr class="project-row"
                     data-href="{{ $targetUrl }}"
                     style="background-color:#f5f5dc; cursor:pointer;">
+
+
+
+
+                @if(in_array(auth()->user()->role_id, [1,4,11,12]))
+                
+                    
                     <td style="background-color:#f5f5dc;">{{ $project->project_code }}</td>
                     <td style="background-color:#f5f5dc;font-weight:700;">{{ $project->ownerUser->name ?? '—' }}</td>
                     <td style="background-color:#f5f5dc;" onclick="event.stopPropagation();">{{ $project->qasmia_number ?? '—' }}</td>
@@ -564,178 +578,24 @@
                             $contractor = $project->users->firstWhere('pivot.role', __('Contractor'));
                         @endphp
 
-                        <div class="dropdown" >
-                            <button class="btn btn-sm btn-secondary dropdown-toggle"
-                                    type="button"
-                                    style="background-color: #2f3a1f;border: 1px solid #2f3a1f;color: #d4af37;"
-                                    data-bs-toggle="dropdown"
-                                    aria-expanded="false">
-                                <i class="fas fa-cog"></i>
-                            </button>
-
-                            <ul class="dropdown-menu dropdown-menu-end" style="background-color:#f5f5dc;">
-                                
-                               
-
-                                <li>
-                                    <a class="dropdown-item"
-                                       href="{{ route('projects.edit', $project->id) }}">
-                                        <i class="far fa-edit me-1"></i> {{ __('Edit Project') }}
-                                    </a>
-                                </li>
-
-                                {{-- مستندات المشروع --}}
-                                <li>
-                                    <a class="dropdown-item"
-                                    href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}">
-                                        <i class="fas fa-folder-open me-1"></i> {{ __(' عقود الاستشاري') }}
-                                    </a>
-                                </li>
-
-                                
-
-
-                                
-
-
-                               <li>
-                                    @if($project->owner_id)
-                                        <a class="dropdown-item"
-                                        href="{{ route('users.edit', $project->owner_id) }}">
-                                            <i class="fas fa-user me-1"></i> {{ __('Edit Owner') }}
-                                        </a>
-                                    @else
-                                        <span class="dropdown-item text-muted">
-                                            <i class="fas fa-user-slash me-1"></i> {{ __('No Owner') }}
-                                        </span>
-                                    @endif
-                                </li>
-
-                                <li>
-                                    @if($project->contractor_id)
-                                        <a class="dropdown-item"
-                                        href="{{ route('users.edit', $project->contractor_id) }}">
-                                            <i class="fas fa-hard-hat me-1"></i> {{ __('Edit Contractor') }}
-                                        </a>
-                                    @else
-                                        <span class="dropdown-item text-muted">
-                                            <i class="fas fa-user-clock me-1"></i> {{ __('Not Chosen Yet') }}
-                                            
-                                        </span>
-                                    @endif
-                                </li>
-
-
-
-
-
-
-
-
-
-                                 <li><hr class="dropdown-divider"></li>
-
-                                <li class="dropdown-header text-muted px-3">
-                                    {{ __('مراحل المشروع') }}
-                                </li>
-
-                                <li>
-                                    <a class="dropdown-item"
-                                    href="{{ route('projects.owner-requirements.index', [
-                                            'project' => $project->id,
-                                            //'owner_id' => $project->owner_id
-                                    ]) }}">
-                                        <i class="fas fa-file-signature me-1"></i>
-                                        {{ __('احتياجات المالك') }}
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-pencil-ruler me-1"></i> {{ __('التصميم') }}
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a class="dropdown-item"
-                                    href="{{ route('projects.baladya-approvals.index', [
-                                            'project' => $project->id,
-                                            //'owner_id' => $project->owner_id
-                                    ]) }}">
-                                        <i class="fas fa-file-signature me-1"></i>
-                                        {{ __('اعتمادات البلدية') }}
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-gavel me-1"></i> {{ __('المناقصة') }}
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a class="dropdown-item"
-                                    href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}">
-                                        <i class="fas fa-folder-open me-1"></i> {{ __(' عقود المقاول') }}
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-user-tie me-1"></i> {{ __('الاشراف') }}
-                                    </a>
-                                </li>
-
-                                 <li>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-money-check-alt me-1"></i> {{ __('الدفعات') }}
-                                    </a>
-                                </li> 
-
-                                <li>
-                                    <a class="dropdown-item"
-                                    href="{{ route('projects.project-payments.index', [
-                                            'project' => $project->id,
-                                            //'owner_id' => $project->owner_id
-                                    ]) }}">
-                                        <i class="fas fa-money-check-alt me-1"></i>
-                                        {{ __('دفعات المشروع') }}
-                                    </a>
-                                </li>
-
-
-                                <li>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-folder me-1"></i> {{ __('مستندات المشروع') }}
-                                    </a>
-                                </li>
-
-                                <li>
-                                    <a class="dropdown-item" href="#">
-                                        <i class="fas fa-chart-line me-1"></i> {{ __('الاحصائيات') }}
-                                    </a>
-                                </li>
-
-
-                                <li><hr class="dropdown-divider"></li>
-
-                                <li>
-                                    {!! Form::open([
-                                        'route' => ['projects.destroy', $project->id],
-                                        'method' => 'delete'
-                                    ]) !!}
-                                    {!! Form::button(
-                                        '<i class="far fa-trash-alt me-1"></i> ' . __('Delete'),
-                                        [
-                                            'type' => 'submit',
-                                            'class' => 'dropdown-item text-danger',
-                                            'onclick' => "return confirm('".__('Are you sure?')."')"
-                                        ]
-                                    ) !!}
-                                    {!! Form::close() !!}
-                                </li>
-                            </ul>
-                        </div>
+                @else
+                        
+                            @foreach($project->users as $user)
+                                <tr>
+                                    <td style="background-color:#f5f5dc;">{{ $project->ownerUser->name ?? '—' }}</td>
+                                    <td style="background-color:#f5f5dc;">{{ $user->pivot->structureElectro ?? '—' }}</td>
+                                    <td style="background-color:#f5f5dc;">{{ $user->pivot->structureWithFinishes ?? '—' }}</td>
+                                    <td style="background-color:#f5f5dc;">{{ $user->pivot->footWithout ?? '—' }}</td>
+                                    <td style="background-color:#f5f5dc;">{{ $user->pivot->footWith ?? '—' }}</td>
+                                    <td style="background-color:#f5f5dc;">{{ $user->pivot->boundaryWall ?? '—' }}</td>
+                                    <td style="background-color:#f5f5dc;">{{ $user->pivot->villaWithWall ?? '—' }}</td>
+                                    <td style="background-color:#f5f5dc;">{{ $user->pivot->vat ?? '—' }}</td>
+                                    <td style="background-color:#f5f5dc;">{{ $user->pivot->finalTotal ?? '—' }}</td>
+                                </tr>
+                            @endforeach
+                        
+                @endif
+                        
                     </td> -->
                 </tr> 
             @endforeach  
