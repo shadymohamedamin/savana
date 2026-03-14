@@ -994,23 +994,23 @@ body{
 
 
     <tr class="table-dark">
-        <th style="width:60%">البند</th>
-        <th style="width:40%">القيمة</th>
+        <th style="width:60% font-weight: 700;font-size:1.4rem;" >البند</th>
+        <th style="width:40% font-weight: 700;font-size:1.4rem;">القيمة</th>
     </tr>
 
     @foreach($groups as $gIndex => $group)
         <tr class="table-secondary fw-bold">
-            <td colspan="2">
+            <td colspan="2" style="font-weight: 700;font-size:1.4rem;">
                 {{ $group->name_ar }}
             </td>
         </tr>
 
         @foreach($group->children as $section)
             <tr>
-                <td class="ps-4">
+                <td class="ps-4" style="font-weight: 700;font-size:1.4rem;">
                     {{ $section->name_ar }}
                 </td>
-                <td id="section-summary-{{ $section->id }}">
+                <td id="section-summary-{{ $section->id }}" style="font-weight: 700;font-size:1.4rem;">
                     0.00
                 </td>
             </tr>
@@ -1019,10 +1019,10 @@ body{
 
 
         <tr class="fw-bold bg-light">
-            <td>
+            <td style="font-weight: 700;font-size:1.4rem;">
                 إجمالي {{ $group->name_ar }}
             </td>
-            <td id="group-summary-{{ $gIndex }}">
+            <td id="group-summary-{{ $gIndex }}" style="font-weight: 700;font-size:1.4rem;">
                 0.00
             </td>
         </tr>
@@ -1033,11 +1033,11 @@ body{
     @endforeach
 
     <tr class="table-success fw-bold">
-        <td>
+        <td style="font-weight: 700;font-size:1.4rem;">
             اجمالى سعر المشروع بدون ضريبة <br>
             Total Project value without VAT
         </td>
-        <td id="grandTotalWithoutVatDetailed">
+        <td id="grandTotalWithoutVatDetailed" style="font-weight: 700;font-size:1.4rem;">
             0.00
         </td>
     </tr>
