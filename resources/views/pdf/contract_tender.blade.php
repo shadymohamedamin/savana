@@ -170,10 +170,10 @@ $sectionsTotals = [];
 @foreach($section->children as $item)
 
 @php
-/*$pivot = $item->projectOwnerRequirements
+$pivot = $item->projectOwnerRequirements
               ->where('project_id',$project->id)
-              ->first();*/
-$pivot = $item->projectOwnerRequirements->first();
+              ->first();
+//$pivot = $item->projectOwnerRequirements->first();
 $qty = $pivot->quantity ?? 0;
 $price = $pivot->unit_price ?? 0;
 $total = $qty * $price;
