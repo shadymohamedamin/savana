@@ -873,7 +873,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const project_bank_support = parseFloat(document.getElementById('project_bank_support')?.value);
 
         if (!bank_contract_value || !project_bank_support) {
-            document.getElementById('project_owner_support').value = '';
+            document.getElementById('project_owner_support').value = '0';
             return;
         }
 

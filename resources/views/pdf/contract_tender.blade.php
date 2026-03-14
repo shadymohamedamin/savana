@@ -47,15 +47,50 @@ th, td {
 .bold { font-weight: bold; }
 
 .total-row {
-    background-color: #f5f5f5;
+    background-color: #c1b3b3;
     font-weight: bold;
+    font-size: 17px;
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    page-break-inside: avoid;
+}
+
+tbody {
+    page-break-inside: avoid;
+}
 
 tr {
     page-break-inside: avoid;
+    page-break-after: auto;
 }
+
+td, th {
+    page-break-inside: avoid;
+}
+thead {
+    display: table-header-group;
+}
+
 </style>
 </head>
 
@@ -215,8 +250,8 @@ $notes = $pivot->notes ?? '';
 @endforeach
 
 <tr class="total-row center">
-    <td colspan="4">مجموع {{ $section->name_ar }}</td>
-    <td colspan="2">{{ number_format($sectionTotal,2) }}</td>
+    <td colspan="4" class="total-row center">مجموع {{ $section->name_ar }}</td>
+    <td colspan="2" class="total-row center">{{ number_format($sectionTotal,2) }}</td>
 </tr>
 
 @php
@@ -227,8 +262,8 @@ $groupTotal += $sectionTotal;
 @endforeach
 
 <tr class="total-row center">
-    <td colspan="4">إجمالي {{ $group->name_ar }}</td>
-    <td colspan="2">{{ number_format($groupTotal,2) }}</td>
+    <td colspan="4" class="total-row center">إجمالي {{ $group->name_ar }}</td>
+    <td colspan="2" class="total-row center">{{ number_format($groupTotal,2) }}</td>
 </tr>
 
 </table>
@@ -335,8 +370,8 @@ $color = $groupColors[$loop->index % count($groupColors)];
 
 @endforeach
 
-<tr class="total-row center">
-<td colspan="3">
+<tr class="total-row grand-total center">
+<td colspan="3" class="total-row center">
 اجمالى سعر المشروع بدون ضريبة
 <br>
 Total Project value without VAT
