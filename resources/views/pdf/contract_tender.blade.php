@@ -68,7 +68,7 @@ th, td {
 
 
 
-table {
+/* table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
@@ -89,7 +89,7 @@ td, th {
 }
 thead {
     display: table-header-group;
-}
+} */
 
 </style>
 </head>
