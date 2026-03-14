@@ -1123,53 +1123,53 @@ body{
 
     <hr class="my-5">
 
-<h4 class="text-center fw-bold mb-4">ملخص البنود</h4>
+<h4 class="text-center fw-bold mb-4" style="font-weight: 700;font-size:1.4rem;">ملخص البنود</h4>
 
 <table class="table table-bordered text-center" id="summaryTable">
 
 <tr class="table-dark">
-    <th colspan="2">البند</th>
-    <th>القيمة</th>
+    <th colspan="2" style="font-weight: 700;font-size:1.4rem;">البند</th>
+    <th style="font-weight: 700;font-size:1.4rem;">القيمة</th>
 </tr>
 
 <tr>
-    <td colspan="2">سعر الهيكل مع الكتروميكانيكال</td>
-    <td id="structureElectro">0.00</td>
+    <td colspan="2" style="font-weight: 700;font-size:1.4rem;">سعر الهيكل مع الكتروميكانيكال</td>
+    <td id="structureElectro" style="font-weight: 700;font-size:1.4rem;">0.00</td>
 </tr>
 
 <tr>
-    <td colspan="2">سعر الهيكل مع الكتروميكانيكال مع التشطيبات</td>
-    <td id="structureWithFinishes">0.00</td>
+    <td colspan="2" style="font-weight: 700;font-size:1.4rem;">سعر الهيكل مع الكتروميكانيكال مع التشطيبات</td>
+    <td id="structureWithFinishes" style="font-weight: 700;font-size:1.4rem;">0.00</td>
 </tr>
 
 <tr>
-    <td colspan="2">سعر الفوت بدون تشطيبات</td>
-    <td id="footWithout">0.00</td>
+    <td colspan="2" style="font-weight: 700;font-size:1.4rem;">سعر الفوت بدون تشطيبات</td>
+    <td id="footWithout" style="font-weight: 700;font-size:1.4rem;">0.00</td>
 </tr>
 
 <tr>
-    <td colspan="2">سعر الفوت مع تشطيبات</td>
-    <td id="footWith">0.00</td>
+    <td colspan="2" style="font-weight: 700;font-size:1.4rem;">سعر الفوت مع تشطيبات</td>
+    <td id="footWith" style="font-weight: 700;font-size:1.4rem;">0.00</td>
 </tr>
 
 <tr>
-    <td colspan="2">سعر السور</td>
-    <td id="boundaryWall">0.00</td>
+    <td colspan="2" style="font-weight: 700;font-size:1.4rem;">سعر السور</td>
+    <td id="boundaryWall" style="font-weight: 700;font-size:1.4rem;">0.00</td>
 </tr>
 
 <tr>
-    <td colspan="2">سعر الفيلا مع السور</td>
-    <td id="villaWithWall">0.00</td>
+    <td colspan="2" style="font-weight: 700;font-size:1.4rem;">سعر الفيلا مع السور</td>
+    <td id="villaWithWall" style="font-weight: 700;font-size:1.4rem;">0.00</td>
 </tr>
 
 <tr>
-    <td colspan="2">الضريبة 5%</td>
-    <td id="vat">0.00</td>
+    <td colspan="2" style="font-weight: 700;font-size:1.4rem;">الضريبة 5%</td>
+    <td id="vat" style="font-weight: 700;font-size:1.4rem;">0.00</td>
 </tr>
 
 <tr class="table-success fw-bold">
-    <td colspan="2">السعر النهائي شامل الضريبة</td>
-    <td id="finalTotal">0.00</td>
+    <td colspan="2" style="font-weight: 700;font-size:1.4rem;">السعر النهائي شامل الضريبة</td>
+    <td id="finalTotal" style="font-weight: 700;font-size:1.4rem;">0.00</td>
 </tr>
 
 </table>
