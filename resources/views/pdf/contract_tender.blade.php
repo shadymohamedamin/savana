@@ -134,12 +134,29 @@ $groupsTotals = [];
 $sectionsTotals = [];
 @endphp
 
+
+@php
+$groupColors = [
+    ['group' => '#dcd3a8', 'section' => '#f1ead1'],
+    ['group' => '#c8d8e4', 'section' => '#e3eff6'],
+    ['group' => '#d7e4c0', 'section' => '#edf5e3'],
+    ['group' => '#e4c8c8', 'section' => '#f6e3e3'],
+    ['group' => '#d6c8e4', 'section' => '#eee3f6'],
+    ['group' => '#e4d8c8', 'section' => '#f6efe3'],
+];
+@endphp
+
 {{-- ================= الجروبات ================= --}}
 @foreach($groups as $group)
 
+
+@php
+$color = $groupColors[$loop->index % count($groupColors)];
+@endphp
+
 <table>
 <tr>
-    <td class="group-title" colspan="7">
+    <td class="group-title" style="background:{{ $color['group'] }}" colspan="7">
         {{ $group->name_ar }}
     </td>
 </tr>
@@ -149,7 +166,7 @@ $sectionsTotals = [];
 @foreach($group->children as $section)
 
 <tr>
-    <td class="section-title" colspan="7">
+    <td class="section-title" style="background:{{ $color['section'] }}" colspan="7">
         <span style="font-weight: 700;font-size:1.2rem;">{{ chr(64 + $loop->iteration) }}</span> - 
         {{ $section->name_ar }}
     </td>
@@ -284,11 +301,22 @@ $grandTotal += $groupTotal;
         ملخص أسعار المشروع
     </td>
 </tr>
-
+@php
+$groupColors = [
+    ['group' => '#dcd3a8', 'section' => '#f1ead1'],
+    ['group' => '#c8d8e4', 'section' => '#e3eff6'],
+    ['group' => '#d7e4c0', 'section' => '#edf5e3'],
+    ['group' => '#e4c8c8', 'section' => '#f6e3e3'],
+    ['group' => '#d6c8e4', 'section' => '#eee3f6'],
+    ['group' => '#e4d8c8', 'section' => '#f6efe3'],
+];
+@endphp
 @foreach($groups as $group)
-
+@php
+$color = $groupColors[$loop->index % count($groupColors)];
+@endphp
 <tr>
-    <td class="group-title" colspan="5">
+    <td class="group-title" colspan="5" style="background:{{ $color['group'] }}">
         {{ $group->name_ar }}
     </td>
 </tr>
@@ -296,9 +324,9 @@ $grandTotal += $groupTotal;
 @foreach($group->children as $section)
 
 <tr class="center">
-    <td>{{ $section->name_ar }}</td>
-    <td></td>
-    <td colspan="3">
+    <td style="background:{{ $color['section'] }}">{{ $section->name_ar }}</td>
+    <td style="background:{{ $color['section'] }}"></td>
+    <td colspan="3" style="background:{{ $color['section'] }}">
         AED {{ number_format($sectionsTotals[$section->id] ?? 0,2) }}
     </td>
 </tr>
