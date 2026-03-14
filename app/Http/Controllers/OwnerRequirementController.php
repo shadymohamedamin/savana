@@ -756,6 +756,7 @@ public function saveTender(Request $request, Project $project)
                 'context'     => 'tender',
                 'tender_user_id' => $contractorId // 👈 الفرق: هنا السياق tender
             ];
+            //dd($syncData[$ownerRequirementId]);
             
         }
     }
@@ -777,44 +778,68 @@ public function saveTender(Request $request, Project $project)
 
     // هنا ممكن تحفظهم في جدول pivot او جدول summary
     // مثلا في جدول OwnerRequirmentTenderTotal
-    \App\Models\OwnerRequirmentTenderTotal::updateOrCreate(
-        [
-            'project_id' => $project->id,
-            'tender_user_id' => $contractorId,
-            'context' => $context
-        ],
-        [
-            'structureElectro' => $structureElectro,
-            'structureWithFinishes' => $structureWithFinishes,
-            'footWithout' => $footWithout,
-            'footWith' => $footWith,
-            'boundaryWall' => $boundaryWall,
-            'villaWithWall' => $villaWithWall,
-            'vat' => $vat,
-            'finalTotal' => $finalTotal
-        ]
-    );
+    if($contractorId)
+    {
+        \App\Models\OwnerRequirmentTenderTotal::updateOrCreate(
+                [
+                    'project_id' => $project->id,
+                    'tender_user_id' => $contractorId,
+                    'context' => $context
+                ],
+                [
+                    'structureElectro' => $structureElectro,
+                    'structureWithFinishes' => $structureWithFinishes,
+                    'footWithout' => $footWithout,
+                    'footWith' => $footWith,
+                    'boundaryWall' => $boundaryWall,
+                    'villaWithWall' => $villaWithWall,
+                    'vat' => $vat,
+                    'finalTotal' => $finalTotal
+                ]
+            );
 
+            
+
+            \App\Models\ProjectUser::updateOrCreate(
+                [
+                    'project_id' => $project->id,
+                    'user_id' => $contractorId,
+                    'context' => $context
+                ],
+                [
+                    'structureElectro' => $structureElectro,
+                    'structureWithFinishes' => $structureWithFinishes,
+                    'footWithout' => $footWithout,
+                    'footWith' => $footWith,
+                    'boundaryWall' => $boundaryWall,
+                    'villaWithWall' => $villaWithWall,
+                    'vat' => $vat,
+                    'finalTotal' => $finalTotal,
+                    'role_id'=>8
+                ]
+            );
+    }
+    else 
+    {
+        \App\Models\OwnerRequirmentTenderTotal::updateOrCreate(
+                [
+                    'project_id' => $project->id,
+                    'tender_user_id' => auth()->id(),
+                    'context' => $context
+                ],
+                [
+                    'structureElectro' => $structureElectro,
+                    'structureWithFinishes' => $structureWithFinishes,
+                    'footWithout' => $footWithout,
+                    'footWith' => $footWith,
+                    'boundaryWall' => $boundaryWall,
+                    'villaWithWall' => $villaWithWall,
+                    'vat' => $vat,
+                    'finalTotal' => $finalTotal
+                ]
+            );
+    }
     
-
-    \App\Models\ProjectUser::updateOrCreate(
-        [
-            'project_id' => $project->id,
-            'user_id' => $contractorId,
-            'context' => $context
-        ],
-        [
-            'structureElectro' => $structureElectro,
-            'structureWithFinishes' => $structureWithFinishes,
-            'footWithout' => $footWithout,
-            'footWith' => $footWith,
-            'boundaryWall' => $boundaryWall,
-            'villaWithWall' => $villaWithWall,
-            'vat' => $vat,
-            'finalTotal' => $finalTotal,
-            'role_id'=>8
-        ]
-    );
 
 
     // حفظ البيانات في الـ pivot table لو في عناصر صالحة

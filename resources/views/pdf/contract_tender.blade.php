@@ -101,22 +101,22 @@ tr {
     <td class="title" colspan="4"> بيانات المقاول</td>
 </tr>
 <tr>
-    <td class="bold">اسم الشركة</td>
+    <td style="width: 7rem;" class="bold">اسم الشركة</td>
     <td>{{ $project->contractorUser?->name }}</td>
-    <td class="bold">المسؤول</td>
+    <td class="bold" style="width: 7rem;">المسؤول</td>
     <td>{{ $project->contractorUser?->responsible_name }}</td>
 </tr>
 <tr>
-    <td class="bold"> التاريخ</td>
+    <td class="bold" style="width: 7rem;"> التاريخ</td>
     <td>{{ $project->end_date }}</td>
-    <td class="bold">رقم الهاتف</td>
+    <td class="bold" style="width: 7rem;">رقم الهاتف</td>
     <td>{{ $project->contractorUser?->mobile }}</td>
 </tr>
 
 <tr>
-    <td class="bold">رقم الرخصة</td>
+    <td class="bold" style="width: 7rem;">رقم الرخصة</td>
     <td>{{ $project->contractorUser?->license_number }}</td>
-    <td class="bold">مدة التنفيذ</td>
+    <td class="bold" style="width: 7rem;">مدة التنفيذ</td>
     <td>{{ $project->duration }}</td>
 </tr>
 
@@ -139,7 +139,7 @@ $sectionsTotals = [];
 
 <table>
 <tr>
-    <td class="group-title" colspan="6">
+    <td class="group-title" colspan="7">
         {{ $group->name_ar }}
     </td>
 </tr>
@@ -149,12 +149,14 @@ $sectionsTotals = [];
 @foreach($group->children as $section)
 
 <tr>
-    <td class="section-title" colspan="6">
+    <td class="section-title" colspan="7">
+        <span style="font-weight: 700;font-size:1.2rem;">{{ chr(64 + $loop->iteration) }}</span> - 
         {{ $section->name_ar }}
     </td>
 </tr>
 
 <tr class="bold center">
+    <td>م</td>
     <td>البند</td>
     <td>الوحدة</td>
     <td>الكمية</td>
@@ -168,23 +170,29 @@ $sectionsTotals = [];
 @foreach($section->children as $item)
 
 @php
-$pivot = $item->projectOwnerRequirements
+/*$pivot = $item->projectOwnerRequirements
               ->where('project_id',$project->id)
-              ->first();
-
+              ->first();*/
+$pivot = $item->projectOwnerRequirements->first();
 $qty = $pivot->quantity ?? 0;
 $price = $pivot->unit_price ?? 0;
 $total = $qty * $price;
 $sectionTotal += $total;
+$notes = $pivot->notes ?? '';
+
 @endphp
 
+
+
+
 <tr class="center">
+    <td style="font-weight: 700;font-size:1.2rem;">{{ $loop->iteration }}</td>
     <td>{{ $item->name_ar }}</td>
     <td>{{ $item->unit }}</td>
     <td>{{ $qty }}</td>
     <td>{{ number_format($price,2) }}</td>
     <td>{{ number_format($total,2) }}</td>
-    <td>{{ $pivot->notes ?? '' }}</td>
+    <td>{{ $notes ?? '' }}</td>
 </tr>
 
 @endforeach
@@ -644,7 +652,9 @@ Total pices for works out of contract if client want to add
 
 <table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:50px;">
     <tr>
-        
+        <td class="bold center section-title" style="text-align:center; font-weight:bold;">
+            توقيع وختم المقاول
+        </td>
         <td class="bold center section-title" style="text-align:center; font-weight:bold;">
             توقيع المالك
         </td>
@@ -654,11 +664,12 @@ Total pices for works out of contract if client want to add
     </tr>
 
     <tr>
-        
+        <td class="signature" style="height:80px; border-bottom:1px solid #000;"></td>
+
         <td class="signature" style="height:80px; border-bottom:1px solid #000;"></td>
 
         <td class="signature" style="height:80px; border-bottom:1px solid #000; text-align:center;">
-           <img src="{{ public_path('images/signature.jpeg') }}" style="height:100px;">
+           <img src="{{ public_path('images/signature.jpeg') }}" style="height:140px;">
         </td>
     </tr>
 </table>

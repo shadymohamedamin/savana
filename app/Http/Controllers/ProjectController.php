@@ -585,6 +585,33 @@ public function tenderContractPdf(Request $request, $id)
         ])
         ->get();
 
+
+    /*$groups = \App\Models\OwnerRequirement::where('floor', 'tender')
+    ->where('type', 'group')
+    ->with([
+        'children.children.projectOwnerRequirements' => function ($q) use ($project, $contractorId) {
+            $q->where('project_id', $project->id)
+              ->where('context', 'tender');
+            if ($contractorId) {
+                $q->where('tender_user_id', $contractorId);
+            }
+        }
+    ])
+    ->get();   */
+    
+    
+    /*$groups = \App\Models\OwnerRequirement::where('floor', 'tender')
+    ->where('type', 'group')
+    ->with([
+        'children.children.projectOwnerRequirements' => function ($q) use ($project) {
+            $q->where('project_id', $project->id)
+              ->where('context', 'tender')
+              ->where('tender_user_id', auth()->id());
+        }
+    ])
+    ->get();*/
+    //dd($groups);
+
     $html = view('pdf.contract_tender', compact('project', 'groups'))->render();
 
     $mpdf = new \Mpdf\Mpdf([
@@ -593,10 +620,10 @@ public function tenderContractPdf(Request $request, $id)
         'default_font' => 'amiri',
         'autoScriptToLang' => true,
         'autoLangToFont' => true,
-        'margin_footer' => 15,
+        'margin_footer' => 5,
     ]);
     $mpdf->SetHTMLFooter('
-        <div style="text-align:center; font-size:12px;">
+        <div style="text-align:center; font-size:12px; margin-top:1rem;">
             صفحة {PAGENO} من {nbpg}
         </div>
     ');
