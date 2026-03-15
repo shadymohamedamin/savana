@@ -392,7 +392,8 @@ $notes = $pivot->notes ?? '';
     <td>{{ $item->name_ar }}</td>
     <td>{{ $item->unit }}</td>
     <td>{{ $qty }}</td>
-    <td>{{ number_format($price,2) }}</td>
+    
+    <td class="{{ $loop->parent->parent->index == 2 ? 'border-danger text-danger fw-bold' : '' }}">{{ number_format($price,2) }}</td>
     <td>{{ number_format($total,2) }}</td>
     <td>{{ $notes ?? '' }}</td>
 </tr>

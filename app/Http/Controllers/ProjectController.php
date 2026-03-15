@@ -612,6 +612,37 @@ public function tenderContractPdf(Request $request, $id)
     ->get();*/
     //dd($groups);
 
+
+    /*
+     
+
+
+    <table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:50px;">
+    <tr>
+        <td class="bold center section-title" style="text-align:center; font-weight:bold;">
+            توقيع وختم المقاول
+        </td>
+        <td class="bold center section-title" style="text-align:center; font-weight:bold;">
+            توقيع المالك
+        </td>
+        <td class="bold center section-title" style="text-align:center; font-weight:bold;">
+            توقيع وختم الاستشاري
+        </td>
+    </tr>
+
+    <tr>
+        <td class="signature" style="height:80px; border-bottom:1px solid #000;"></td>
+
+        <td class="signature" style="height:80px; border-bottom:1px solid #000;"></td>
+
+        <td class="signature" style="height:80px; border-bottom:1px solid #000; text-align:center;">
+           <img src="'.public_path('images/signature.jpeg').'"  style="height:140px;">
+        </td>
+    </tr>
+</table>
+
+     */
+
     $html = view('pdf.contract_tender', compact('project', 'groups'))->render();
 
     $mpdf = new \Mpdf\Mpdf([
@@ -621,8 +652,18 @@ public function tenderContractPdf(Request $request, $id)
         'autoScriptToLang' => true,
         'autoLangToFont' => true,
         'margin_footer' => 5,
+        'margin_top' => 35
     ]);
+    $mpdf->SetHTMLHeader('
+        <div style="text-align:center; margin-bottom:0.5rem;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;">
+        </div>
+    ');
     $mpdf->SetHTMLFooter('
+
+        
+
+
         <div style="text-align:center; font-size:12px; margin-top:1rem;">
             صفحة {PAGENO} من {nbpg}
         </div>

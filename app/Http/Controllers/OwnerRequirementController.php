@@ -237,6 +237,49 @@ public function index(Project $project, Request $request)
     $requirements = collect();
     $items = collect();
 
+
+if ($context === 'tender' && $contractorId) {
+
+    $existing = \App\Models\ProjectOwnerRequirement::where([
+        'project_id' => $project->id,
+        'tender_user_id' => NULL,
+        'context' => 'tender'
+    ])->count();
+    $existingContractor = \App\Models\ProjectOwnerRequirement::where([
+        'project_id' => $project->id,
+        'tender_user_id' => $contractorId,
+        'context' => 'tender'
+    ])->count();
+    
+    if (($existing > 0) && ($existingContractor==0)) {
+
+        $consultantItems = \App\Models\ProjectOwnerRequirement::where([
+            'project_id' => $project->id,
+            'context' => 'tender'
+        ])
+        ->whereNull('tender_user_id')
+        ->where('unit_price','>',0)
+        ->get();
+        
+
+        foreach ($consultantItems as $item) {
+
+            \App\Models\ProjectOwnerRequirement::create([
+                'project_id' => $project->id,
+                'owner_requirement_id' => $item->owner_requirement_id,
+                'quantity' => 0,
+                'unit_price' => $item->unit_price,
+                'total_price' => 0,
+                'notes' => null,
+                'context' => 'tender',
+                'tender_user_id' => $contractorId,
+                'tender_status' => 'draft'
+            ]);
+        }
+    }
+}
+
+    
     if ($context === 'owner') {
         $requirements = OwnerRequirement::whereIn('floor', ['ground','first'])
             ->orderByDesc('is_general')
@@ -693,7 +736,7 @@ public function savePricing(Request $request, Project $project)
         $notes = $data['notes'] ?? '';
 
         // ✅ الشرط المهم: احفظ العناصر اللي الكمية والسعر أكبر من 0
-        if ($qty >= 0 || $price >= 0) {
+        if ($qty > 0 || $price > 0) {
             $syncData[$ownerRequirementId] = [
                 'quantity'    => $qty,
                 'unit_price'  => $price,

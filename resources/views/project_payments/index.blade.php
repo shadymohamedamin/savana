@@ -240,15 +240,15 @@
             <td>المبلغ المدفوع من المالك</td>
             <td>{{ number_format($ownerPaid,0) }}</td>
 
-            <td>المبلغ المدفوع من البنك بدون ضريبة</td>
+            <td>المبلغ المدفوع من البنك شامل الضريبة</td>
             <td>{{ number_format($bankPaid,0) }}</td>
         </tr>
 
         {{-- المتبقي --}}
         <tr>
-            <td>المبلغ المطلوب / المالك</td>
+            <td> المبلغ المطلوب / المالك شامل الضريبة</td>
             <td>{{ number_format($ownerRemaining,0) }}</td>
-            <td>المبلغ المطلوب / البنك</td>
+            <td>المبلغ المطلوب / البنك شامل الضريبة</td>
             <td>{{ number_format($bankRemaining,0) }}</td>
         </tr>
 
