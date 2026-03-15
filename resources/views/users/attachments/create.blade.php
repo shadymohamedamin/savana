@@ -822,7 +822,10 @@
                                 <input type="file"
                                     name="attachments[{{ $i }}][file]"
                                     class="form-control form-control-sm mb-1">
-
+                                <input type="hidden"
+                                            class="delete-flag"
+                                            name="attachments[{{ $i }}][delete]"
+                                            value="0">
                                 @if($att)
                                     <div class="text-truncate">
                                         📄 {{ $att->file_name }}
@@ -834,6 +837,9 @@
                                         class="btn btn-sm btn-outline-primary w-100 mt-1">
                                             👁 View
                                         </a>
+
+                                        
+                                        <button type="button" class="btn btn-danger removeAttachment">🗑</button>
                                     @endif
                                 @else
                                     <div class="text-muted">
@@ -843,6 +849,11 @@
 
                             </div>
                         </div>
+
+
+
+
+                        
 
                         {{-- expiration --}}
                         <div class="col-md-3">
@@ -933,6 +944,46 @@
 
 
 <script>
+
+
+
+
+
+document.addEventListener('click', function(e){
+
+    if(e.target.classList.contains('removeAttachment')){
+
+        const card = e.target.closest('.card');
+
+        const deleteFlag = card.querySelector('.delete-flag');
+        const idInput = card.querySelector('input[name*="[id]"]');
+
+        if(idInput){
+
+            deleteFlag.value = 1;
+
+            card.style.opacity = "0.5";
+            e.target.style.display = "none";
+
+            const msg = document.createElement("div");
+            msg.innerHTML = "File will be deleted after save";
+            msg.style.color = "red";
+
+            card.querySelector('.border').appendChild(msg);
+
+        }else{
+            card.remove();
+        }
+
+    }
+
+});
+
+
+
+
+
+
 document.addEventListener('DOMContentLoaded', function () {
 
     document.querySelectorAll('.attachment-input').forEach(input => {

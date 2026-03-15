@@ -1233,6 +1233,10 @@ body, html {
 
             @endif
 
+
+@if((isset($project) && in_array(auth()->user()->role_id, [1,4,11,12]))||(isset($project) && $project->contractor_id==auth()->user()->id))
+            
+            
             <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}"
                 class="panel-btn-full {{ request()->is('users/*/attachments/create') && !request('mode') ? 'active' : '' }}">
                     <i class="fas fa-clipboard-list"></i>
@@ -1258,17 +1262,7 @@ body, html {
     <i class="fas fa-clipboard-list"></i>
     عقود المقاول
 </a>
-@if(isset($project) && in_array(auth()->user()->role_id, [1,4,11,12]))
-            
-            <a href="{{ url('#') }}" class="panel-btn-full">
-                <i class="fas fa-clipboard-list"></i>
-                الاشراف
-            </a>
-            <a href="{{ url('#') }}" class="panel-btn-full">
-                <i class="fas fa-clipboard-list"></i>
-                التصميم
-            </a>
-@endif
+
 <a href="{{ route('projects.project-payments.index', ['project' => $project->id]) }}"
    class="panel-btn-full {{ Route::currentRouteName() == 'projects.project-payments.index' ? 'active' : '' }}">
     <i class="fas fa-clipboard-list"></i>
@@ -1301,8 +1295,19 @@ body, html {
                 <i class="fas fa-clipboard-list"></i>
                     العودة إلى المشاريع
             </a>
+@endif
 
-
+@if(isset($project) && in_array(auth()->user()->role_id, [1,4,11,12]))
+            
+            <a href="{{ url('#') }}" class="panel-btn-full">
+                <i class="fas fa-clipboard-list"></i>
+                الاشراف
+            </a>
+            <a href="{{ url('#') }}" class="panel-btn-full">
+                <i class="fas fa-clipboard-list"></i>
+                التصميم
+            </a>
+@endif
 
             </div>
         </div>

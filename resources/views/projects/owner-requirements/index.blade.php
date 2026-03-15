@@ -362,6 +362,15 @@ body{
     row-gap:20px;
 }
 
+
+
+.supply-price{
+    color: red;
+    font-weight: bold;
+}
+
+
+
 </style>
 
 
@@ -881,7 +890,9 @@ body{
 <form action="{{ route('projects.owner-requirements.saveTender', $project->id) }}" method="POST">
 
     @csrf
-
+@php
+$sectionLetterIndex = 0;
+@endphp
     @foreach($groups as $group)
         <div class="group-header mt-5 text-center">
             <span style="font-weight: 700;font-size:1.6rem;">{{ $group->name_ar }}</span>
@@ -907,7 +918,7 @@ body{
 
                 <thead>
                     <tr>
-                        <th style="font-weight: 700;font-size:1.2rem;">{{ chr(64 + $loop->iteration) }}</th>
+                        <th style="font-weight: 700;font-size:1.2rem;">{{ chr(65 + $sectionLetterIndex++) }}</th>
                         <th style="font-weight: 700;font-size:1.2rem;">البند</th>
                         <th style="font-weight: 700;font-size:1.2rem;">الوحدة</th>
                         <th style="font-weight: 700;font-size:1.2rem;">الكمية</th>
@@ -934,9 +945,20 @@ body{
                             <td>
                                 <input type="number" name="requirements[{{ $item->id }}][quantity]" value="{{ $qty }}" min="1" class="form-control qty" />
                             </td>
+
                             <td>
-                                <input type="number" name="requirements[{{ $item->id }}][unit_price]" value="{{ $price }}" step="1" class="form-control price" />
+                            <input 
+                                type="number"
+                                name="requirements[{{ $item->id }}][unit_price]"
+                                value="{{ $price }}"
+                                step="1"
+                                class="form-control price {{ $group->slug == 'supply-finishings' ? 'supply-price' : '' }}"
+                                {{ $group->slug == 'supply-finishings' ? 'readonlyy' : '' }}
+                            />
                             </td>
+                            {{-- <td>
+                                <input type="number" name="requirements[{{ $item->id }}][unit_price]" value="{{ $price }}" step="1" class="form-control price" />
+                            </td> --}}
                             <td class="total">{{ number_format($total, 2) }}</td>
                             <td>
                                 <input type="text" name="requirements[{{ $item->id }}][notes]" value="{{ $pivot->notes ?? '' }}" class="form-control" />

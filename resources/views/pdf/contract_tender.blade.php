@@ -66,9 +66,9 @@ th, td {
 
 
 
+/* 
 
-
-/* table {
+table {
     width: 100%;
     border-collapse: collapse;
     margin-bottom: 20px;
@@ -89,16 +89,91 @@ td, th {
 }
 thead {
     display: table-header-group;
-} */
+} 
 
 thead {
     display: table-header-group;
-}
+} */
 
 </style>
 </head>
 
 <body>
+
+
+
+
+
+@php
+$grandTotal = 0;
+$groupsTotals = [];
+$sectionsTotals = [];
+
+foreach($groups as $group){
+
+    $groupTotal = 0;
+
+    foreach($group->children as $section){
+
+        $sectionTotal = 0;
+
+        foreach($section->children as $item){
+
+            $pivot = $item->projectOwnerRequirements
+                ->where('project_id',$project->id)
+                ->first();
+
+            $qty = $pivot->quantity ?? 0;
+            $price = $pivot->unit_price ?? 0;
+
+            $sectionTotal += $qty * $price;
+        }
+
+        $sectionsTotals[$section->id] = $sectionTotal;
+        $groupTotal += $sectionTotal;
+    }
+
+    $groupsTotals[$group->id] = $groupTotal;
+    $grandTotal += $groupTotal;
+}
+@endphp
+
+
+@php
+
+$groupsValues = array_values($groupsTotals);
+
+$structureElectro =
+    ($groupsValues[0] ?? 0) +
+    ($groupsValues[1] ?? 0);
+
+$structureWithFinishes =
+    $structureElectro +
+    ($groupsValues[2] ?? 0);
+
+$approvedArea = $project->approved_area ?? 0;
+
+$footWithoutFinishes = $approvedArea > 0 ? $structureElectro / $approvedArea : 0;
+$footWithFinishes    = $approvedArea > 0 ? $structureWithFinishes / $approvedArea : 0;
+
+$boundaryWall = end($groupsValues);
+
+$totalVillaWithWall = $structureWithFinishes + $boundaryWall;
+
+$vat = $totalVillaWithWall / 21;
+
+$finalTotal = $totalVillaWithWall + $vat;
+
+@endphp
+
+ 
+
+
+
+
+
+
+
 
 {{-- ================= معلومات المشروع ================= --}}
 <table>
@@ -163,6 +238,71 @@ thead {
 </table>
 
 
+<img src="{{ public_path('images/tender_photo.jpeg') }}" style="height:1140px;">
+
+
+
+
+
+
+<table>
+
+<tr>
+<td class="title" colspan="4">
+ملخص البنود
+</td>
+</tr>
+
+<tr class="center">
+<td class="bold">سعر الهيكل مع الكتروميكانيكال مع تركيب سيراميك</td>
+<td>Main structure with electromechanical</td>
+<td colspan="2">AED {{ number_format($structureElectro,2) }}</td>
+</tr>
+
+<tr class="center">
+<td class="bold">سعر الهيكل مع الكتروميكانيكال مع التشطيبات</td>
+<td>Total main Structure with electromechanical with finishes</td>
+<td colspan="2">AED {{ number_format($structureWithFinishes,2) }}</td>
+</tr>
+
+<tr class="center">
+<td class="bold">سعر الفوت بدون تشطيبات</td>
+<td>Foot Prices without finishes</td>
+<td colspan="2">AED {{ number_format($footWithoutFinishes,2) }}</td>
+</tr>
+
+<tr class="center">
+<td class="bold">سعر الفوت مع تشطيبات</td>
+<td>Foot Prices with finishes</td>
+<td colspan="2">AED {{ number_format($footWithFinishes,2) }}</td>
+</tr>
+
+<tr class="center">
+<td class="bold">سعر السور</td>
+<td>Boundary Wall Price</td>
+<td colspan="2">AED {{ number_format($boundaryWall,2) }}</td>
+</tr>
+
+<tr class="center">
+<td class="bold">سعر الفيلا مع السور</td>
+<td>Total Villa Price</td>
+<td colspan="2">AED {{ number_format($totalVillaWithWall,2) }}</td>
+</tr>
+
+<tr class="center">
+<td class="bold">الضريبة 5%</td>
+<td>VAT 5%</td>
+<td colspan="2">AED {{ number_format($vat,2) }}</td>
+</tr>
+
+<tr class="total-row center">
+<td class="bold">السعر النهائي للمشروع (شامل الضريبة)</td>
+<td>Total Project Value with VAT</td>
+<td colspan="2">AED {{ number_format($finalTotal,2) }}</td>
+</tr>
+
+</table> 
+
 
 
 
@@ -185,6 +325,12 @@ $groupColors = [
 ];
 @endphp
 
+
+@php
+$sectionLetterIndex = 0;
+@endphp
+                        
+                        
 {{-- ================= الجروبات ================= --}}
 @foreach($groups as $group)
 
@@ -206,7 +352,7 @@ $color = $groupColors[$loop->index % count($groupColors)];
 
 <tr>
     <td class="section-title" style="background:{{ $color['section'] }}" colspan="7">
-        <span style="font-weight: 700;font-size:1.2rem;">{{ chr(64 + $loop->iteration) }}</span> - 
+        <span style="font-weight: 700;font-size:1.2rem;">{{ chr(65 + $sectionLetterIndex++) }}</span> - 
         {{ $section->name_ar }}
     </td>
 </tr>
@@ -380,7 +526,7 @@ $color = $groupColors[$loop->index % count($groupColors)];
 <br>
 Total Project value without VAT
 </td>
-<td colspan="2">
+<td colspan="2" class="total-row grand-total center">
 AED {{ number_format($grandTotal,2) }}
 </td>
 </tr>

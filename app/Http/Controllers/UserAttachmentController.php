@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Attachment;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Facades\File;
 
 
 
@@ -230,7 +230,7 @@ public function create(Request $request, $id)
     if ($isTender) {
 
         // tender ==>(25-33-34-35)
-        $defaultTypes = [40,41,2,14,13];//[25, 33, 34, 35];
+        $defaultTypes = [40,50,41,2,14,13];//[25, 33, 34, 35];
     }
 
 
@@ -342,9 +342,47 @@ public function store(Request $request, $id)
 
     if ($request->has('attachments')) {
         foreach ($request->attachments as $attachment) {
+// حذف attachment
+//dd($attachment);
+if (!empty($attachment['delete']) && !empty($attachment['id'])) {
 
+    $att = Attachment::find($attachment['id']);
+    //dd($att);
+    if ($att) {
 
+        $fileName = pathinfo($att->AttPath, PATHINFO_BASENAME);
 
+        $path = public_path('Files/'.$fileName);
+
+        if (file_exists($path)) {
+            unlink($path);
+        }
+
+        $att->delete();
+    }
+
+    continue;
+}
+
+            // DELETE attachment
+            /*if (!empty($attachment['delete']) && !empty($attachment['id'])) {
+
+                $att = Attachment::find($attachment['id']);
+
+                if ($att) {
+
+                    $path = public_path('Files/' . basename($att->AttPath));
+
+                    if (file_exists($path)) {
+                        //unlink($path);
+                        File::delete($path);
+                    }
+
+                    $att->delete();
+                }
+
+                continue;
+            }*/
 
             if (!empty($attachment['id'])) {
 
