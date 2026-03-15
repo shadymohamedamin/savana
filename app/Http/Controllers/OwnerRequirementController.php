@@ -238,7 +238,7 @@ public function index(Project $project, Request $request)
     $items = collect();
 
 
-if ($context === 'tender' && $contractorId) {
+/*if ($context === 'tender' && $contractorId) {
 
     $existing = \App\Models\ProjectOwnerRequirement::where([
         'project_id' => $project->id,
@@ -277,7 +277,7 @@ if ($context === 'tender' && $contractorId) {
             ]);
         }
     }
-}
+}*/
 
     
     if ($context === 'owner') {
