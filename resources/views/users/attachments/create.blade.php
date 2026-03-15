@@ -758,14 +758,14 @@
 
 
 
-@if(in_array(auth()->user()->role_id, [3]))
+{{-- @if(in_array(auth()->user()->role_id, [3])) --}}
 <div style="border:2px solid #0d6efd; background:#f8fbff; padding:20px; border-radius:10px; margin-bottom:20px;">
     
-    <h3 style="margin-bottom:15px; color:#0d6efd;">
-        📄 العنوان: توضيح طريقة التسعير
+    <h3 style="margin-bottom:15px; color:#0d6efd; text-align: center;">
+        توضيح طريقة التسعير
     </h3>
 
-    <ol style="line-height:1.9; padding-right:20px; font-size:15px;">
+    <ol style="line-height:1.9; padding-right:20px; font-size:17px;">
         
         <li>
             حرصًا من مكتب سافانا على التطوير المستمر وتحسين جودة خدماته، فقد تم اعتماد نظام المناقصات عبر السيستم الداخلي للمكتب، وذلك بهدف تنظيم العمل وتسهيل إجراءات الاطلاع والتسعير.
@@ -780,7 +780,7 @@
         </li>
 
         <li>
-            يقوم المقاول بالدخول إلى مستند الكميات، ويكون مخولًا بإدخال أسعار الكميات فقط، بالإضافة إلى إمكانية إضافة الملاحظات إن وجدت.
+            يقوم المقاول بالدخول إلى مستند الكميات، ويكون مخولًا بإدخال الاسعار و الكميات فقط، بالإضافة إلى إمكانية إضافة الملاحظات إن وجدت.
         </li>
 
         <li>
@@ -790,7 +790,7 @@
     </ol>
 
 </div>
-@endif
+{{-- @endif --}}
 
 @if(in_array(auth()->user()->role_id, [1,4,11,12]))
     {{-- Upload attachments --}}
