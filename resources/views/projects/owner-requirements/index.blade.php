@@ -408,9 +408,9 @@ body{
             </small>
         </div>
 
-        @if (in_array(auth()->user()->role_id, [1,4,11,12]))
+        
         <div class=" d-flex justify-content-between align-items-center gap-2">
-
+            @if (in_array(auth()->user()->role_id, [1,4,11,12]))
             <a href="{{ route('projects.tender.contractors', $project->id) }}"
                 class="btn btn-olive px-4 btn-sm"
                 style="background:#d4af37;color:#2f3a1f;font-weight:700;font-size:1rem;">
@@ -429,14 +429,25 @@ body{
                 style="background:#d4af37;color:#2f3a1f;font-weight:700;font-size:1rem;">
                     <i class="fas fa-file-signature"></i> حساب الكميات
             </a>
+
+           
+            
+            @endif
+            <div class="d-flex gap-2">
+                <a  href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=tender') }}"
+                class="btn btn-olive px-4 btn-sm" style="background:#d4af37;color:#2f3a1f;font-weight:700;font-size:1rem;">
+                    <i class="fas fa-arrow-left" ></i> {{ __('  المناقصة') }}
+                </a>
+            </div>
             <div class="d-flex gap-2">
                 <a href="{{ route('projects.index') }}"
                 class="btn btn-olive px-4 btn-sm" style="background:#d4af37;color:#2f3a1f;font-weight:700;font-size:1rem;">
-                    <i class="fas fa-arrow-left" ></i> {{ __('العودة الي المشاريع') }}
+                    <i class="fas fa-arrow-left" ></i> {{ __('  المشاريع') }}
                 </a>
             </div>
+            
         </div>
-        @endif
+        
 
     </div>
 
