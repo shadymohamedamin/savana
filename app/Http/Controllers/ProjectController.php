@@ -50,14 +50,7 @@ $allowedRoles = [1,4,11,12];
             }
         ], 'id');
 
-if (!in_array(auth()->user()->role_id, $allowedRoles)) {
-    //dd($user);
-    $query->whereHas('projectUsers', function ($q) {
-        $q->where('user_id', auth()->id())
-          ->where('role_id', 8);
-    });
 
-}
 
 
 
@@ -96,7 +89,15 @@ if (!in_array(auth()->user()->role_id, $allowedRoles)) {
     if ($request->filled('owner_phone')) {
         $query->whereHas('ownerUser', fn($q) => $q->where('mobile', 'like', '%' . $request->owner_phone . '%'));
     }
+if (!in_array(auth()->user()->role_id, $allowedRoles)) {
+    //dd($user);
+    $query->whereHas('projectUsers', function ($q) {
+        $q->where('user_id', auth()->id())
+          ->where('role_id', 8);
+    });
+    $query->groupBy('projects.id');
 
+}
     $projects = $query->orderByDesc('created_at')->paginate(15);
 
     $toast = session('toast', null);
