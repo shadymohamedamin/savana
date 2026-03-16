@@ -360,6 +360,7 @@
                     <th style="background-color:#d4af37;">{{ __(key: 'رقم الرخصة') }}</th>
                     <th style="background-color:#d4af37;">{{ __(key: 'مرحلة المشروع') }}</th>
                 @else 
+                    <th style="background-color:#d4af37;">{{ __(key: ' كود المشروع') }}</th>
                     <th style="background-color:#d4af37;">{{ __(key: 'اسم المالك') }}</th>
                     <th style="background-color:#d4af37;">سعر الهيكل مع الكتروميكانيكال</th>
                     <th style="background-color:#d4af37;">سعر الهيكل مع الكتروميكانيكال مع التشطيبات</th>
@@ -593,6 +594,7 @@
                                 <tr class="project-row"
                                     data-href="{{ $targetUrl }}"
                                     style="background-color:#f5f5dc; cursor:pointer;">
+                                    <td style="background-color:#f5f5dc;">{{ $project->project_code?? '—' }}</td>
                                     <td style="background-color:#f5f5dc;">{{ $project->ownerUser->name ?? '—' }}</td>
                                     <td style="background-color:#f5f5dc;">{{ $user->pivot->structureElectro ?? '—' }}</td>
                                     <td style="background-color:#f5f5dc;">{{ $user->pivot->structureWithFinishes ?? '—' }}</td>

@@ -1839,7 +1839,7 @@ $fieldLabels = [
 'main_door' => 'الباب الرئيسي كاست المنيوم',
 'paint_type' => 'نوع الصبغ',
 'hot_cold_water_for_bidet' => 'الماء الحار والبارد للشطاف',
-'car_electric_point' => 'نقطة كهرباء سيارة',
+'car_electric_point' => 'نقطة شحن سيارة',
 'facade_lighting_points' => 'نقاط اضاءة بالواجهات',
 'pantry_plumbing_first_floor' => 'نقطة صرف وتغذية للبانتري في الدور الأول',
 'roof_electric_point' => 'نقطة كهرباء السطح',
@@ -1869,6 +1869,8 @@ $fieldLabels = [
 'fence_grooves' => 'تركيب قروفات بالسور',
 'window_electric_points' => 'نقاط كهرباء لشبابيك الصالة',
 'sound_system_pipes' => 'تركيب بايبات ساوند سيستم',
+'cleanout_rebates' =>'توريد و تركيب رداد للكلين اوت',
+'feeding_pipe_routing' => 'بايبات الصرف'
 ];
 @endphp
 
