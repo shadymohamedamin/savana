@@ -47,7 +47,7 @@ th, td {
 .bold { font-weight: bold; }
 
 .total-row {
-    background-color: #c1b3b3;
+    background-color: #dbd0d0;
     font-weight: bold;
     font-size: 17px;
 }
@@ -181,22 +181,22 @@ $finalTotal = $totalVillaWithWall + $vat;
     <td class="title" colspan="4">حساب الكميات</td>
 </tr>
 <tr>
-    <td class="bold">المالك</td>
+    <td class="bold" style="width: 12rem;">المالك</td>
     <td>{{ $project->ownerUser?->name }}</td>
-    <td class="bold">المنطقة</td>
+    <td class="bold" style="width: 12rem;">المنطقة</td>
     <td>{{ $project->projectRegion?->name_ar }}</td>
 </tr>
 <tr>
-    <td class="bold">وصف المشروع</td>
+    <td class="bold" style="width: 12rem;">وصف المشروع</td>
     <td>{{ $project->projectName?->name_ar }}</td>
-    <td class="bold">رقم القسيمة</td>
+    <td class="bold" style="width: 12rem;">رقم القسيمة</td>
     <td>{{ $project->qasmia_number }}</td>
 </tr>
 
 <tr>
-    <td class="bold">مساحة السور م.طولي</td>
+    <td class="bold" style="width: 12rem;">مساحة السور م.طولي</td>
     <td>{{ $project->linear_meter_area }}</td>
-    <td class="bold">مساحة البناء بالقدم المربع</td>
+    <td class="bold" style="width: 12rem;">مساحة البناء بالقدم المربع</td>
     <td>{{ $project->approved_area }}</td>
 </tr>
 
@@ -215,22 +215,22 @@ $finalTotal = $totalVillaWithWall + $vat;
     <td class="title" colspan="4"> بيانات المقاول</td>
 </tr>
 <tr>
-    <td style="width: 7rem;" class="bold">اسم الشركة</td>
+    <td style="width: 12rem;" class="bold">اسم الشركة</td>
     <td>{{ $project->contractorUser?->name }}</td>
-    <td class="bold" style="width: 7rem;">المسؤول</td>
+    <td class="bold" style="width: 12rem;">المسؤول</td>
     <td>{{ $project->contractorUser?->responsible_name }}</td>
 </tr>
 <tr>
-    <td class="bold" style="width: 7rem;"> التاريخ</td>
+    <td class="bold" style="width: 12rem;"> التاريخ</td>
     <td>{{ $project->end_date }}</td>
-    <td class="bold" style="width: 7rem;">رقم الهاتف</td>
+    <td class="bold" style="width: 12rem;">رقم الهاتف</td>
     <td>{{ $project->contractorUser?->mobile }}</td>
 </tr>
 
 <tr>
-    <td class="bold" style="width: 7rem;">رقم الرخصة</td>
+    <td class="bold" style="width: 12rem;">رقم الرخصة</td>
     <td>{{ $project->contractorUser?->license_number }}</td>
-    <td class="bold" style="width: 7rem;">مدة التنفيذ</td>
+    <td class="bold" style="width: 12rem;">مدة التنفيذ</td>
     <td>{{ $project->duration }}</td>
 </tr>
 
@@ -256,49 +256,49 @@ $finalTotal = $totalVillaWithWall + $vat;
 <tr class="center">
 <td class="bold">سعر الهيكل مع الكتروميكانيكال مع تركيب سيراميك</td>
 <td>Main structure with electromechanical</td>
-<td colspan="2">AED {{ number_format($structureElectro,2) }}</td>
+<td colspan="2" style="font-size: 18px;font-weight: bold;">AED {{ number_format($structureElectro,2) }}</td>
 </tr>
 
 <tr class="center">
 <td class="bold">سعر الهيكل مع الكتروميكانيكال مع التشطيبات</td>
 <td>Total main Structure with electromechanical with finishes</td>
-<td colspan="2">AED {{ number_format($structureWithFinishes,2) }}</td>
+<td colspan="2" style="font-size: 18px;font-weight: bold;">AED {{ number_format($structureWithFinishes,2) }}</td>
 </tr>
 
 <tr class="center">
 <td class="bold">سعر الفوت بدون تشطيبات</td>
 <td>Foot Prices without finishes</td>
-<td colspan="2">AED {{ number_format($footWithoutFinishes,2) }}</td>
+<td colspan="2" style="font-size: 18px;font-weight: bold;">AED {{ number_format($footWithoutFinishes,2) }}</td>
 </tr>
 
 <tr class="center">
 <td class="bold">سعر الفوت مع تشطيبات</td>
 <td>Foot Prices with finishes</td>
-<td colspan="2">AED {{ number_format($footWithFinishes,2) }}</td>
+<td colspan="2" style="font-size: 18px;font-weight: bold;">AED {{ number_format($footWithFinishes,2) }}</td>
 </tr>
 
 <tr class="center">
 <td class="bold">سعر السور</td>
 <td>Boundary Wall Price</td>
-<td colspan="2">AED {{ number_format($boundaryWall,2) }}</td>
+<td colspan="2" style="font-size: 18px;font-weight: bold;">AED {{ number_format($boundaryWall,2) }}</td>
 </tr>
 
 <tr class="center">
 <td class="bold">سعر الفيلا مع السور</td>
 <td>Total Villa Price</td>
-<td colspan="2">AED {{ number_format($totalVillaWithWall,2) }}</td>
+<td colspan="2" style="font-size: 18px;font-weight: bold;">AED {{ number_format($totalVillaWithWall,2) }}</td>
 </tr>
 
 <tr class="center">
 <td class="bold">الضريبة 5%</td>
 <td>VAT 5%</td>
-<td colspan="2">AED {{ number_format($vat,2) }}</td>
+<td colspan="2" style="font-size: 18px;font-weight: bold;">AED {{ number_format($vat,2) }}</td>
 </tr>
 
 <tr class="total-row center">
 <td class="bold">السعر النهائي للمشروع (شامل الضريبة)</td>
 <td>Total Project Value with VAT</td>
-<td colspan="2">AED {{ number_format($finalTotal,2) }}</td>
+<td colspan="2" style="font-size: 18px;font-weight: bold;">AED {{ number_format($finalTotal,2) }}</td>
 </tr>
 
 </table> 
@@ -367,7 +367,7 @@ $color = $groupColors[$loop->index % count($groupColors)];
 </tr>
 
 <tr class="bold center">
-    <td>م</td>
+    <td></td>
     <td>البند</td>
     <td>الوحدة</td>
     <td>الكمية</td>
@@ -411,7 +411,7 @@ $notes = $pivot->notes ?? '';
 
 <tr class="total-row center">
     <td colspan="4" class="total-row center">مجموع {{ $section->name_ar }}</td>
-    <td colspan="2" class="total-row center">{{ number_format($sectionTotal,2) }}</td>
+    <td colspan="3" class="total-row center">{{ number_format($sectionTotal,2) }}</td>
 </tr>
 
 @php
@@ -421,9 +421,9 @@ $groupTotal += $sectionTotal;
 
 @endforeach
 
-<tr class="total-row center">
-    <td colspan="4" class="total-row center">إجمالي {{ $group->name_ar }}</td>
-    <td colspan="2" class="total-row center">{{ number_format($groupTotal,2) }}</td>
+<tr class="total-row center" style="background:{{ $color['section'] }}">
+    <td colspan="4" class="total-row center" style="background:{{ $color['section'] }}">إجمالي {{ $group->name_ar }}</td>
+    <td colspan="3" class="total-row center" style="background:{{ $color['section'] }}">{{ number_format($groupTotal,2) }}</td>
 </tr>
 
 </table>
@@ -505,7 +505,10 @@ $groupColors = [
     ['group' => '#d6c8e4', 'section' => '#eee3f6'],
     ['group' => '#e4d8c8', 'section' => '#f6efe3'],
 ];
+$sectionLetterIndex2=0;
+
 @endphp
+
 @foreach($groups as $group)
 @php
 $color = $groupColors[$loop->index % count($groupColors)];
@@ -520,8 +523,8 @@ $color = $groupColors[$loop->index % count($groupColors)];
 
 <tr class="center">
     <td style="background:{{ $color['section'] }}">{{ $section->name_ar }}</td>
-    <td style="background:{{ $color['section'] }}"></td>
-    <td colspan="3" style="background:{{ $color['section'] }}">
+    <td style="background:{{ $color['section'] }}"> {{ chr(65 + $sectionLetterIndex2++) }} </td>
+    <td colspan="3" style="background:{{ $color['section'] }}; font-size: 18px;font-weight: bold;">
         AED {{ number_format($sectionsTotals[$section->id] ?? 0,2) }}
     </td>
 </tr>
@@ -586,7 +589,7 @@ $finalTotal = $totalVillaWithWall + $vat;
 
 @endphp
 
-<div style="height:40px;">.</div>
+<div style="height:120px;">.</div>
 <table style="page-break-before: always;">
 
 <tr >
@@ -598,49 +601,49 @@ $finalTotal = $totalVillaWithWall + $vat;
 <tr class="center">
     <td class="bold">سعر الهيكل مع الكتروميكانيكال مع تركيب سيراميك</td>
     <td>Main structure with electromechanical</td>
-    <td colspan="2">AED {{ number_format($structureElectro,2) }}</td>
+    <td colspan="2" style="font-size: 18px;font-weight: bold;">AED {{ number_format($structureElectro,2) }}</td>
 </tr>
 
 <tr class="center">
     <td class="bold">سعر الهيكل مع الكتروميكانيكال مع التشطيبات</td>
     <td>Total main Structure with electromechanical with finishes</td>
-    <td colspan="2">AED {{ number_format($structureWithFinishes,2) }}</td>
+    <td colspan="2" style="font-size: 18px;font-weight: bold;">AED {{ number_format($structureWithFinishes,2) }}</td>
 </tr>
 
 <tr class="center">
     <td class="bold">سعر الفوت بدون تشطيبات</td>
     <td>Foot Prices without finishes</td>
-    <td colspan="2">AED {{ number_format($footWithoutFinishes,2) }}</td>
+    <td colspan="2" style="font-size: 18px;font-weight: bold;">AED {{ number_format($footWithoutFinishes,2) }}</td>
 </tr>
 
 <tr class="center">
     <td class="bold">سعر الفوت مع تشطيبات</td>
     <td>Foot Prices with finishes</td>
-    <td colspan="2">AED {{ number_format($footWithFinishes,2) }}</td>
+    <td colspan="2" style="font-size: 18px;font-weight: bold;">AED {{ number_format($footWithFinishes,2) }}</td>
 </tr>
 
 <tr class="center">
     <td class="bold">سعر السور</td>
     <td>Boundary Wall Price</td>
-    <td colspan="2">AED {{ number_format($boundaryWall,2) }}</td>
+    <td colspan="2" style="font-size: 18px;font-weight: bold;">AED {{ number_format($boundaryWall,2) }}</td>
 </tr>
 
 <tr class="center">
     <td class="bold">سعر الفيلا مع السور</td>
     <td>Total Villa Price</td>
-    <td colspan="2">AED {{ number_format($totalVillaWithWall,2) }}</td>
+    <td colspan="2" style="font-size: 18px;font-weight: bold;">AED {{ number_format($totalVillaWithWall,2) }}</td>
 </tr>
 
 <tr class="center">
     <td class="bold">الضريبة 5%</td>
     <td>VAT 5%</td>
-    <td colspan="2">AED {{ number_format($vat,2) }}</td>
+    <td colspan="2" style="font-size: 18px;font-weight: bold;">AED {{ number_format($vat,2) }}</td>
 </tr>
 
 <tr class="total-row center">
     <td class="bold">السعر النهائي للمشروع (شامل الضريبة)</td>
     <td>Total Project Value with VAT</td>
-    <td colspan="2">AED {{ number_format($finalTotal,2) }}</td>
+    <td colspan="2" style="font-size: 18px;font-weight: bold;">AED {{ number_format($finalTotal,2) }}</td>
 </tr>
 
 </table>
