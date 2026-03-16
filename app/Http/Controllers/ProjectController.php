@@ -100,6 +100,16 @@ if (!in_array(auth()->user()->role_id, $allowedRoles)) {
 }
     $projects = $query->orderByDesc('created_at')->paginate(15);
 
+
+if (!in_array(auth()->user()->role_id, $allowedRoles)) {
+
+    $projects->setCollection(
+        $projects->getCollection()->unique('project_code')
+    );
+
+}
+
+    
     $toast = session('toast', null);
     $contractors = \App\Models\User::where('role_id', 3)->get();
 
