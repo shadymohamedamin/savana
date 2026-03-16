@@ -338,7 +338,15 @@ $sectionLetterIndex = 0;
 @php
 $color = $groupColors[$loop->index % count($groupColors)];
 @endphp
-<div style="height:10px; ">.</div>
+
+@if($loop->index==0)
+<div style="height:20px; ">.</div>
+@endif
+
+
+@if($loop->index==1)
+<div style="height:60px; ">.</div>
+@endif
 <table >
 
 <tr >
@@ -478,8 +486,8 @@ $grandTotal += $groupTotal;
 
 
 
-{{-- ================= ملخص أسعار المشروع ================= --}}
-<div style="page-break-before: always;"></div>
+{{--style="page-break-before: always;" ================= ملخص أسعار المشروع ================= --}}
+<div ></div>
 
 <table style="width:100%; border-collapse:collapse; page-break-inside: avoid;">
 
@@ -578,10 +586,10 @@ $finalTotal = $totalVillaWithWall + $vat;
 
 @endphp
 
+<div style="height:40px;">.</div>
+<table style="page-break-before: always;">
 
-<table>
-
-<tr>
+<tr >
     <td class="title" colspan="4">
         ملخص البنود
     </td>
@@ -675,7 +683,7 @@ $finalTotal = $totalVillaWithWall + $vat;
 
 
 {{-- ================= بنود على المالك ================= --}}
-<table>
+{{-- <table>
 
 <tr>
     <td class="group-title" colspan="10">
@@ -852,7 +860,7 @@ Total pices for works out of contract if client want to add
 <td colspan="2">7</td>
 </tr>
 
-</table>
+</table> --}}
 
 
 
