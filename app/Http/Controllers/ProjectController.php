@@ -96,7 +96,7 @@ if (!in_array(auth()->user()->role_id, $allowedRoles)) {
           ->where('role_id', 8);
     });
     $query->groupBy('projects.id');
-
+    $query->distinct('projects.id');
 }
     $projects = $query->orderByDesc('created_at')->paginate(15);
 
