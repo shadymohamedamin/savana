@@ -210,7 +210,7 @@ $finalTotal = $totalVillaWithWall + $vat;
 
 
 
-<table>
+<table class="mb-0" style="margin-bottom: 0px;">
 <tr>
     <td class="title" colspan="4"> بيانات المقاول</td>
 </tr>
@@ -248,7 +248,7 @@ $finalTotal = $totalVillaWithWall + $vat;
 <table>
 
 <tr>
-<td class="title" colspan="4">
+<td class="title mb-2rem" colspan="4" style="margin-bottom: 30px;">
 ملخص البنود
 </td>
 </tr>
@@ -338,10 +338,11 @@ $sectionLetterIndex = 0;
 @php
 $color = $groupColors[$loop->index % count($groupColors)];
 @endphp
+<div style="height:10px; ">.</div>
+<table >
 
-<table>
-<tr>
-    <td class="group-title" style="background:{{ $color['group'] }}" colspan="7">
+<tr >
+    <td class="group-title" style="background:{{ $color['group'] }}  " colspan="7">
         {{ $group->name_ar }}
     </td>
 </tr>
@@ -350,7 +351,7 @@ $color = $groupColors[$loop->index % count($groupColors)];
 
 @foreach($group->children as $section)
 
-<tr>
+<tr >
     <td class="section-title" style="background:{{ $color['section'] }}" colspan="7">
         <span style="font-weight: 700;font-size:1.2rem;">{{ chr(65 + $sectionLetterIndex++) }}</span> - 
         {{ $section->name_ar }}

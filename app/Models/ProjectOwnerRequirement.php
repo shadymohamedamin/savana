@@ -17,6 +17,8 @@ class ProjectOwnerRequirement extends Model
         'total_price',
         'category',
         'context',
+        'tender_user_id',
+        'tender_status',
         'notes'
     ];
 

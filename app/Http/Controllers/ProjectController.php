@@ -656,7 +656,7 @@ public function tenderContractPdf(Request $request, $id)
     ]);
     $mpdf->SetHTMLHeader('
         <div style="text-align:center; margin-bottom:0.5rem;">
-            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
         </div>
     ');
     $mpdf->SetHTMLFooter('

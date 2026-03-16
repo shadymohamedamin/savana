@@ -953,7 +953,7 @@ $sectionLetterIndex = 0;
                                 value="{{ $price }}"
                                 step="1"
                                 class="form-control price {{ $group->slug == 'supply-finishings' ? 'supply-price' : '' }}"
-                                {{ $group->slug == 'supply-finishings' ? 'readonlyy' : '' }}
+                                {{ $group->slug == 'supply-finishings' ? 'readonly' : '' }}
                             />
                             </td>
                             {{-- <td>

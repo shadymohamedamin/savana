@@ -758,7 +758,7 @@
 
 
 
-{{-- @if(in_array(auth()->user()->role_id, [3])) --}}
+@if(in_array(auth()->user()->role_id, [3]))
 <div style="border:2px solid #0d6efd; background:#f8fbff; padding:20px; border-radius:10px; margin-bottom:20px;">
     
     <h3 style="margin-bottom:15px; color:#0d6efd; text-align: center;">
@@ -790,7 +790,7 @@
     </ol>
 
 </div>
-{{-- @endif --}}
+@endif
 
 @if(in_array(auth()->user()->role_id, [1,4,11,12]))
     {{-- Upload attachments --}}

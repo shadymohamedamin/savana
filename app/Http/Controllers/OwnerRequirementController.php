@@ -238,7 +238,7 @@ public function index(Project $project, Request $request)
     $items = collect();
 
 
-/*if ($context === 'tender' && $contractorId) {
+if ($context === 'tender' && $contractorId) {
 
     $existing = \App\Models\ProjectOwnerRequirement::where([
         'project_id' => $project->id,
@@ -263,7 +263,7 @@ public function index(Project $project, Request $request)
         
 
         foreach ($consultantItems as $item) {
-
+            //dd($contractorId);
             \App\Models\ProjectOwnerRequirement::create([
                 'project_id' => $project->id,
                 'owner_requirement_id' => $item->owner_requirement_id,
@@ -277,7 +277,7 @@ public function index(Project $project, Request $request)
             ]);
         }
     }
-}*/
+}
 
     
     if ($context === 'owner') {
