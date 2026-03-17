@@ -582,7 +582,7 @@
 .project-actions-full{
     display:grid;
 
-    grid-template-columns: repeat(6, auto); /* 6 عناصر في الصف */
+    grid-template-columns: repeat(7, auto); /* 6 عناصر في الصف */
 
     justify-content:center; /* يجعلهم في المنتصف */
 
@@ -593,7 +593,7 @@
 
 
 
-@media (max-width:768px){
+@media (max-width:1200px){
 
 .project-actions-full{
     grid-template-columns: repeat(2, 1fr);
@@ -692,7 +692,119 @@
 }
 
 
+.navbar-center-logo{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+}
 
+.navbar-logo{
+    height:45px;
+}
+.navbar-center-logo{
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+}
+
+.navbar-logo{
+    height:55px;
+}
+
+
+
+@media (max-width: 991px){
+
+.navbar-nav{
+    align-items:flex-start !important;
+}
+
+.navbar-nav .nav-item{
+    width:auto;
+}
+
+.navbar-nav .nav-link{
+    padding:8px 12px;
+    font-size:1.2rem;
+}
+
+.navbar-nav .dropdown-menu{
+    max-width:260px;
+}
+
+.navbar-center-logo{
+    position:relative;
+    left:auto;
+    transform:none;
+    margin:10px 0;
+    text-align:center;
+}
+
+.navbar-logo{
+    height:40px;
+}
+
+}
+
+.navbar-nav .dropdown{
+    width:auto !important;
+}
+
+.navbar-nav .dropdown-toggle{
+    display:inline-block;
+}
+
+.navbar-nav .dropdown{
+    width:auto !important;
+}
+
+.navbar-nav .dropdown-toggle{
+    display:inline-block;
+}
+
+
+
+@media (max-width: 991px){
+
+.navbar-collapse{
+    text-align:center;
+}
+
+.navbar-nav{
+    width:100%;
+    justify-content:center;
+    align-items:center !important;
+}
+
+.navbar-nav .nav-item{
+    text-align:center;
+}
+
+}
+
+@media (max-width: 991px){
+
+.navbar-nav .nav-link{
+    display:inline-block;
+    padding:8px 14px;
+}
+
+.dropdown-menu{
+    text-align:center;
+}
+
+}
+
+
+body, html {
+    background-color: #f5f5dc !important;
+}
+
+.container,
+.main,
+.main-content {
+    background-color: transparent !important;
+}
 
     </style>
 
@@ -710,61 +822,14 @@
                     //$dateFormatted = $now->translatedFormat('d F Y');
                     //$timeFormatted = $now->translatedFormat('h:i A');
                 @endphp
-    <div class="min-vh-100" id="app" style="background-color:#f5f5dc;">
+    <div class="" id="app" style="background-color:#f5f5dc;">
 
 
 
 
 
 
-            <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="{{ url('/') }}">MyApp</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarRoutes" aria-controls="navbarRoutes" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-
-                    <div class="collapse navbar-collapse" id="navbarRoutes">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/users') }}">Users</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/primaryDatas') }}">Primary Data</a>
-                            </li>
-                            
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ url('/otherRoute') }}">Other Route</a>
-                            </li>
-                        </ul>
-
-                        
-                        <ul class="navbar-nav">
-                            @guest
-                                <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('login') }}">Login</a>
-                                </li>
-                                
-                            @else
-                                <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                        {{ Auth::user()->name }}
-                                    </a>
-                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
-                                        <li><a class="dropdown-item" href="{{ route('logout') }}"
-                                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                            Logout
-                                        </a></li>
-                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                            @csrf
-                                        </form>
-                                    </ul>
-                                </li>
-                            @endguest
-                        </ul>
-                    </div>
-                </div>
-            </nav> -->
+            
 
 
 
@@ -773,22 +838,23 @@
         
         
         
-        <nav class="navbar navbar-expand-xl olive-navbar shadow-sm  {{ app()->getLocale() == 'ar' ? 'navbar-rtl' : '' }}">
+        <nav class="navbar navbar-expand-xxl olive-navbar shadow-sm  {{ app()->getLocale() == 'ar' ? 'navbar-rtl' : '' }}">
 
-            <div class="container mobile-navbar">
-                <!-- <a class="navbar-brand ml-3" href="{{ url('/home') }}">
-                    <div class="today-inline-box ml-3">
-                        <div class="today-inline-day" id="liveDay"></div>
-                        <div class="today-separator"></div>
-                        <div class="today-inline-date" id="liveDate"></div>
-                        <div class="today-separator"></div>
-                        <div class="today-inline-time" id="liveClock"></div>
+
+            <div class="navbar-clock d-none d-xxl-flex {{ app()->getLocale() == 'ar' ? 'order-3 ms-auto' : 'order-1 me-auto' }}">
+                <div class="today-inline-box">
+                    <div class="today-inline-date" id="liveDate" dir="ltr">
+                        {{ $dateFormatted }}
                     </div>
 
-                </a> -->
+                    <div class="today-separator"></div>
 
-
-                
+                    <div class="today-inline-time" id="liveClock">
+                        {{ $timeFormatted }}
+                    </div>
+                </div>
+            </div>
+            {{-- <div class="container mobile-navbar">
                 <div class="navbar-clock d-none d-xl-flex">
                     <div class="today-inline-box">
                         <div class="today-inline-date" id="liveDate" dir="ltr">
@@ -801,14 +867,14 @@
                             {{ $timeFormatted }}
                         </div>
                     </div>
-                </div>
+                </div> --}}
 
                 
 
                
 
 
-                <a class="navbar-brand" style="margin-right: 9rem;" href="{{ url('/') }}">Home</a>
+                {{-- <a class="navbar-brand" style="margin-right: 9rem;" href="{{ url('/') }}">Home</a> --}}
 
 
                 <button class="navbar-toggler mx-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -823,13 +889,19 @@
 
 
 
+                    {{-- <div class="mx-auto text-center">
+                        <a href="{{ url('/') }}">
+                            <img src="{{ asset('images/logo-white.png') }}" alt="Logo" class="navbar-logo">
+                        </a>
+                    </div> --}}
 
                         @auth
-                            <ul class="navbar-nav me-auto mx-4">
-                                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            {{-- <ul class="navbar-nav mx-auto align-items-center"> --}}
+                                {{-- <ul class="navbar-nav me-auto mb-2 mb-lg-0"> --}}
+                                <ul class="navbar-nav mx-auto align-items-center d-flex">
 
                                     {{-- Only for admins or researchers --}}
-                                    @if(Auth::user()->role !== 'public_user')
+                                    {{-- @if(Auth::user()->role !== 'public_user')
                                        @if(in_array(Auth::user()->role_id, [1,4,11,12]))
                                         <li class="nav-item">
                                             <a style="font-size: 1.4rem;" class="nav-link" href="{{ url('/users') }}">{{ __('Users') }}</a>
@@ -837,28 +909,48 @@
                                         @endif
 
 
-                                            <div class="mx-auto text-center">
+                                            <div class="navbar-center-logo">
                                                 <a href="{{ url('/') }}">
-                                                    <img src="{{ asset('images/logo.png') }}" alt="Logo" class="navbar-logo">
+                                                    <img src="{{ asset('images/logo-white.png') }}" class="navbar-logo">
                                                 </a>
                                             </div>
                                         <li class="nav-item">
                                             <a style="font-size: 1.4rem;" class="nav-link" href="{{ url('/projects') }}">{{ __('Projects') }}</a>
                                         </li>
-                                        <!-- <li class="nav-item">
-                                            <a class="nav-link" href="{{ url('/primaryDatas') }}">Primary Data</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{{ url('/primaryDatasSubmissions') }}">Submissions</a>
-                                        </li> -->
-                                    @endif
 
-                                    {{-- For public users --}}
-                                    @if(Auth::user()->role === 'public_user')
-                                        <!-- <li class="nav-item">
-                                            <a class="nav-link" href="{{ route('primary_datas.mySubmissions') }}">My Submissions</a>
-                                        </li> -->
-                                    @endif
+                                    @endif --}}
+
+
+
+                                    
+
+                                    <div class="navbar-center-logo">
+                                        <a href="{{ url('/') }}">
+                                            <img src="{{ asset('images/logo-white.png') }}" class="navbar-logo">
+                                        </a>
+                                    </div>
+
+                                    <li class=" text-center navbar-brand">
+                                        <a style="font-size: 1.4rem;" class="text-center nav-link" href="{{ url('/') }}">
+                                            {{ __('Home') }}
+                                        </a>
+                                    </li>
+
+                                    @if(in_array(Auth::user()->role_id, [1,4,11,12]))
+                                        <li class="nav-item text-center">
+                                            <a style=" font-size: 1.4rem;" class="text-center nav-link" href="{{ url('/users') }}">{{ __('Users') }}</a>
+                                        </li>
+                                        @endif
+
+                                    <li class=" text-center nav-item">
+                                        <a style="font-size: 1.4rem;" class="text-center nav-link" href="{{ url('/projects') }}">
+                                            {{ __('Projects') }}
+                                        </a>
+                                    </li>
+
+
+                                    
+
 
                                     {{-- Admin-only --}}
                                     @if(Auth::user()->email == "it@rakcharity.ae")
@@ -871,7 +963,7 @@
                                     @endif
 
                                 </ul>
-                            </ul>
+                            {{-- </ul> --}}
                             @endauth
 
                     @endauth
@@ -961,7 +1053,7 @@
 
 
                             @auth
-                            <li class="nav-item dropdown mx-2">
+                            <li class="nav-item dropdown items-center mx-2">
                                 <a class="nav-link position-relative"
                                 href="#"
                                 role="button"
@@ -991,7 +1083,7 @@
                                             $daysLeft = now()->diffInDays($endDate, false);
                                         @endphp
                                             <li>
-    <a class="dropdown-item small flex flex-row"
+    <a class="dropdown-item small flex justify-center flex-row"
        href="{{ url('/projects?project_code=' . $projected->project_code) }}">
         
         📁 <strong style="color:#d4af37;">{{ $projected->project_code }}</strong><br>
@@ -1042,11 +1134,11 @@
 
 
 
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle mx-4" href="{{ route('profile') }}" role="button">
+                            <a id="navbarDropdown" class="nav-link text-center dropdown-toggle mx-4" href="{{ route('profile') }}" role="button">
                                 {{ Auth::user()->name }}
                             </a>
 
-                            <li class="nav-item mx-4">
+                            <li class="nav-item mx-4 text-center">
                                 <a class="nav-link" href="{{ route('logout') }}"
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
@@ -1113,7 +1205,7 @@
 
 {{-- ✅ حط هنا كود لوحة المشروع --}}
 
-@if(isset($project) && in_array(auth()->user()->role_id, [1,4,11,12]))
+@if(isset($project))
 <div class="project-panel-full">
 
     
@@ -1123,11 +1215,12 @@
 
         <div class="project-actions-scroll">
             <div class="project-actions-full">
-
-            <a href="{{ route('users.index') }}" class="panel-btn-full">
-                <i class="far fa-users"></i>
-                المستخدمين
-            </a>
+            @if(isset($project) && in_array(auth()->user()->role_id, [1,4,11,12]))
+                <a href="{{ route('users.index') }}" class="panel-btn-full">
+                    <i class="far fa-users"></i>
+                    المستخدمين
+                </a>
+            
 
             <a href="{{ route('projects.edit', $project->id) }}"
                 class="panel-btn-full {{ Route::currentRouteName() == 'projects.edit' ? 'active' : '' }}">
@@ -1135,6 +1228,15 @@
                     تعديل المشروع
                 </a>
 
+
+
+
+            @endif
+
+
+@if((isset($project) && in_array(auth()->user()->role_id, [1,4,11,12]))||(isset($project) && $project->contractor_id==auth()->user()->id))
+            
+            
             <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}"
                 class="panel-btn-full {{ request()->is('users/*/attachments/create') && !request('mode') ? 'active' : '' }}">
                     <i class="fas fa-clipboard-list"></i>
@@ -1161,15 +1263,6 @@
     عقود المقاول
 </a>
 
-            <a href="{{ url('#') }}" class="panel-btn-full">
-                <i class="fas fa-clipboard-list"></i>
-                الاشراف
-            </a>
-            <a href="{{ url('#') }}" class="panel-btn-full">
-                <i class="fas fa-clipboard-list"></i>
-                التصميم
-            </a>
-
 <a href="{{ route('projects.project-payments.index', ['project' => $project->id]) }}"
    class="panel-btn-full {{ Route::currentRouteName() == 'projects.project-payments.index' ? 'active' : '' }}">
     <i class="fas fa-clipboard-list"></i>
@@ -1181,10 +1274,10 @@
 
 
             <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=project_documents') }}"
-   class="panel-btn-full {{ request('mode') == 'project_documents' ? 'active' : '' }}">
-    <i class="fas fa-clipboard-list"></i>
-  مستندات المشروع
-</a>
+            class="panel-btn-full {{ request('mode') == 'project_documents' ? 'active' : '' }}">
+                <i class="fas fa-clipboard-list"></i>
+            مستندات المشروع
+            </a>
 
 
             <a href="{{ url('#') }}" class="panel-btn-full">
@@ -1197,10 +1290,24 @@
                 الرسائل والتنبيهات
             </a>
 
-<a href="{{ route('projects.index') }}" class="top-pill link-pill back-projects-btn">
-        <i class="fas fa-arrow-left me-2"></i>
-        العودة إلى المشاريع
-    </a>
+
+            <a href="{{ route('projects.index') }}" class="panel-btn-full">
+                <i class="fas fa-clipboard-list"></i>
+                    العودة إلى المشاريع
+            </a>
+@endif
+
+@if(isset($project) && in_array(auth()->user()->role_id, [1,4,11,12]))
+            
+            <a href="{{ url('#') }}" class="panel-btn-full">
+                <i class="fas fa-clipboard-list"></i>
+                الاشراف
+            </a>
+            <a href="{{ url('#') }}" class="panel-btn-full">
+                <i class="fas fa-clipboard-list"></i>
+                التصميم
+            </a>
+@endif
 
             </div>
         </div>

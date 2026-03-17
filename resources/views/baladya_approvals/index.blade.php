@@ -69,7 +69,7 @@
 
                 
 
-                <th style="background:#f5f5dc;">{{ __('فرق البلدية') }}</th>
+                <th style="background:#f5f5dc;">{{ __('مدة الاعتماد ') }}</th>
                 <th style="background:#f5f5dc;">{{ __('فرق الموقع') }}</th>
                 <th style="background:#f5f5dc;">{{ __('السبب') }}</th>
                 <th style="background:#f5f5dc;">{{ __('رقم الرخصة') }}</th>

@@ -237,6 +237,49 @@ public function index(Project $project, Request $request)
     $requirements = collect();
     $items = collect();
 
+
+if ($context === 'tender' && $contractorId) {
+
+    $existing = \App\Models\ProjectOwnerRequirement::where([
+        'project_id' => $project->id,
+        'tender_user_id' => NULL,
+        'context' => 'tender'
+    ])->count();
+    $existingContractor = \App\Models\ProjectOwnerRequirement::where([
+        'project_id' => $project->id,
+        'tender_user_id' => $contractorId,
+        'context' => 'tender'
+    ])->count();
+    
+    if (($existing > 0) && ($existingContractor==0)) {
+
+        $consultantItems = \App\Models\ProjectOwnerRequirement::where([
+            'project_id' => $project->id,
+            'context' => 'tender'
+        ])
+        ->whereNull('tender_user_id')
+        ->where('unit_price','>',0)
+        ->get();
+        
+
+        foreach ($consultantItems as $item) {
+            //dd($contractorId);
+            \App\Models\ProjectOwnerRequirement::create([
+                'project_id' => $project->id,
+                'owner_requirement_id' => $item->owner_requirement_id,
+                'quantity' => 0,
+                'unit_price' => $item->unit_price,
+                'total_price' => 0,
+                'notes' => null,
+                'context' => 'tender',
+                'tender_user_id' => $contractorId,
+                'tender_status' => 'draft'
+            ]);
+        }
+    }
+}
+
+    
     if ($context === 'owner') {
         $requirements = OwnerRequirement::whereIn('floor', ['ground','first'])
             ->orderByDesc('is_general')
@@ -480,7 +523,8 @@ $groups = $groupsQuery->get();
     ],
     'feeding_pipe_install' => [
         '31- تركيب تمديدات التغذية  فوق السطح',
-        'علي جدران البارابت'
+        'علي جدران البارابت',
+        'تحت الاسقف'
     ],
     'ac_civil_works' => [
         'مركزي او سبليت علي المقاول'
@@ -494,7 +538,8 @@ $groups = $groupsQuery->get();
     ],
     'first_floor_bath_drainage' => [
         'داكت من تحت لفوق السطح',
-        'تحت الاسقف الي داكت الارضي'
+        'تحت الاسقف الي داكت الارضي',
+        'علي الواجهات الا الامامية'
     ],
     'central_exhaust_fans' => [
         'اعمال مدنية  بايبات على المقاول'
@@ -693,7 +738,7 @@ public function savePricing(Request $request, Project $project)
         $notes = $data['notes'] ?? '';
 
         // ✅ الشرط المهم: احفظ العناصر اللي الكمية والسعر أكبر من 0
-        if ($qty > 0 || $price > 0) {
+        if ($qty >= 0 || $price >= 0) {
             $syncData[$ownerRequirementId] = [
                 'quantity'    => $qty,
                 'unit_price'  => $price,
@@ -737,7 +782,7 @@ public function savePricing(Request $request, Project $project)
 public function saveTender(Request $request, Project $project)
 {
     $syncData = [];
-    //dd($request);
+    
      $contractorId = $request->contractor;
 //dd($contractorId);
     foreach ($request->requirements ?? [] as $ownerRequirementId => $data) {
@@ -747,7 +792,7 @@ public function saveTender(Request $request, Project $project)
         $notes = $data['notes'] ?? '';
 
         // ✅ الشرط المهم: احفظ العناصر اللي الكمية والسعر أكبر من 0
-        if ($qty > 0 || $price > 0) {
+        if ($qty >= 0 || $price >= 0) {
             $syncData[$ownerRequirementId] = [
                 'quantity'    => $qty,
                 'unit_price'  => $price,
@@ -756,8 +801,90 @@ public function saveTender(Request $request, Project $project)
                 'context'     => 'tender',
                 'tender_user_id' => $contractorId // 👈 الفرق: هنا السياق tender
             ];
+            //dd($syncData[$ownerRequirementId]);
+            
         }
     }
+
+
+    // استلام القيم المرسلة
+    $structureElectro = $request->structureElectro;
+    $structureWithFinishes = $request->structureWithFinishes;
+    $footWithout = $request->footWithout;
+    $footWith = $request->footWith;
+    $boundaryWall = $request->boundaryWall;
+    $villaWithWall = $request->villaWithWall;
+    $vat = $request->vat;
+    $finalTotal = $request->finalTotal;
+
+
+    //dd($request->finalTotal);
+    $context = "tender";
+
+    // هنا ممكن تحفظهم في جدول pivot او جدول summary
+    // مثلا في جدول OwnerRequirmentTenderTotal
+    if($contractorId)
+    {
+        \App\Models\OwnerRequirmentTenderTotal::updateOrCreate(
+                [
+                    'project_id' => $project->id,
+                    'tender_user_id' => $contractorId,
+                    'context' => $context
+                ],
+                [
+                    'structureElectro' => $structureElectro,
+                    'structureWithFinishes' => $structureWithFinishes,
+                    'footWithout' => $footWithout,
+                    'footWith' => $footWith,
+                    'boundaryWall' => $boundaryWall,
+                    'villaWithWall' => $villaWithWall,
+                    'vat' => $vat,
+                    'finalTotal' => $finalTotal
+                ]
+            );
+
+            
+
+            \App\Models\ProjectUser::updateOrCreate(
+                [
+                    'project_id' => $project->id,
+                    'user_id' => $contractorId,
+                    'context' => $context
+                ],
+                [
+                    'structureElectro' => $structureElectro,
+                    'structureWithFinishes' => $structureWithFinishes,
+                    'footWithout' => $footWithout,
+                    'footWith' => $footWith,
+                    'boundaryWall' => $boundaryWall,
+                    'villaWithWall' => $villaWithWall,
+                    'vat' => $vat,
+                    'finalTotal' => $finalTotal,
+                    'role_id'=>8
+                ]
+            );
+    }
+    else 
+    {
+        \App\Models\OwnerRequirmentTenderTotal::updateOrCreate(
+                [
+                    'project_id' => $project->id,
+                    'tender_user_id' => auth()->id(),
+                    'context' => $context
+                ],
+                [
+                    'structureElectro' => $structureElectro,
+                    'structureWithFinishes' => $structureWithFinishes,
+                    'footWithout' => $footWithout,
+                    'footWith' => $footWith,
+                    'boundaryWall' => $boundaryWall,
+                    'villaWithWall' => $villaWithWall,
+                    'vat' => $vat,
+                    'finalTotal' => $finalTotal
+                ]
+            );
+    }
+    
 
 
     // حفظ البيانات في الـ pivot table لو في عناصر صالحة

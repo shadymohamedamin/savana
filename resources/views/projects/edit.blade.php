@@ -509,8 +509,8 @@
 
 <div class="card-section">
 
-<div class="card-header">
-<i class="fas fa-building me-1"></i> معلومات المشروع
+<div class="card-header" style="text-align: center;">
+<i class="fas fa-building me-1" ></i> معلومات المشروع
 </div>
 
 <div class="card-body">
@@ -608,7 +608,7 @@
 
 <div class="card-section">
 
-<div class="card-header">
+<div class="card-header" style="text-align: center;">
 <i class="fas fa-user-tie me-1"></i> الاستشاري
 </div>
 
@@ -678,7 +678,7 @@
 
 <div class="card-section">
 
-<div class="card-header">
+<div class="card-header" style="text-align: center;">
 <i class="fas fa-hard-hat me-1"></i> المقاول
 </div>
 
@@ -873,7 +873,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const project_bank_support = parseFloat(document.getElementById('project_bank_support')?.value);
 
         if (!bank_contract_value || !project_bank_support) {
-            document.getElementById('project_owner_support').value = '';
+            document.getElementById('project_owner_support').value = '0';
             return;
         }
 

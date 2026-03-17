@@ -112,12 +112,32 @@ class Project extends Model
             ->withTimestamps();
     }*/
 
-    public function users()
+    /*public function users()
     {
         return $this->belongsToMany(User::class, 'project_users')
             ->withPivot('role_id')
             ->withTimestamps();
-    }
+    }*/
+public function users()
+{
+    return $this->belongsToMany(User::class, 'project_users')
+        ->withPivot([
+            'role_id',
+            'status',
+            'context',
+            'structureElectro',
+            'structureWithFinishes',
+            'footWithout',
+            'footWith',
+            'boundaryWall',
+            'villaWithWall',
+            'vat',
+            'finalTotal'
+        ])
+        ->withTimestamps();
+}
+
+
 
     public function owner()
 {
@@ -216,8 +236,19 @@ public function consultant()
         ->withPivot(['quantity', 'notes'])
         ->withTimestamps();
     }*/
-
-
+public function ownerRequirementsTenderTotals()
+{
+    return $this->hasMany(
+        \App\Models\OwnerRequirmentTenderTotal::class,
+        'project_id'
+    );
+}
+public function ownerRequirementsTenderTotal()
+{
+    return $this->belongsToMany(OwnerRequirement::class, 'owner_requirements_tenders_totals')
+                ->withPivot(['quantity','unit_price','total_price','notes','context','tender_user_id'])
+                ->withTimestamps();
+}
     public function ownerRequirements()
     {
         return $this->belongsToMany(OwnerRequirement::class, 'project_owner_requirements')

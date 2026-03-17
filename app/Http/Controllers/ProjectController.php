@@ -39,6 +39,7 @@ $allowedRoles = [1,4,11,12];
             'status',
             'ownerUser',
             'contractor',
+            'users',
             'baladyaApprovals' => fn($q) => $q->latest()->take(1),
         ])
         ->withSum([
@@ -49,12 +50,45 @@ $allowedRoles = [1,4,11,12];
             }
         ], 'id');
 
-    if (!in_array($user->role_id, $allowedRoles)) {
+
+
+/*if (!in_array(auth()->user()->role_id, $allowedRoles)) {
+    //dd($user);
+    $query->whereHas('projectUsers', function ($q) {
+        $q->where('user_id', auth()->id())
+          ->where('role_id', 8);
+    });
+    $query->groupBy('projects.id');
+    $query->distinct('projects.id');
+}*/
+if (!in_array(auth()->user()->role_id, $allowedRoles)) {
+
+    $query->whereExists(function ($q) {
+        $q->select(\DB::raw(1))
+          ->from('project_users')
+          ->whereColumn('project_users.project_id', 'projects.id')
+          ->where('project_users.user_id', auth()->id())
+          ->where('project_users.role_id', 8);
+    });
+$query->distinct();
+}
+
+
+
+
+    /*if (!in_array($user->role_id, $allowedRoles)) {
 
         $query->whereHas('projectUsers', function ($q) use ($user) {
             $q->where('user_id', $user->id);
         });
-    }
+    }*/
+
+       /* if (!in_array($user->role_id, $allowedRoles)) {
+            //dd($user);
+            $query->whereHas('users', function ($q) use ($user) {
+                $q->where('users.id', $user->id);
+            });
+        }*/
 
     // Filters
     if ($request->filled('project_code')) {
@@ -80,8 +114,22 @@ $allowedRoles = [1,4,11,12];
 
     $projects = $query->orderByDesc('created_at')->paginate(15);
 
+
+/*if (!in_array(auth()->user()->role_id, $allowedRoles)) {
+
+    $projects->setCollection(
+        $projects->getCollection()->unique('project_code')
+    );
+
+}*/
+
+    
     $toast = session('toast', null);
     $contractors = \App\Models\User::where('role_id', 3)->get();
+
+
+
+    
 
     return view('projects.index', compact('projects', 'toast','contractors'));
 }
@@ -562,6 +610,64 @@ public function tenderContractPdf(Request $request, $id)
         ])
         ->get();
 
+
+    /*$groups = \App\Models\OwnerRequirement::where('floor', 'tender')
+    ->where('type', 'group')
+    ->with([
+        'children.children.projectOwnerRequirements' => function ($q) use ($project, $contractorId) {
+            $q->where('project_id', $project->id)
+              ->where('context', 'tender');
+            if ($contractorId) {
+                $q->where('tender_user_id', $contractorId);
+            }
+        }
+    ])
+    ->get();   */
+    
+    
+    /*$groups = \App\Models\OwnerRequirement::where('floor', 'tender')
+    ->where('type', 'group')
+    ->with([
+        'children.children.projectOwnerRequirements' => function ($q) use ($project) {
+            $q->where('project_id', $project->id)
+              ->where('context', 'tender')
+              ->where('tender_user_id', auth()->id());
+        }
+    ])
+    ->get();*/
+    //dd($groups);
+
+
+    /*
+     
+
+
+    <table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:50px;">
+    <tr>
+        <td class="bold center section-title" style="text-align:center; font-weight:bold;">
+            توقيع وختم المقاول
+        </td>
+        <td class="bold center section-title" style="text-align:center; font-weight:bold;">
+            توقيع المالك
+        </td>
+        <td class="bold center section-title" style="text-align:center; font-weight:bold;">
+            توقيع وختم الاستشاري
+        </td>
+    </tr>
+
+    <tr>
+        <td class="signature" style="height:80px; border-bottom:1px solid #000;"></td>
+
+        <td class="signature" style="height:80px; border-bottom:1px solid #000;"></td>
+
+        <td class="signature" style="height:80px; border-bottom:1px solid #000; text-align:center;">
+           <img src="'.public_path('images/signature.jpeg').'"  style="height:140px;">
+        </td>
+    </tr>
+</table>
+
+     */
+
     $html = view('pdf.contract_tender', compact('project', 'groups'))->render();
 
     $mpdf = new \Mpdf\Mpdf([
@@ -570,10 +676,20 @@ public function tenderContractPdf(Request $request, $id)
         'default_font' => 'amiri',
         'autoScriptToLang' => true,
         'autoLangToFont' => true,
-        'margin_footer' => 15,
+        'margin_footer' => 5,
+        'margin_top' => 35
     ]);
+    $mpdf->SetHTMLHeader('
+        <div style="text-align:center; margin-bottom:0.5rem;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
+        </div>
+    ');
     $mpdf->SetHTMLFooter('
-        <div style="text-align:center; font-size:12px;">
+
+        
+
+
+        <div style="text-align:center; font-size:12px; margin-top:1rem;">
             صفحة {PAGENO} من {nbpg}
         </div>
     ');

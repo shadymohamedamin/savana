@@ -51,6 +51,69 @@
     text-overflow: ellipsis;
 }
 
+
+
+/* container */
+
+.contract-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+    gap:16px;
+    background:#f5f5dc;
+    padding:15px;
+}
+
+/* box */
+
+.contract-box{
+    background:white;
+    border:1px solid #e5e5e5;
+    border-radius:10px;
+    padding:15px;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    min-height:170px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.05);
+    transition:0.2s;
+}
+.edit-btn{
+    background: linear-gradient(45deg,#ff9800,#ff5722);
+    border: none;
+    color: #fff;
+    font-weight: bold;
+    padding: 6px 14px;
+    border-radius: 6px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+    transition: all 0.2s ease;
+}
+
+.edit-btn:hover{
+    transform: scale(1.05);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.35);
+}
+/* hover */
+
+.contract-box:hover{
+    transform:translateY(-2px);
+    box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+/* title */
+
+.contract-box span{
+    font-weight:600;
+    font-size:14px;
+    text-align:center;
+    margin-bottom:10px;
+}
+
+/* buttons */
+
+.contract-box .btn{
+    width:100%;
+}
+
 </style>
 @php
     $type = request('type');
@@ -77,7 +140,7 @@
         : {{ $model->name }}
     </h3> -->
 @else <h3>
-        المناقصة
+        {{-- المناقصة --}}
     </h3>
 @endif
     @include('flash::message')
@@ -128,33 +191,33 @@
 
 
     <div class="card-header    d-flex justify-content-between align-items-center" style="background:#d4af37">
-        <span>{{ __('معاينة وطباعة المستندات ') }}</span>
+        <span style="font-weight: 700;">{{ __('معاينة وطباعة المستندات ') }}</span>
   
 
         @if($isTender&&in_array(Auth::user()->role_id, [1,4,11,12]))
-        <div class="flex justify-start">
+        <div class="flex justify-start" style="gap: 1rem;">
             
             <a href="{{ route('projects.tender.contractors', $model->id) }}"
-                class="btn btn-sm" ;   
-                style="background:#d4af37;color:#2f3a1f;">
+                class="btn btn-olive px-4 btn-sm"  
+                style="background:#d4af37;color:#2f3a1f;font-weight: 700; margin-right: 1rem;">
                     <i class="fas fa-users"></i> المقاولين المرشحين
             </a>
             <a href="{{ route('projects.owner-requirements.index', [$model, 'context' => 'pricing']) }}"
-                class="btn btn-sm"
-                style="background:#d4af37;color:#2f3a1f;">
+                class="btn btn-olive px-4 btn-sm"
+                style="background:#d4af37;color:#2f3a1f;font-weight: 700;margin-right: 1rem;">
                     <i class="fas fa-file-signature"></i> أسعار توريد التشطيبات
             </a>
 
 
             <a href="{{ route('projects.owner-requirements.index', [$model, 'context' => 'tender']) }}"
-                class="btn btn-sm"
-                style="background:#d4af37;color:#2f3a1f;">
+                class="btn btn-olive px-4 btn-sm"
+                style="background:#d4af37;color:#2f3a1f;font-weight: 700;margin-right: 1rem;">
                     <i class="fas fa-file-signature"></i> حساب الكميات
             </a>
         </div>
         @elseif(!$projectDocuments&&$type='projects'&&in_array(Auth::user()->role_id, [1,4,11,12]))
-        <a href="{{ route('projects.owner-requirements.index', ['project' => $model->id]) }}" class="btn btn-sm"
-                style="background:#d4af37;color:#2f3a1f;">
+        <a href="{{ route('projects.owner-requirements.index', ['project' => $model->id]) }}" class="btn btn-olive px-4 btn-sm"
+                style="background:#d4af37;color:#2f3a1f; font-weight: 700;margin-right: 1rem;">
                 <i class="fas fa-clipboard-list"></i>
                 احتياجات المالك
             </a>
@@ -162,21 +225,18 @@
 
     </div>
 
-    
+ 
 
 
 
 
 
-
-
-
-    <div class="card-body d-flex gap-3 flex-wrap" style="background-color: #f5f5dc;">
+    <div class="card-body contract-grid" style="background-color: #f5f5dc;">
 
 
         @if($isTender)
 
-            <div class="d-flex flex-column">
+            <div class="contract-box">
                 <span class="mb-1">{{ __('العقد الاساسي') }}</span>
                 <a target="_blank" href="{{ route('projects.contract.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
                     👁 {{ __('Preview') }}
@@ -191,7 +251,7 @@
 
 
 
-            <div class="d-flex flex-column">
+           <div class="contract-box">
                 <span class="mb-1">{{ __('المواصفات الفنية والشروط العامة') }}</span>
 
                 <a target="_blank"
@@ -213,7 +273,7 @@
             </div>
 
 
-            <div class="d-flex flex-column">
+            <div class="contract-box">
                 <span class="mb-1">{{ __('اسعار التوريد') }}</span>
 
                 <a target="_blank" href="{{ route('projects.contract.pricing.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
@@ -230,7 +290,7 @@
             </div>
 
 
-            <div class="d-flex flex-column">
+            <div class="contract-box">
                 <span class="mb-1">{{ __(' حساب الكميات') }}</span>
 
 
@@ -248,11 +308,12 @@
                 </a>
                 @elseif(Auth::user()->role_id==3)
                 <a href="{{ route('projects.owner-requirements.index', [
-                                                    'project'=>$model->id,
-                                                    'context'=>'tender',
-                                                    'contractor'=>Auth::user()->id
-                                                ]) }}" class="btn btn-outline-primary btn-sm mb-1">
-                     {{ __('تعديل') }}
+                        'project'=>$model->id,
+                        'context'=>'tender',
+                        'contractor'=>Auth::user()->id
+                    ]) }}" 
+                class="btn btn-warning btn-sm mb-1 edit-btn">
+                ✏️ {{ __('تعديل') }}
                 </a>
 
                  <a target="_blank" href="{{ route('projects.contract.tender.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
@@ -272,7 +333,7 @@
                         $att = $row['attachment'];
                         //dd($row);
                     @endphp
-                    <div class="d-flex flex-column">
+                    <div class="contract-box">
                         
                     
                         <span class="mb-2 fw-bold">
@@ -349,7 +410,7 @@
                     @endif -->
 
         @elseif($isCotractorFiles)
-            <div class="d-flex flex-column">
+            <div class="contract-box">
                 <span class="mb-1">{{ __('العقد الاساسي') }}</span>
                 <a target="_blank" href="{{ route('projects.contract.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
                     👁 {{ __('Preview') }}
@@ -364,7 +425,7 @@
 
 
 
-            <div class="d-flex flex-column">
+            <div class="contract-box">
                 <span class="mb-1">{{ __('المواصفات الفنية والشروط العامة') }}</span>
 
                 <a target="_blank"
@@ -386,7 +447,7 @@
             </div>
 
 
-            <div class="d-flex flex-column">
+            <div class="contract-box">
                 <span class="mb-1">{{ __('اسعار التوريد') }}</span>
 
                 <a target="_blank" href="{{ route('projects.contract.pricing.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
@@ -405,7 +466,7 @@
 
 
 
-            <div class="d-flex flex-column">
+            <div class="contract-box">
                 <span class="mb-1">{{ __(' حساب الكميات') }}</span>
 
                 <a target="_blank" href="{{ route('projects.contract.pricing.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
@@ -432,7 +493,7 @@
 
 
                   {{-- Hawya Contract --}}
-             <div class="d-flex flex-column">
+             <div class="contract-box">
                 <span class="mb-1">{{ __('Hawya Contract') }}</span>
 
              <a target="_blank" href="{{ route('projects.contract.hawya.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
@@ -451,7 +512,7 @@
 
 
         
-            <div class="d-flex flex-column">
+            <div class="contract-box">
             <span class="mb-1">{{ __('Site Delivery Contract') }}</span>
 
             <a target="_blank" href="{{ route('projects.contract.site_delivery.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
@@ -471,7 +532,7 @@
 
 
 
-            <div class="d-flex flex-column">
+            <div class="contract-box">
             <span class="mb-1">{{ __('Bank Contract') }}</span>
 
             <a target="_blank" href="{{ route('projects.contract.bank.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
@@ -493,7 +554,7 @@
 
 
 
-            <div class="d-flex flex-column">
+            <div class="contract-box">
             <span class="mb-1">{{ __('كميات البنك') }}</span>
 
             <a target="_blank" href="{{ route('projects.contract.bank_table.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
@@ -514,6 +575,50 @@
 
 
 
+
+
+
+
+
+
+
+            @foreach($rows as $row)
+                    @php
+                        $typeId = $row['type_id'];
+                        $att = $row['attachment'];
+                        //dd($row);
+                    @endphp
+                    <div class="contract-box">
+                        
+                    
+                        <span class="mb-2 fw-bold">
+                                    {{ $attTypes[$typeId] ?? 'File '.$typeId }}
+                                </span>
+
+                                @if($att)
+                                <a target="_blank"
+                                href="{{ asset($att->web_path) }}"
+                                class="btn btn-outline-primary btn-sm mb-1">
+                                    👁 معاينة
+                                </a>
+
+                                <a href="{{ asset($att->web_path) }}"
+                                class="btn btn-success btn-sm mb-1">
+                                    ⬇ تعديل
+                                </a>
+
+                                <a target="_blank"
+                                href="{{ asset($att->web_path) }}"
+                                class="btn btn-warning btn-sm">
+                                    🖨 طباعة
+                                </a>
+                                @else <div>غير موجود</div>
+                                @endif
+                    </div>
+                @endforeach
+
+
+
         @else
         
                 {{--    Owner And Consultant Contract عقد المالك والاستشاري والمقاول --}}
@@ -531,66 +636,101 @@
                 </div>  -->
 
                 {{-- عقد المالك والاستشاري --}}
-                <div class="d-flex flex-column">
-                    <span class="mb-1">{{ __('Owner And Consultant And Contractor Contract') }}</span>
-                    <a target="_blank" href="{{ route('projects.contract.owner_consultant.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
-                        👁 {{ __('Preview') }}
-                    </a>
-                    <a href="{{ route('projects.contract.owner_consultant.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
-                        ⬇ {{ __('Download') }}
-                    </a>
-                    <a target="_blank" href="{{ route('projects.contract.owner_consultant.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
-                        🖨 {{ __('Print') }}
-                    </a>
-                </div>
+                @if(!$projectDocuments)
+                    <div class="contract-box">
+                        <span class="mb-1">{{ __('Owner And Consultant And Contractor Contract') }}</span>
+                        <a target="_blank" href="{{ route('projects.contract.owner_consultant.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
+                            👁 {{ __('Preview') }}
+                        </a>
+                        <a href="{{ route('projects.contract.owner_consultant.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
+                            ⬇ {{ __('Download') }}
+                        </a>
+                        <a target="_blank" href="{{ route('projects.contract.owner_consultant.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
+                            🖨 {{ __('Print') }}
+                        </a>
+                    </div>
 
-                {{-- خطاب التكليف --}}
-                <div class="d-flex flex-column">
-                    <span class="mb-1">{{ __('Takleef Contract') }}</span>
+                    {{-- خطاب التكليف --}}
+                    <div class="contract-box">
+                        <span class="mb-1">{{ __('Takleef Contract') }}</span>
 
-                    <a target="_blank"
-                    href="{{ route('projects.contract.takleef.pdf', ['id' => $model->id, 'action' => 'preview']) }}"
-                    class="btn btn-outline-primary btn-sm mb-1">
-                        👁 {{ __('Preview') }}
-                    </a>
+                        <a target="_blank"
+                        href="{{ route('projects.contract.takleef.pdf', ['id' => $model->id, 'action' => 'preview']) }}"
+                        class="btn btn-outline-primary btn-sm mb-1">
+                            👁 {{ __('Preview') }}
+                        </a>
 
-                    <a href="{{ route('projects.contract.takleef.pdf', ['id' => $model->id, 'action' => 'download']) }}"
-                    class="btn btn-success btn-sm mb-1">
-                        ⬇ {{ __('Download') }}
-                    </a>
+                        <a href="{{ route('projects.contract.takleef.pdf', ['id' => $model->id, 'action' => 'download']) }}"
+                        class="btn btn-success btn-sm mb-1">
+                            ⬇ {{ __('Download') }}
+                        </a>
 
-                    <a target="_blank"
-                    href="{{ route('projects.contract.takleef.pdf', ['id' => $model->id, 'action' => 'print']) }}"
-                    class="btn btn-warning btn-sm">
-                        🖨 {{ __('Print') }}
-                    </a>
-                </div>
-
-
-                <div class="d-flex flex-column">
-                    <span class="mb-1">{{ __('احتياجات المالك') }}</span>
-
-                    <a target="_blank" href="{{ route('projects.contract.owner-requirements.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
-                        👁 {{ __('Preview') }}
-                    </a>
-
-                    <a href="{{ route('projects.contract.owner-requirements.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
-                        ⬇ {{ __('Download') }}
-                    </a>
-
-                    <a target="_blank" href="{{ route('projects.contract.owner-requirements.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
-                        🖨 {{ __('Print') }}
-                    </a>
-                </div>
+                        <a target="_blank"
+                        href="{{ route('projects.contract.takleef.pdf', ['id' => $model->id, 'action' => 'print']) }}"
+                        class="btn btn-warning btn-sm">
+                            🖨 {{ __('Print') }}
+                        </a>
+                    </div>
 
 
+                    <div class="contract-box">
+                        <span class="mb-1">{{ __('احتياجات المالك') }}</span>
 
+                        <a target="_blank" href="{{ route('projects.contract.owner-requirements.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
+                            👁 {{ __('Preview') }}
+                        </a>
 
+                        <a href="{{ route('projects.contract.owner-requirements.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
+                            ⬇ {{ __('Download') }}
+                        </a>
+
+                        <a target="_blank" href="{{ route('projects.contract.owner-requirements.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
+                            🖨 {{ __('Print') }}
+                        </a>
+                    </div>
+                @endif
 
 
 
 
 
+
+
+
+                @foreach($rows as $row)
+                    @php
+                        $typeId = $row['type_id'];
+                        $att = $row['attachment'];
+                        //dd($row);
+                    @endphp
+                    <div class="contract-box">
+                        
+                    
+                        <span class="mb-2 fw-bold">
+                                    {{ $attTypes[$typeId] ?? 'File '.$typeId }}
+                                </span>
+
+                                @if($att)
+                                <a target="_blank"
+                                href="{{ asset($att->web_path) }}"
+                                class="btn btn-outline-primary btn-sm mb-1">
+                                    👁 معاينة
+                                </a>
+
+                                <a href="{{ asset($att->web_path) }}"
+                                class="btn btn-success btn-sm mb-1">
+                                    ⬇ تعديل
+                                </a>
+
+                                <a target="_blank"
+                                href="{{ asset($att->web_path) }}"
+                                class="btn btn-warning btn-sm">
+                                    🖨 طباعة
+                                </a>
+                                @else <div>غير موجود</div>
+                                @endif
+                    </div>
+                @endforeach
 
 
           
@@ -615,6 +755,44 @@
 </div>
 @endif
 
+
+
+
+@if(in_array(auth()->user()->role_id, [3]))
+<div style="border:2px solid #0d6efd; background:#f8fbff; padding:20px; border-radius:10px; margin-bottom:20px;">
+    
+    <h3 style="margin-bottom:15px; color:#0d6efd; text-align: center;">
+        توضيح طريقة التسعير
+    </h3>
+
+    <ol style="line-height:1.9; padding-right:20px; font-size:17px;">
+        
+        <li>
+            حرصًا من مكتب سافانا على التطوير المستمر وتحسين جودة خدماته، فقد تم اعتماد نظام المناقصات عبر السيستم الداخلي للمكتب، وذلك بهدف تنظيم العمل وتسهيل إجراءات الاطلاع والتسعير.
+        </li>
+
+        <li>
+            بعد استلام المقاول اسم المستخدم وكلمة المرور الخاصة به، يمكنه الدخول إلى صفحة المناقصة عبر النظام، حيث ستظهر له جميع مستندات المناقصة.
+        </li>
+
+        <li>
+            جميع المستندات متاحة للاطلاع والتحميل فقط، باستثناء مستند الكميات، حيث يكون متاحًا للتعديل.
+        </li>
+
+        <li>
+            يقوم المقاول بالدخول إلى مستند الكميات، ويكون مخولًا بإدخال الاسعار و الكميات فقط، بالإضافة إلى إمكانية إضافة الملاحظات إن وجدت.
+        </li>
+
+        <li>
+            بعد الانتهاء من إدخال الأسعار والملاحظات، يقوم المقاول بحفظ الملف، وبذلك تكون عملية التسعير قد اكتملت.
+        </li>
+
+        <li> يلتزم المقاول بالاطلاع الكامل والدقيق على جميع عناصر ومستندات المناقصة.</li>
+
+    </ol>
+
+</div>
+@endif
 
 @if(in_array(auth()->user()->role_id, [1,4,11,12]))
     {{-- Upload attachments --}}
@@ -641,7 +819,7 @@
         <div class="card mb-4" style="background:#d4af37">
             <div class="card-header    d-flex justify-content-between align-items-center" style="background:#d4af37">
                 <span>{{ __('Upload Attachments') }}</span>
-                <button type="button" id="addAttachment" class="btn btn-olive px-4 btn-sm">
+                <button type="button" id="addAttachment" class="btn btn-olive px-4 btn-sm" style="font-weight: 700;">
                     {{ __('Add Attachment') }}
                 </button>
 
@@ -682,7 +860,10 @@
                                 <input type="file"
                                     name="attachments[{{ $i }}][file]"
                                     class="form-control form-control-sm mb-1">
-
+                                <input type="hidden"
+                                            class="delete-flag"
+                                            name="attachments[{{ $i }}][delete]"
+                                            value="0">
                                 @if($att)
                                     <div class="text-truncate">
                                         📄 {{ $att->file_name }}
@@ -694,6 +875,9 @@
                                         class="btn btn-sm btn-outline-primary w-100 mt-1">
                                             👁 View
                                         </a>
+
+                                        
+                                        <button type="button" class="btn btn-danger removeAttachment">🗑</button>
                                     @endif
                                 @else
                                     <div class="text-muted">
@@ -703,6 +887,11 @@
 
                             </div>
                         </div>
+
+
+
+
+                        
 
                         {{-- expiration --}}
                         <div class="col-md-3">
@@ -754,7 +943,7 @@
         name="action"
         value="save"
         class="btn btn-olive px-4">
-    💾 {{ __('Save') }}
+    💾 {{ __('حفظ') }}
 </button>
 
 {{-- Show ONLY when type != projects --}}
@@ -793,6 +982,46 @@
 
 
 <script>
+
+
+
+
+
+document.addEventListener('click', function(e){
+
+    if(e.target.classList.contains('removeAttachment')){
+
+        const card = e.target.closest('.card');
+
+        const deleteFlag = card.querySelector('.delete-flag');
+        const idInput = card.querySelector('input[name*="[id]"]');
+
+        if(idInput){
+
+            deleteFlag.value = 1;
+
+            card.style.opacity = "0.5";
+            e.target.style.display = "none";
+
+            const msg = document.createElement("div");
+            msg.innerHTML = "File will be deleted after save";
+            msg.style.color = "red";
+
+            card.querySelector('.border').appendChild(msg);
+
+        }else{
+            card.remove();
+        }
+
+    }
+
+});
+
+
+
+
+
+
 document.addEventListener('DOMContentLoaded', function () {
 
     document.querySelectorAll('.attachment-input').forEach(input => {
