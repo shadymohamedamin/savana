@@ -215,7 +215,7 @@
                     <i class="fas fa-file-signature"></i> حساب الكميات
             </a>
         </div>
-        @elseif(!$projectDocuments&&$type='projects'&&in_array(Auth::user()->role_id, [1,4,11,12]))
+        @elseif(!$isCotractorFiles&&!$projectDocuments&&$type='projects'&&in_array(Auth::user()->role_id, [1,4,11,12]))
         <a href="{{ route('projects.owner-requirements.index', ['project' => $model->id]) }}" class="btn btn-olive px-4 btn-sm"
                 style="background:#d4af37;color:#2f3a1f; font-weight: 700;margin-right: 1rem;">
                 <i class="fas fa-clipboard-list"></i>

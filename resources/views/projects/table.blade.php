@@ -590,7 +590,7 @@
 
               
                     
-                            @foreach($project->users as $user)
+                            
                                 <tr class="project-row"
                                     data-href="{{ $targetUrl }}"
                                     style="background-color:#f5f5dc; cursor:pointer;">
@@ -605,7 +605,7 @@
                                     <td style="background-color:#f5f5dc;">{{ $user->pivot->vat ?? '—' }}</td>
                                     <td style="background-color:#f5f5dc;">{{ $user->pivot->finalTotal ?? '—' }}</td>
                                 </tr>
-                            @endforeach
+                            
                         
                 @endif
                         

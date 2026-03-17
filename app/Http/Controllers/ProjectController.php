@@ -61,17 +61,7 @@ $allowedRoles = [1,4,11,12];
     $query->groupBy('projects.id');
     $query->distinct('projects.id');
 }*/
-if (!in_array(auth()->user()->role_id, $allowedRoles)) {
 
-    $query->whereExists(function ($q) {
-        $q->select(\DB::raw(1))
-          ->from('project_users')
-          ->whereColumn('project_users.project_id', 'projects.id')
-          ->where('project_users.user_id', auth()->id())
-          ->where('project_users.role_id', 8);
-    });
-$query->distinct();
-}
 
 
 
@@ -112,8 +102,18 @@ $query->distinct();
         $query->whereHas('ownerUser', fn($q) => $q->where('mobile', 'like', '%' . $request->owner_phone . '%'));
     }
 
-    $projects = $query->orderByDesc('created_at')->paginate(15);
 
+
+    if (!in_array(auth()->user()->role_id, $allowedRoles)) {
+
+        $query->whereHas('projectUsers', function ($q) {
+            $q->where('user_id', auth()->id())
+            ->where('role_id', 8);
+        })->select('projects.*')->distinct();
+
+    }
+    $projects = $query->orderByDesc('created_at')->paginate(15);
+    
 
 /*if (!in_array(auth()->user()->role_id, $allowedRoles)) {
 
