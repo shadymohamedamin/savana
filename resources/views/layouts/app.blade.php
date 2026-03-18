@@ -1372,7 +1372,7 @@ body, html {
 
 <div class="owner-title">
     <i class="fas fa-user-tie me-2"></i>
-    {{ optional($project->ownerUser)->name ?? '—' }}
+     المالك : {{ optional($project->ownerUser)->name ?? '—' }}
 </div>
 
 

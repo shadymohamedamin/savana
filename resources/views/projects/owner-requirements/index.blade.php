@@ -369,7 +369,17 @@ body{
     font-weight: bold;
 }
 
+.owner-title{
+    text-align:center;
+    font-size:30px;
+    font-weight:700;
+    margin:25px 0 30px 0;
+    color:#2f3a1f;
+}
 
+.owner-title i{
+    color:#d4af37;
+}
 
 </style>
 
@@ -382,6 +392,17 @@ body{
 
 <div class="card shadow-sm rounded-4"
      style="background-color:#f5f5dc;margin:40px;padding:0px;">
+
+@php
+    $contractor = \App\Models\User::find(request('contractor'));
+@endphp
+@if($contractor)
+<div class="owner-title">
+    <!-- <i class="fas fa-user-tie me-2"></i> -->
+    👷 المقاول:  {{ $contractor->name ?? '—' }}
+</div>
+@endif
+
 @include('projects.partials.project-actions', ['project' => $project])
     {{-- Header --}}
     <div class="card-header d-flex justify-content-between align-items-center"

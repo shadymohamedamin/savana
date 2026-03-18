@@ -469,15 +469,22 @@
             <div class="contract-box">
                 <span class="mb-1">{{ __(' حساب الكميات') }}</span>
 
-                <a target="_blank" href="{{ route('projects.contract.pricing.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
+                <a target="_blank" href="{{ route('projects.contract.tender.pdf', [
+                    'id' => $model->id, 
+                    'action' => 'preview',
+                    'context'=>'tender',
+                    'contractor'=>$model->contractor_id
+                
+                
+                ]) }}" class="btn btn-outline-primary btn-sm mb-1">
                     👁 {{ __('Preview') }}
                 </a>
 
-                <a href="{{ route('projects.contract.pricing.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
+                <a href="{{ route('projects.contract.tender.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
                     ⬇ {{ __('Download') }}
                 </a>
 
-                <a target="_blank" href="{{ route('projects.contract.pricing.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
+                <a target="_blank" href="{{ route('projects.contract.tender.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
                     🖨 {{ __('Print') }}
                 </a>
             </div>
