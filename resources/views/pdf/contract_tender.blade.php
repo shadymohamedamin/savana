@@ -160,7 +160,7 @@ $boundaryWall = end($groupsValues);
 
 $totalVillaWithWall = $structureWithFinishes + $boundaryWall;
 
-$vat = $totalVillaWithWall / 21;
+$vat = $totalVillaWithWall * 0.05;
 
 $finalTotal = $totalVillaWithWall + $vat;
 
@@ -582,7 +582,7 @@ $boundaryWall = end($groupsValues);
 $totalVillaWithWall = $structureWithFinishes + $boundaryWall;
 
 // الضريبة (قسمة على 21)
-$vat = $totalVillaWithWall / 21;
+$vat = $totalVillaWithWall * 0.05;
 
 // النهائي شامل الضريبة
 $finalTotal = $totalVillaWithWall + $vat;

@@ -10,7 +10,7 @@ type = section | item | title | group
 
 
 
-
+ssh alkeemgr@173.254.29.237
 
 
 
@@ -132,6 +132,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 ssh -i C:\Users\shadi\.ssh\id_rsa hsoxkamy@50.6.108.100
+ssh -i ~/.ssh/id_rsa alkeemgr@173.254.29.237
+
+
+
+//ssh alkeemgr@173.254.29.237
+
 
 php artisan tinker
 bcrypt('savana@2024');

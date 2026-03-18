@@ -10,6 +10,19 @@ class TenderRequirementsSeeder extends Seeder
     public function run()
     {
         /*
+
+        $B = OwnerRequirement::updateOrCreate(
+[
+    'slug' => 'substructure-works'
+],
+[
+    'name_ar' => 'أعمال تحت منسوب الأرض',
+    'name_en' => 'Substructure Works',
+    'floor' => 'tender',
+    'type' => 'section',
+    'parent_id' => $mainStructure->id,
+    'is_general' => 0,
+]);
         =====================================================
         1️⃣ أولا : أعمال الهيكل
         =====================================================
@@ -492,7 +505,11 @@ Private function item
     private function item($parent,$ar,$en,$unit,$slug)
     {
         OwnerRequirement::updateOrCreate(
-        ['slug' => $slug], // ✅ المفتاح الفريد
+        [
+    'slug' => $slug,
+            'parent_id' => $parent->id,   // ✅ مهم جداً
+            'type' => 'item'
+        ], // ✅ المفتاح الفريد
         [
             'name_ar' => $ar,
             'name_en' => $en,

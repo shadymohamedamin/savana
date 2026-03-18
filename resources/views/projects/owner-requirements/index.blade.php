@@ -1237,10 +1237,20 @@ $sectionLetterIndex = 0;
     </button>
 
     <a target="_blank"
+        href="{{ route('projects.contract.tender.pdf', [
+                $project->id,
+                'action' => 'preview',
+                'contractor' => request('contractor')
+        ]) }}"
+        class="btn btn-preview px-4">
+            👁 معاينة حساب الكميات
+    </a>
+
+    {{-- <a target="_blank"
         href="{{ route('projects.contract.tender.pdf', $project->id) }}?action=preview"
         class="btn btn-preview px-4">
         👁 معاينة حساب الكميات
-    </a>
+    </a> --}}
 
 </div>
     <!-- <div class="text-center d-flex my-4 justify-content-center gap-2">
@@ -1434,7 +1444,7 @@ function calculateAll() {
     let structureWithFinishes = structureElectro + (groupsTotals[2] || 0);
     let boundaryWall = groupsTotals[groupsTotals.length - 1] || 0;
     let villaWithWall = structureWithFinishes + boundaryWall;
-    let vat = villaWithWall /21;//* 0.05;
+    let vat = villaWithWall * 0.05;
     let finalTotal = villaWithWall + vat;
 
     let footWithout = approvedArea > 0 ? structureElectro / approvedArea : 0;
