@@ -233,10 +233,49 @@
 
 
 
+<div style="min-width: 250px;max-width: 250px;">
+    <label class="form-label">تاريخ توقيع العقود</label>
+    <input type="date"
+           name="contract_signed_at"
+           class="form-control"
+           value="{{ old('contract_signed_at', optional($project->contract_signed_at)->format('Y-m-d')) }}">
+</div>
 
 
 
 
+<div style="min-width: 250px;max-width: 250px;">
+    <div class="border rounded p-2 small bg-light attachment-box">
+
+        <input type="hidden" name="project_image_delete" value="0" class="delete-flag">
+
+        <input type="file"
+               name="project_image"
+               class="form-control form-control-sm attachment-input mb-1">
+
+        {{-- الصورة الحالية --}}
+        @if($project->project_image)
+            <a href="{{ asset('Files/'.$project->project_image) }}"
+               target="_blank"
+               class="btn btn-sm btn-outline-primary w-100 mt-1 stored-file">
+                👁 عرض الصورة الحالية
+            </a>
+        @endif
+
+        {{-- preview --}}
+        <a href="#"
+           target="_blank"
+           class="btn btn-sm btn-outline-success w-100 mt-1 preview-file d-none">
+            👁 معاينة
+        </a>
+
+        <button type="button"
+                class="btn btn-sm btn-outline-danger w-100 mt-1 remove-file">
+            🗑 حذف
+        </button>
+
+    </div>
+</div>
 
 
 
@@ -291,6 +330,9 @@
                         'min' => 1
                     ]) !!}
                 </div>
+
+
+
 
                 {{-- Contractor Contract End Date (Display) --}}
                 <div class="flex-grow-1" style="min-width:250px;max-width:250px;">
@@ -497,6 +539,19 @@
 
 
 <script>
+
+document.querySelectorAll('.remove-file').forEach(btn => {
+    btn.addEventListener('click', function () {
+        const box = this.closest('.attachment-box');
+        box.querySelector('.attachment-input').value = '';
+        box.querySelector('.delete-flag').value = 1;
+
+        box.querySelectorAll('.preview-file,.stored-file')
+           .forEach(el => el.classList.add('d-none'));
+    });
+});
+
+
 document.addEventListener('DOMContentLoaded', function () {
 
     function calculateArea() {

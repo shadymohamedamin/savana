@@ -971,6 +971,27 @@ public function update($id, UpdateProjectRequest $request)
                 'message' => __('Project not found.')
             ]);
     }
+
+
+    // تحديث التاريخ
+$project->contract_signed_at = $request->contract_signed_at;
+
+// حذف الصورة
+if ($request->project_image_delete == 1 && $project->project_image) {
+    @unlink(public_path('Files/'.$project->project_image));
+    $project->project_image = null;
+}
+
+// رفع صورة جديدة
+if ($request->hasFile('project_image')) {
+    $file = $request->file('project_image');
+    $name = time().'_'.$file->getClientOriginalName();
+    $file->move(public_path('Files'), $name);
+
+    $project->project_image = $name;
+}
+
+
 //dd($request->all());
     // تحديث بيانات المشروع
     $project = $this->projectRepository->update($request->all(), $id);

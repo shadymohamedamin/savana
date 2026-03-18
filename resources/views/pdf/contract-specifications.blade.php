@@ -66,8 +66,12 @@
 <!-- بيانات المشروع -->
 <table>
     <tr>
+        <td class="bold">اسم المقاول</td>
+        <td>{{ $project->contractorUser?->name }}</td>
+    </tr>
+    <tr>
         <td class="bold">مشروع</td>
-        <td>{{ $project->projectName->name_ae }}</td>
+        <td>{{ $project->projectName?->name_ar}}</td>
     </tr>
     <tr>
         <td class="bold">عائدة للمالك</td>

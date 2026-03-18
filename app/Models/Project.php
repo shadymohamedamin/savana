@@ -51,6 +51,8 @@ class Project extends Model
         'bank_contract_value',      // ✅
         'bank_contract_duration', 
         'financing_type',
+        'contract_signed_at',
+        'project_image',
 
 
 
@@ -74,6 +76,7 @@ class Project extends Model
         'start_date'    => 'date',
         'end_date'      => 'date',
         'contractor_contract_end_date' => 'date',
+        'contract_signed_at' => 'date',
     ];
 
     /**

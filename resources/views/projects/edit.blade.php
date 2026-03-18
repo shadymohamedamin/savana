@@ -523,6 +523,9 @@
 </div>
 
 
+
+
+
 {{-- Status --}}
 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;max-width: 250px;">
     {!! Form::label('status_id', __('Status')) !!}
@@ -590,6 +593,40 @@
 <div class="form-item">
 {!! Form::label('owner_id', __('Owner')) !!}
 {!! Form::select('owner_id',$owners,null,['class'=>'form-control','placeholder'=>'-- اختياري --']) !!}
+</div>
+
+
+<div class="form-item">
+    <div class="border rounded p-2 small bg-light attachment-box">
+
+        <input type="hidden" name="project_image_delete" value="0" class="delete-flag">
+
+        <input type="file"
+               name="project_image"
+               class="form-control form-control-sm attachment-input mb-1">
+
+        {{-- الصورة الحالية --}}
+        @if($project->project_image)
+            <a href="{{ asset('Files/'.$project->project_image) }}"
+               target="_blank"
+               class="btn btn-sm btn-outline-primary w-100 mt-1 stored-file">
+                👁 عرض الصورة الحالية
+            </a>
+        @endif
+
+        {{-- preview --}}
+        <a href="#"
+           target="_blank"
+           class="btn btn-sm btn-outline-success w-100 mt-1 preview-file d-none">
+            👁 معاينة
+        </a>
+
+        <button type="button"
+                class="btn btn-sm btn-outline-danger w-100 mt-1 remove-file">
+            🗑 حذف
+        </button>
+
+    </div>
 </div>
 
 
@@ -767,7 +804,13 @@
 
 
 
-
+<div class="form-item">
+    <label class="form-label">تاريخ توقيع العقود</label>
+    <input type="date"
+           name="contract_signed_at"
+           class="form-control"
+           value="{{ old('contract_signed_at', optional($project->contract_signed_at)->format('Y-m-d')) }}">
+</div>
 
 
 
@@ -776,6 +819,10 @@
 <input type="date" id="contractor_contract_end_date_display" class="form-control"
 value="{{ optional($project->contractor_contract_end_date)->format('Y-m-d') }}" readonly>
 </div>
+
+
+
+
 
 <input type="hidden"
 name="contractor_contract_end_date"
@@ -830,6 +877,19 @@ value="{{ optional($project->contractor_contract_end_date)->format('Y-m-d') }}"/
 
 
 <script>
+
+document.querySelectorAll('.remove-file').forEach(btn => {
+    btn.addEventListener('click', function () {
+        const box = this.closest('.attachment-box');
+        box.querySelector('.attachment-input').value = '';
+        box.querySelector('.delete-flag').value = 1;
+
+        box.querySelectorAll('.preview-file,.stored-file')
+           .forEach(el => el.classList.add('d-none'));
+    });
+});
+
+
 document.addEventListener('DOMContentLoaded', function () {
 
     function calculateArea() {
