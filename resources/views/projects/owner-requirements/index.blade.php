@@ -424,11 +424,7 @@ body{
             </a>
 
 
-            {{-- <a href="{{ route('projects.owner-requirements.index', [$project, 'context' => 'tender']) }}"
-                class="btn btn-olive px-4 btn-sm"
-                style="background:#d4af37;color:#2f3a1f;font-weight:700;font-size:1rem;">
-                    <i class="fas fa-file-signature"></i> حساب الكميات
-            </a> --}}
+
 
            
             
