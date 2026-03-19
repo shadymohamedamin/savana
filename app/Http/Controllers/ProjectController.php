@@ -104,14 +104,30 @@ $allowedRoles = [1,4,11,12];
 
 
 
-    if (!in_array(auth()->user()->role_id, $allowedRoles)) {
+    /*if (!in_array(auth()->user()->role_id, $allowedRoles)) {
 
         $query->whereHas('projectUsers', function ($q) {
             $q->where('user_id', auth()->id())
             ->where('role_id', 8);
         })->select('projects.*')->distinct();
 
-    }
+    }*/
+
+
+        if (!in_array(auth()->user()->role_id, $allowedRoles)) {
+
+    $query->whereHas('projectUsers', function ($q) {
+        $q->where('user_id', auth()->id())
+          ->whereIn('role_id', [3, 8])
+          ->where('context', 'tender');
+    })
+    ->with(['users' => function ($q) {
+        $q->wherePivotIn('role_id', [3, 8])
+          ->wherePivot('context', 'tender');
+    }])
+    ->select('projects.*')
+    ->distinct();
+}
     $projects = $query->orderByDesc('created_at')->paginate(15);
     
 
