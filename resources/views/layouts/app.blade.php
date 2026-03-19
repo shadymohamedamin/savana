@@ -1236,6 +1236,14 @@ body, html {
 
 
 
+                <a href="{{ url('projects/'.$project->id.'/tender-contractors') }}"
+   class="panel-btn-full {{ request('mode') == 'tenderr' ? 'active' : '' }}">
+    <i class="fas fa-clipboard-list"></i>
+    المقاولين المرشحين
+</a>
+
+
+
 
             @endif
 
@@ -1262,11 +1270,7 @@ body, html {
     <i class="fas fa-clipboard-list"></i>
     المناقصة
 </a>
-<a href="{{ url('projects/'.$project->id.'/tender-contractors') }}"
-   class="panel-btn-full {{ request('mode') == 'tenderr' ? 'active' : '' }}">
-    <i class="fas fa-clipboard-list"></i>
-    المقاولين المرشحين
-</a>
+
 
 
 
