@@ -940,6 +940,12 @@ body, html {
                                         <li class="nav-item text-center">
                                             <a style=" font-size: 1.4rem;" class="text-center nav-link" href="{{ url('/users') }}">{{ __('Users') }}</a>
                                         </li>
+
+                                        <li class="nav-item text-center">
+                                            <a style=" font-size: 1.4rem;" class="text-center nav-link" href="{{ url('/users/' . Auth::id() . '/attachments/create?type=users') }}">{{ __('اوراق المكتب') }}</a>
+                                        </li>
+
+                                        
                                         @endif
 
                                     <li class=" text-center nav-item">
@@ -1256,6 +1262,13 @@ body, html {
     <i class="fas fa-clipboard-list"></i>
     المناقصة
 </a>
+<a href="{{ url('projects/'.$project->id.'/tender-contractors') }}"
+   class="panel-btn-full {{ request('mode') == 'tenderr' ? 'active' : '' }}">
+    <i class="fas fa-clipboard-list"></i>
+    المقاولين المرشحين
+</a>
+
+
 
             <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=contractor_files') }}"
    class="panel-btn-full {{ request('mode') == 'contractor_files' ? 'active' : '' }}">

@@ -50,9 +50,12 @@ use App\Http\Controllers\ProjectOwnerRequirementController;
     ]);
 });*/
 
-
+//home
+/*Route::get('/', function () {
+    return redirect(Auth::check() ? '/projects' : '/login');
+});*/
 Route::get('/', function () {
-    return redirect(Auth::check() ? '/home' : '/login');
+    return redirect()->route('projects.index');
 });
 Route::get('/two-factor-challenge', [AuthenticatedSessionController::class, 'showTwoFactorChallengeForm']);
 
