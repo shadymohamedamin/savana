@@ -1034,7 +1034,7 @@ $sectionLetterIndex = 0;
 
 
 
-<input type="hidden" name="contractor" value="{{ $contractor }}">
+<input type="hidden" name="contractor" value="{{ $contractor->id }}">
 
 
 
