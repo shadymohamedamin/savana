@@ -470,23 +470,29 @@
                 <span class="mb-1">{{ __(' حساب الكميات') }}</span>
 
                 <a target="_blank" href="{{ route('projects.contract.tender.pdf', [
-                    'id' => $model->id, 
-                    'action' => 'preview',
-                    'context'=>'tender',
-                    'contractor'=>$model->contractor_id
-                
-                
-                ]) }}" class="btn btn-outline-primary btn-sm mb-1">
-                    👁 {{ __('Preview') }}
-                </a>
+    'id' => $model->id, 
+    'action' => 'preview',
+    'context'=>'tender',
+    'contractor'=>$model->contractor_id
+]) }}" class="btn btn-outline-primary btn-sm mb-1">
+    👁 {{ __('Preview') }}
+</a>
 
-                <a href="{{ route('projects.contract.tender.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
-                    ⬇ {{ __('Download') }}
-                </a>
+<a href="{{ route('projects.contract.tender.pdf', [
+    'id' => $model->id, 
+    'action' => 'download',
+    'contractor'=>$model->contractor_id
+]) }}" class="btn btn-success btn-sm mb-1">
+    ⬇ {{ __('Download') }}
+</a>
 
-                <a target="_blank" href="{{ route('projects.contract.tender.pdf', ['id' => $model->id, 'action' => 'print']) }}" class="btn btn-warning btn-sm">
-                    🖨 {{ __('Print') }}
-                </a>
+<a target="_blank" href="{{ route('projects.contract.tender.pdf', [
+    'id' => $model->id, 
+    'action' => 'print',
+    'contractor'=>$model->contractor_id
+]) }}" class="btn btn-warning btn-sm">
+    🖨 {{ __('Print') }}
+</a>
             </div>
 
 

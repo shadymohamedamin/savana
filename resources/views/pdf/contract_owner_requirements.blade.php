@@ -104,6 +104,11 @@
         <td class="bold">البادجت</td>
         <td>{{ $project->budget ?? '-' }}</td>
     </tr>
+    <tr>
+        <td class="bold">التاريخ</td>
+        <td colspan="4">{{ $project->contract_signed_at?->format('Y/m/d')??'-' }}</td>
+        
+    </tr>
 </table>
 
 {{-- ================= متطلبات المالك ================= --}}

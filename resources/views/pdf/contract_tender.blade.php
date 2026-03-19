@@ -231,14 +231,14 @@ $finalTotal = $totalVillaWithWall + $vat;
     <td class="bold" style="width: 12rem;">رقم الرخصة</td>
     <td>{{ $project->contractorUser?->license_number }}</td>
     <td class="bold" style="width: 12rem;">مدة التنفيذ</td>
-    <td>{{ $project->duration }}</td>
+    <td>{{ $project->bank_contract_duration }}</td>
 </tr>
 
 
 </table>
 
 
-<img src="{{ public_path('images/tender_photo.jpeg') }}" style="height:1140px;">
+<!-- <img src="{{ public_path('images/tender_photo.jpeg') }}" style="height:1140px;"> -->
 
 
 
@@ -344,9 +344,9 @@ $color = $groupColors[$loop->index % count($groupColors)];
 @endif
 
 
-@if($loop->index==1)
+<!-- @if($loop->index==1)
 <div style="height:60px; ">.</div>
-@endif
+@endif -->
 <table >
 
 <tr >

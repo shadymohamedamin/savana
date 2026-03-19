@@ -58,8 +58,10 @@ th, td {
 </tr>
 
 <tr>
-    <td class="bold" style="width: 12rem;"> التاريخ</td>
-    <td colspan="3">{{ $project->contract_signed_at??'-' }}</td>
+    <td class="bold" > التاريخ</td>
+    <td >{{ $project->contract_signed_at??'-' }}</td>
+        <td class="bold">الطرف الثاني</td>
+        <td >{{ $project->contractorUser->name ?? 'المقاول' }}</td>
 </tr>
 </table>
 
