@@ -54,7 +54,10 @@
     <div class="card shadow-xl p-4 m-4" style="background-color: #f5f5dc;">
 
 
-        {!! Form::open(['route' => 'projects.store']) !!}
+        {!! Form::open([
+    'route' => 'projects.store',
+    'files' => true
+]) !!}
 
         <div class="card-body">
             {{-- FLEX layout like Users Create --}}

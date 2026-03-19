@@ -108,7 +108,7 @@ $allowedRoles = [1,4,11,12];
 
         $query->whereHas('projectUsers', function ($q) {
             $q->where('user_id', auth()->id())
-            ->where('role_id', 8);
+            ->whereIn('role_id', [3, 8]);
         })->select('projects.*')->distinct();
 
     }
@@ -796,6 +796,20 @@ public function bankTableContractPdf(Request $request, $id)
     ]);
 }
         $input = $request->all();
+
+
+        if ($request->hasFile('project_image')) {
+
+        $file = $request->file('project_image');
+
+        if ($file->isValid()) {
+
+            $name = time().'_'.$file->getClientOriginalName();
+            $file->move(public_path('Files'), $name);
+
+            $input['project_image'] = $name; // 👈 مهم جدًا
+        }
+    }
         //dd($input);
         //$input["duration"] = $request->input("duration", 0);
         // Generate project code
@@ -956,6 +970,7 @@ public function bankTableContractPdf(Request $request, $id)
 
 public function update($id, UpdateProjectRequest $request)
 {
+    
     if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
@@ -985,8 +1000,10 @@ if ($request->project_image_delete == 1 && $project->project_image) {
 // رفع صورة جديدة
 if ($request->hasFile('project_image')) {
     $file = $request->file('project_image');
-    $name = time().'_'.$file->getClientOriginalName();
-    $file->move(public_path('Files'), $name);
+   
+    $name = uniqid().'_'.time().'_'.$file->getClientOriginalName();
+
+    
 
     $project->project_image = $name;
 }

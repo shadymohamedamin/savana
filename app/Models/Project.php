@@ -104,6 +104,9 @@ class Project extends Model
         'approved_area'     => 'nullable|numeric|min:0',
         'linear_meter_area' => 'nullable|numeric|min:0',
         'project_bank_support' => 'numeric|min:0',
+
+        'contract_signed_at'=>'nullable|date',
+        //'project_image'=>'nullable|string',
     ];
 
     /* ===================== Relationships ===================== */

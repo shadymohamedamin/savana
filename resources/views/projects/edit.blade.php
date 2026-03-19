@@ -87,9 +87,10 @@
     <div class="card shadow-xl p-4 m-4" style="background-color: #f5f5dc;">
 
         {!! Form::model($project, [
-            'route' => ['projects.update', $project->id],
-            'method' => 'patch'
-        ]) !!}
+    'route' => ['projects.update', $project->id],
+    'method' => 'patch',
+    'files' => true
+]) !!}
 
 
 
