@@ -448,6 +448,7 @@
                         </td>
                         <td style="background-color:#f5f5dc;">
                             {{ $project->bank_contract_value ?? '—' }}
+                            <!-- {{ $project->bank_contract_value ?? '—' }} -->
                         </td>
 
                         @php

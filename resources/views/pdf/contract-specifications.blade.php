@@ -87,7 +87,7 @@
     </tr>
     <tr>
         <td class="bold" > التاريخ</td>
-        <td>{{ $project->contract_signed_at??'-' }}</td>
+        <td>{{ $project->contract_signed_at->format('d/m/Y')??'-' }}</td>
     </tr>
 </table>
 

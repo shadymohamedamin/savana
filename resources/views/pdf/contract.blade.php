@@ -119,7 +119,7 @@
         </tr>
         <tr>
             <td class="bold" style="width: 12rem;"> التاريخ</td>
-            <td colspan="2">{{ $project->contract_signed_at??'-' }}</td>
+            <td colspan="2">{{ $project->contract_signed_at->format('d/m/Y')??'-' }}</td>
         </tr>
         
 
