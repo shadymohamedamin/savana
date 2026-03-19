@@ -59,7 +59,7 @@ th, td {
 
 <tr>
     <td class="bold" > التاريخ</td>
-    <td >{{ $project->contract_signed_at??'-' }}</td>
+    <td >{{ $project->contract_signed_at->format('d/m/Y')??'-' }}</td>
         <td class="bold">الطرف الثاني</td>
         <td >{{ $project->contractorUser->name ?? 'المقاول' }}</td>
 </tr>
