@@ -56,6 +56,11 @@ th, td {
     <td class="bold">رقم القسيمة</td>
     <td>{{ $project->qasmia_number }}</td>
 </tr>
+
+<tr>
+    <td class="bold" style="width: 12rem;"> التاريخ</td>
+    <td colspan="3">{{ $project->contract_signed_at??'-' }}</td>
+</tr>
 </table>
 
 {{-- ================= أسعار توريد التشطيبات ================= --}}

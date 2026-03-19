@@ -117,6 +117,11 @@
             <td class="bold">سعر الفيلا مع السور شامل الضريبة</td>
             <td colspan="2">{{ $project->bank_contract_value ?? '—' }}</td>
         </tr>
+        <tr>
+            <td class="bold" style="width: 12rem;"> التاريخ</td>
+            <td colspan="2">{{ $project->contract_signed_at??'-' }}</td>
+        </tr>
+        
 
         <tr>
             <td colspan="3">

@@ -85,6 +85,10 @@
         <td class="bold">المنطقة</td>
         <td>{{ $project->projectRegion->name_ar ?? '—' }}</td>
     </tr>
+    <tr>
+        <td class="bold" > التاريخ</td>
+        <td>{{ $project->contract_signed_at??'-' }}</td>
+    </tr>
 </table>
 
 <!-- فهرس -->

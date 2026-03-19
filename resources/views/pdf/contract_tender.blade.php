@@ -222,7 +222,7 @@ $finalTotal = $totalVillaWithWall + $vat;
 </tr>
 <tr>
     <td class="bold" style="width: 12rem;"> التاريخ</td>
-    <td>{{ $project->end_date }}</td>
+    <td>{{ $project->contract_signed_at??'-' }}</td>
     <td class="bold" style="width: 12rem;">رقم الهاتف</td>
     <td>{{ $project->contractorUser?->mobile }}</td>
 </tr>

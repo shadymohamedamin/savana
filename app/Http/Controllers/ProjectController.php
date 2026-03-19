@@ -108,7 +108,7 @@ $allowedRoles = [1,4,11,12];
 
         $query->whereHas('projectUsers', function ($q) {
             $q->where('user_id', auth()->id())
-            ->whereIn('role_id', [3, 8]);
+            ->where('role_id', 8);
         })->select('projects.*')->distinct();
 
     }
@@ -265,13 +265,32 @@ public function contractPdf(Request $request, $id)
 
     $html = view('pdf.contract', compact('project'))->render();
 
+    /*$mpdf = new \Mpdf\Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'default_font' => 'amiri',
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+    ]);*/
     $mpdf = new \Mpdf\Mpdf([
         'mode' => 'utf-8',
         'format' => 'A4',
         'default_font' => 'amiri',
         'autoScriptToLang' => true,
         'autoLangToFont' => true,
+        'margin_footer' => 5,
+        'margin_top' => 35
     ]);
+    $mpdf->SetHTMLHeader('
+        <div style="text-align:center; margin-bottom:0.5rem;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
+        </div>
+    ');
+    $mpdf->SetHTMLFooter('
+        <div style="text-align:center; font-size:12px; margin-top:1rem;">
+            صفحة {PAGENO} من {nbpg}
+        </div>
+    ');
 
     $mpdf->WriteHTML($html);
 
@@ -302,7 +321,19 @@ public function takleefContractPdf(Request $request, $id)
         'default_font' => 'amiri',
         'autoScriptToLang' => true,
         'autoLangToFont' => true,
+        'margin_footer' => 5,
+        'margin_top' => 35
     ]);
+    $mpdf->SetHTMLHeader('
+        <div style="text-align:center; margin-bottom:0.5rem;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
+        </div>
+    ');
+    $mpdf->SetHTMLFooter('
+        <div style="text-align:center; font-size:12px; margin-top:1rem;">
+            صفحة {PAGENO} من {nbpg}
+        </div>
+    ');
 
     $mpdf->WriteHTML($html);
 
@@ -332,7 +363,19 @@ public function contractOwnerConsultantPdf(Request $request, $id)
         'default_font' => 'amiri',
         'autoScriptToLang' => true,
         'autoLangToFont' => true,
+        'margin_footer' => 5,
+        'margin_top' => 35
     ]);
+    $mpdf->SetHTMLHeader('
+        <div style="text-align:center; margin-bottom:0.5rem;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
+        </div>
+    ');
+    $mpdf->SetHTMLFooter('
+        <div style="text-align:center; font-size:12px; margin-top:1rem;">
+            صفحة {PAGENO} من {nbpg}
+        </div>
+    ');
 
     $mpdf->WriteHTML($html);
 
@@ -360,7 +403,7 @@ public function contractSpecificationsPdf(Request $request, $id)
 
     $html = view('pdf.contract-specifications', compact('project'))->render();
 
-    $mpdf = new \Mpdf\Mpdf([
+    /*$mpdf = new \Mpdf\Mpdf([
         'mode' => 'utf-8',
         'format' => 'A4',
         'default_font' => 'amiri',
@@ -370,7 +413,26 @@ public function contractSpecificationsPdf(Request $request, $id)
         'margin_bottom' => 15,
         'margin_left' => 15,
         'margin_right' => 15,
+    ]);*/
+    $mpdf = new \Mpdf\Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'default_font' => 'amiri',
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+        'margin_footer' => 5,
+        'margin_top' => 35
     ]);
+    $mpdf->SetHTMLHeader('
+        <div style="text-align:center; margin-bottom:0.5rem;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
+        </div>
+    ');
+    $mpdf->SetHTMLFooter('
+        <div style="text-align:center; font-size:12px; margin-top:1rem;">
+            صفحة {PAGENO} من {nbpg}
+        </div>
+    ');
 
     $mpdf->WriteHTML($html);
 
@@ -510,8 +572,19 @@ public function ownerRequirementContractPdf(Request $request, $id)
         'default_font' => 'amiri',
         'autoScriptToLang' => true,
         'autoLangToFont' => true,
+        'margin_footer' => 5,
+        'margin_top' => 35
     ]);
-
+    $mpdf->SetHTMLHeader('
+        <div style="text-align:center; margin-bottom:0.5rem;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
+        </div>
+    ');
+    $mpdf->SetHTMLFooter('
+        <div style="text-align:center; font-size:12px; margin-top:1rem;">
+            صفحة {PAGENO} من {nbpg}
+        </div>
+    ');
     $mpdf->WriteHTML($html);
 
     $action = $request->get('action', 'preview');
@@ -568,13 +641,34 @@ public function pricingContractPdf(Request $request, $id)
 
     $html = view('pdf.contract_pricing', compact('project', 'items','groups', 'specs'))->render();
 
+    /*$mpdf = new \Mpdf\Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'default_font' => 'amiri',
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+    ]);*/
     $mpdf = new \Mpdf\Mpdf([
         'mode' => 'utf-8',
         'format' => 'A4',
         'default_font' => 'amiri',
         'autoScriptToLang' => true,
         'autoLangToFont' => true,
+        'margin_footer' => 5,
+        'margin_top' => 35
     ]);
+    $mpdf->SetHTMLHeader('
+        <div style="text-align:center; margin-bottom:0.5rem;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
+        </div>
+    ');
+    $mpdf->SetHTMLFooter('
+        <div style="text-align:center; font-size:12px; margin-top:1rem;">
+            صفحة {PAGENO} من {nbpg}
+        </div>
+    ');
+
+
 
     $mpdf->WriteHTML($html);
 
@@ -685,10 +779,6 @@ public function tenderContractPdf(Request $request, $id)
         </div>
     ');
     $mpdf->SetHTMLFooter('
-
-        
-
-
         <div style="text-align:center; font-size:12px; margin-top:1rem;">
             صفحة {PAGENO} من {nbpg}
         </div>
@@ -796,20 +886,6 @@ public function bankTableContractPdf(Request $request, $id)
     ]);
 }
         $input = $request->all();
-
-
-        if ($request->hasFile('project_image')) {
-
-        $file = $request->file('project_image');
-
-        if ($file->isValid()) {
-
-            $name = time().'_'.$file->getClientOriginalName();
-            $file->move(public_path('Files'), $name);
-
-            $input['project_image'] = $name; // 👈 مهم جدًا
-        }
-    }
         //dd($input);
         //$input["duration"] = $request->input("duration", 0);
         // Generate project code
@@ -970,7 +1046,6 @@ public function bankTableContractPdf(Request $request, $id)
 
 public function update($id, UpdateProjectRequest $request)
 {
-    
     if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
@@ -986,29 +1061,6 @@ public function update($id, UpdateProjectRequest $request)
                 'message' => __('Project not found.')
             ]);
     }
-
-
-    // تحديث التاريخ
-$project->contract_signed_at = $request->contract_signed_at;
-
-// حذف الصورة
-if ($request->project_image_delete == 1 && $project->project_image) {
-    @unlink(public_path('Files/'.$project->project_image));
-    $project->project_image = null;
-}
-
-// رفع صورة جديدة
-if ($request->hasFile('project_image')) {
-    $file = $request->file('project_image');
-   
-    $name = uniqid().'_'.time().'_'.$file->getClientOriginalName();
-
-    
-
-    $project->project_image = $name;
-}
-
-
 //dd($request->all());
     // تحديث بيانات المشروع
     $project = $this->projectRepository->update($request->all(), $id);
