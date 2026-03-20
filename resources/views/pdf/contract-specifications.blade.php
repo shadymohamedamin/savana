@@ -77,6 +77,17 @@
         <td class="bold">عائدة للمالك</td>
         <td>{{$project->ownerUser->name}}</td>
     </tr>
+
+    <tr>
+
+        <td class="bold">  (الاستشاري)</td>
+        <td >سافانا ديزاين للاستشارات الهندسية</td>
+    </tr>
+ 
+
+
+
+
     <tr>
         <td class="bold">القسيمة</td>
         <td>{{ $project->qasmia_number ?? '—' }}</td>
