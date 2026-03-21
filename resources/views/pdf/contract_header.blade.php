@@ -122,7 +122,7 @@
             $numberToWords = new NumberToWords();
             $numberTransformer = $numberToWords->getNumberTransformer('ar');
 
-            $amount = 800000; // أو $project->budget
+            $amount = $project->bank_contract_value; // أو $project->budget
             $amountInWords = $numberTransformer->toWords($amount);
         @endphp
 
