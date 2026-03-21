@@ -901,7 +901,6 @@ public function saveTender(Request $request, Project $project)
     ]);
 }
 
-
 /*private function mapDesignToSpecification(array $design): array
 {
     $map = [

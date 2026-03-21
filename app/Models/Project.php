@@ -51,6 +51,8 @@ class Project extends Model
         'bank_contract_value',      // ✅
         'bank_contract_duration', 
         'financing_type',
+        'contract_signed_at',
+        'project_image',
 
 
 
@@ -74,6 +76,7 @@ class Project extends Model
         'start_date'    => 'date',
         'end_date'      => 'date',
         'contractor_contract_end_date' => 'date',
+        'contract_signed_at' => 'date',
     ];
 
     /**
@@ -101,6 +104,9 @@ class Project extends Model
         'approved_area'     => 'nullable|numeric|min:0',
         'linear_meter_area' => 'nullable|numeric|min:0',
         'project_bank_support' => 'numeric|min:0',
+
+        'contract_signed_at'=>'nullable|date',
+        //'project_image'=>'nullable|string',
     ];
 
     /* ===================== Relationships ===================== */

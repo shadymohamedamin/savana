@@ -104,14 +104,30 @@ $allowedRoles = [1,4,11,12];
 
 
 
-    if (!in_array(auth()->user()->role_id, $allowedRoles)) {
+    /*if (!in_array(auth()->user()->role_id, $allowedRoles)) {
 
         $query->whereHas('projectUsers', function ($q) {
             $q->where('user_id', auth()->id())
             ->where('role_id', 8);
         })->select('projects.*')->distinct();
 
-    }
+    }*/
+
+
+        if (!in_array(auth()->user()->role_id, $allowedRoles)) {
+
+    $query->whereHas('projectUsers', function ($q) {
+        $q->where('user_id', auth()->id())
+          ->whereIn('role_id', [3, 8])
+          ->where('context', 'tender');
+    })
+    ->with(['users' => function ($q) {
+        $q->wherePivotIn('role_id', [3, 8])
+          ->wherePivot('context', 'tender');
+    }])
+    ->select('projects.*')
+    ->distinct();
+}
     $projects = $query->orderByDesc('created_at')->paginate(15);
     
 
@@ -321,7 +337,19 @@ public function takleefContractPdf(Request $request, $id)
         'default_font' => 'amiri',
         'autoScriptToLang' => true,
         'autoLangToFont' => true,
+        'margin_footer' => 5,
+        'margin_top' => 35
     ]);
+    $mpdf->SetHTMLHeader('
+        <div style="text-align:center; margin-bottom:0.5rem;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
+        </div>
+    ');
+    $mpdf->SetHTMLFooter('
+        <div style="text-align:center; font-size:12px; margin-top:1rem;">
+            صفحة {PAGENO} من {nbpg}
+        </div>
+    ');
 
     $mpdf->WriteHTML($html);
 
@@ -351,7 +379,19 @@ public function contractOwnerConsultantPdf(Request $request, $id)
         'default_font' => 'amiri',
         'autoScriptToLang' => true,
         'autoLangToFont' => true,
+        'margin_footer' => 5,
+        'margin_top' => 35
     ]);
+    $mpdf->SetHTMLHeader('
+        <div style="text-align:center; margin-bottom:0.5rem;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
+        </div>
+    ');
+    $mpdf->SetHTMLFooter('
+        <div style="text-align:center; font-size:12px; margin-top:1rem;">
+            صفحة {PAGENO} من {nbpg}
+        </div>
+    ');
 
     $mpdf->WriteHTML($html);
 
@@ -440,8 +480,19 @@ public function hawyaContractPdf(Request $request, $id)
         'default_font' => 'amiri',
         'autoScriptToLang' => true,
         'autoLangToFont' => true,
+        'margin_footer' => 5,
+        'margin_top' => 35
     ]);
-
+    $mpdf->SetHTMLHeader('
+        <div style="text-align:center; margin-bottom:0.5rem;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
+        </div>
+    ');
+    $mpdf->SetHTMLFooter('
+        <div style="text-align:center; font-size:12px; margin-top:1rem;">
+            صفحة {PAGENO} من {nbpg}
+        </div>
+    ');
     $mpdf->WriteHTML($html);
 
     $action = $request->get('action', 'preview');
@@ -548,8 +599,19 @@ public function ownerRequirementContractPdf(Request $request, $id)
         'default_font' => 'amiri',
         'autoScriptToLang' => true,
         'autoLangToFont' => true,
+        'margin_footer' => 5,
+        'margin_top' => 35
     ]);
-
+    $mpdf->SetHTMLHeader('
+        <div style="text-align:center; margin-bottom:0.5rem;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
+        </div>
+    ');
+    $mpdf->SetHTMLFooter('
+        <div style="text-align:center; font-size:12px; margin-top:1rem;">
+            صفحة {PAGENO} من {nbpg}
+        </div>
+    ');
     $mpdf->WriteHTML($html);
 
     $action = $request->get('action', 'preview');
@@ -606,13 +668,34 @@ public function pricingContractPdf(Request $request, $id)
 
     $html = view('pdf.contract_pricing', compact('project', 'items','groups', 'specs'))->render();
 
+    /*$mpdf = new \Mpdf\Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'default_font' => 'amiri',
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+    ]);*/
     $mpdf = new \Mpdf\Mpdf([
         'mode' => 'utf-8',
         'format' => 'A4',
         'default_font' => 'amiri',
         'autoScriptToLang' => true,
         'autoLangToFont' => true,
+        'margin_footer' => 5,
+        'margin_top' => 35
     ]);
+    $mpdf->SetHTMLHeader('
+        <div style="text-align:center; margin-bottom:0.5rem;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
+        </div>
+    ');
+    $mpdf->SetHTMLFooter('
+        <div style="text-align:center; font-size:12px; margin-top:1rem;">
+            صفحة {PAGENO} من {nbpg}
+        </div>
+    ');
+
+
 
     $mpdf->WriteHTML($html);
 
@@ -1038,7 +1121,7 @@ public function update($id, UpdateProjectRequest $request)
                 ],
                 [
                     'role_id' => $roleId,
-                    'status'  => 'candidate'
+                    //'status'  => 'candidate'
                 ]
             );
         }

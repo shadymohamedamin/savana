@@ -940,6 +940,12 @@ body, html {
                                         <li class="nav-item text-center">
                                             <a style=" font-size: 1.4rem;" class="text-center nav-link" href="{{ url('/users') }}">{{ __('Users') }}</a>
                                         </li>
+
+                                        <li class="nav-item text-center">
+                                            <a style=" font-size: 1.4rem;" class="text-center nav-link" href="{{ url('/users/' . Auth::id() . '/attachments/create?type=users') }}">{{ __('اوراق المكتب') }}</a>
+                                        </li>
+
+                                        
                                         @endif
 
                                     <li class=" text-center nav-item">
@@ -1230,6 +1236,14 @@ body, html {
 
 
 
+                <a href="{{ url('projects/'.$project->id.'/tender-contractors') }}"
+   class="panel-btn-full {{ request('mode') == 'tenderr' ? 'active' : '' }}">
+    <i class="fas fa-clipboard-list"></i>
+    المقاولين المرشحين
+</a>
+
+
+
 
             @endif
 
@@ -1256,6 +1270,9 @@ body, html {
     <i class="fas fa-clipboard-list"></i>
     المناقصة
 </a>
+
+
+
 
             <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=contractor_files') }}"
    class="panel-btn-full {{ request('mode') == 'contractor_files' ? 'active' : '' }}">
@@ -1372,7 +1389,7 @@ body, html {
 
 <div class="owner-title">
     <i class="fas fa-user-tie me-2"></i>
-    {{ optional($project->ownerUser)->name ?? '—' }}
+     المالك : {{ optional($project->ownerUser)->name ?? '—' }}
 </div>
 
 

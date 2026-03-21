@@ -77,8 +77,8 @@
 <table>
     <tr>
         <td>
-             التاريخ: {{ $project->start_date->format('Y/m/d') }}
-            <!-- التاريخ: {{ now()->format('Y/m/d') }} -->
+             التاريخ: {{ $project->contract_signed_at?->format('Y/m/d') }}
+            
         </td>
     </tr>
 
@@ -91,7 +91,7 @@
             منطقة 
             <strong>{{ $project->projectRegion?->name_ar ?? '-' }}</strong>
             وهو عبارة عن 
-            <strong>{{ $project->projectName->name_ar }}</strong>
+            <strong>{{ $project->projectName?->name_ar }}</strong>
             تكليف مكتب 
             <strong>سافانا ديزاين</strong>
             للاستشارات الهندسية بأعمال التصميم والاشراف حتى استخراج شهادة الإنجاز وارساء المناقصة على المقاول.

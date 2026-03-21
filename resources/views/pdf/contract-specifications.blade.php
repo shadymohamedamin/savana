@@ -66,13 +66,28 @@
 <!-- بيانات المشروع -->
 <table>
     <tr>
+        <td class="bold">اسم المقاول</td>
+        <td>{{ $project->contractorUser?->name }}</td>
+    </tr>
+    <tr>
         <td class="bold">مشروع</td>
-        <td>{{ $project->projectName->name_ae }}</td>
+        <td>{{ $project->projectName?->name_ar}}</td>
     </tr>
     <tr>
         <td class="bold">عائدة للمالك</td>
         <td>{{$project->ownerUser->name}}</td>
     </tr>
+
+    <tr>
+
+        <td class="bold">  (الاستشاري)</td>
+        <td >سافانا ديزاين للاستشارات الهندسية</td>
+    </tr>
+ 
+
+
+
+
     <tr>
         <td class="bold">القسيمة</td>
         <td>{{ $project->qasmia_number ?? '—' }}</td>
@@ -80,6 +95,10 @@
     <tr>
         <td class="bold">المنطقة</td>
         <td>{{ $project->projectRegion->name_ar ?? '—' }}</td>
+    </tr>
+    <tr>
+        <td class="bold" > التاريخ</td>
+        <td>{{ $project->contract_signed_at->format('d/m/Y')??'-' }}</td>
     </tr>
 </table>
 

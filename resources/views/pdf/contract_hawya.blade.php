@@ -118,13 +118,13 @@ $dateFormatted = $startDate->translatedFormat('d/m/Y'); // مثال: 07/01/2026
 
     <tr>
         <td class="label" style="width:35%;">موضوع التعاقد</td>
-        <td class="value" style="width:65%;">{{ $project->name }}</td>
+        <td class="value" style="width:65%;">{{ $project->projectName?->name_ar }}</td>
     </tr>
 
     <tr>
         <td class="label">قيمة التعاقد</td>
         <td class="value">
-            {{ $project->budget }} ألف درهم إماراتي فقط لا غير
+            {{ $project->bank_contract_value }} 
         </td>
     </tr>
 
@@ -145,7 +145,7 @@ $dateFormatted = $startDate->translatedFormat('d/m/Y'); // مثال: 07/01/2026
     <tr>
         <td class="label">مدة التنفيذ</td>
         <td class="value">
-            {{ $project->duration ?? 0 }} شهر من تاريخ أمر المباشرة
+            {{ $project->bank_contract_duration ?? 0 }} شهر من تاريخ أمر المباشرة
         </td>
     </tr>
 </table>
@@ -206,7 +206,7 @@ $dateFormatted = $startDate->translatedFormat('d/m/Y'); // مثال: 07/01/2026
 </table>
 
 
-
+<div style="height:2rem;"></div>
 
 <table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:50px;">
     <tr>

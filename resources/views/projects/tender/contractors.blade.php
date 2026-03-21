@@ -96,7 +96,7 @@
                                 <input type="checkbox"
                                        name="contractors[]"
                                        value="{{ $contractor->id }}"
-                                       {{ $isSelected ? 'checked' : '' }}>
+                                       {{ $isSelected ||$awardedContractorId == $contractor->id ? 'checked' : '' }}>
                             </td>
 
                             <td>{{ $loop->iteration }}</td>
@@ -119,7 +119,7 @@
                             <td class="{{ $contractor->finalTotal == $lowestPrice ? 'text-success fw-bold' : '' }}">AED {{ number_format($contractor->finalTotal,2) }}</td>
 
                             <td>
-                                @if($contractor->project_status == 'awarded')
+                                @if($awardedContractorId == $contractor->id||$contractor->project_status == 'awarded')
                                     <span class="badge bg-success">متعين</span>
 
                                 @elseif($contractor->project_status == 'candidate')

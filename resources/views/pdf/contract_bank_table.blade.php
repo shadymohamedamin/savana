@@ -83,17 +83,31 @@ $dateFormatted = $today->translatedFormat('d/m/Y');
 
 <table style="width:100%; border-collapse: collapse;">
     <tr>
-        <td class="title" colspan="8" style="text-align:center; font-weight:bold; font-size:20px;">
+        <td class="title" colspan="9" style="text-align:center; font-weight:bold; font-size:20px;">
             قائمة الكميات
         </td>
     </tr>
-    <tr>
-        <td colspan="8" style="padding:8px;">
-            مشروع السيد: <strong>{{ $project->ownerUser->name ?? '—' }}</strong> |
-            الموقع: <strong>{{ $project->area ?? '—' }} - {{ $project->qasmia_number ?? '—' }}</strong> |
-            التاريخ: <strong>{{ $project->start_date->format('d/m/Y') }}</strong>
-        </td>
-    </tr>
+    <tr colspan="9">
+        
+
+
+                <td class="bold" > التاريخ</td>
+                <td >{{ $project->contract_signed_at->format('d/m/Y')??'-' }}</td>
+
+            </tr>
+            <tr>
+
+                <td class="bold">الطرف الثاني</td>
+                <td >{{ $project->contractorUser->name ?? 'المقاول' }}</td>
+            </tr>
+
+
+            <tr>
+                <td class="bold">  (الاستشاري)</td>
+                <td >سافانا ديزاين للاستشارات الهندسية</td>
+            </tr>
+
+
 </table>
 
 <table style="width:100%; border-collapse: collapse; margin-top:5px;">

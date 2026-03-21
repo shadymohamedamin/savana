@@ -123,6 +123,24 @@ $dateFormatted = $today->translatedFormat('d/m/Y');
         <td>المنطقة</td>
         <td>{{ $project->projectRegion->name_ar ?? '—' }}</td>
     </tr>
+
+
+    <tr>
+        <td class="bold" > التاريخ</td>
+        <td >{{ $project->contract_signed_at->format('d/m/Y')??'-' }}</td>
+
+    </tr>
+    <tr>
+
+        <td class="bold">الطرف الثاني</td>
+        <td >{{ $project->contractorUser->name ?? 'المقاول' }}</td>
+    </tr>
+
+
+    <tr>
+        <td class="bold">  (الاستشاري)</td>
+        <td >سافانا ديزاين للاستشارات الهندسية</td>
+    </tr>
 </table>
 <!-- ===== Intro ===== -->
 <div class="intro-text">
@@ -137,6 +155,7 @@ $dateFormatted = $today->translatedFormat('d/m/Y');
 <div class="page-spacer"></div>
 
 <!-- ===== Signatures ===== -->
+
 
 <table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:50px;">
     <tr>
@@ -161,6 +180,7 @@ $dateFormatted = $today->translatedFormat('d/m/Y');
         </td>
     </tr>
 </table>
+
 
 
 
