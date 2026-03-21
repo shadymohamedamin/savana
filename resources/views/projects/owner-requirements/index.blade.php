@@ -924,21 +924,27 @@ body{
     @csrf
 @php
 $sectionLetterIndex = 0;
+$groupIndex=0;
+
 @endphp
     @foreach($groups as $group)
         <div class="group-header mt-5 text-center">
             <span style="font-weight: 700;font-size:1.6rem;">{{ $group->name_ar }}</span>
         </div>
 
-
+        @php
+            $groupIndex++;
+            $sectionIndex=0;
+        @endphp
         @foreach($group->children as $section)
             <div  class="section-header w-[100%] mt-4">
                 <span style="font-weight: 700;font-size:1.4rem;">{{ $section->name_ar }}</span>
             </div>
 
             {{-- @php
-            $colors = ['#EFEFEF','#FFF3E0','#E0F7FA','#F3E5F5']; 
-            $color = $colors[$loop->index % count($colors)];
+                $colors = ['#EFEFEF','#FFF3E0','#E0F7FA','#F3E5F5']; 
+                $color = $colors[$loop->index % count($colors)];
+                $sectionIndex++;
             @endphp
             <div style="background-color:{{ $color }}; padding:8px; font-weight:bold; text-align:center;" class="section-header w-[100%] mt-4">
                 <span>{{ $section->name_ar }}</span>
@@ -960,13 +966,17 @@ $sectionLetterIndex = 0;
                     </tr>
                 </thead>
                 <tbody>
-                    @php $sectionTotal = 0; @endphp
+                    @php 
+                        $sectionTotal = 0;
+                        $sectionIndex++;
+                    @endphp
                     @foreach($section->children as $item)
                         @php
                             $pivot = optional($item->projectOwnerRequirements->first());
                             $qty = $pivot->quantity;
                             $price = $pivot->unit_price;
                             $total = $qty * $price;
+                            //if($loop->iteration==1)dd()
                             $sectionTotal += $total;
                         @endphp
                         <tr>
@@ -1410,7 +1420,7 @@ function calculateAll() {
                         let priceInput = row.querySelector('.price');
 
                         if(qtyInput && priceInput){
-                            let qty = parseFloat(qtyInput.value) || 1;
+                            let qty = parseFloat(qtyInput.value) || 0;
                             let price = parseFloat(priceInput.value) || 0;
                             sectionTotal += qty * price;
                         }
@@ -2076,7 +2086,7 @@ function calculateAll() {
                         let priceInput = row.querySelector('.price');
 
                         if(qtyInput && priceInput){
-                            let qty = parseFloat(qtyInput.value) || 1;
+                            let qty = parseFloat(qtyInput.value) || 0;
                             let price = parseFloat(priceInput.value) || 0;
                             sectionTotal += qty * price;
                         }

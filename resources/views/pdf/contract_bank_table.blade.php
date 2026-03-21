@@ -83,11 +83,11 @@ $dateFormatted = $today->translatedFormat('d/m/Y');
 
 <table style="width:100%; border-collapse: collapse;">
     <tr>
-        <td class="title" colspan="8" style="text-align:center; font-weight:bold; font-size:20px;">
+        <td class="title" colspan="9" style="text-align:center; font-weight:bold; font-size:20px;">
             قائمة الكميات
         </td>
     </tr>
-    <tr>
+    <tr colspan="9">
         
 
 
@@ -104,7 +104,7 @@ $dateFormatted = $today->translatedFormat('d/m/Y');
 
             <tr>
                 <td class="bold">  (الاستشاري)</td>
-                <td colspan="4">سافانا ديزاين للاستشارات الهندسية</td>
+                <td >سافانا ديزاين للاستشارات الهندسية</td>
             </tr>
 
 

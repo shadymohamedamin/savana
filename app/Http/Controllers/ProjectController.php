@@ -1121,7 +1121,7 @@ public function update($id, UpdateProjectRequest $request)
                 ],
                 [
                     'role_id' => $roleId,
-                    'status'  => 'candidate'
+                    //'status'  => 'candidate'
                 ]
             );
         }

@@ -63,91 +63,10 @@
 
 <body>
 
-    <table>
-        <tr>
-            <td class="title" colspan="3" colspan="3" class="section-title">عقد الاتفاق</td>
-        </tr>
-        <tr>
-            <td colspan="3" class="center">
-                بإشرافنا نحن<br>
-                سافانا ديزاين للاستشارات الهندسية والتصميم الداخلي – رأس الخيمة<br>
-                مكتب 407 أبراج جلفار – رأس الخيمة<br>
-                525015080
-            </td>
-        </tr>
-    </table>
-
-    <table>
-        <tr>
-            <td colspan="3" class="section-title">تم الاتفاق بين كل من</td>
-        </tr>
-        <tr>
-            <td class="bold">الطرف الأول</td>
-            <td colspan="2">{{ $project->ownerUser->name ?? 'المالك' }}</td>
-        </tr>
-        <tr>
-            <td class="bold">الطرف الثاني</td>
-            <td colspan="2">{{ $project->contractorUser->name ?? 'المقاول' }}</td>
-        </tr>
-        <tr>
-            <td class="bold">الطرف الثالث (الاستشاري)</td>
-            <td colspan="2">سافانا ديزاين للاستشارات الهندسية</td>
-        </tr>
-    </table>
+    @include('pdf.contract_header', ['project' => $project,'showContractor' => true])
 
 
-
-    <table>
-        <tr>
-            <td colspan="3" class="section-title">المشروع</td>
-        </tr>
-        <tr>
-            <td class="bold">وصف المشروع</td>
-            <td colspan="2"> {{ $project->projectName?->name_ar}}</td>
-        </tr>
-        <tr>
-            <td class="bold">المنطقة</td>
-            <td colspan="2">{{ $project->projectRegion->name_ar ?? '—' }}</td>
-        </tr>
-        <tr>
-            <td class="bold">رقم القسيمة</td>
-            <td colspan="2">{{ $project->qasmia_number ?? '—' }}</td>
-        </tr>
-        <tr>
-            <td class="bold">سعر الفيلا مع السور شامل الضريبة</td>
-            <td colspan="2">{{ $project->bank_contract_value ?? '—' }}</td>
-        </tr>
-        <tr>
-            <td class="bold" style="width: 12rem;"> التاريخ</td>
-            <td colspan="2">{{ $project->contract_signed_at->format('d/m/Y')??'-' }}</td>
-        </tr>
-        
-
-        <tr>
-            <td colspan="3">
-                يقوم الطرف الثاني بتنفيذ وانشاء وانجاز وصيانة المشروع المذكور اعلاه لقاء مبلغ وقدره
-                <br><br>
-                {{ $project->bank_contract_value . ' درهم ' ?? '—' }}
-                <br><br>
-                و ذلك حسب المتفق عليه والمعتمد وفق للمناقصة التي جرت
-            </td>
-        </tr>
-
-    </table>
-
-
-    <table>
-        <tr>
-            <td class="bold center section-title">توقيع وختم المقاول</td>
-            <td class="bold center section-title">توقيع المالك</td>
-            <td class="bold center section-title">توقيع وختم الاستشاري</td>
-        </tr>
-        <tr>
-            <td class="signature"></td>
-            <td class="signature"></td>
-            <td class="signature"></td>
-        </tr>
-    </table>
+    
 
 
 
