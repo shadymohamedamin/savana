@@ -113,8 +113,8 @@
             <td colspan="2">{{ $project->qasmia_number ?? '—' }}</td>
         </tr>
         <tr>
-            <td class="bold">سعر الفيلا مع السور (بدون الضريبة)</td>
-            <td colspan="2">{{ '800,000' }}</td>
+            <td class="bold">سعر الفيلا مع السور شامل الضريبة</td>
+            <td colspan="2">{{ $project->bank_contract_value }}</td>
         </tr>
         @php
             use NumberToWords\NumberToWords;
