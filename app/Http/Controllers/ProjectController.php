@@ -265,13 +265,32 @@ public function contractPdf(Request $request, $id)
 
     $html = view('pdf.contract', compact('project'))->render();
 
+    /*$mpdf = new \Mpdf\Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'default_font' => 'amiri',
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+    ]);*/
     $mpdf = new \Mpdf\Mpdf([
         'mode' => 'utf-8',
         'format' => 'A4',
         'default_font' => 'amiri',
         'autoScriptToLang' => true,
         'autoLangToFont' => true,
+        'margin_footer' => 5,
+        'margin_top' => 35
     ]);
+    $mpdf->SetHTMLHeader('
+        <div style="text-align:center; margin-bottom:0.5rem;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
+        </div>
+    ');
+    $mpdf->SetHTMLFooter('
+        <div style="text-align:center; font-size:12px; margin-top:1rem;">
+            صفحة {PAGENO} من {nbpg}
+        </div>
+    ');
 
     $mpdf->WriteHTML($html);
 
@@ -360,7 +379,7 @@ public function contractSpecificationsPdf(Request $request, $id)
 
     $html = view('pdf.contract-specifications', compact('project'))->render();
 
-    $mpdf = new \Mpdf\Mpdf([
+    /*$mpdf = new \Mpdf\Mpdf([
         'mode' => 'utf-8',
         'format' => 'A4',
         'default_font' => 'amiri',
@@ -370,7 +389,26 @@ public function contractSpecificationsPdf(Request $request, $id)
         'margin_bottom' => 15,
         'margin_left' => 15,
         'margin_right' => 15,
+    ]);*/
+    $mpdf = new \Mpdf\Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'default_font' => 'amiri',
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+        'margin_footer' => 5,
+        'margin_top' => 35
     ]);
+    $mpdf->SetHTMLHeader('
+        <div style="text-align:center; margin-bottom:0.5rem;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
+        </div>
+    ');
+    $mpdf->SetHTMLFooter('
+        <div style="text-align:center; font-size:12px; margin-top:1rem;">
+            صفحة {PAGENO} من {nbpg}
+        </div>
+    ');
 
     $mpdf->WriteHTML($html);
 
@@ -685,10 +723,6 @@ public function tenderContractPdf(Request $request, $id)
         </div>
     ');
     $mpdf->SetHTMLFooter('
-
-        
-
-
         <div style="text-align:center; font-size:12px; margin-top:1rem;">
             صفحة {PAGENO} من {nbpg}
         </div>

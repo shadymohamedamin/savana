@@ -453,7 +453,7 @@ $Q = OwnerRequirement::updateOrCreate([
     'is_general' => 0,
     'slug' => 'boundary-wall-details', // ✅ slug فريد للقسم
 ]);
-
+//'Substructure workss'
 $this->item($Q,'أعمال تحت منسوب الارض','Substructure works','L.M','substructure-works'); // ✅ slug
 $this->item($Q,'اعمال فوق منسوب السور بما يشمل (الخرسانة-اعمال الطابوق -اعمال بلاستر)','Super structure works (concrete - block - plaster)','M3','superstructure-works'); // ✅ slug
 $this->item($Q,'اعمال صبغ خارجي','Painting Works','M2','painting-works'); // ✅ slug
