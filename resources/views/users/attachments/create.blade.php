@@ -876,7 +876,7 @@
 </div>
 @endif
 
-@if(in_array(auth()->user()->role_id, [1,4,11,12]))
+@if(in_array(auth()->user()->role_id, [1,4,11,12,3]))
     {{-- Upload attachments --}}
     <form action="{{ route('users.attachments.store', ['id' => $model->id, 'type' => $type]) }}"
       method="POST"
