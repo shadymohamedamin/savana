@@ -149,7 +149,19 @@ php -S 0.0.0.0:8000 -t public
 php artisan serve --host=0.0.0.0 --port=8000
 
 
+remove==>resources-controllers-views-models-data
 
+git remote remove origin
+
+git remote set-url origin https://github.com/shadymohamedamin/savana.git
+
+git fetch origin
+
+composer install
+php artisan key:generate
+
+npm i
+npm run start
 
 
 to install new one /

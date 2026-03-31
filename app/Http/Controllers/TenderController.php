@@ -263,10 +263,37 @@ public function contractors(Project $project)
     }
 }
 
+ $awardedContractorId = $project->contractor_id;
+
+
+
+$contractors = $contractors->sortBy(function ($contractor) use ($awardedContractorId, $selected) {
+
+    // 1. المتعيّن أولاً
+    if ($contractor->id == $awardedContractorId) {
+        return 0;
+    }
+
+    // 2. المرشحين ثانياً
+    if (in_array($contractor->id, $selected)) {
+        return 1;
+    }
+
+    // 3. الباقي
+    return 2;
+})->values();
+
+
+
+
+
+
+
+
     // أقل سعر
     $lowestPrice = $contractors->min('finalTotal');
 
-    $awardedContractorId = $project->contractor_id;
+   
 
     return view('projects.tender.contractors', compact(
         'project',
