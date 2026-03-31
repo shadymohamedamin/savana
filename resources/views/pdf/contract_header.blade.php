@@ -158,28 +158,28 @@
 
 
 
-<table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:50px;">
+<table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:50px; table-layout: fixed;">
     <tr>
         @if($showContractor ?? false)
-            <td class="bold center section-title" style="text-align:center; font-weight:bold;">
+            <td class="bold center section-title" style="text-align:center; font-weight:bold; width:33%;">
                 توقيع وختم المقاول
             </td>
         @endif
-        <td class="bold center section-title" style="text-align:center; font-weight:bold;">
+        <td class="bold center section-title" style="text-align:center; font-weight:bold; width:33%;">
             توقيع المالك
         </td>
-        <td class="bold center section-title" style="text-align:center; font-weight:bold;">
+        <td class="bold center section-title" style="text-align:center; font-weight:bold; width:33%;">
             توقيع وختم الاستشاري
         </td>
     </tr>
 
     <tr>
         @if($showContractor ?? false)
-            <td class="signature" style="height:80px; border-bottom:1px solid #000;"></td>
+            <td class="signature" style="height:80px; border-bottom:1px solid #000; width:33%;"></td>
         @endif
-        <td class="signature" style="height:80px; border-bottom:1px solid #000;"></td>
+        <td class="signature" style="height:80px; border-bottom:1px solid #000; width:33%;"></td>
 
-        <td class="signature" style="height:80px; border-bottom:1px solid #000; text-align:center;">
+        <td class="signature" style="height:80px; border-bottom:1px solid #000; text-align:center; width:33%;">
            <img src="{{ public_path('images/signature.jpeg') }}" style="height:150px;">
         </td>
     </tr>
