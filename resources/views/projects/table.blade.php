@@ -485,7 +485,7 @@
                             {{ number_format($project->paid_with_vat ?? 0, 0) }}
                         </td>
                         <td style="background-color:#f5f5dc;">
-                            {{ $lastApproval->building_license_number ?? '—' }}
+                            {{ $project->baladyaApprovals->first()?->building_license_number ?? '-' }}
                         </td>
 
 
