@@ -927,7 +927,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+/*document.addEventListener('DOMContentLoaded', function () {
 
     function calculateArea() {
         const bank_contract_value = parseFloat(document.getElementById('bank_contract_value')?.value);
@@ -951,6 +951,45 @@ document.addEventListener('DOMContentLoaded', function () {
         .addEventListener('input', calculateArea);
 
     // مهم جدًا في edit
+    calculateArea();
+});*/
+
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    function calculateArea() {
+        const bank_contract_value = parseFloat(document.getElementById('bank_contract_value')?.value) || 0;
+        const project_bank_support = parseFloat(document.getElementById('project_bank_support')?.value) || 0;
+        const financing_type = document.getElementById('financing_type')?.value;
+
+        let project_owner_support = 0;
+
+        if (financing_type === 'owner') {
+            // ✅ كل المبلغ على المالك
+            project_owner_support = bank_contract_value;
+
+        } else if (financing_type === 'bank') {
+            // ✅ كل المبلغ على البنك
+            project_owner_support = 0;
+
+        } else if (financing_type === 'bank_owner') {
+            // ✅ مشترك
+            project_owner_support = bank_contract_value - project_bank_support;
+        }
+
+        document.getElementById('project_owner_support').value = project_owner_support.toFixed(2);
+    }
+
+    document.getElementById('bank_contract_value')
+        ?.addEventListener('input', calculateArea);
+
+    document.getElementById('project_bank_support')
+        ?.addEventListener('input', calculateArea);
+
+    document.getElementById('financing_type')
+        ?.addEventListener('change', calculateArea);
+
+    // تشغيل عند تحميل الصفحة
     calculateArea();
 });
 </script>
