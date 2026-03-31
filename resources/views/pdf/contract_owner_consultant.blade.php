@@ -97,6 +97,21 @@ $dateFormatted = $startDate->translatedFormat('d/m/Y'); // مثال: 07/01/2026
 @endphp
 
 
+
+
+
+
+
+
+
+@include('pdf.contract_header', ['project' => $project,'isBank'=>false,'showContractor' => false,'title'=>' عقد اتفاق بين المالك و الاستشاري'])
+
+
+
+
+
+
+<!-- 
 <table style="width:100%; border-collapse: collapse;">
     <tr>
         <td class="title" colspan="3" style="text-align:center; font-weight:bold; font-size:22px;">
@@ -134,7 +149,7 @@ $dateFormatted = $startDate->translatedFormat('d/m/Y'); // مثال: 07/01/2026
             ويمثلها المدير / المهندس <strong>أيمن بن حمادي</strong>.
         </td>
     </tr>
-</table>
+</table> -->
 
 <table>
     <tr><td class="section-title" colspan="3">بنود الاتفاق</td></tr>

@@ -64,7 +64,7 @@
 
 <table>
         <tr>
-            <td class="title" colspan="3" colspan="3" class="section-title">عقد الاتفاق</td>
+            <td class="title" colspan="3" colspan="3" class="section-title">{{$title}}</td>
         </tr>
         <tr>
             <td colspan="3" class="center">
@@ -102,7 +102,7 @@
         </tr>
         <tr>
             <td class="bold">وصف المشروع</td>
-            <td colspan="2"> {{ $project->projectName?->name_ae }}</td>
+            <td colspan="2"> {{ $project->projectName?->name_ar }}</td>
         </tr>
         <tr>
             <td class="bold">المنطقة</td>
@@ -114,15 +114,26 @@
         </tr>
         <tr>
             <td class="bold">سعر الفيلا مع السور شامل الضريبة</td>
-            <td colspan="2">{{ $project->bank_contract_value }}</td>
+            <td colspan="2">{{ $isBank?'800,000':$project->bank_contract_value }}</td>
         </tr>
+
+        <tr>
+            <td class="bold"> تاريخ توقيع العقد</td>
+            <td colspan="2">{{ $project->contract_signed_at?->format('Y-m-d')??'-' }}</td>
+        </tr>
+
+        
+
+        
+
+       
         @php
             use NumberToWords\NumberToWords;
 
             $numberToWords = new NumberToWords();
             $numberTransformer = $numberToWords->getNumberTransformer('ar');
 
-            $amount = $project->bank_contract_value; // أو $project->budget
+            $amount = $isBank?800000:$project->bank_contract_value; // أو $project->budget
             $amountInWords = $numberTransformer->toWords($amount);
         @endphp
 

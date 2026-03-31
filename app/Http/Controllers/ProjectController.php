@@ -525,8 +525,19 @@ public function siteDeliveryContractPdf(Request $request, $id)
         'default_font' => 'amiri',
         'autoScriptToLang' => true,
         'autoLangToFont' => true,
+        'margin_footer' => 5,
+        'margin_top' => 35
     ]);
-
+ $mpdf->SetHTMLHeader('
+        <div style="text-align:center; margin-bottom:0.5rem;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
+        </div>
+    ');
+    $mpdf->SetHTMLFooter('
+        <div style="text-align:center; font-size:12px; margin-top:1rem;">
+            صفحة {PAGENO} من {nbpg}
+        </div>
+    ');
     $mpdf->WriteHTML($html);
 
     $action = $request->get('action', 'preview');
@@ -555,8 +566,19 @@ public function bankContractPdf(Request $request, $id)
         'default_font' => 'amiri',
         'autoScriptToLang' => true,
         'autoLangToFont' => true,
+        'margin_footer' => 5,
+        'margin_top' => 35
     ]);
-
+ $mpdf->SetHTMLHeader('
+        <div style="text-align:center; margin-bottom:0.5rem;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
+        </div>
+    ');
+    $mpdf->SetHTMLFooter('
+        <div style="text-align:center; font-size:12px; margin-top:1rem;">
+            صفحة {PAGENO} من {nbpg}
+        </div>
+    ');
     $mpdf->WriteHTML($html);
 
     $action = $request->get('action', 'preview');
@@ -882,8 +904,19 @@ public function bankTableContractPdf(Request $request, $id)
         'default_font' => 'amiri',
         'autoScriptToLang' => true,
         'autoLangToFont' => true,
+    'margin_footer' => 5,
+        'margin_top' => 35
     ]);
-
+    $mpdf->SetHTMLHeader('
+        <div style="text-align:center; margin-bottom:0.5rem;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
+        </div>
+    ');
+    $mpdf->SetHTMLFooter('
+        <div style="text-align:center; font-size:12px; margin-top:1rem;">
+            صفحة {PAGENO} من {nbpg}
+        </div>
+    ');
     $mpdf->WriteHTML($html);
 
     $action = $request->get('action', 'preview');

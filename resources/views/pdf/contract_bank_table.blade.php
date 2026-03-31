@@ -81,7 +81,7 @@ $dayName = $today->translatedFormat('l');
 $dateFormatted = $today->translatedFormat('d/m/Y');
 @endphp
 
-<table style="width:100%; border-collapse: collapse;">
+<!-- <table style="width:100%; border-collapse: collapse;">
     <tr>
         <td class="title" colspan="9" style="text-align:center; font-weight:bold; font-size:20px;">
             قائمة الكميات
@@ -108,7 +108,12 @@ $dateFormatted = $today->translatedFormat('d/m/Y');
             </tr>
 
 
-</table>
+</table> -->
+
+@include('pdf.contract_header', ['project' => $project,'isBank'=>false,'showContractor' => true,'title'=>'عقد   كميات البنك'])
+
+
+
 
 <table style="width:100%; border-collapse: collapse; margin-top:5px;">
     <thead>
@@ -276,7 +281,7 @@ $dateFormatted = $today->translatedFormat('d/m/Y');
 
 
 
-<table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:50px;">
+<table style="width:100%; border-collapse:collapse; margin-top:90px; margin-bottom:50px;">
     <tr>
         <td class="bold center section-title" style="text-align:center; font-weight:bold;">
             توقيع وختم المقاول

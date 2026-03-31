@@ -54,17 +54,13 @@
 </head>
 <body>
 
-<!-- العنوان -->
-<table>
-    <tr>
-        <td class="title">
-            المواصفات الفنية والشروط العامة
-        </td>
-    </tr>
-</table>
 
-<!-- بيانات المشروع -->
-<table>
+
+
+@include('pdf.contract_header', ['project' => $project,'isBank'=>false,'showContractor' => true,'title'=>'عقد المواصفات الفنية'])
+
+
+<!-- <table>
     <tr>
         <td class="bold">اسم المقاول</td>
         <td>{{ $project->contractorUser?->name }}</td>
@@ -75,7 +71,7 @@
     </tr>
     <tr>
         <td class="bold">عائدة للمالك</td>
-        <td>{{$project->ownerUser->name}}</td>
+        <td>{{$project->ownerUser?->name}}</td>
     </tr>
 
     <tr>
@@ -94,13 +90,13 @@
     </tr>
     <tr>
         <td class="bold">المنطقة</td>
-        <td>{{ $project->projectRegion->name_ar ?? '—' }}</td>
+        <td>{{ $project->projectRegion?->name_ar ?? '—' }}</td>
     </tr>
     <tr>
-        <td class="bold" > التاريخ</td>
-        <td>{{ $project->contract_signed_at->format('d/m/Y')??'-' }}</td>
+        <td class="bold" > تاريخ توقيع العقد</td>
+        <td>{{ $project->contract_signed_at?->format('d/m/Y')??'-' }}</td>
     </tr>
-</table>
+</table> --> 
 
 <!-- فهرس -->
 <table>

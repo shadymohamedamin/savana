@@ -41,8 +41,10 @@
         .intro-text {
             border: 1px solid #000;
             padding: 18px;
-            text-align: justify;
+            padding-top:40px;
+            text-align:start;
             margin-bottom: 25px;
+            margin-top:5rem;
         }
 
         /* ===== Info Table ===== */
@@ -95,7 +97,7 @@ $dateFormatted = $today->translatedFormat('d/m/Y');
 @endphp
 
 <!-- ===== Title ===== -->
-<table>
+<!-- <table>
     <tr>
         <td class="title" colspan="3">
             عقد تسليم الموقع
@@ -105,7 +107,7 @@ $dateFormatted = $today->translatedFormat('d/m/Y');
 
 
 
-<!-- ===== Project Info ===== -->
+
 <table class="info-table">
     <tr>
         <td>فيلا السيدة</td>
@@ -142,19 +144,38 @@ $dateFormatted = $today->translatedFormat('d/m/Y');
         <td >سافانا ديزاين للاستشارات الهندسية</td>
     </tr>
 </table>
-<!-- ===== Intro ===== -->
+
 <div class="intro-text">
     انه في يوم <strong>{{ $dayName }}</strong> الموافق
     <strong>{{ $dateFormatted }}</strong>
     تم تسليم الموقع المذكور ادناه الى المقاول خالياً من العوائق وصالحاً للبناء فيه،
     ويبدأ احتساب مدة التنفيذ من يوم    تسليم الموقع شاملة فترة التحضير.
-    <!-- <br><br>
-    ولا مانع من تقديم الدفعة الأولى للبدء في الأعمال. -->
+
 </div>
-<!-- ===== Spacer ===== -->
-<div class="page-spacer"></div>
+
+<div class="page-spacer"></div> -->
 
 <!-- ===== Signatures ===== -->
+
+
+
+
+
+
+
+
+
+@include('pdf.contract_header', ['project' => $project,'isBank'=>false,'showContractor' => true,'title'=>'وثيقة  تسليم الموقع'])
+
+
+
+<div class="intro-text" style="margin-top:3rem;">
+    انه في يوم <strong>{{ $dayName }}</strong> الموافق
+    <strong>{{ $dateFormatted }}</strong>
+    تم تسليم الموقع المذكور ادناه الى المقاول خالياً من العوائق وصالحاً للبناء فيه،
+    ويبدأ احتساب مدة التنفيذ من يوم    تسليم الموقع شاملة فترة التحضير.
+
+</div>
 
 
 <table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:50px;">

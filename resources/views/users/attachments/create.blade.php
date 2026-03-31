@@ -595,7 +595,7 @@
 
         
             <div class="contract-box">
-            <span class="mb-1">{{ __('Site Delivery Contract') }}</span>
+            <span class="mb-1">{{ __('وثيقة تسليم الموقع') }}</span>
 
             <a target="_blank" href="{{ route('projects.contract.site_delivery.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
                 👁 {{ __('Preview') }}

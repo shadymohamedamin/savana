@@ -173,10 +173,12 @@ $finalTotal = $totalVillaWithWall + $vat;
 
 
 
+@include('pdf.contract_header', ['project' => $project,'isBank'=>false,'isTender' => true,'showContractor' => true,'title'=>'عقد حساب الكميات'])
+
 
 
 {{-- ================= معلومات المشروع ================= --}}
-<table>
+<!-- <table>
 <tr>
     <td class="title" colspan="4">حساب الكميات</td>
 </tr>
@@ -201,7 +203,7 @@ $finalTotal = $totalVillaWithWall + $vat;
 </tr>
 
 
-</table>
+</table> -->
 
 
 
@@ -344,9 +346,9 @@ $color = $groupColors[$loop->index % count($groupColors)];
 @endif
 
 
-<!-- @if($loop->index==1)
-<div style="height:60px; ">.</div>
-@endif -->
+@if($loop->index==3)
+<div style="height:90px; ">.</div>
+@endif 
 <table >
 
 <tr >

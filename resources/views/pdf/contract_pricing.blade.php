@@ -40,7 +40,7 @@ th, td {
 <body>
 
 {{-- ================= معلومات المشروع ================= --}}
-<table>
+<!-- <table>
 <tr>
     <td class="title" colspan="4">عقد أسعار التوريد</td>
 </tr>
@@ -74,7 +74,19 @@ th, td {
 
 
 
-</table>
+</table> -->
+
+
+
+@include('pdf.contract_header', ['project' => $project,'isBank'=>false,'showContractor' => true,'title'=>'عقد اسعار التوريد'])
+
+
+
+
+
+
+
+
 
 {{-- ================= أسعار توريد التشطيبات ================= --}}
 <!-- @foreach($items as $category => $rows)
@@ -141,11 +153,11 @@ $sectionsTotals = [];
 @foreach($groups as $group)
 
 <table>
-<tr>
+<!-- <tr>
     <td class="group-title" colspan="6">
         {{ $group->name_ar }}
     </td>
-</tr>
+</tr> -->
 
 @php $groupTotal = 0; @endphp
 
@@ -299,7 +311,7 @@ $fieldLabels = [
 
 {{-- ================= التوقيعات ================= --}}
 
-<table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:50px;">
+<table style="width:100%; border-collapse:collapse; margin-top:120px; margin-bottom:20px;">
     <tr>
        <td class="bold center section-title" style="text-align:center; font-weight:bold;">
             توقيع وختم المقاول

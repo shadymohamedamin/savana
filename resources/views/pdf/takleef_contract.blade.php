@@ -68,7 +68,7 @@
 
 <body>
 
-<table>
+<!-- <table>
     <tr>
         <td class="section-title">الموضوع: تكليف</td>
     </tr>
@@ -97,7 +97,18 @@
             للاستشارات الهندسية بأعمال التصميم والاشراف حتى استخراج شهادة الإنجاز وارساء المناقصة على المقاول.
         </td>
     </tr>
-</table>
+</table> -->
+
+
+
+
+
+@include('pdf.contract_header', ['project' => $project,'isBank'=>false,'showContractor' => false,'title'=>'عقد خطاب التكليف'])
+
+
+
+
+
 
 
 <table>

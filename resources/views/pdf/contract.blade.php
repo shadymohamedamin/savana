@@ -63,11 +63,13 @@
 
 <body>
 
-    @include('pdf.contract_header', ['project' => $project,'showContractor' => true])
+    @include('pdf.contract_header', ['project' => $project,'isBank'=>false,'showContractor' => true,'title'=>' العقد الاساسي'])
 
 
     
-
+<!-- <tr>
+            <td colspan="3" style="height:30px;"></td>
+        </tr> -->
 
 
 
@@ -90,7 +92,7 @@
 
 
 
-    <table style="width:100%; border-collapse:collapse; margin-top:90px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:30px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">1</td>
             <td style="width:80%; text-align:center; font-weight:bold;">
@@ -117,7 +119,7 @@
 
 
 
-    <table style="width:100%; border-collapse:collapse; ">
+    <table style="width:100%; border-collapse:collapse; margin-top:30px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;"></td>
             <td style="width:80%; text-align:center; font-weight:bold;">
@@ -139,7 +141,7 @@
 
 
 
-    <table style="width:100%; border-collapse:collapse; ">
+    <table style="width:100%; border-collapse:collapse; margin-top:30px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">2</td>
             <td style="width:80%; text-align:center; font-weight:bold;">
@@ -205,7 +207,7 @@
     </tr>
 </table> -->
 
-    <table style="width:100%; border-collapse:collapse; ">
+    <table style="width:100%; border-collapse:collapse; margin-top:30px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">3</td>
             <td class="section-title" style="width:80%; text-align:center; font-weight:bold;">
@@ -280,7 +282,7 @@
 
 
 
-    <table style="width:100%; border-collapse:collapse;">
+    <table style="width:100%; border-collapse:collapse;margin-top:30px;">
 
         <!-- البند 4 -->
         <tr class="section-title" style="margin-top: 10px;">
@@ -339,9 +341,14 @@
                 يجب على المقاول اخطار الاستشاري باليوم الذي يتم فيه انهاء الاعمال على ان يكون هذا الاخطار قبل حلول هذا اليوم باسبوع على الاقل ليتم اخطار المالك والمقاول بموجب الاستلام الابتدائي يتم بحضور المقاول او مهندسه. وفي حاله عدم حضوره يقوم الاستشاري بعمله في غيابه فاذا ثبت ان الاعمال في حاله تسمح باستلامها يتم تحرير محضرا باستلام الاعمال استلاما مبدئيا في ذات اليوم, اما اذا ثبت عكس ذلك فللاستشاري الحق في عمل محضر اثبات حاله, وفي جميع الاحوال تكون المحاضر التي يحررها الاستشاري حجة على المقاول ولو لم يحضر او يوقع على المحضر، لا يقوم الاستشاري باعادة المعاينة الا اذا اخطره المقاول بموعد انهاء الاعمال وقبل اسبوع من الحلول على الاقل وفي حال وجود ملاحظات على اعمال المشروع لا تمنع من الاستلاام الابتدائي يتم استلام المشروع ويعطى المقاول سبعه ايام لانهاء تلك الملاحظات وفي حال عدم انتهائه من هذه الملاحظات يعتبر محضر الاستلام الابتدائي لاغيا.
             </td>
         </tr>
+    
+
+        <tr>
+            <td colspan="3" style="height:150px;"></td>
+        </tr>
 
         <!-- البند 8 -->
-        <tr class="section-title">
+        <tr class="section-title" style="margin-top:30px;">
             <td style="width:10%; text-align:center; font-weight:bold;">8</td>
             <td style="width:80%; text-align:center; font-weight:bold;">
                 الاشراف الهندسي من قبل الاستشاري
@@ -434,6 +441,11 @@
             </td>
         </tr>
 
+
+        <tr>
+            <td colspan="3" style="height:30px;"></td>
+        </tr>
+
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">14</td>
             <td style="width:80%; text-align:center; font-weight:bold;">فسخ عقد الاستشاري</td>
@@ -497,7 +509,7 @@
 
 
 
-    <table style="width:100%; border-collapse:collapse; margin-top:90px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:10px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;"></td>
             <td style="width:80%; text-align:center; font-weight:bold;">
@@ -879,7 +891,7 @@
     </table>
 
     <!-- Clause 46 -->
-    <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:50px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">46</td>
             <td style="width:80%; text-align:center; font-weight:bold;">شهادة الإنجاز</td>
@@ -1093,7 +1105,7 @@
     </table>
 
     <!-- Clause 61 -->
-    <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:40px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">61</td>
             <td style="width:80%; text-align:center; font-weight:bold;">دقة التسعير وحساب الكميات</td>
@@ -1205,7 +1217,7 @@
     </table>
 
     <!-- Clause 69 -->
-    <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:50px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">69</td>
             <td style="width:80%; text-align:center; font-weight:bold;">التربة</td>
@@ -1317,7 +1329,7 @@
     </table>
 
     <!-- Clause 77 -->
-    <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:50px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">77</td>
             <td style="width:80%; text-align:center; font-weight:bold;">الإشراف الأسبوعي</td>
