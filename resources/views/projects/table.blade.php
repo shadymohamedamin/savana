@@ -155,17 +155,27 @@
 
 
 
-    <div class="card-header  d-flex justify-content-between align-items-center"
-         style="background:#D4AF37;color:#2f3a1f;font-size:1.3rem;font-weight:600;">
+   <div class="card-header d-flex justify-content-between align-items-center"
+     style="background:#D4AF37; color:#2f3a1f; font-size:1.3rem; font-weight:600;">
+    
 
 
 
+    <div>
+        {{ __('Projects') }}
+    </div>
+
+    <!-- User name in the center -->
+    <div class="mx-auto">
+        {{ Auth::user()->name }}
+    </div>
+
+    <!-- Empty div to balance flex -->
+    <div></div>
 
 
 
-
-
-        <h4 class="mx-auto">{{ __('Projects') }}</h4>
+        <!-- <h4 class="mx-auto">{{ __('Projects') }}</h4> -->
 
         <div class="d-flex gap-2">
             <a href="{{ route('projects.index') }}"
