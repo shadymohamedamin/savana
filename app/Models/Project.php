@@ -53,6 +53,7 @@ class Project extends Model
         'financing_type',
         'contract_signed_at',
         'project_image',
+        'container_contract_value',
 
 
 
@@ -77,6 +78,7 @@ class Project extends Model
         'end_date'      => 'date',
         'contractor_contract_end_date' => 'date',
         'contract_signed_at' => 'date',
+        'container_contract_value' => 'integer',
     ];
 
     /**

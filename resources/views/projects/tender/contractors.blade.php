@@ -131,7 +131,7 @@
                             </td>
 
 
-                            <td>
+                            <td> <!-- لم يبدا -غير مكتمل -مكتمل -->
                                 @if($contractor->tender_status == 'draft')
                                     <span class="badge bg-info">مسودة</span>
 

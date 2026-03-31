@@ -159,10 +159,22 @@ $sectionsTotals = [];
     </td>
 </tr> -->
 
-@php $groupTotal = 0; @endphp
+@php 
+    $groupTotal = 0;
+    $sectionIndex=0;
+@endphp
 
 @foreach($group->children as $section)
+@php 
 
+    $sectionIndex++;
+@endphp
+
+@if($sectionIndex == 7)
+<tr class="no-border">
+    <td colspan="3" style="height:350px; border: none; padding: 0;"></td>
+</tr>
+@endif
 <tr>
     <td class="section-title" colspan="6">
         {{ $section->name_ar }}

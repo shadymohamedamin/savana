@@ -598,6 +598,12 @@
 
 
 <div class="form-item">
+{!! Form::label('container_contract_value ', __('قيمة عقد الحاوية')) !!}
+{!! Form::number('container_contract_value ', null, ['class'=>'form-control']) !!}
+</div>
+
+
+<div class="form-item">
     <div class="border rounded p-2 small bg-light attachment-box">
 
         <input type="hidden" name="project_image_delete" value="0" class="delete-flag">

@@ -191,10 +191,10 @@ $dateFormatted = $startDate->translatedFormat('d/m/Y'); // مثال: 07/01/2026
         </td>
     </tr>
 </table> -->
-@include('pdf.contract_header', ['project' => $project,'isBank'=>false,'showContractor' => true,'title'=>'عقد الحاوية'])
+@include('pdf.contract_header', ['isHawya'=>true,'project' => $project,'isBank'=>false,'showContractor' => true,'title'=>'عقد الحاوية'])
 
+<!-- 
 
-<!-- نص التعاقد -->
 <table>
     <tr>
         <td class="section-title" style="padding:15px;">
@@ -238,7 +238,7 @@ $dateFormatted = $startDate->translatedFormat('d/m/Y'); // مثال: 07/01/2026
            <img src="{{ public_path('images/signature.jpeg') }}" style="height:100px;">
         </td>
     </tr>
-</table>
+</table> -->
 
 
 

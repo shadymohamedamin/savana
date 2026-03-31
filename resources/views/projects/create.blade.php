@@ -203,7 +203,12 @@
 
 
 
-                
+                <div class="flex-grow-1" style="min-width:250px;max-width:250px;">
+                    {!! Form::label('container_contract_value', __('قيمة عقد الحاوية'))!!}
+                    {!! Form::number('container_contract_value', null, [
+                        'class' => 'form-control rounded',
+                    ]) !!}
+                </div>
 
                 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
                     {!! Form::label('budget', __('ميزانية المالك')) !!}
