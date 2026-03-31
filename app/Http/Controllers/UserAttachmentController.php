@@ -326,12 +326,12 @@ public function store(Request $request, $id)
     $type = $request->query('type', 'users');
     //dd($isContractorFiles);
     if($type==1)$type='projects';
-    if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
-    return redirect()->back()->with('toast', [
-        'type' => 'error',
-        'message' => 'ليس لديك الصلاحيات الكافية'
-    ]);
-}
+    if (!in_array(auth()->user()->role_id, [1,4,11,12,3])) {//
+        return redirect()->back()->with('toast', [
+            'type' => 'error',
+            'message' => 'ليس لديك الصلاحيات الكافية'
+        ]);
+    }
     //
     
     $isTender = $request->query('mode') === 'tender';
