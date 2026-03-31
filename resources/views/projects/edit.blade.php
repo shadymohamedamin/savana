@@ -597,10 +597,7 @@
 </div>
 
 
-<div class="form-item">
-{!! Form::label('container_contract_value ', __('قيمة عقد الحاوية')) !!}
-{!! Form::number('container_contract_value ', null, ['class'=>'form-control']) !!}
-</div>
+
 
 
 <div class="form-item">
@@ -839,6 +836,13 @@ value="{{ optional($project->contractor_contract_end_date)->format('Y-m-d') }}"/
 <div class="form-item">
 {!! Form::label('contractor_id', __('Contractor')) !!}
 {!! Form::select('contractor_id',$contractors,null,['class'=>'form-control','placeholder'=>'-- اختياري --']) !!}
+</div>
+
+
+
+<div class="form-item">
+{!! Form::label('container_contract_value', __('قيمة عقد الحاوية')) !!}
+{!! Form::number('container_contract_value', null, ['class'=>'form-control']) !!}
 </div>
 
 </div>
