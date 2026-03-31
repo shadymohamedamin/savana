@@ -273,7 +273,7 @@ if ($context === 'tender' && $contractorId) {
                 'notes' => null,
                 'context' => 'tender',
                 'tender_user_id' => $contractorId,
-                'tender_status' => 'draft'
+                'tender_status' => 'submitted'
             ]);
         }
     }
@@ -799,7 +799,8 @@ public function saveTender(Request $request, Project $project)
                 'total_price' => $qty * $price,
                 'notes'       => $notes,
                 'context'     => 'tender',
-                'tender_user_id' => $contractorId // 👈 الفرق: هنا السياق tender
+                'tender_user_id' => $contractorId, // 👈 الفرق: هنا السياق tender
+                'tender_status'  => 'approved'
             ];
             //dd($syncData[$ownerRequirementId]);
             

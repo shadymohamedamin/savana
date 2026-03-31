@@ -132,17 +132,17 @@
 
 
                             <td> <!-- لم يبدا -غير مكتمل -مكتمل -->
-                                @if($contractor->tender_status == 'draft')
-                                    <span class="badge bg-info">مسودة</span>
+                                <!-- @if($contractor->tender_status == 'draft')
+                                    <span class="badge bg-info">مسودة</span> -->
 
-                                @elseif($contractor->tender_status == 'submitted')
-                                    <span class="badge bg-primary">مرسل</span>
+                                if($contractor->tender_status == 'submitted')
+                                    <span class="badge bg-primary">لم يكتمل</span>
 
                                 @elseif($contractor->tender_status == 'approved')
-                                    <span class="badge bg-success">معتمد</span>
+                                    <span class="badge bg-success">اكتمل</span>
 
-                                @elseif($contractor->tender_status == 'rejected')
-                                    <span class="badge bg-danger">مرفوض</span>
+                                <!-- @elseif($contractor->tender_status == 'rejected')
+                                    <span class="badge bg-danger">مرفوض</span> -->
 
                                 @else
                                     <span class="badge bg-secondary">لم يبدأ</span>
@@ -228,6 +228,32 @@
 
                                     @if(in_array($contractor->project_status,$allowed))
                                     
+
+                                        <li>
+                                            <a class="dropdown-item"
+                                               href="{{ route('projects.owner-requirements.index', [
+                                                    'project'=>$project->id,
+                                                    'context'=>'pricing',
+                                                    'contractor'=>$contractor->id
+                                                ]) }}">
+                                                <i class="fas fa-calculator me-1"></i>
+                                                 اسعار التوريد
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a class="dropdown-item" target="_blank"
+                                        href="{{ route('projects.contract.pricing.pdf', [
+                                                'id' => $project->id,
+                                                'contractor' => $contractor->id,
+                                                'action' => 'preview'
+                                        ]) }}">
+                                                <i class="fas fa-calculator me-1"></i>
+                                                👁 معاينة  اسعار التوريد
+                                            </a>
+                                        </li>
+
+
                                         <li>
                                             <a class="dropdown-item"
                                                href="{{ route('projects.owner-requirements.index', [
@@ -248,7 +274,7 @@
                                                 'action' => 'preview'
                                         ]) }}">
                                                 <i class="fas fa-calculator me-1"></i>
-                                                👁 معاينة العقد
+                                                👁 معاينة حساب الكميات
                                             </a>
                                         </li>
                                     @endif

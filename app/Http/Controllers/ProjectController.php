@@ -650,7 +650,7 @@ public function ownerRequirementContractPdf(Request $request, $id)
 public function pricingContractPdf(Request $request, $id)
 {
     $project = \App\Models\Project::findOrFail($id);
-
+    $contractorId = $request->get('contractor');
     /*$items = \App\Models\OwnerRequirement::where('floor', 'pricing')
         ->with(['projectOwnerRequirements' => function ($q) use ($project) {
             $q->where('project_id', $project->id)
@@ -676,9 +676,12 @@ public function pricingContractPdf(Request $request, $id)
     $groups = \App\Models\OwnerRequirement::where('floor', 'tender')
         ->where('type', 'group')->where('name_en', 'Supply Finishings')
         ->with([
-            'children.children.projectOwnerRequirements' => function ($q) use ($project) {
+            'children.children.projectOwnerRequirements' => function ($q) use ($project,$contractorId) {
                 $q->where('project_id', $project->id)
                   ->where('context', 'tender');
+                if ($contractorId) {
+                    $q->where('tender_user_id', $contractorId);
+                }
             }
         ])
         ->get();
