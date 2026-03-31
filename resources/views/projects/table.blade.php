@@ -587,9 +587,15 @@
                             $targetUrl = in_array(auth()->user()->role_id, [1,4,11,12])
                                 ? route('projects.edit', $project->id)
                                 : url('users/'.$project->id.'/attachments/create?type=projects&mode=tender');
+                            //$contractor = $project->users->first(function ($user) {
+                            //    return in_array($user->pivot->role_id, [3, 8]);
+                            //});
+
                             $contractor = $project->users->first(function ($user) {
-                                return in_array($user->pivot->role_id, [3, 8]);
+                                return $user->id == auth()->id()
+                                    && in_array($user->pivot->role_id, [3, 8]);
                             });
+
                         @endphp
 
               
