@@ -230,7 +230,7 @@ public function create(Request $request, $id)
     if ($isTender) {
 
         // tender ==>(25-33-34-35)
-        $defaultTypes = [40,50,51,41,2,14,13,55,56,57,58];//[25, 33, 34, 35];
+        $defaultTypes = [40,50,51,41,2,14,13,55,56,57,15];//[25, 33, 34, 35];
     }
 
 
