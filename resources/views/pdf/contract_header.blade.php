@@ -142,7 +142,7 @@
             $numberTransformer = $numberToWords->getNumberTransformer('ar');
 
             $amount = $isBank?800000:$project->bank_contract_value; // أو $project->budget
-            $amountInWords = $numberTransformer->toWords($amount);
+            $amountInWords = $numberTransformer->toWords((int) ($amount ?? 0));
         @endphp
 
         <tr>
