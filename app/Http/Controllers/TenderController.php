@@ -267,7 +267,7 @@ public function contractors(Project $project)
 
 
 
-$contractors = $contractors->sortBy(function ($contractor) use ($awardedContractorId, $selected) {
+/*$contractors = $contractors->sortBy(function ($contractor) use ($awardedContractorId, $selected) {
 
     // 1. المتعيّن أولاً
     if ($contractor->id == $awardedContractorId) {
@@ -281,9 +281,27 @@ $contractors = $contractors->sortBy(function ($contractor) use ($awardedContract
 
     // 3. الباقي
     return 2;
+})->values();*/
+
+$contractors = $contractors->sortBy(function ($contractor) use ($awardedContractorId, $selected) {
+
+    // تحديد المجموعة (priority)
+    if ($contractor->id == $awardedContractorId) {
+        $group = 0;
+    } elseif (in_array($contractor->id, $selected)) {
+        $group = 1;
+    } else {
+        $group = 2;
+    }
+
+    // المبلغ (مثلا finalTotal أو أي حقل عندك)
+    $amount = $contractor->pivot->finalTotal ?? 0;
+
+    // تجاهل الصفر (خليه كبير جدًا علشان ييجي في الآخر)
+    $amount = ($amount == 0) ? PHP_INT_MAX : $amount;
+
+    return [$group, $amount];
 })->values();
-
-
 
 
 
