@@ -250,9 +250,9 @@ if ($context === 'tender' && $contractorId) {
         'tender_user_id' => $contractorId,
         'context' => 'tender'
     ])->count();
-    
-    if (($existing > 0) && ($existingContractor==0)) {
-
+    //dd($existing.' '.$existingContractor);
+    if (true){//($existing > 0) && ($existingContractor==0)) {
+        
         $consultantItems = \App\Models\ProjectOwnerRequirement::where([
             'project_id' => $project->id,
             'context' => 'tender'
@@ -267,10 +267,10 @@ if ($context === 'tender' && $contractorId) {
             \App\Models\ProjectOwnerRequirement::create([
                 'project_id' => $project->id,
                 'owner_requirement_id' => $item->owner_requirement_id,
-                'quantity' => 0,
+                //'quantity' => 0,
                 'unit_price' => $item->unit_price,
-                'total_price' => 0,
-                'notes' => null,
+                //'total_price' => 0,
+                //'notes' => null,
                 'context' => 'tender',
                 'tender_user_id' => $contractorId,
                 'tender_status' => 'submitted'
@@ -733,12 +733,18 @@ public function savePricing(Request $request, Project $project)
 
     foreach ($request->requirements ?? [] as $ownerRequirementId => $data) {
 
-        $qty   = isset($data['quantity']) ? (int)$data['quantity'] : 0;
-        $price = isset($data['unit_price']) ? (float)$data['unit_price'] : 0;
+        //$qty   = isset($data['quantity']) ? (int)$data['quantity'] : 0;
+        //$price = isset($data['unit_price']) ? (float)$data['unit_price'] : 0;
+
+
+        $qty   = $data['quantity'] ?? null;
+        $price = $data['unit_price'] ?? null;
         $notes = $data['notes'] ?? '';
+        //$notes = $data['notes'] ?? '';
+        //dd($qty);
 
         // ✅ الشرط المهم: احفظ العناصر اللي الكمية والسعر أكبر من 0
-        if ($qty >= 0 || $price >= 0) {
+        if (($data['quantity']&&$qty >= 0) || ($data['unit_price']&&$price >= 0)) {
             $syncData[$ownerRequirementId] = [
                 'quantity'    => $qty,
                 'unit_price'  => $price,
@@ -752,7 +758,7 @@ public function savePricing(Request $request, Project $project)
 
     // حفظ البيانات في الـ pivot table لو في عناصر صالحة
     //if (!empty($syncData)) {
-    $project->ownerRequirementsTender()->sync($syncData);
+    $project->ownerRequirementsTender()->syncWithoutDetaching($syncData);
     //dd($request);
     if ($request->filled('designs')) {
 
@@ -787,12 +793,12 @@ public function saveTender(Request $request, Project $project)
 //dd($contractorId);
     foreach ($request->requirements ?? [] as $ownerRequirementId => $data) {
 
-        $qty   = isset($data['quantity']) ? (int)$data['quantity'] : 0;
-        $price = isset($data['unit_price']) ? (float)$data['unit_price'] : 0;
+        $qty   = $data['quantity'] ?? null;
+        $price = $data['unit_price'] ?? null;
         $notes = $data['notes'] ?? '';
 
         // ✅ الشرط المهم: احفظ العناصر اللي الكمية والسعر أكبر من 0
-        if ($qty >= 0 || $price >= 0) {
+        if (($data['quantity']&&$qty >= 0) || ($data['unit_price']&&$price >= 0)) {
             $syncData[$ownerRequirementId] = [
                 'quantity'    => $qty,
                 'unit_price'  => $price,
@@ -893,9 +899,29 @@ public function saveTender(Request $request, Project $project)
         //$project->ownerRequirementsTender()->sync($syncData);//syncWithoutDetaching($syncData);
     //}
 
-    $project->ownerRequirementsTender()
+    /*$project->ownerRequirementsTender()
             ->wherePivot('tender_user_id', $contractorId)
-            ->sync($syncData);
+            ->sync($syncData);*/
+
+foreach ($syncData as $ownerRequirementId => $data) {
+    \DB::table('project_owner_requirements')->updateOrInsert(
+        [
+            'project_id' => $project->id,
+            'owner_requirement_id' => $ownerRequirementId,
+            'context' => 'tender',
+            'tender_user_id' => $contractorId
+        ],
+        [
+            'quantity'    => $data['quantity'],
+            'unit_price'  => $data['unit_price'],
+            'total_price' => $data['total_price'],
+            'notes'       => $data['notes'],
+            'updated_at'  => now(),
+            'created_at'  => now()
+        ]
+    );
+}
+
     return redirect()->back()->with('toast', [
         'type'    => 'success',
         'message' => 'تم حفظ بيانات  بنجاح'

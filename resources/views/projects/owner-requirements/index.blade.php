@@ -1733,7 +1733,9 @@ document.querySelector('.main-save-btn').addEventListener('click', function(e){
 
 
 
-
+@php
+    $contractor1 = \App\Models\User::find(request('contractor'));
+@endphp
 
 
 @foreach($groups as $group)
@@ -1779,10 +1781,10 @@ document.querySelector('.main-save-btn').addEventListener('click', function(e){
                             
                             <td style="font-weight: 700;font-size:1.2rem;">{{ $item->unit }}</td>
                             <td>
-                                <input type="number" name="requirements[{{ $item->id }}][quantity]" value="{{ $qty }}"  class="form-control qty" />
+                                <input type="number" name="requirements[{{ $item->id }}][quantity]" value="{{ $qty }}"  class="form-control qty" {{ $contractor1 ? '' : 'readonly' }}/>
                             </td>
                             <td>
-                                <input type="number" name="requirements[{{ $item->id }}][unit_price]" value="{{ $price }}"  class="form-control price" />
+                                <input type="number" name="requirements[{{ $item->id }}][unit_price]" value="{{ $price }}"  class="form-control price"  {{ $contractor1 ? 'readonly' : '' }}/>
                             </td>
                             <td style="font-weight: 700;font-size:1.2rem;" class="total">{{ number_format($total, 2) }}</td>
                             <td>
