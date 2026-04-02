@@ -204,6 +204,7 @@ public function create(Request $request, $id)
         $type === 'users' &&
         $model->id === $currentUser->id
     ) {
+        
         $defaultTypes = array_unique(array_merge($defaultTypes, $adminExtraTypes));
         $isAdminFiles=true;
     }
@@ -223,7 +224,8 @@ public function create(Request $request, $id)
 
     // لو المستخدم مقاول أو بيشوف ملفات مقاول
     if ($isContractorUser || $isContractorModel) {
-        $defaultTypes = $contractorTypes;//array_unique(array_merge($baseUserTypes, $contractorTypes));
+        
+        $defaultTypes = array_unique(array_merge($baseUserTypes, $contractorTypes));//$contractorTypes;//
     }
 
 

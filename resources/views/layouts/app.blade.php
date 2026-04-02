@@ -955,6 +955,20 @@ body, html {
                                     </li>
 
 
+
+
+                                    @auth
+                                        @if(!in_array(Auth::user()->role_id, [1,4,11,12]))
+                                            <li class="nav-item mx-2">
+                                                <a class="nav-link" 
+                                                href="{{ route('users.attachments.create', ['id' => Auth::id(), 'type' => 'users']) }}">
+                                                    📁 مستنداتي
+                                                </a>
+                                            </li>
+                                        @endif
+                                    @endauth
+
+
                                     
 
 

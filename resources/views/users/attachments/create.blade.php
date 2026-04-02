@@ -900,11 +900,25 @@
 </div>
 @endif
 
+
+
+@php
+    $canUpload = in_array(auth()->user()->role_id, [1,4,11,12]) 
+        || auth()->id() == $model->id;
+@endphp
+
 @if(in_array(auth()->user()->role_id, [1,4,11,12,3]))
     {{-- Upload attachments --}}
-    <form action="{{ route('users.attachments.store', ['id' => $model->id, 'type' => $type]) }}"
+    
+    
+    @if($canUpload)
+    <form class="opacity: {{ $canUpload ? 1 : 0 }}" action="{{ route('users.attachments.store', ['id' => $model->id, 'type' => $type]) }}"
+          method="POST"
+          enctype="multipart/form-data">
+@endif
+    <!-- <form action="{{ route('users.attachments.store', ['id' => $model->id, 'type' => $type]) }}"
       method="POST"
-      enctype="multipart/form-data">
+      enctype="multipart/form-data"> -->
 
     
 
@@ -922,7 +936,7 @@
         </div> -->
 
 
-        <div class="card mb-4" style="background:#d4af37">
+       <div class="card mb-4" style="background:#d4af37; opacity: {{ $canUpload ? 1 : 0 }}">
             <div class="card-header    d-flex justify-content-between align-items-center" style="background:#d4af37">
                 <span>{{ __('Upload Attachments') }}</span>
                 <button type="button" id="addAttachment" class="btn btn-olive px-4 btn-sm" style="font-weight: 700;">
@@ -1042,7 +1056,7 @@
         </div> -->
 
 
-        <div class="buttons_container text-center mt-4 d-flex justify-content-center gap-3">
+        <div class="opacity: {{ $canUpload ? 1 : 0 }}  buttons_container text-center mt-4 d-flex justify-content-center gap-3">
 
             {{-- Save --}}
 <button type="submit"
