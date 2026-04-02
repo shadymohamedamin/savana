@@ -246,7 +246,7 @@ public function contractors(Project $project)
         $contractor->vat                    = $pivot->vat ?? 0;
         $contractor->finalTotal             = $pivot->finalTotal ?? 0;
 
-        $contractor->tender_status = $pivot->status ?? 'not_started';
+        $contractor->tender_status = $pivot->tender_status;//$pivot->status ?? 'not_started';
 
     } else {
 
@@ -259,7 +259,7 @@ public function contractors(Project $project)
         $contractor->villaWithWall = 0;
         $contractor->vat = 0;
         $contractor->finalTotal = 0;
-        $contractor->tender_status = 'not_started';
+        $contractor->tender_status = 'draft';
     }
 }
 
@@ -306,7 +306,7 @@ $contractors = $contractors->sortBy(function ($contractor) use ($awardedContract
 
 
 
-
+//dd($contractors);
 
     // أقل سعر
     $lowestPrice = $contractors->min('finalTotal');

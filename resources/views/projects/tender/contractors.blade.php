@@ -131,23 +131,17 @@
                             </td>
 
 
-                            <td> <!-- لم يبدا -غير مكتمل -مكتمل -->
-                                <!-- @if($contractor->tender_status == 'draft')
-                                    <span class="badge bg-info">مسودة</span> -->
-
-                                if($contractor->tender_status == 'submitted')
-                                    <span class="badge bg-primary">لم يكتمل</span>
-
-                                @elseif($contractor->tender_status == 'approved')
-                                    <span class="badge bg-success">اكتمل</span>
-
-                                <!-- @elseif($contractor->tender_status == 'rejected')
-                                    <span class="badge bg-danger">مرفوض</span> -->
-
-                                @else
-                                    <span class="badge bg-secondary">لم يبدأ</span>
-                                @endif
-                            </td>
+                            <td>
+    @if($contractor->tender_status == 'draft')
+        <span class="badge bg-info">لم يبدأ</span>
+    @elseif($contractor->tender_status == 'submitted')
+        <span class="badge bg-primary">لم يكتمل</span>
+    @elseif($contractor->tender_status == 'approved')
+        <span class="badge bg-success">اكتمل</span>
+    @else
+        <span class="badge bg-secondary">لم يبدأ</span>
+    @endif
+</td>
 
 
 

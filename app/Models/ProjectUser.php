@@ -21,7 +21,8 @@ class ProjectUser extends Model
         'vat',
         'finalTotal',
         'context',
-        'status' 
+        'status',
+        'tender_status'
     ];
 
     protected $casts = [

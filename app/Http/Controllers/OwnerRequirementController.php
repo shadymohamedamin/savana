@@ -277,6 +277,19 @@ if ($context === 'tender' && $contractorId) {
             ]);
         }
     }
+
+
+
+    \App\Models\ProjectUser::updateOrCreate(
+            [
+                'project_id' => $project->id,
+                'user_id' => $contractorId,
+                'context' => 'tender'
+            ],
+            [
+                'tender_status'          => 'submitted' // ✅ هنا
+            ]
+        );
 }
 
     
@@ -851,7 +864,7 @@ public function saveTender(Request $request, Project $project)
             );
 
             
-
+//dd(1);
             \App\Models\ProjectUser::updateOrCreate(
                 [
                     'project_id' => $project->id,
@@ -867,9 +880,11 @@ public function saveTender(Request $request, Project $project)
                     'villaWithWall' => $villaWithWall,
                     'vat' => $vat,
                     'finalTotal' => $finalTotal,
-                    'role_id'=>8
+                    'role_id'=>8,
+                    'tender_status' => 'approved'
                 ]
             );
+
     }
     else 
     {
@@ -916,6 +931,7 @@ foreach ($syncData as $ownerRequirementId => $data) {
             'unit_price'  => $data['unit_price'],
             'total_price' => $data['total_price'],
             'notes'       => $data['notes'],
+            'tender_status'  => 'approved',
             'updated_at'  => now(),
             'created_at'  => now()
         ]

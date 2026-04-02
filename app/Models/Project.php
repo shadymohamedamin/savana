@@ -140,7 +140,8 @@ public function users()
             'boundaryWall',
             'villaWithWall',
             'vat',
-            'finalTotal'
+            'finalTotal',
+            'tender_status'
         ])
         ->withTimestamps();
 }
