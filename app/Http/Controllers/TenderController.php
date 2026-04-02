@@ -285,7 +285,7 @@ public function contractors(Project $project)
 
 $contractors = $contractors->sortBy(function ($contractor) use ($awardedContractorId, $selected) {
 
-    // تحديد المجموعة (priority)
+    // 1️⃣ تحديد المجموعة
     if ($contractor->id == $awardedContractorId) {
         $group = 0;
     } elseif (in_array($contractor->id, $selected)) {
@@ -294,10 +294,10 @@ $contractors = $contractors->sortBy(function ($contractor) use ($awardedContract
         $group = 2;
     }
 
-    // المبلغ (مثلا finalTotal أو أي حقل عندك)
-    $amount = $contractor->pivot->finalTotal ?? 0;
+    // 2️⃣ المبلغ الصحيح
+    $amount = $contractor->finalTotal ?? 0;
 
-    // تجاهل الصفر (خليه كبير جدًا علشان ييجي في الآخر)
+    // 3️⃣ الصفر في الآخر
     $amount = ($amount == 0) ? PHP_INT_MAX : $amount;
 
     return [$group, $amount];
