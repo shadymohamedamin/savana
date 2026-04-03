@@ -219,7 +219,7 @@ body {
                     @enderror
                 </div>
 
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <label>Password</label>
                     <input type="password"
                            name="password"
@@ -228,7 +228,30 @@ body {
                     @error('password')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
-                </div>
+                </div> -->
+
+
+                <div class="mb-3">
+    <label>Password</label>
+
+    <div style="position: relative;">
+        <span onclick="togglePassword('password', this)"
+              style="position:absolute; right:10px; top:50%; transform:translateY(-50%); cursor:pointer;">
+            👁️
+        </span>
+        <input type="password"
+               name="password"
+               id="password"
+               class="form-control @error('password') is-invalid @enderror"
+               required>
+
+        
+    </div>
+
+    @error('password')
+        <div class="invalid-feedback">{{ $message }}</div>
+    @enderror
+</div>
 
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <div class="form-check">
@@ -254,3 +277,20 @@ body {
 </div>
 
 @endsection
+
+
+
+
+<script>
+function togglePassword(inputId, el) {
+    const input = document.getElementById(inputId);
+
+    if (input.type === "password") {
+        input.type = "text";
+        el.innerText = "🙈";
+    } else {
+        input.type = "password";
+        el.innerText = "👁️";
+    }
+}
+</script>
