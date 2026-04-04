@@ -247,7 +247,7 @@ if ($context === 'tender' && $contractorId) {
     ])->count();
     $existingContractor = \App\Models\ProjectOwnerRequirement::where([
         'project_id' => $project->id,
-        'tender_user_id' => $contractorId,
+        'tender_user_id' => $contractorId ?: null,
         'context' => 'tender'
     ])->count();
     //dd($existing.' '.$existingContractor);
@@ -263,31 +263,67 @@ if ($context === 'tender' && $contractorId) {
         
 
         foreach ($consultantItems as $item) {
-            //dd($contractorId);
-            \App\Models\ProjectOwnerRequirement::create([
-                'project_id' => $project->id,
-                'owner_requirement_id' => $item->owner_requirement_id,
-                //'quantity' => 0,
-                'unit_price' => $item->unit_price,
-                //'total_price' => 0,
-                //'notes' => null,
-                'context' => 'tender',
-                'tender_user_id' => $contractorId,
-                'tender_status' => 'submitted'
-            ]);
+
+
+
+
+            \App\Models\ProjectOwnerRequirement::updateOrCreate(
+                [
+                    'project_id' => $project->id,
+                    'owner_requirement_id' => $item->owner_requirement_id,
+                    'context' => 'tender',
+                    'tender_user_id' => $contractorId ?: null
+                ],
+                [
+                    'unit_price' => $item->unit_price,
+                    'tender_status' => 'submitted'
+                ]
+            );
         }
+
+
+
+
+
+
+
+        
+
+
+        //dd($updated);
+
+
+
+
+
+
+
+
     }
+
+
+
+
+    $contractorCount = \App\Models\ProjectOwnerRequirement::where([
+            'project_id' => $project->id,
+            'context' => 'tender',
+            'tender_user_id' => $contractorId ?: null
+        ])->count();
+
+        $status = ($contractorCount >= 101) ? 'approved' : 'submitted';
+        
+        
 
 
 
     \App\Models\ProjectUser::updateOrCreate(
             [
                 'project_id' => $project->id,
-                'user_id' => $contractorId,
+                'user_id' => $contractorId ?: null,
                 'context' => 'tender'
             ],
             [
-                'tender_status'          => 'submitted' // ✅ هنا
+                'tender_status'          => $status // ✅ هنا
             ]
         );
 }
@@ -759,9 +795,9 @@ public function savePricing(Request $request, Project $project)
         // ✅ الشرط المهم: احفظ العناصر اللي الكمية والسعر أكبر من 0
         if (($data['quantity']&&$qty >= 0) || ($data['unit_price']&&$price >= 0)) {
             $syncData[$ownerRequirementId] = [
-                'quantity'    => $qty,
+                //'quantity'    => $qty,
                 'unit_price'  => $price,
-                'total_price' => $qty * $price,
+                //'total_price' => $qty * $price,
                 'notes'       => $notes,
                 'context'     => 'tender' // 👈 الفرق: هنا السياق tender
             ];
@@ -811,15 +847,15 @@ public function saveTender(Request $request, Project $project)
         $notes = $data['notes'] ?? '';
 
         // ✅ الشرط المهم: احفظ العناصر اللي الكمية والسعر أكبر من 0
-        if (($data['quantity']&&$qty >= 0) || ($data['unit_price']&&$price >= 0)) {
+        if ($qty !== null || $price !== null){//if (($data['quantity']&&$qty >= 0) || ($data['unit_price']&&$price >= 0)) {
             $syncData[$ownerRequirementId] = [
                 'quantity'    => $qty,
                 'unit_price'  => $price,
                 'total_price' => $qty * $price,
                 'notes'       => $notes,
                 'context'     => 'tender',
-                'tender_user_id' => $contractorId, // 👈 الفرق: هنا السياق tender
-                'tender_status'  => 'approved'
+                'tender_user_id' => $contractorId ?: null, // 👈 الفرق: هنا السياق tender
+                'tender_status'  => 'submitted'
             ];
             //dd($syncData[$ownerRequirementId]);
             
@@ -848,7 +884,7 @@ public function saveTender(Request $request, Project $project)
         \App\Models\OwnerRequirmentTenderTotal::updateOrCreate(
                 [
                     'project_id' => $project->id,
-                    'tender_user_id' => $contractorId,
+                    'tender_user_id' => $contractorId ?: null,
                     'context' => $context
                 ],
                 [
@@ -868,7 +904,7 @@ public function saveTender(Request $request, Project $project)
             \App\Models\ProjectUser::updateOrCreate(
                 [
                     'project_id' => $project->id,
-                    'user_id' => $contractorId,
+                    'user_id' => $contractorId ?: null,
                     'context' => $context
                 ],
                 [
@@ -918,7 +954,8 @@ public function saveTender(Request $request, Project $project)
             ->wherePivot('tender_user_id', $contractorId)
             ->sync($syncData);*/
 
-foreach ($syncData as $ownerRequirementId => $data) {
+
+/*foreach ($syncData as $ownerRequirementId => $data) {
     \DB::table('project_owner_requirements')->updateOrInsert(
         [
             'project_id' => $project->id,
@@ -936,7 +973,162 @@ foreach ($syncData as $ownerRequirementId => $data) {
             'created_at'  => now()
         ]
     );
+}*/
+
+
+foreach ($syncData as $ownerRequirementId => $data) {
+    \App\Models\ProjectOwnerRequirement::updateOrCreate(//updateOrInsert(
+        [
+            'project_id' => $project->id,
+            'owner_requirement_id' => $ownerRequirementId,
+            'context' => 'tender',
+            'tender_user_id' => $contractorId ?: null
+        ],
+        [
+            //$quantity = 
+            'quantity'    => $data['quantity'],//$contractorId ? $data['quantity'] : $existing->quantity,//'quantity'    => $data['quantity'],
+            'unit_price'  => $data['unit_price'],
+            'total_price' => $data['total_price'],
+            'notes'       => $data['notes'],
+            'tender_status'  => 'approved',
+            'updated_at'  => now(),
+            'created_at'  => now()
+        ]
+    );
 }
+
+
+
+
+/*foreach ($syncData as $ownerRequirementId => $data) {
+
+    $existing = \App\Models\ProjectOwnerRequirement::where([
+        'project_id' => $project->id,
+        'owner_requirement_id' => $ownerRequirementId,
+        'context' => 'tender',
+        'tender_user_id' => $contractorId ?: null
+    ])->first();
+
+    $quantity = $contractorId ? $data['quantity'] : ($existing->quantity ?? 0);
+
+    $totalPrice = ($quantity ?? 0) * ($data['unit_price'] ?? 0);
+
+    \App\Models\ProjectOwnerRequirement::updateOrCreate(
+        [
+            'project_id' => $project->id,
+            'owner_requirement_id' => $ownerRequirementId,
+            'context' => 'tender',
+            'tender_user_id' => $contractorId ?: null
+        ],
+        [
+            'quantity'      => $quantity,
+            'unit_price'    => $data['unit_price'],
+            'total_price'   => $totalPrice,
+            'notes'         => $data['notes'],
+            'tender_status' => 'approved',
+            'updated_at'    => now(),
+            'created_at'    => now()
+        ]
+    );
+}*/
+
+
+
+
+
+
+/*foreach ($syncData as $ownerRequirementId => $data) {
+
+    $existing = \App\Models\ProjectOwnerRequirement::where([
+        'project_id' => $project->id,
+        'owner_requirement_id' => $ownerRequirementId,
+        'context' => 'tender',
+        'tender_user_id' => $contractorId ?: null
+    ])->first();
+
+    // لو contractorId موجود، استخدم البيانات الجديدة، وإلا خليك على القديم
+    $quantity = $contractorId ? $data['quantity'] : ($existing->quantity ?? null);
+
+    // totalPrice يعتمد على الكمية الموجودة أو الجديدة
+    $totalPrice = ($quantity ?? 0) * ($data['unit_price'] ?? 0);
+
+    \App\Models\ProjectOwnerRequirement::updateOrCreate(
+        [
+            'project_id' => $project->id,
+            'owner_requirement_id' => $ownerRequirementId,
+            'context' => 'tender',
+            'tender_user_id' => $contractorId ?: null
+        ],
+        [
+            // لو $quantity null (يعني ما في قيمة)، ما نحطش المفتاح، عشان ما يمسحش القديم
+            'unit_price'    => $data['unit_price'],
+            'total_price'   => $totalPrice,
+            'notes'         => $data['notes'],
+            'tender_status' => 'approved',
+            'updated_at'    => now(),
+            'created_at'    => now()
+        ] + ($quantity !== null ? ['quantity' => $quantity] : [])
+    );
+}*/
+
+
+/*foreach ($syncData as $ownerRequirementId => $data) {
+
+    $existing = \App\Models\ProjectOwnerRequirement::where([
+        'project_id' => $project->id,
+        'owner_requirement_id' => $ownerRequirementId,
+        'context' => 'tender',
+        'tender_user_id' => $contractorId ?: null
+    ])->first();
+
+    // لو contractorId موجود، استخدم البيانات الجديدة، وإلا خليك على القديم
+    $quantity = $contractorId ? $data['quantity'] : ($existing->quantity ?? null);
+
+    // totalPrice يعتمد على الكمية الموجودة أو الجديدة
+    $totalPrice = ($quantity ?? 0) * ($data['unit_price'] ?? 0);
+
+    \App\Models\ProjectOwnerRequirement::updateOrCreate(
+        [
+            'project_id' => $project->id,
+            'owner_requirement_id' => $ownerRequirementId,
+            'context' => 'tender',
+            'tender_user_id' => $contractorId ?: null
+        ],
+        [
+            // لو $quantity null (يعني ما في قيمة)، ما نحطش المفتاح، عشان ما يمسحش القديم
+            'unit_price'    => $data['unit_price'],
+            'total_price'   => $totalPrice,
+            'notes'         => $data['notes'],
+            'tender_status' => 'approved',
+            'updated_at'    => now(),
+            'created_at'    => now()
+        ] + ($quantity !== null ? ['quantity' => $quantity] : [])
+    );
+}*/
+
+
+
+
+
+$contractorCount = \App\Models\ProjectOwnerRequirement::where([
+    'project_id' => $project->id,
+    'context' => 'tender',
+    'tender_user_id' => $contractorId ?: null
+])->count();
+
+$status = ($contractorCount >= 101) ? 'approved' : 'submitted';
+//dd($status);
+$updated = \App\Models\ProjectUser::where([
+    'project_id' => $project->id,
+    'user_id' => $contractorId,
+    'context' => 'tender'
+])->update([
+    'tender_status' => $status
+]);
+
+//dd($updated);
+
+
 
     return redirect()->back()->with('toast', [
         'type'    => 'success',

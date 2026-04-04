@@ -118,6 +118,7 @@
 @php
     $type = request('type');
     $isTender = request('mode') === 'tender';
+    $isDesigns= request('mode') === 'designs';
     $isCotractorFiles=request('mode') === 'contractor_files';
     $projectDocuments=request('mode') === 'project_documents';
     $mode=request('mode');
@@ -406,7 +407,7 @@
                 @endif
             </div>
 <!-- !in_array(auth()->user()->role_id, [1,4,11,12]) && -->
-            @if($isTender) 
+            @if($isTender||$isDesigns) 
                 @foreach($rows as $row)
                     @php
                         $typeId = $row['type_id'];

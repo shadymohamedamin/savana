@@ -224,7 +224,7 @@ public function contractors(Project $project)
         ->pluck('users.id')
         ->toArray();
 
-    foreach ($contractors as $contractor) {
+    /*foreach ($contractors as $contractor) {
 
     $projectUser = $project->users()
         ->where('users.id', $contractor->id)
@@ -261,7 +261,53 @@ public function contractors(Project $project)
         $contractor->finalTotal = 0;
         $contractor->tender_status = 'draft';
     }
-}
+}*/
+
+
+
+
+
+
+
+
+
+
+
+$contractors = $contractors->map(function ($contractor) use ($project, $selected) {
+    $projectUser = $project->users()->where('users.id', $contractor->id)->first();
+    if ($projectUser) {
+        $pivot = $projectUser->pivot;
+        $contractor->project_status = $pivot->status ?? 'not_selected';
+        $contractor->structureElectro = $pivot->structureElectro ?? 0;
+        $contractor->structureWithFinishes = $pivot->structureWithFinishes ?? 0;
+        $contractor->footWithout = $pivot->footWithout ?? 0;
+        $contractor->footWith = $pivot->footWith ?? 0;
+        $contractor->boundaryWall = $pivot->boundaryWall ?? 0;
+        $contractor->villaWithWall = $pivot->villaWithWall ?? 0;
+        $contractor->vat = $pivot->vat ?? 0;
+        $contractor->finalTotal = $pivot->finalTotal ?? 0;
+        $contractor->tender_status = $pivot->tender_status ?? 'draft';
+    } else {
+        $contractor->project_status = 'not_selected';
+        $contractor->structureElectro = 0;
+        $contractor->structureWithFinishes = 0;
+        $contractor->footWithout = 0;
+        $contractor->footWith = 0;
+        $contractor->boundaryWall = 0;
+        $contractor->villaWithWall = 0;
+        $contractor->vat = 0;
+        $contractor->finalTotal = 0;
+        $contractor->tender_status = 'draft';
+    }
+    return $contractor;
+});
+
+
+
+
+
+
+
 
  $awardedContractorId = $project->contractor_id;
 

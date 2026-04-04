@@ -1311,10 +1311,17 @@ body, html {
             </a>
 
 
-            <a href="{{ url('#') }}" class="panel-btn-full">
-                <i class="fas fa-clipboard-list"></i>
-                المخططات المعتمدة
-            </a>
+
+
+
+            <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=designs') }}"
+   class="panel-btn-full {{ request('mode') == 'designs' ? 'active' : '' }}">
+    <i class="fas fa-clipboard-list"></i>
+     المخططات المعتمدة
+</a>
+
+
+
 
             <a href="{{ url('#') }}" class="panel-btn-full">
                 <i class="fas fa-clipboard-list"></i>
@@ -1497,7 +1504,7 @@ body, html {
     }
 </script>
 
-<script>
+<!-- <script>
     document.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', function (e) {
             if (
@@ -1519,7 +1526,48 @@ body, html {
             });
         });
     });
+</script> -->
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', function () {
+        if (
+            this.getAttribute('href') &&
+            !this.getAttribute('href').startsWith('#') &&
+            !this.hasAttribute('target')
+        ) {
+            showLoader();
+        }
+    });
+});
+
+document.querySelectorAll('form').forEach(form => {
+    form.addEventListener('submit', function () {
+        showLoader();
+    });
+});
+
+// 🔥 الحل للمشكلة بتاعتك
+window.addEventListener('pageshow', function (event) {
+    if (event.persisted) {
+        hideLoader();
+    }
+});
+
+window.addEventListener('popstate', function () {
+    hideLoader();
+});
 </script>
+
+
 
 
 <script>

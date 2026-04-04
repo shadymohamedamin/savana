@@ -132,15 +132,19 @@
 
 
                             <td>
-    @if($contractor->tender_status == 'draft')
-        <span class="badge bg-info">لم يبدأ</span>
-    @elseif($contractor->tender_status == 'submitted')
-        <span class="badge bg-primary">لم يكتمل</span>
-    @elseif($contractor->tender_status == 'approved')
-        <span class="badge bg-success">اكتمل</span>
-    @else
-        <span class="badge bg-secondary">لم يبدأ</span>
-    @endif
+    @switch($contractor->tender_status)
+        @case('draft')
+            <span class="badge bg-info">لم يبدأ</span>
+        @break
+        @case('submitted')
+            <span class="badge bg-primary">لم يكتمل</span>
+        @break
+        @case('approved')
+            <span class="badge bg-success">اكتمل</span>
+        @break
+        @default
+            <span class="badge bg-secondary">لم يبدأ</span>
+    @endswitch
 </td>
 
 

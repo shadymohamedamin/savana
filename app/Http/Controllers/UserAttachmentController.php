@@ -152,6 +152,7 @@ public function create(Request $request, $id)
     $type = $request->query('type', 'users'); // default users
     $mode = $request->query('mode');
     $isTender = $mode === 'tender';
+    $isDesigns= $mode === 'designs';
     
     $isContractorFiles=$mode === 'contractor_files';
     $projectDocuments=$mode === 'project_documents';
@@ -235,7 +236,11 @@ public function create(Request $request, $id)
         $defaultTypes = [40,50,51,41,2,14,13,55,56,57,15];//[25, 33, 34, 35];
     }
 
+    if ($isDesigns) {
 
+        // tender ==>(25-33-34-35)
+        $defaultTypes = [40,50,51,41,2,14,13,55,56,57,15];//[25, 33, 34, 35];
+    }
 
     if ($isContractorFiles) {
 

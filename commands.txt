@@ -1,3 +1,17 @@
+ALTER TABLE project_owner_requirements
+ADD UNIQUE unique_tender (
+    project_id,
+    owner_requirement_id,
+    context,
+    tender_user_id
+);
+
+
+
+
+
+
+
 add this to database
 //tender ==>(25-33-34-35)
 migrate
