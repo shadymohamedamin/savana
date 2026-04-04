@@ -917,9 +917,18 @@ public function saveTender(Request $request, Project $project)
                     'vat' => $vat,
                     'finalTotal' => $finalTotal,
                     'role_id'=>8,
-                    'tender_status' => 'approved'
+                    //'tender_status' => 'approved'
                 ]
             );
+
+
+
+            if ($contractorId && $contractorId == $project->contractor_id) {
+                $project->update([
+                    'bank_contract_value' => $finalTotal,
+                    'project_owner_support' => ($finalTotal - $project->project_bank_support)
+                ]);
+            }
 
     }
     else 
@@ -1109,22 +1118,29 @@ foreach ($syncData as $ownerRequirementId => $data) {
 
 
 
+if($contractorId)
+{
+    $contractorCount = \App\Models\ProjectOwnerRequirement::where([
+        'project_id' => $project->id,
+        'context' => 'tender',
+        'tender_user_id' => $contractorId ?: null
+    ])->count();
 
-$contractorCount = \App\Models\ProjectOwnerRequirement::where([
-    'project_id' => $project->id,
-    'context' => 'tender',
-    'tender_user_id' => $contractorId ?: null
-])->count();
+    $status = ($contractorCount >= 101) ? 'approved' : 'submitted';
+    //dd($status);
+    $updated = \App\Models\ProjectUser::where([
+        'project_id' => $project->id,
+        'user_id' => $contractorId,
+        'context' => 'tender'
+    ])->update([
+        'tender_status' => $status
+    ]);
 
-$status = ($contractorCount >= 101) ? 'approved' : 'submitted';
-//dd($status);
-$updated = \App\Models\ProjectUser::where([
-    'project_id' => $project->id,
-    'user_id' => $contractorId,
-    'context' => 'tender'
-])->update([
-    'tender_status' => $status
-]);
+
+
+    
+}
+
 
 //dd($updated);
 
