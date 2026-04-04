@@ -743,7 +743,7 @@
                 </div>  -->
 
                 {{-- عقد المالك والاستشاري --}}
-                @if(!$projectDocuments)
+                @if(!$projectDocuments&&!$isDesigns)
                     <div class="contract-box">
                         <span class="mb-1">{{ __('Owner And Consultant And Contractor Contract') }}</span>
                         <a target="_blank" href="{{ route('projects.contract.owner_consultant.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">

@@ -408,7 +408,7 @@ $this->item($P,'تيوبات كاست المنيوم خامة حسب 3د','Cast 
 $this->item($P,'تنفيذ طبقين معجون خارجي للكورنيش مع صبغ باللون الاسود حسب 3د ان وجد','2 layers stucco','L.S','2-layers-stucco'); // ✅ slug
 $this->item($P,'أصباغ خارجية لحوائط الفيلا','External Painting for villa','M2','external-painting-villa'); // ✅ slug
 $this->item($P,'الومنيوم شيت خامة حسب مناظير 3د ان وجد','Aluminum sheet same 3d','M2','aluminum-sheet'); // ✅ slug
-$this->item($P,'توريد و تركيب بورسلان بلاصق ممتاز','Porcelain glue best','M2','porcelain-glue'); // ✅ slug
+$this->item($P,'توريد و تركيب اكساء واجهات بلاصق ممتاز','Porcelain glue best','M2','porcelain-glue'); // ✅ slug
 $this->item($P,'توريد وتركيب قرميد ان وجد','Supply and install clay tiles','M2','clay-tiles'); // ✅ slug
 $this->item($P,'توريد و تركيب جي ار سي ان وجد','Supply and install GRC','M2','grc-installation'); // ✅ slug
 $this->item($P,'توريد و تركيب الكورنيش','Supply and install decoration','L.M','corniche-installation'); // ✅ slug
