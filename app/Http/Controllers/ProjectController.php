@@ -104,6 +104,21 @@ $allowedRoles = [1,4,11,12];
 
 
 
+
+    
+
+
+    if ($request->filled('case_id_number')) {
+        $query->where('case_id_number', 'like', '%' . $request->case_id_number . '%');
+    }
+
+
+
+
+    
+
+
+
     /*if (!in_array(auth()->user()->role_id, $allowedRoles)) {
 
         $query->whereHas('projectUsers', function ($q) {

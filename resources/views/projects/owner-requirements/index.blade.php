@@ -1474,7 +1474,7 @@ function calculateAll() {
     let structureElectro = (groupsTotals[0] || 0) + (groupsTotals[1] || 0);
     let structureWithFinishes = structureElectro + (groupsTotals[2] || 0);
     let boundaryWall = groupsTotals[groupsTotals.length - 1] || 0;
-    let villaWithWall = structureWithFinishes + boundaryWall;
+    let villaWithWall = structureWithFinishes + boundaryWall + groupsTotals[3];
     let vat = villaWithWall * 0.05;
     let finalTotal = villaWithWall + vat;
 

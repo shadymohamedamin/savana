@@ -158,7 +158,9 @@ $footWithFinishes    = $approvedArea > 0 ? $structureWithFinishes / $approvedAre
 
 $boundaryWall = end($groupsValues);
 
-$totalVillaWithWall = $structureWithFinishes + $boundaryWall;
+$totalVillaWithWall = $structureWithFinishes + $boundaryWall + $groupsValues[3];
+
+
 
 $vat = $totalVillaWithWall * 0.05;
 
@@ -581,7 +583,7 @@ $footWithFinishes    = $approvedArea > 0 ? $structureWithFinishes / $approvedAre
 $boundaryWall = end($groupsValues);
 
 // الفيلا مع السور
-$totalVillaWithWall = $structureWithFinishes + $boundaryWall;
+$totalVillaWithWall = $structureWithFinishes + $boundaryWall +$groupsValues[3];
 
 // الضريبة (قسمة على 21)
 $vat = $totalVillaWithWall * 0.05;

@@ -279,7 +279,7 @@
 
             <div class="row g-3">
 
-                <div class="col-md-2">
+                <div class="col-md-1">
                     <label class="form-label">{{ __('كود المشروع') }}</label>
                     <input type="text" name="project_code"
                            class="form-control filter-input"
@@ -300,6 +300,15 @@
                            style="text-font:bold;"
                            value="{{ request('owner_name') }}">
                 </div>
+
+                <div class="col-md-1">
+                    <label class="form-label">{{ __('رقم الحالة') }}</label>
+                    <input type="text" name="case_id_number"
+                           class="form-control filter-input bold-input"
+                           style="text-font:bold;"
+                           value="{{ request('case_id_number') }}">
+                </div>
+
 
                 <div class="col-md-2">
                     <label class="form-label">{{ __('رقم الهاتف') }}</label>
