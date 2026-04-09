@@ -288,7 +288,7 @@ $finalTotal = $totalVillaWithWall + $vat;
 </tr>
 
 <tr class="center">
-<td class="bold">سعر الفيلا مع السور</td>
+<td class="bold">سعر الفيلا مع السور مع الواجهات    </td>
 <td>Total Villa Price</td>
 <td colspan="2" style="font-size: 18px;font-weight: bold;">AED {{ number_format($totalVillaWithWall,2) }}</td>
 </tr>
@@ -633,7 +633,7 @@ $finalTotal = $totalVillaWithWall + $vat;
 </tr>
 
 <tr class="center">
-    <td class="bold">سعر الفيلا مع السور</td>
+    <td class="bold">  سعر الفيلا مع السور مع الواجهات  </td>
     <td>Total Villa Price</td>
     <td colspan="2" style="font-size: 18px;font-weight: bold;">AED {{ number_format($totalVillaWithWall,2) }}</td>
 </tr>

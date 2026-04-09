@@ -386,7 +386,7 @@
                     <th style="background-color:#d4af37;">سعر الفوت بدون تشطيبات</th>
                     <th style="background-color:#d4af37;">سعر الفوت مع تشطيبات</th>
                     <th style="background-color:#d4af37;">سعر السور</th>
-                    <th style="background-color:#d4af37;">سعر الفيلا مع السور</th>
+                    <th style="background-color:#d4af37;">  سعر الفيلا مع السور مع الواجهات </th>
                     <th style="background-color:#d4af37;">الضريبة 5%</th>
                     <th style="background-color:#d4af37;">السعر النهائي شامل الضريبة</th>
                 @endif

@@ -1162,7 +1162,7 @@ $groupIndex=0;
 </tr>
 
 <tr>
-<td colspan="2">سعر الفيلا مع السور</td>
+<td colspan="2">سعر الفيلا مع السور مع الواجهات </td>
 <td id="villaWithWallCard">0.00</td>
 </tr>
 
@@ -1222,7 +1222,7 @@ $groupIndex=0;
 </tr>
 
 <tr>
-    <td colspan="2" style="font-weight: 700;font-size:1.4rem;">سعر الفيلا مع السور</td>
+    <td colspan="2" style="font-weight: 700;font-size:1.4rem;">سعر الفيلا مع السور مع الواجهات </td>
     <td id="villaWithWall" style="font-weight: 700;font-size:1.4rem;">0.00</td>
 </tr>
 
