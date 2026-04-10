@@ -246,7 +246,7 @@
     <input type="date"
            name="contract_signed_at"
            class="form-control"
-           value="{{ old('contract_signed_at', optional($project->contract_signed_at)->format('Y-m-d')) }}">
+           value="{{ old('contract_signed_at', optional($project ?? null)->contract_signed_at?->format('Y-m-d')) }}">
 </div>
 
 
@@ -261,14 +261,7 @@
                name="project_image"
                class="form-control form-control-sm attachment-input mb-1">
 
-        {{-- الصورة الحالية --}}
-        @if($project->project_image)
-            <a href="{{ asset('Files/'.$project->project_image) }}"
-               target="_blank"
-               class="btn btn-sm btn-outline-primary w-100 mt-1 stored-file">
-                👁 عرض الصورة الحالية
-            </a>
-        @endif
+       
 
         {{-- preview --}}
         <a href="#"
