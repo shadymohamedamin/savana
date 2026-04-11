@@ -74,7 +74,7 @@ th {
 
 /* ================= SIGNATURE ================= */
 .signature-table td {
-    height: 80px;
+    height: 30px;
     vertical-align: bottom;
 }
 
@@ -122,6 +122,8 @@ Carbon::setLocale('ar');
             $totalPercent = 0;
             $totalDuration = 0;
             $totalAmount = 0;
+            $totalCompletens = 0;
+            
             $projectValue = $project->project_owner_support ?? 0;
         @endphp
 
@@ -132,6 +134,7 @@ Carbon::setLocale('ar');
                 $totalPercent += $row->payment_percentage;
                 $totalDuration += $row->duration_days;
                 $totalAmount += $amount;
+                $totalCompletens+=$row->completion_percentage;
             @endphp
 
             <tr>
@@ -148,7 +151,7 @@ Carbon::setLocale('ar');
         <tr class="total-row">
             <td colspan="2">الإجمالي</td>
             <td>{{ $totalPercent }}%</td>
-            <td>-</td>
+            <td>{{$totalCompletens}}%</td>
             <td>{{ $totalDuration }} / {{ $project->bank_contract_duration * 31 }}</td>
             <td>{{ number_format($totalAmount) }}</td>
         </tr>

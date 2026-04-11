@@ -330,6 +330,45 @@
             </div>
 
 
+
+
+
+
+
+
+
+
+<div class="contract-box">
+    <span class="mb-1">📊 جدول مراحل المشروع</span>
+
+
+
+    <a href="{{ route('projects.schedule', $project->id) }}"
+                class="btn btn-warning btn-sm mb-1 edit-btn">
+                ✏️ {{ __('تعديل') }}
+                </a>
+
+
+
+
+    <a target="_blank"
+       href="{{ route('projects.schedule.pdf', ['id' => $project->id, 'action' => 'preview']) }}"
+       class="btn btn-outline-primary btn-sm mb-1">
+        👁 معاينة
+    </a>
+
+    <a href="{{ route('projects.schedule.pdf', ['id' => $project->id, 'action' => 'download']) }}"
+       class="btn btn-success btn-sm mb-1">
+        ⬇ تحميل
+    </a>
+
+ 
+</div>
+
+
+
+
+
             <div class="contract-box">
                 <span class="mb-1">{{ __(' حساب الكميات') }}</span>
 
@@ -382,6 +421,23 @@
                     🖨 {{ __('Print') }}
                 </a> -->
                 @elseif(Auth::user()->role_id==3)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 <a href="{{ route('projects.owner-requirements.index', [
                         'project'=>$model->id,
                         'context'=>'tender',

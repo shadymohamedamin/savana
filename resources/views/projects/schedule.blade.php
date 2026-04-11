@@ -612,8 +612,7 @@ let projectValue = {{ $project->project_owner_support ?? 0 }};
     }
 }*/
 
-
-function calculate(changedInput = null) {
+function calculate(e = null) {
 
     let rows = document.querySelectorAll('#rows tr');
 
@@ -622,12 +621,13 @@ function calculate(changedInput = null) {
     let totalCompletionPercent = 0;
     let totalDurationUsed = 0;
 
-    // 🎯 مدة العقد الأساسي
     let contractMonths = {{ $project->bank_contract_duration ?? 0 }};
     let totalContractDays = contractMonths * 31;
 
+    let projectValue = {{ $project->project_owner_support ?? 0 }};
+
     // ========================
-    // 1️⃣ الحساب الأساسي
+    // 1️⃣ حساب القيم
     // ========================
     rows.forEach(row => {
 
@@ -652,49 +652,59 @@ function calculate(changedInput = null) {
     });
 
     // ========================
-    // 2️⃣ منع تجاوز 100% (تصحيح مباشر)
+    // 2️⃣ منع تجاوز 100% (لكن يسمح بالنقص)
     // ========================
-    if (totalPaymentPercent > 100) {
+    if (e?.target?.classList.contains('payment')) {
 
-        if (changedInput) {
+        let currentInput = e.target;
 
-            let diff = totalPaymentPercent - 100;
-            let currentVal = parseFloat(changedInput.value) || 0;
+        let otherTotal = 0;
 
-            let corrected = currentVal - diff;
+        rows.forEach(row => {
+            let inp = row.querySelector('.payment');
+            if (inp !== currentInput) {
+                otherTotal += parseFloat(inp.value) || 0;
+            }
+        });
 
-            changedInput.value = Math.max(0, corrected.toFixed(2));
+        let maxAllowed = 100 - otherTotal;
 
-            return calculate();
+        if (parseFloat(currentInput.value) > maxAllowed) {
+            currentInput.value = maxAllowed > 0 ? maxAllowed.toFixed(2) : 0;
         }
     }
 
     // ========================
-    // 3️⃣ منع تجاوز المدة (تصحيح مباشر)
+    // 3️⃣ منع تجاوز المدة (لكن يسمح بالنقص)
     // ========================
-    if (totalDurationUsed > totalContractDays) {
+    if (e?.target?.name?.includes('duration_days')) {
 
-        if (changedInput) {
+        let currentInput = e.target;
 
-            let diff = totalDurationUsed - totalContractDays;
-            let currentVal = parseFloat(changedInput.value) || 0;
+        let otherTotal = 0;
 
-            let corrected = currentVal - diff;
+        rows.forEach(row => {
+            let inp = row.querySelector('[name*="duration_days"]');
+            if (inp !== currentInput) {
+                otherTotal += parseFloat(inp.value) || 0;
+            }
+        });
 
-            changedInput.value = Math.max(0, corrected);
+        let maxAllowed = totalContractDays - otherTotal;
 
-            return calculate();
+        if (parseFloat(currentInput.value) > maxAllowed) {
+            currentInput.value = maxAllowed > 0 ? maxAllowed : 0;
         }
     }
 
     // ========================
-    // 4️⃣ المتبقي من المدة
+    // 4️⃣ المتبقي
     // ========================
     let remainingDays = totalContractDays - totalDurationUsed;
     if (remainingDays < 0) remainingDays = 0;
 
     // ========================
-    // 5️⃣ تحديث الواجهة
+    // 5️⃣ UI Update
     // ========================
     document.getElementById('total_payment_percent').innerText =
         totalPaymentPercent.toFixed(2) + '%';
@@ -705,30 +715,28 @@ function calculate(changedInput = null) {
     document.getElementById('total_duration').innerText =
         totalDurationUsed + ' / ' + totalContractDays;
 
+    document.getElementById('total_amount').innerText =
+        totalAmount.toLocaleString();
+
     let remainingEl = document.getElementById('remaining_duration');
     if (remainingEl) {
         remainingEl.innerText = remainingDays;
     }
-
-    document.getElementById('total_amount').innerText =
-        totalAmount.toLocaleString();
 
     // ========================
     // 6️⃣ Progress Bar
     // ========================
     let bar = document.getElementById('progress_bar');
 
-    bar.style.width = Math.min(totalPaymentPercent, 100) + "%";
+    let percent = Math.min(totalPaymentPercent, 100);
 
-    if (totalPaymentPercent > 90) {
-        bar.style.background = "#dc3545";
-    } else if (totalPaymentPercent > 60) {
-        bar.style.background = "#ffc107";
-    } else {
-        bar.style.background = "#28a745";
-    }
+    bar.style.width = percent + "%";
+
+    bar.style.background =
+        percent > 90 ? "#dc3545" :
+        percent > 60 ? "#ffc107" :
+        "#28a745";
 }
-
 /* ================= DEFAULT DATA ================= */
 // function loadDefault() {
 
@@ -768,13 +776,24 @@ function printPage() {
 }
 
 /* ================= EVENTS ================= */
-document.addEventListener('input', function(e) {
+/*document.addEventListener('input', function(e) {
     if (
         e.target.classList.contains('amount') ||
         e.target.classList.contains('percent')
     ) {
         calculate();
     }
+});*/
+
+document.addEventListener('input', function(e) {
+
+    // 🔥 منع إدخال لو disabled
+    if (e.target.disabled) {
+        e.preventDefault();
+        return false;
+    }
+
+    calculate(e);
 });
 
 /* INIT */
