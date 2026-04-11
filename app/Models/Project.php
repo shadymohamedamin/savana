@@ -148,6 +148,21 @@ public function users()
 
 
 
+
+
+
+
+
+
+
+public function schedules()
+{
+    return $this->hasMany(\App\Models\ProjectSchedule::class);
+}
+
+
+
+
     public function owner()
 {
     return $this->belongsToMany(User::class, 'project_users')

@@ -25,6 +25,11 @@ use App\Http\Controllers\ProjectPaymentController;
 use App\Http\Controllers\BaladyaStatusTypeController;
 use App\Http\Controllers\OwnerRequirementController;
 use App\Http\Controllers\ProjectOwnerRequirementController;
+use App\Http\Controllers\ProjectScheduleController;
+
+use App\Models\Project;            // ✅ أهم سطر
+use App\Models\ProjectSchedule;   // ✅
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,7 +44,8 @@ use App\Http\Controllers\ProjectOwnerRequirementController;
 
 /*Route::get('/user-with-primary/{uae_id}', function ($uae_id) {
     $user = App\Models\User::with('primaryData')->where('uae_id', $uae_id)->first();
-
+lkdsnv /lasdkvlb a/lsdkh laksdcy /l;smdcu 
+.lkadcy lkmcdyslk asdlckny asdcklnyasdc lknlkabsdcy WL/EKUBZC KJBCVI ASDKJBT ZSDLKVBU .KJBVY ASDJBCY ASDC.,KCUY  ASD.KJBCY ASDCKLJBY WElO SDV MHVZXCVU AW/.,NSVY ZC,.MNVERU SDF/.,NXCVU ZC/.,NUSDFV ASDKJY ZCVLKNYASDBOP  DFV/KLNU FLKBASDY LKDNCY .KJBCY SDC/LKY sdkly 
     if (!$user) {
         return response()->json(['error' => 'User not found'], 404);
     }
@@ -137,6 +143,20 @@ Route::middleware(['auth', 'checkRole:co-admin,admin'])->group(function () {
     //Route::resource('primary_datas', App\Http\Controllers\PrimaryDataController::class);
 });
 Route::middleware(['auth'])->group(function () {
+
+
+
+
+Route::get('/projects/{project}/schedule', [ProjectScheduleController::class, 'index'])
+    ->name('projects.schedule');
+
+Route::post('/projects/{project}/schedule', [ProjectScheduleController::class, 'store'])
+    ->name('projects.schedule.store');
+
+
+
+
+
 
 Route::post(
     '/projects/{project}/tender/{contractor}/award',
@@ -525,3 +545,4 @@ Route::get('/reset-password/{token}', function ($token) {
 
 
 Route::resource('owner-requirment-tender-totals', App\Http\Controllers\OwnerRequirmentTenderTotalController::class);
+Route::resource('project-schedules', App\Http\Controllers\ProjectScheduleController::class);

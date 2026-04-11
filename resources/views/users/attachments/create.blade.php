@@ -194,8 +194,14 @@
     <div class="card-header    d-flex justify-content-between align-items-center" style="background:#d4af37">
         <span style="font-weight: 700;">{{ __('معاينة وطباعة المستندات ') }}</span>
   
+        @if($isCotractorFiles&&in_array(Auth::user()->role_id, [1,4,11,12]))
 
-        @if($isTender&&in_array(Auth::user()->role_id, [1,4,11,12]))
+            <a href="{{ route('projects.schedule', $project->id) }}"
+                class="btn btn-olive px-4 btn-sm"  
+                style="background:#d4af37;color:#2f3a1f;font-weight: 700; margin-right: 1rem;">
+                    <i class="fas fa-users"></i>  الجدول الزمني
+            </a>
+        @elseif($isTender&&in_array(Auth::user()->role_id, [1,4,11,12]))
         <div class="flex justify-start" style="gap: 1rem;">
             
             <a href="{{ route('projects.tender.contractors', $model->id) }}"

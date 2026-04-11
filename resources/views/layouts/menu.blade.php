@@ -201,3 +201,10 @@
         <p>Owner Requirment Tender Totals</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('projectSchedules.index') }}" class="nav-link {{ Request::is('projectSchedules*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Project Schedules</p>
+    </a>
+</li>
