@@ -41,7 +41,7 @@
             font-family: 'amiri', serif;
             direction: rtl;
             text-align: right;
-            font-size: 14px;
+            font-size: 18px;
             line-height: 1.9;
         }
 
@@ -274,7 +274,7 @@ tfoot tr {
 @foreach($schedules as $i => $row)
 <tr>
     <td><input class="form-control" readonly name="rows[{{ $i }}][item_no]" value="{{ $row->item_no }}"></td>
-    <td><input class="form-control" readonly name="rows[{{ $i }}][title]" value="{{ $row->title }}"></td>
+    <td><input class="form-control" readonly style="font-size: 18px;" name="rows[{{ $i }}][title]" value="{{ $row->title }}"></td>
 
     <td>
         <input type="number" class="form-control percent payment"
@@ -313,7 +313,15 @@ tfoot tr {
 
     <td id="total_completion_percent">0%</td>
 
-    <td id="total_duration">0</td>
+    <td id="total_duration"> المتبقي: 0</td>
+
+<!-- <td colspan="7" class="text-center">
+        ⏳ إجمالي المدة: 
+        <strong id="total_duration">0</strong>
+        | المتبقي:
+        <strong id="remaining_duration">0</strong> يوم
+    </td> -->
+ 
 
     <td id="total_amount">0</td>
 
@@ -605,22 +613,28 @@ let projectValue = {{ $project->project_owner_support ?? 0 }};
 }*/
 
 
-
 function calculate(changedInput = null) {
+
+    let rows = document.querySelectorAll('#rows tr');
 
     let totalAmount = 0;
     let totalPaymentPercent = 0;
     let totalCompletionPercent = 0;
-    let totalDuration = 0;
+    let totalDurationUsed = 0;
 
-    let rows = document.querySelectorAll('#rows tr');
+    // 🎯 مدة العقد الأساسي
+    let contractMonths = {{ $project->bank_contract_duration ?? 0 }};
+    let totalContractDays = contractMonths * 31;
 
+    // ========================
+    // 1️⃣ الحساب الأساسي
+    // ========================
     rows.forEach(row => {
 
         let paymentInput = row.querySelector('.payment');
         let completionInput = row.querySelector('.completion');
         let durationInput = row.querySelector('[name*="duration_days"]');
-        let amountInput  = row.querySelector('.amount');
+        let amountInput = row.querySelector('.amount');
 
         let payment = parseFloat(paymentInput?.value) || 0;
         let completion = parseFloat(completionInput?.value) || 0;
@@ -628,40 +642,60 @@ function calculate(changedInput = null) {
 
         totalPaymentPercent += payment;
         totalCompletionPercent += completion;
-        totalDuration += duration;
+        totalDurationUsed += duration;
 
-        // 🔥 حساب المبلغ
         let amount = (payment / 100) * projectValue;
 
         if (amountInput) {
             amountInput.value = Math.round(amount);
         }
-
-        totalAmount += amount;
-
-        // 🎨 تلوين حسب النسبة
-        paymentInput.classList.remove('bg-danger','bg-warning','bg-success','text-white');
-
-        
-
     });
 
-    /* 🔒 منع تجاوز 100% */
-    if (totalPaymentPercent > 100 && changedInput) {
+    // ========================
+    // 2️⃣ منع تجاوز 100% (تصحيح مباشر)
+    // ========================
+    if (totalPaymentPercent > 100) {
 
-        let currentVal = parseFloat(changedInput.value) || 0;
-        let otherTotal = totalPaymentPercent - currentVal;
-        let allowed = 100 - otherTotal;
+        if (changedInput) {
 
-        if (allowed < 0) allowed = 0;
+            let diff = totalPaymentPercent - 100;
+            let currentVal = parseFloat(changedInput.value) || 0;
 
-        changedInput.value = allowed.toFixed(2);
+            let corrected = currentVal - diff;
 
-        calculate();
-        return;
+            changedInput.value = Math.max(0, corrected.toFixed(2));
+
+            return calculate();
+        }
     }
 
-    /* ✅ تحديث الفوتر */
+    // ========================
+    // 3️⃣ منع تجاوز المدة (تصحيح مباشر)
+    // ========================
+    if (totalDurationUsed > totalContractDays) {
+
+        if (changedInput) {
+
+            let diff = totalDurationUsed - totalContractDays;
+            let currentVal = parseFloat(changedInput.value) || 0;
+
+            let corrected = currentVal - diff;
+
+            changedInput.value = Math.max(0, corrected);
+
+            return calculate();
+        }
+    }
+
+    // ========================
+    // 4️⃣ المتبقي من المدة
+    // ========================
+    let remainingDays = totalContractDays - totalDurationUsed;
+    if (remainingDays < 0) remainingDays = 0;
+
+    // ========================
+    // 5️⃣ تحديث الواجهة
+    // ========================
     document.getElementById('total_payment_percent').innerText =
         totalPaymentPercent.toFixed(2) + '%';
 
@@ -669,69 +703,31 @@ function calculate(changedInput = null) {
         totalCompletionPercent.toFixed(2) + '%';
 
     document.getElementById('total_duration').innerText =
-        totalDuration;
+        totalDurationUsed + ' / ' + totalContractDays;
+
+    let remainingEl = document.getElementById('remaining_duration');
+    if (remainingEl) {
+        remainingEl.innerText = remainingDays;
+    }
 
     document.getElementById('total_amount').innerText =
         totalAmount.toLocaleString();
 
-    /* 📊 Progress Bar */
+    // ========================
+    // 6️⃣ Progress Bar
+    // ========================
     let bar = document.getElementById('progress_bar');
 
-    bar.style.width = totalPaymentPercent + "%";
+    bar.style.width = Math.min(totalPaymentPercent, 100) + "%";
 
     if (totalPaymentPercent > 90) {
-        bar.style.background = "#dc3545"; // 🔴 أحمر
+        bar.style.background = "#dc3545";
     } else if (totalPaymentPercent > 60) {
-        bar.style.background = "#ffc107"; // 🟡 أصفر
+        bar.style.background = "#ffc107";
     } else {
-        bar.style.background = "#28a745"; // 🟢 أخضر
+        bar.style.background = "#28a745";
     }
 }
-
-
-
-
-function autoDistribute() {
-
-    let rows = document.querySelectorAll('#rows tr');
-
-    let count = rows.length;
-
-    if (count === 0) return;
-
-    let equal = (100 / count).toFixed(2);
-
-    rows.forEach(row => {
-        let input = row.querySelector('.payment');
-        if (input) {
-            input.value = equal;
-        }
-    });
-
-    calculate();
-}
-
-
-
-
-
-/* ================= EVENTS ================= */
-document.addEventListener('input', function(e) {
-
-    if (e.target.classList.contains('payment')) {
-        calculate(e.target); // 👈 نعرف مين اللي اتغير
-    }
-
-    if (e.target.classList.contains('percent') || e.target.classList.contains('amount')) {
-        calculate();
-    }
-
-});
-
-/* INIT */
-calculate();
-
-
 
 /* ================= DEFAULT DATA ================= */
 // function loadDefault() {

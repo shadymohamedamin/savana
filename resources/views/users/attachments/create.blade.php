@@ -732,6 +732,31 @@
 
 
 
+
+
+                <div class="contract-box">
+    <span class="mb-1">📊 جدول مراحل المشروع</span>
+
+    <a target="_blank"
+       href="{{ route('projects.schedule.pdf', ['id' => $project->id, 'action' => 'preview']) }}"
+       class="btn btn-outline-primary btn-sm mb-1">
+        👁 معاينة
+    </a>
+
+    <a href="{{ route('projects.schedule.pdf', ['id' => $project->id, 'action' => 'download']) }}"
+       class="btn btn-success btn-sm mb-1">
+        ⬇ تحميل
+    </a>
+
+    <a target="_blank"
+       href="{{ route('projects.schedule.pdf', ['id' => $project->id, 'action' => 'print']) }}"
+       class="btn btn-warning btn-sm">
+        🖨 طباعة
+    </a>
+</div>
+
+
+
         @else
         
                 {{--    Owner And Consultant Contract عقد المالك والاستشاري والمقاول --}}

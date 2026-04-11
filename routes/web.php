@@ -145,7 +145,8 @@ Route::middleware(['auth', 'checkRole:co-admin,admin'])->group(function () {
 Route::middleware(['auth'])->group(function () {
 
 
-
+Route::get('/projects/{id}/schedule-pdf', [ProjectController::class, 'projectSchedulePdf'])
+    ->name('projects.schedule.pdf');
 
 Route::get('/projects/{project}/schedule', [ProjectScheduleController::class, 'index'])
     ->name('projects.schedule');
