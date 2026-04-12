@@ -76,9 +76,9 @@ class ProjectScheduleController extends AppBaseController
         ['item_no'=>11,'title'=>' الطبقات العازلة','target_percentage'=>3,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>12,'title'=>' الالمنيوم والزجاج والدرابزينات','target_percentage'=>6,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>13,'title'=>'تمديدات وتسليكات الكهرباء','target_percentage'=>8,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
-        ['item_no'=>14,'title'=>'الاعمال الصحية والاطقم والتجهيزات','target_percentage'=>7,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
+        ['item_no'=>14,'title'=>'الاعمال الصحية والاطقم والتجهيزات','target_percentage'=>6,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>15,'title'=>' السور والاعمال الخارجية والبوابات','target_percentage'=>7,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
-        ['item_no'=>16,'title'=>' التنظيف','target_percentage'=>0,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
+        ['item_no'=>16,'title'=>' التنظيف','target_percentage'=>1,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
     ];
 
 

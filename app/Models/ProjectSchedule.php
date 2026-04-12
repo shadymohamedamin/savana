@@ -25,7 +25,8 @@ class ProjectSchedule extends Model
     protected $casts = [
         'title' => 'string',
         'notes' => 'string',
-        'due_date' => 'date'
+        'due_date' => 'date',
+        'start_date' => 'date',
     ];
 
     public static array $rules = [

@@ -255,15 +255,70 @@ tfoot tr {
 
 
 
+<style>
+.table-fixed {
+    table-layout: fixed;
+    width: 100%;
+}
 
-<table class="table table-bordered text-center align-middle">
+.table-fixed th,
+.table-fixed td {
+    vertical-align: middle;
+    text-align: center;
+}
+
+/* inputs */
+.table-fixed input {
+    width: 100%;
+    font-size: 14px;
+}
+
+/* title أكبر */
+.table-fixed td:nth-child(2) input {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+/* date أكبر */
+.table-fixed td:nth-child(5) input {
+    font-size: 14px;
+    min-width: 140px;
+}
+
+/* notes أكبر */
+.table-fixed td:nth-child(8) input {
+    min-width: 200px;
+    font-size: 14px;
+}
+
+/* الأرقام أصغر */
+.table-fixed td:nth-child(1),
+.table-fixed td:nth-child(3),
+.table-fixed td:nth-child(4),
+.table-fixed td:nth-child(6),
+.table-fixed td:nth-child(7) {
+    font-size: 13px;
+}
+</style>
+
+<table class="table table-bordered text-center align-middle table-fixed">
+
+<colgroup>
+    <col style="width:5%;">    <!-- رقم -->
+    <col style="width:28%;">   <!-- بيان الأعمال -->
+    <col style="width:8%;">    <!-- النسبة المحددة -->
+    <col style="width:8%;">    <!-- نسبة الإنجاز -->
+    <col style="width:14%;">   <!-- تاريخ البدء -->
+    <col style="width:8%;">    <!-- المدة -->
+    <col style="width:10%;">   <!-- المبلغ -->
+    <col style="width:19%;">   <!-- الملاحظات -->
+</colgroup>
+
 <thead>
 <tr>
     <th>رقم</th>
     <th>بيان الأعمال</th>
     <th>النسبة المحددة</th>
-    <!-- <th>النسبة المدخلة</th> -->
-    <!-- <th>نسبة الإنجاز %</th> -->
     <th>نسبة الإنجاز %</th>
     <th>تاريخ البدء</th>
     <th>المدة</th>
@@ -276,49 +331,42 @@ tfoot tr {
 
 @foreach($schedules as $i => $row)
 <tr>
-    <td><input class="form-control" readonly name="rows[{{ $i }}][item_no]" value="{{ $row->item_no }}"></td>
-    <td><input class="form-control" readonly style="font-size: 18px;" name="rows[{{ $i }}][title]" value="{{ $row->title }}"></td>
-
 
     <td>
-        <input readonly type="number" class="form-control target "
+        <input class="form-control" readonly
+               name="rows[{{ $i }}][item_no]"
+               value="{{ $row->item_no }}">
+    </td>
+
+    <td>
+        <input class="form-control" readonly
+               name="rows[{{ $i }}][title]"
+               value="{{ $row->title }}">
+    </td>
+
+    <td>
+        <input readonly type="number" class="form-control target"
                name="rows[{{ $i }}][target_percentage]"
                value="{{ $row->target_percentage }}">
     </td>
 
-
-    <!-- <td> -->
-        <!-- <input readonly type="number" class="form-control percent completion"
-               name="rows[{{ $i }}][completion_percentage]"
-               value="{{ $row->completion_percentage }}"> -->
-
-               <!-- <input  type="number" class="form-control percent completionn"
-               name="rows[{{ $i }}][completion_percentage]"
-               value="{{ $row->completion_percentage }}">  -->
-        <!-- <input  type="number" class="form-control completion"
-            name="rows[{{ $i }}][completion_percentage]"
-            value="0"> -->
-    <!-- </td> -->
-
-
     <td>
-        <!-- <input type="number" class="form-control percent "
+        <input type="number" class="form-control payment"
                name="rows[{{ $i }}][payment_percentage]"
-               value="{{ $row->payment_percentage }}"> -->
-
-               <input type="number" class="form-control payment"
-       name="rows[{{ $i }}][payment_percentage]"
-       value="{{ $row->payment_percentage ?? 0 }}">
+               value="{{ $row->payment_percentage ?? 0 }}">
     </td>
 
-    
-<td>
-    <input type="date"
-           class="form-control start-date"
-           name="rows[{{ $i }}][start_date]"
-           value="{{ optional($row->start_date)->format('Y-m-d') }}">
-</td>
-    <td><input  type="number" class="form-control" name="rows[{{ $i }}][duration_days]" value="{{ $row->duration_days }}"></td>
+    <td>
+        <input type="date" class="form-control start-date"
+               name="rows[{{ $i }}][start_date]"
+               value="{{ optional($row->start_date)->format('Y-m-d') }}">
+    </td>
+
+    <td>
+        <input type="number" class="form-control"
+               name="rows[{{ $i }}][duration_days]"
+               value="{{ $row->duration_days }}">
+    </td>
 
     <td>
         <input type="number" class="form-control amount"
@@ -326,45 +374,33 @@ tfoot tr {
                value="{{ $row->amount }}" readonly>
     </td>
 
-    <td><input class="form-control" name="rows[{{ $i }}][notes]" value="{{ $row->notes }}"></td>
+    <td>
+        <input class="form-control"
+               name="rows[{{ $i }}][notes]"
+               value="{{ $row->notes }}">
+    </td>
+
 </tr>
 @endforeach
 
 </tbody>
-
-
-
 
 <tfoot>
 <tr style="background:#f1f3f2;font-weight:bold;">
     <td colspan="2">الإجمالي</td>
 
     <td id="total_target_percent">100%</td>
-
-
     <td id="total_payment_percent">0%</td>
 
-    
-
-
     <td>-</td>
-    <td id="total_duration"> المتبقي: 0</td>
 
-<!-- <td colspan="7" class="text-center">
-        ⏳ إجمالي المدة: 
-        <strong id="total_duration">0</strong>
-        | المتبقي:
-        <strong id="remaining_duration">0</strong> يوم
-    </td> -->
- 
+    <td id="total_duration">المتبقي: 0</td>
 
     <td id="total_amount">0</td>
 
     <td>-</td>
 </tr>
 </tfoot>
-
-
 
 </table>
 
@@ -432,10 +468,29 @@ tfoot tr {
 
 
 <!-- SAVE -->
-<div class="floating-actions" style="margin-top:2rem;margin-bottom:3rem;">
+<!-- <div class="floating-actions" style="margin-top:2rem;margin-bottom:3rem;">
     <button type="submit" class="btn main-save-btn px-5">
         💾 حفظ
     </button>
+</div> -->
+
+
+<div class="floating-actions d-flex gap-3 justify-content-center">
+
+    <button type="submit"
+            class="btn btn-olive px-4 main-save-btn">
+        💾 حفظ
+    </button>
+
+    <a target="_blank"
+       href="{{ route('projects.schedule.pdf', [
+            $project->id,
+            'action' => 'preview'
+       ]) }}"
+       class="btn btn-dark px-4">
+        👁 معاينة
+    </a>
+
 </div>
 
 </form>
@@ -914,7 +969,32 @@ function calculate(e = null) {
     totalAmount += amount;
     totalDuration += duration; // 👈 ده مهم (ما اتغيرش)
 });*/
+// ✅ منع تجاوز إجمالي المدة
 
+
+
+
+
+if (e?.target?.name?.includes('duration_days') || e?.target?.classList.contains('start-date')) {
+
+    let currentInput = e.target;
+    let otherTotal = 0;
+
+    rows.forEach(row => {
+        let inp = row.querySelector('[name*="duration_days"]');
+        if (inp !== currentInput) {
+            otherTotal += parseFloat(inp.value) || 0;
+        }
+    });
+
+    let maxAllowed = totalContractDays - otherTotal;
+
+    let durationInput = e.target.closest('tr').querySelector('[name*="duration_days"]');
+
+    if (parseFloat(durationInput.value) > maxAllowed) {
+        durationInput.value = maxAllowed > 0 ? maxAllowed : 0;
+    }
+}
     // ✅ 4. منع تجاوز 100% إجمالي
     if (e?.target?.classList.contains('payment')) {
 

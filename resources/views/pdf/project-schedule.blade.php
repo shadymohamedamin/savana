@@ -95,6 +95,7 @@ Carbon::setLocale('ar');
             <th>النسبة المحددة</th> <!-- ✅ جديد -->
             <!-- <th>نسبة الإنجاز</th> -->
             <th>نسبة الإنجاز</th>
+            <th>تاريخ البدء</th>
             <th>المدة (يوم)</th>
             <th>المبلغ</th>
         </tr>
@@ -138,7 +139,11 @@ Carbon::setLocale('ar');
                 
                 <td>{{ $payment }}%</td>
 
-
+<td>
+    {{ $row->start_date 
+        ? \Carbon\Carbon::parse($row->start_date)->format('Y-m-d') 
+        : '-' }}
+</td>
                 <td>{{ $row->duration_days }}</td>
 
                 <td>{{ number_format($amount) }}</td>
@@ -154,7 +159,7 @@ Carbon::setLocale('ar');
 
             <td>{{ $totalPercent }}%</td>
 
-
+            <td>-</td>
             <td>{{ $totalDuration }} / {{ $project->bank_contract_duration * 31 }}</td>
 
             <td>{{ number_format($totalAmount) }}</td>
