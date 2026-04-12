@@ -416,6 +416,14 @@ tfoot tr {
 
     <td>-</td>
 </tr>
+
+
+
+<tr style="background:#ffe8a1;font-weight:bold;">
+    <td colspan="7">إجمالي المطلوب الحالي من المالك</td>
+    <td id="needed_from_owner">0</td>
+    <td>-</td>
+</tr>
 </tfoot>
 
 </table>
@@ -568,7 +576,7 @@ function addRow() {
 
 
 let projectValue = {{ $project->project_owner_support ?? 0 }};
-
+let originalTotalAmount = {{ $schedules->sum('amount') }};
 /* ================= CALCULATE ================= */
 /*function calculate(changedInput = null) {
 
@@ -999,6 +1007,15 @@ function calculate(e = null) {
 
     document.getElementById('total_amount').innerText =
         totalAmount.toLocaleString();
+
+    // =========================
+// 💰 المطلوب من المالك
+// =========================
+
+let neededFromOwner = originalTotalAmount - totalAmount;
+
+document.getElementById('needed_from_owner').innerText =
+    neededFromOwner.toLocaleString();
 
     document.getElementById('total_duration').innerText =
         totalDuration + ' / ' + totalContractDays;

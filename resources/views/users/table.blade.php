@@ -1,5 +1,5 @@
 <!-- <canvas id="signature-pad"></canvas> -->
-
+<!-- <canvas id="signature-pad" width="400" height="150" style="border:1px solid #ccc;"></canvas> -->
 <div class="card shadow-sm rounded-4 m-0" style="background-color: #f5f5dc;">
 
     {{-- Header --}}
@@ -272,9 +272,16 @@
 </style>
 @endpush
 
+<!-- <script>
+let canvas = document.getElementById("signature-pad");
+let signaturePad = new SignaturePad(canvas);
 
+function clearPad() {
+    signaturePad.clear();
+}
+</script>
 
-
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script> -->
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {
