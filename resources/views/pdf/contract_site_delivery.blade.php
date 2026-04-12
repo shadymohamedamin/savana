@@ -100,8 +100,8 @@ $dateFormatted = $today->translatedFormat('d/m/Y');
 
 \Carbon\Carbon::setLocale('ar');
 
-$contractDate = $project->contract_signed_at
-    ? \Carbon\Carbon::parse($project->contract_signed_at)
+$contractDate = $project->end_date
+    ? \Carbon\Carbon::parse($project->end_date)
     : null;
 
 $dayName = $contractDate
