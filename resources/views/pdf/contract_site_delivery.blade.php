@@ -88,14 +88,33 @@
 
 <body>
 
-@php
+<!-- @php
 use Carbon\Carbon;
 Carbon::setLocale('ar');
 $today = Carbon::now();
 $dayName = $today->translatedFormat('l');
 $dateFormatted = $today->translatedFormat('d/m/Y');
-@endphp
+@endphp -->
 
+
+@php
+use Carbon\Carbon;
+
+Carbon::setLocale('ar');
+
+// لو التاريخ موجود
+$contractDate = $project->contract_signed_at 
+    ? Carbon::parse($project->contract_signed_at) 
+    : null;
+
+$dayName = $contractDate 
+    ? $contractDate->translatedFormat('l') 
+    : '-';
+
+$dateFormatted = $contractDate 
+    ? $contractDate->translatedFormat('d/m/Y') 
+    : '-';
+@endphp
 <!-- ===== Title ===== -->
 <!-- <table>
     <tr>
