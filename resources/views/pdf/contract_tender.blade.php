@@ -513,17 +513,25 @@ $sectionLetterIndex2=0;
 
 @endphp
 
-@foreach($groups as $group)
+<!--@foreach($groups as $group)
 @php
 $color = $groupColors[$loop->index % count($groupColors)];
+
+$groupTotal = 0;
+$sectionCount = count($group->children);
+
+foreach ($group->children as $section) {
+    $groupTotal += $sectionsTotals[$section->id] ?? 0;
+}
+
 @endphp
 <tr>
-    <td class="group-title" colspan="5" style="background:{{ $color['group'] }}">
+    <td class="group-title" colspan="6" style="background:{{ $color['group'] }}">
         {{ $group->name_ar }}
     </td>
 </tr>
 
-@foreach($group->children as $section)
+@foreach($group->children as $index => $section)
 
 <tr class="center">
     <td style="background:{{ $color['section'] }}">{{ $section->name_ar }}</td>
@@ -535,7 +543,61 @@ $color = $groupColors[$loop->index % count($groupColors)];
 
 @endforeach
 
+@endforeach -->
+
+
+
+
+
+@foreach($groups as $group)
+
+@php
+$color = $groupColors[$loop->index % count($groupColors)];
+
+$groupTotal = 0;
+$sectionCount = count($group->children);
+
+foreach ($group->children as $section) {
+    $groupTotal += $sectionsTotals[$section->id] ?? 0;
+}
+@endphp
+
+<tr>
+    <td class="group-title" colspan="7" style="background:{{ $color['group'] }}">
+        {{ $group->name_ar }}
+    </td>
+</tr>
+
+@foreach($group->children as $index => $section)
+
+<tr class="center">
+
+    <td style="background:{{ $color['section'] }}">
+        {{ $section->name_ar }}
+    </td>
+
+    <td style="background:{{ $color['section'] }}">
+        {{ chr(65 + $sectionLetterIndex2++) }}
+    </td>
+
+    <td style="background:{{ $color['section'] }}; font-weight:bold;">
+        AED {{ number_format($sectionsTotals[$section->id] ?? 0, 2) }}
+    </td>
+
+    @if($index == 0)
+        <td rowspan="{{ $sectionCount }}"
+            style="background:#ffe8a1; font-weight:bold; vertical-align: middle; text-align:center;">
+            AED {{ number_format($groupTotal, 2) }}
+        </td>
+    @endif
+
+</tr>
+
 @endforeach
+
+@endforeach
+
+
 
 <tr class="total-row grand-total center">
 <td colspan="3" class="total-row center">
