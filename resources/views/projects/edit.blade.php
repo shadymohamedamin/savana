@@ -845,6 +845,15 @@ value="{{ optional($project->contractor_contract_end_date)->format('Y-m-d') }}"/
 {!! Form::number('container_contract_value', null, ['class'=>'form-control']) !!}
 </div>
 
+
+
+<div class="form-item">
+{!! Form::label('advance_payment_value', __('  دفعة مقدمة من المالك')) !!}
+{!! Form::number('advance_payment_value', null, ['class'=>'form-control']) !!}
+</div>
+
+
+
 </div>
 </div>
 </div>

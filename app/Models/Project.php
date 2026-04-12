@@ -61,7 +61,8 @@ class Project extends Model
         'approved_area',
         'linear_meter_area',
         'project_bank_support',
-        'project_owner_support'
+        'project_owner_support',
+        'advance_payment_value'
         
         
     ];

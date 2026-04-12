@@ -291,9 +291,12 @@ tfoot tr {
                name="rows[{{ $i }}][completion_percentage]"
                value="{{ $row->completion_percentage }}"> -->
 
-        <input readonly type="number" class="form-control completion"
+               <input  type="number" class="form-control percent completionn"
+               name="rows[{{ $i }}][completion_percentage]"
+               value="{{ $row->completion_percentage }}"> 
+        <!-- <input  type="number" class="form-control completion"
             name="rows[{{ $i }}][completion_percentage]"
-            value="0">
+            value="0"> -->
     </td>
 
 
