@@ -93,7 +93,7 @@ Carbon::setLocale('ar');
             <th>#</th>
             <th>بيان الأعمال</th>
             <th>النسبة المحددة</th> <!-- ✅ جديد -->
-            <!-- <th>نسبة الإنجاز</th> -->
+            <th>نسبة الدفعة</th>
             <th>نسبة الإنجاز</th>
             <th>تاريخ البدء</th>
             <th>المدة (يوم)</th>
@@ -108,7 +108,7 @@ Carbon::setLocale('ar');
             $totalPercent = 0;
             $totalDuration = 0;
             $totalAmount = 0;
-            //$totalCompletion = 0;
+            $totalCompletion = 0;
 
             $projectValue = $project->project_owner_support ?? 0;
         @endphp
@@ -118,6 +118,7 @@ Carbon::setLocale('ar');
             @php
                 $target = $row->target_percentage ?? 0;
                 $payment = $row->payment_percentage ?? 0;
+                $completion = $row->completion_percentage ?? 0;
 
                 
 
@@ -127,6 +128,7 @@ Carbon::setLocale('ar');
                 $totalPercent += $payment;
                 $totalDuration += $row->duration_days;
                 $totalAmount += $amount;
+                $totalCompletion +=$completion;
          
             @endphp
 
@@ -138,6 +140,7 @@ Carbon::setLocale('ar');
                 
                 
                 <td>{{ $payment }}%</td>
+                <td>{{ $completion}}%</td>
 
 <td>
     {{ $row->start_date 
@@ -158,6 +161,7 @@ Carbon::setLocale('ar');
             
 
             <td>{{ $totalPercent }}%</td>
+            <td>{{ $totalCompletion }}%</td>
 
             <td>-</td>
             <td>{{ $totalDuration }} / {{ $project->bank_contract_duration * 31 }}</td>
