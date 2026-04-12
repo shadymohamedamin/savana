@@ -263,8 +263,8 @@ tfoot tr {
     <th>بيان الأعمال</th>
     <th>النسبة المحددة</th>
     <!-- <th>النسبة المدخلة</th> -->
-    <th>نسبة الدفعة %</th>
     <th>نسبة الإنجاز %</th>
+    <th>نسبة الدفعة %</th>
     <th>المدة</th>
     <th>المبلغ</th>
     <th>ملاحظات</th>
@@ -284,15 +284,7 @@ tfoot tr {
                name="rows[{{ $i }}][target_percentage]"
                value="{{ $row->target_percentage }}">
     </td>
-    <td>
-        <!-- <input type="number" class="form-control percent "
-               name="rows[{{ $i }}][payment_percentage]"
-               value="{{ $row->payment_percentage }}"> -->
 
-               <input type="number" class="form-control payment"
-       name="rows[{{ $i }}][payment_percentage]"
-       value="{{ $row->payment_percentage ?? 0 }}">
-    </td>
 
     <td>
         <!-- <input readonly type="number" class="form-control percent completion"
@@ -303,6 +295,19 @@ tfoot tr {
             name="rows[{{ $i }}][completion_percentage]"
             value="0">
     </td>
+
+
+    <td>
+        <!-- <input type="number" class="form-control percent "
+               name="rows[{{ $i }}][payment_percentage]"
+               value="{{ $row->payment_percentage }}"> -->
+
+               <input type="number" class="form-control payment"
+       name="rows[{{ $i }}][payment_percentage]"
+       value="{{ $row->payment_percentage ?? 0 }}">
+    </td>
+
+    
 
     <td><input type="number" class="form-control" name="rows[{{ $i }}][duration_days]" value="{{ $row->duration_days }}"></td>
 
@@ -326,9 +331,12 @@ tfoot tr {
     <td colspan="2">الإجمالي</td>
 
     <td id="total_target_percent">100%</td>
+    <td id="total_completion_percent">0%</td>
+
+
     <td id="total_payment_percent">0%</td>
 
-    <td id="total_completion_percent">0%</td>
+    
 
     <td id="total_duration"> المتبقي: 0</td>
 

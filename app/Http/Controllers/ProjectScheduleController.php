@@ -78,7 +78,7 @@ class ProjectScheduleController extends AppBaseController
         ['item_no'=>13,'title'=>'أعمال الكهرباء','target_percentage'=>8,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>14,'title'=>'الاعمال الصحية والاطقم والتجهيزات','target_percentage'=>7,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>15,'title'=>'أعمال السور والاعمال الخارجية والبوابات','target_percentage'=>7,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
-        ['item_no'=>16,'title'=>'أعمال التكييف   (تنفيذ المالك)','target_percentage'=>0,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
+        ['item_no'=>16,'title'=>'أعمال التنظيف   (تنفيذ المالك)','target_percentage'=>0,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
     ];
 
 

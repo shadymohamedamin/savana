@@ -92,9 +92,9 @@ Carbon::setLocale('ar');
         <tr>
             <th>#</th>
             <th>بيان الأعمال</th>
-            <th>النسبة التارجت</th> <!-- ✅ جديد -->
-            <th>نسبة الدفعة</th>
+            <th>النسبة المحددة</th> <!-- ✅ جديد -->
             <th>نسبة الإنجاز</th>
+            <th>نسبة الدفعة</th>
             <th>المدة (يوم)</th>
             <th>المبلغ</th>
         </tr>
@@ -137,10 +137,10 @@ Carbon::setLocale('ar');
                 <td>{{ $row->title }}</td>
 
                 <td>{{ $target }}%</td> <!-- ✅ جديد -->
-
+                
+                <td>{{ round($completion, 2) }}%</td> <!-- ✅ معدل -->
                 <td>{{ $payment }}%</td>
 
-                <td>{{ round($completion, 2) }}%</td> <!-- ✅ معدل -->
 
                 <td>{{ $row->duration_days }}</td>
 
@@ -153,10 +153,10 @@ Carbon::setLocale('ar');
             <td colspan="2">الإجمالي</td>
 
             <td>{{ $totalTarget }}%</td> <!-- ✅ جديد -->
+            <td>{{ round($totalCompletion, 2) }}%</td>
 
             <td>{{ $totalPercent }}%</td>
 
-            <td>{{ round($totalCompletion, 2) }}%</td>
 
             <td>{{ $totalDuration }} / {{ $project->bank_contract_duration * 31 }}</td>
 
