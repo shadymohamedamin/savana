@@ -327,7 +327,7 @@ tfoot tr {
     <th>النسبة المحددة</th>
 
     <th>نسبة الدفعة %</th>
-    <th>نسبة الإنجاز %</th>
+    <th>النسب المنجزة  %</th>
     <th>تاريخ البدء</th>
     <th>المدة</th>
     <th>المبلغ</th>
@@ -1035,7 +1035,7 @@ let bar = document.getElementById('progress_bar');
 bar.style.width = progressPercent + '%';
 
 // الرقم داخل البار
-bar.innerText = progressPercent.toFixed(1) + '%';
+bar.innerText = 'النسب المنجزة             ' +'  '+ progressPercent.toFixed(1) + '%';
 
 bar.style.display = 'flex';
 bar.style.alignItems = 'center';
