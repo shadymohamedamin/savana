@@ -419,9 +419,9 @@ tfoot tr {
 
 
 
-<tr style="background:#ffe8a1;font-weight:bold;">
-    <td colspan="7">إجمالي المطلوب الحالي من المالك</td>
-    <td id="needed_from_owner">0</td>
+<tr style="background:#ffe8a1;font-weight:bold;font-size:18px;">
+    <td style="background:#ffe8a1;font-weight:bold;font-size:18px;" colspan="7">إجمالي المطلوب الحالي من المالك</td>
+    <td style="background:#ffe8a1;font-weight:bold;font-size:18px;" id="needed_from_owner">0</td>
     <td>-</td>
 </tr>
 </tfoot>
