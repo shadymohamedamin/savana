@@ -50,22 +50,6 @@ th {
     font-weight: bold;
 }
 
-/* ================= INFO BOX (like contract style) ================= */
-.info-box {
-    border: 1px solid #000;
-    padding: 15px;
-    margin-bottom: 25px;
-}
-
-/* ================= INTRO TEXT ================= */
-.intro-text {
-    border: 1px solid #000;
-    padding: 18px;
-    margin-top: 20px;
-    margin-bottom: 25px;
-    text-align: right;
-}
-
 /* ================= TOTAL ROW ================= */
 .total-row {
     font-weight: bold;
@@ -94,13 +78,12 @@ use Carbon\Carbon;
 Carbon::setLocale('ar');
 @endphp
 
-
-
-
-
-@include('pdf.contract_header', ['project' => $project,'isBank'=>false,'showContractor' => true,'title'=>' الجدول الزمني'])
-
-
+@include('pdf.contract_header', [
+    'project' => $project,
+    'isBank'=>false,
+    'showContractor' => true,
+    'title'=>' الجدول الزمني'
+])
 
 <!-- ================= TABLE ================= -->
 <table>
@@ -109,6 +92,7 @@ Carbon::setLocale('ar');
         <tr>
             <th>#</th>
             <th>بيان الأعمال</th>
+            <th>النسبة التارجت</th> <!-- ✅ جديد -->
             <th>نسبة الدفعة</th>
             <th>نسبة الإنجاز</th>
             <th>المدة (يوم)</th>
@@ -119,30 +103,47 @@ Carbon::setLocale('ar');
     <tbody>
 
         @php
+            $totalTarget = 0;
             $totalPercent = 0;
             $totalDuration = 0;
             $totalAmount = 0;
-            $totalCompletens = 0;
-            
+            $totalCompletion = 0;
+
             $projectValue = $project->project_owner_support ?? 0;
         @endphp
 
         @foreach($schedules as $row)
 
             @php
-                $amount = ($row->payment_percentage / 100) * $projectValue;
-                $totalPercent += $row->payment_percentage;
+                $target = $row->target_percentage ?? 0;
+                $payment = $row->payment_percentage ?? 0;
+
+                // ✅ حساب الإنجاز الجديد
+                $completion = $target > 0 
+                    ? ($payment / $target) * 100 
+                    : 0;
+
+                $amount = ($payment / 100) * $projectValue;
+
+                $totalTarget += $target;
+                $totalPercent += $payment;
                 $totalDuration += $row->duration_days;
                 $totalAmount += $amount;
-                $totalCompletens+=$row->completion_percentage;
+                $totalCompletion += $completion;
             @endphp
 
             <tr>
                 <td>{{ $row->item_no }}</td>
                 <td>{{ $row->title }}</td>
-                <td>{{ $row->payment_percentage }}%</td>
-                <td>{{ $row->completion_percentage }}%</td>
+
+                <td>{{ $target }}%</td> <!-- ✅ جديد -->
+
+                <td>{{ $payment }}%</td>
+
+                <td>{{ round($completion, 2) }}%</td> <!-- ✅ معدل -->
+
                 <td>{{ $row->duration_days }}</td>
+
                 <td>{{ number_format($amount) }}</td>
             </tr>
 
@@ -150,9 +151,15 @@ Carbon::setLocale('ar');
 
         <tr class="total-row">
             <td colspan="2">الإجمالي</td>
+
+            <td>{{ $totalTarget }}%</td> <!-- ✅ جديد -->
+
             <td>{{ $totalPercent }}%</td>
-            <td>{{$totalCompletens}}%</td>
+
+            <td>{{ round($totalCompletion, 2) }}%</td>
+
             <td>{{ $totalDuration }} / {{ $project->bank_contract_duration * 31 }}</td>
+
             <td>{{ number_format($totalAmount) }}</td>
         </tr>
 

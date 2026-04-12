@@ -285,23 +285,15 @@ tfoot tr {
                value="{{ $row->target_percentage }}">
     </td>
     <td>
-        <!-- <input type="number" class="form-control percent "
+        <input type="number" class="form-control percent "
                name="rows[{{ $i }}][payment_percentage]"
-               value="{{ $row->payment_percentage }}"> -->
-
-               <input type="number" class="form-control payment"
-       name="rows[{{ $i }}][payment_percentage]"
-       value="{{ $row->payment_percentage ?? 0 }}">
+               value="{{ $row->payment_percentage }}">
     </td>
 
     <td>
-        <!-- <input readonly type="number" class="form-control percent completion"
+        <input readonly type="number" class="form-control percent completion"
                name="rows[{{ $i }}][completion_percentage]"
-               value="{{ $row->completion_percentage }}"> -->
-
-        <input readonly type="number" class="form-control completion"
-            name="rows[{{ $i }}][completion_percentage]"
-            value="0">
+               value="{{ $row->completion_percentage }}">
     </td>
 
     <td><input type="number" class="form-control" name="rows[{{ $i }}][duration_days]" value="{{ $row->duration_days }}"></td>
@@ -791,15 +783,19 @@ function calculate(e = null) {
 
     let rows = document.querySelectorAll('#rows tr');
 
+    let totalAmount = 0;
     let totalPaymentPercent = 0;
     let totalCompletionPercent = 0;
-    let totalAmount = 0;
-    let totalDuration = 0;
+    let totalDurationUsed = 0;
+
+    let contractMonths = {{ $project->bank_contract_duration ?? 0 }};
+    let totalContractDays = contractMonths * 31;
 
     let projectValue = {{ $project->project_owner_support ?? 0 }};
-    let contractMonths = {{ $project->bank_contract_duration ?? 0 }};
-    let totalContractDays = contractMonths * 30;
 
+    // ========================
+    // 1️⃣ حساب القيم
+    // ========================
     rows.forEach(row => {
 
         let paymentInput = row.querySelector('.payment');
@@ -808,35 +804,33 @@ function calculate(e = null) {
         let durationInput = row.querySelector('[name*="duration_days"]');
         let amountInput = row.querySelector('.amount');
 
-        let payment = parseFloat(paymentInput.value) || 0;
-        let target  = parseFloat(targetInput.value) || 0;
-        let duration = parseFloat(durationInput.value) || 0;
+        let payment = parseFloat(paymentInput?.value) || 0;
+        let target  = parseFloat(targetInput?.value) || 0;
+        let completion = parseFloat(completionInput?.value) || 0;
+        let duration = parseFloat(durationInput?.value) || 0;
 
-        // ✅ 1. منع تجاوز target
+        // ✅ منع تجاوز target
         if (payment > target) {
             payment = target;
             paymentInput.value = target;
         }
 
-        // ✅ 2. حساب نسبة الإنجاز
-        let completion = 0;
-        if (target > 0) {
-            completion = (payment / target) * 100;
-        }
-
-        completionInput.value = completion.toFixed(2);
-
-        // ✅ 3. حساب المبلغ
-        let amount = (payment / 100) * projectValue;
-        amountInput.value = Math.round(amount);
-
         totalPaymentPercent += payment;
         totalCompletionPercent += completion;
+        totalDurationUsed += duration;
+
+        let amount = (payment / 100) * projectValue;
+
+        if (amountInput) {
+            amountInput.value = Math.round(amount);
+        }
+
         totalAmount += amount;
-        totalDuration += duration;
     });
 
-    // ✅ 4. منع تجاوز 100% إجمالي
+    // ========================
+    // 2️⃣ منع تجاوز 100%
+    // ========================
     if (e?.target?.classList.contains('payment')) {
 
         let currentInput = e.target;
@@ -857,21 +851,60 @@ function calculate(e = null) {
         }
     }
 
-    // ✅ 5. تحديث الـ UI
+    // ========================
+    // 3️⃣ منع تجاوز المدة
+    // ========================
+    if (e?.target?.name?.includes('duration_days')) {
+
+        let currentInput = e.target;
+
+        let otherTotal = 0;
+
+        rows.forEach(row => {
+            let inp = row.querySelector('[name*="duration_days"]');
+            if (inp !== currentInput) {
+                otherTotal += parseFloat(inp.value) || 0;
+            }
+        });
+
+        let maxAllowed = totalContractDays - otherTotal;
+
+        if (parseFloat(currentInput.value) > maxAllowed) {
+            currentInput.value = maxAllowed > 0 ? maxAllowed : 0;
+        }
+    }
+
+    // ========================
+    // 4️⃣ المتبقي
+    // ========================
+    let remainingDays = totalContractDays - totalDurationUsed;
+    if (remainingDays < 0) remainingDays = 0;
+
+    // ========================
+    // 5️⃣ UI
+    // ========================
     document.getElementById('total_payment_percent').innerText =
         totalPaymentPercent.toFixed(2) + '%';
 
     document.getElementById('total_completion_percent').innerText =
         totalCompletionPercent.toFixed(2) + '%';
 
+    document.getElementById('total_duration').innerText =
+        totalDurationUsed + ' / ' + totalContractDays;
+
     document.getElementById('total_amount').innerText =
         totalAmount.toLocaleString();
 
-    document.getElementById('total_duration').innerText =
-        totalDuration + ' / ' + totalContractDays;
+    let remainingEl = document.getElementById('remaining_duration');
+    if (remainingEl) {
+        remainingEl.innerText = remainingDays;
+    }
 
-    // ✅ 6. Progress Bar
+    // ========================
+    // 6️⃣ Progress Bar
+    // ========================
     let bar = document.getElementById('progress_bar');
+
     let percent = Math.min(totalPaymentPercent, 100);
 
     bar.style.width = percent + "%";

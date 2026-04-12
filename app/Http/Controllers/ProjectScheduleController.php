@@ -37,7 +37,7 @@ class ProjectScheduleController extends AppBaseController
 
             private function defaultSchedule()
 {
-    return [
+    /*return [
         ['item_no'=>1,'title'=>'دفعة مقدمة','notes'=>'','payment_percentage'=>null,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>2,'title'=>'تجهيز الموقع','payment_percentage'=>null,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>3,'title'=>'الحفر','payment_percentage'=>null,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
@@ -57,7 +57,31 @@ class ProjectScheduleController extends AppBaseController
         ['item_no'=>21,'title'=>'كهرباء نهائي','payment_percentage'=>null,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>22,'title'=>'صبغ خارجي','payment_percentage'=>null,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>23,'title'=>'أطقم صحية','payment_percentage'=>null,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
+    ];*/
+
+
+
+
+    return [
+        ['item_no'=>1,'title'=>'أعمال الحفر والردم وتجهيز الموقع','target_percentage'=>4,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
+        ['item_no'=>2,'title'=>'أعمال الخرسانة التحتية بما في ذلك العزل','target_percentage'=>14,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
+        ['item_no'=>3,'title'=>'أعمال خرسانة الطابق الارضي و الملحق (ان وجد)','target_percentage'=>10,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
+        ['item_no'=>4,'title'=>'أعمال خرسانة الطابق الأول والوارش العلوي','target_percentage'=>12,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
+        ['item_no'=>5,'title'=>'أعمال الطابوق','target_percentage'=>6,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
+        ['item_no'=>6,'title'=>'أعمال البلاستر الخارجي / الحجر الخارجي','target_percentage'=>3,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
+        ['item_no'=>7,'title'=>'أعمال البلاستر الداخلي','target_percentage'=>4,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
+        ['item_no'=>8,'title'=>'أعمال البلاط للجدران والارضيات والادراج','target_percentage'=>6,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
+        ['item_no'=>9,'title'=>'الصبغ الداخلي والخارجي','target_percentage'=>5,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
+        ['item_no'=>10,'title'=>'الاعمال الخشبية','target_percentage'=>5,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
+        ['item_no'=>11,'title'=>'أعمال الطبقات العازلة','target_percentage'=>3,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
+        ['item_no'=>12,'title'=>'أعمال الالمنيوم والزجاج والدرابزينات','target_percentage'=>6,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
+        ['item_no'=>13,'title'=>'أعمال الكهرباء','target_percentage'=>8,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
+        ['item_no'=>14,'title'=>'الاعمال الصحية والاطقم والتجهيزات','target_percentage'=>7,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
+        ['item_no'=>15,'title'=>'أعمال السور والاعمال الخارجية والبوابات','target_percentage'=>7,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
+        ['item_no'=>16,'title'=>'أعمال التكييف   (تنفيذ المالك)','target_percentage'=>0,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
     ];
+
+
 }
 
 public function index($project)
