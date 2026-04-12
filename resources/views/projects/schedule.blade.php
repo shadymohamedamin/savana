@@ -263,8 +263,9 @@ tfoot tr {
     <th>بيان الأعمال</th>
     <th>النسبة المحددة</th>
     <!-- <th>النسبة المدخلة</th> -->
+    <!-- <th>نسبة الإنجاز %</th> -->
     <th>نسبة الإنجاز %</th>
-    <th>نسبة الدفعة %</th>
+    <th>تاريخ البدء</th>
     <th>المدة</th>
     <th>المبلغ</th>
     <th>ملاحظات</th>
@@ -286,18 +287,18 @@ tfoot tr {
     </td>
 
 
-    <td>
+    <!-- <td> -->
         <!-- <input readonly type="number" class="form-control percent completion"
                name="rows[{{ $i }}][completion_percentage]"
                value="{{ $row->completion_percentage }}"> -->
 
-               <input  type="number" class="form-control percent completionn"
+               <!-- <input  type="number" class="form-control percent completionn"
                name="rows[{{ $i }}][completion_percentage]"
-               value="{{ $row->completion_percentage }}"> 
+               value="{{ $row->completion_percentage }}">  -->
         <!-- <input  type="number" class="form-control completion"
             name="rows[{{ $i }}][completion_percentage]"
             value="0"> -->
-    </td>
+    <!-- </td> -->
 
 
     <td>
@@ -311,8 +312,13 @@ tfoot tr {
     </td>
 
     
-
-    <td><input type="number" class="form-control" name="rows[{{ $i }}][duration_days]" value="{{ $row->duration_days }}"></td>
+<td>
+    <input type="date"
+           class="form-control start-date"
+           name="rows[{{ $i }}][start_date]"
+           value="{{ rows[{{ $i }}][start_date] }}">
+</td>
+    <td><input  type="number" class="form-control" name="rows[{{ $i }}][duration_days]" value="{{ $row->duration_days }}"></td>
 
     <td>
         <input type="number" class="form-control amount"
@@ -334,13 +340,14 @@ tfoot tr {
     <td colspan="2">الإجمالي</td>
 
     <td id="total_target_percent">100%</td>
-    <td id="total_completion_percent">0%</td>
 
 
     <td id="total_payment_percent">0%</td>
 
     
 
+
+    <td>-</td>
     <td id="total_duration"> المتبقي: 0</td>
 
 <!-- <td colspan="7" class="text-center">
@@ -809,13 +816,15 @@ function calculate(e = null) {
 
     let projectValue = {{ $project->project_owner_support ?? 0 }};
     let contractMonths = {{ $project->bank_contract_duration ?? 0 }};
+    let projectEndDate = "{{ optional($project->end_date)->format('Y-m-d') }}";
+    //dd($projectEndDate);
     let totalContractDays = contractMonths * 30;
 
     rows.forEach(row => {
 
         let paymentInput = row.querySelector('.payment');
         let targetInput  = row.querySelector('.target');
-        let completionInput = row.querySelector('.completion');
+        //let completionInput = row.querySelector('.completion');
         let durationInput = row.querySelector('[name*="duration_days"]');
         let amountInput = row.querySelector('.amount');
 
@@ -830,22 +839,81 @@ function calculate(e = null) {
         }
 
         // ✅ 2. حساب نسبة الإنجاز
-        let completion = 0;
-        if (target > 0) {
-            completion = (payment / target) * 100;
-        }
+        // let completion = 0;
+        // if (target > 0) {
+        //     completion = (payment / target) * 100;
+        // }
 
-        completionInput.value = completion.toFixed(2);
+        // completionInput.value = completion.toFixed(2);
 
         // ✅ 3. حساب المبلغ
         let amount = (payment / 100) * projectValue;
         amountInput.value = Math.round(amount);
 
         totalPaymentPercent += payment;
-        totalCompletionPercent += completion;
+        //totalCompletionPercent += completion;
         totalAmount += amount;
         totalDuration += duration;
     });
+
+
+
+    /*rows.forEach(row => {
+
+    let paymentInput = row.querySelector('.payment');
+    let targetInput  = row.querySelector('.target');
+    let durationInput = row.querySelector('[name*="duration_days"]');
+    let amountInput = row.querySelector('.amount');
+
+    // ✅ جديد: تاريخ البداية
+    let startDateInput = row.querySelector('.start-date');
+
+    let payment = parseFloat(paymentInput.value) || 0;
+    let target  = parseFloat(targetInput.value) || 0;
+
+    let duration = 0;
+
+    // =========================
+    // ✅ حساب المدة من التاريخ
+    // =========================
+    if (startDateInput && startDateInput.value && projectEndDate) {
+
+    let start = new Date(startDateInput.value);
+    let end   = new Date(projectEndDate);
+
+    if (!isNaN(start) && !isNaN(end)) {
+
+        let diffTime = end.getTime() - start.getTime();
+
+        duration = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+        if (duration < 0) duration = 0;
+
+        durationInput.value = duration;
+    }
+
+} else {
+    duration = parseFloat(durationInput.value) || 0;
+}
+
+    // =========================
+    // باقي الكود زي ما هو
+    // =========================
+
+    // ✅ منع تجاوز target
+    if (payment > target) {
+        payment = target;
+        paymentInput.value = target;
+    }
+
+    // ✅ حساب المبلغ
+    let amount = (payment / 100) * projectValue;
+    amountInput.value = Math.round(amount);
+
+    totalPaymentPercent += payment;
+    totalAmount += amount;
+    totalDuration += duration; // 👈 ده مهم (ما اتغيرش)
+});*/
 
     // ✅ 4. منع تجاوز 100% إجمالي
     if (e?.target?.classList.contains('payment')) {
@@ -872,8 +940,7 @@ function calculate(e = null) {
     document.getElementById('total_payment_percent').innerText =
         totalPaymentPercent.toFixed(2) + '%';
 
-    document.getElementById('total_completion_percent').innerText =
-        totalCompletionPercent.toFixed(2) + '%';
+    
 
     document.getElementById('total_amount').innerText =
         totalAmount.toLocaleString();

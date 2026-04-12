@@ -18,7 +18,8 @@ class ProjectSchedule extends Model
         'amount',
         'notes',
         'due_date',
-        'target_percentage'
+        'target_percentage',
+        'start_date'
     ];
 
     protected $casts = [

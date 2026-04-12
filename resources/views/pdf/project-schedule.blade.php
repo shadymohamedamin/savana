@@ -93,8 +93,8 @@ Carbon::setLocale('ar');
             <th>#</th>
             <th>بيان الأعمال</th>
             <th>النسبة المحددة</th> <!-- ✅ جديد -->
+            <!-- <th>نسبة الإنجاز</th> -->
             <th>نسبة الإنجاز</th>
-            <th>نسبة الدفعة</th>
             <th>المدة (يوم)</th>
             <th>المبلغ</th>
         </tr>
@@ -107,7 +107,7 @@ Carbon::setLocale('ar');
             $totalPercent = 0;
             $totalDuration = 0;
             $totalAmount = 0;
-            $totalCompletion = 0;
+            //$totalCompletion = 0;
 
             $projectValue = $project->project_owner_support ?? 0;
         @endphp
@@ -118,12 +118,7 @@ Carbon::setLocale('ar');
                 $target = $row->target_percentage ?? 0;
                 $payment = $row->payment_percentage ?? 0;
 
-                $completion_percentage	=$row->completion_percentage	 ?? 0;
-
-                // ✅ حساب الإنجاز الجديد
-                $completion = $target > 0 
-                    ? ($payment / $target) * 100 
-                    : 0;
+                
 
                 $amount = ($payment / 100) * $projectValue;
 
@@ -131,7 +126,7 @@ Carbon::setLocale('ar');
                 $totalPercent += $payment;
                 $totalDuration += $row->duration_days;
                 $totalAmount += $amount;
-                $totalCompletion += $completion_percentage	;
+         
             @endphp
 
             <tr>
@@ -140,7 +135,7 @@ Carbon::setLocale('ar');
 
                 <td>{{ $target }}%</td> <!-- ✅ جديد -->
                 
-                <td>{{ round($completion_percentage, 2) }}%</td> <!-- ✅ معدل -->
+                
                 <td>{{ $payment }}%</td>
 
 
@@ -155,7 +150,7 @@ Carbon::setLocale('ar');
             <td colspan="2">الإجمالي</td>
 
             <td>{{ $totalTarget }}%</td> <!-- ✅ جديد -->
-            <td>{{ round($totalCompletion, 2) }}%</td>
+            
 
             <td>{{ $totalPercent }}%</td>
 
