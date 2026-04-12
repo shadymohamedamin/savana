@@ -316,7 +316,7 @@ tfoot tr {
     <input type="date"
            class="form-control start-date"
            name="rows[{{ $i }}][start_date]"
-           value="{{ rows[{{ $i }}][start_date] }}">
+           value="{{ optional($row->start_date)->format('Y-m-d') }}">
 </td>
     <td><input  type="number" class="form-control" name="rows[{{ $i }}][duration_days]" value="{{ $row->duration_days }}"></td>
 

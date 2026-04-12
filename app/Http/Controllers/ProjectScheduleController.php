@@ -104,7 +104,7 @@ public function index($project)
     public function store(Request $request, Project $project)
     {
         foreach ($request->rows as $row) {
-            dd($row['start_date']);
+            //dd($row['start_date']);
             ProjectSchedule::updateOrCreate(
                 [
                     'project_id' => $project->id,
