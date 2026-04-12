@@ -1,3 +1,5 @@
+<canvas id="signature-pad"></canvas>
+
 <div class="card shadow-sm rounded-4 m-0" style="background-color: #f5f5dc;">
 
     {{-- Header --}}

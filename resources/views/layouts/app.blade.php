@@ -1265,11 +1265,7 @@ body, html {
 @if((isset($project) && in_array(auth()->user()->role_id, [1,4,11,12]))||(isset($project) && $project->contractor_id==auth()->user()->id))
             
             
-            <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}"
-                class="panel-btn-full {{ request()->is('users/*/attachments/create') && !request('mode') ? 'active' : '' }}">
-                    <i class="fas fa-clipboard-list"></i>
-                    عقود الاستشاري
-                </a>
+ 
 
             
 
@@ -1337,6 +1333,13 @@ body, html {
 
 @if(isset($project) && in_array(auth()->user()->role_id, [1,4,11,12]))
             
+           <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}"
+                class="panel-btn-full {{ request()->is('users/*/attachments/create') && !request('mode') ? 'active' : '' }}">
+                    <i class="fas fa-clipboard-list"></i>
+                    عقود الاستشاري
+                </a>
+
+
             <a href="{{ url('#') }}" class="panel-btn-full">
                 <i class="fas fa-clipboard-list"></i>
                 الاشراف
