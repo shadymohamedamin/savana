@@ -1012,7 +1012,7 @@ function calculate(e = null) {
 // 💰 المطلوب من المالك
 // =========================
 
-let neededFromOwner = originalTotalAmount - totalAmount;
+let neededFromOwner =  totalAmount  - originalTotalAmount ;
 
 document.getElementById('needed_from_owner').innerText =
     neededFromOwner.toLocaleString();
