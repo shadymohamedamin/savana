@@ -410,29 +410,46 @@ tfoot tr {
 </tbody>
 
 <tfoot>
+
 <tr style="background:#f1f3f2;font-weight:bold;">
     <td colspan="2">الإجمالي</td>
 
     <td id="total_target_percent">100%</td>
     <td id="total_payment_percent">0%</td>
-<td id="total_completion_percent">0%</td>
+    <td id="total_completion_percent">0%</td>
     <td>-</td>
-
     <td id="total_duration">المتبقي: 0</td>
 
+    <!-- إجمالي كل المستحقات -->
     <td id="total_amount">0</td>
 
     <td>-</td>
 </tr>
 
+<!-- 🔥 الصف الجديد: المستلم سابقًا -->
+<tr style="background:#d1ecf1;font-weight:bold;font-size:16px;">
+    <td style="background:#ffe8a1;font-weight:bold;font-size:18px;" colspan="7">
+        إجمالي ما تم استلامه من الدفعات السابقة
+    </td>
+    <td style="background:#ffe8a1;font-weight:bold;font-size:18px;" id="paid_amount">0</td>
+    <td>-</td>
+</tr>
 
-
+<!-- 🔥 الصف الجديد: المطلوب الحالي -->
 <tr style="background:#ffe8a1;font-weight:bold;font-size:18px;">
-    <td style="background:#ffe8a1;font-weight:bold;font-size:18px;" colspan="7">إجمالي المطلوب الحالي من المالك</td>
+    <td style="background:#ffe8a1;font-weight:bold;font-size:18px;" colspan="7">
+        إجمالي المطلوب الحالي من المالك
+    </td>
     <td style="background:#ffe8a1;font-weight:bold;font-size:18px;" id="needed_from_owner">0</td>
     <td>-</td>
 </tr>
+
 </tfoot>
+
+
+
+
+
 
 </table>
 
@@ -695,7 +712,7 @@ function calculate(e = null) {
     // 💰 المطلوب من المالك
     // =========================
 
-    let neededFromOwner = totalAmount - originalTotalAmount;
+    /*let neededFromOwner = totalAmount - originalTotalAmount;
     let projectId = {{ $project->id }};
     localStorage.setItem('needed_from_owner_' + projectId, neededFromOwner);
 
@@ -711,6 +728,47 @@ function calculate(e = null) {
 
     document.getElementById('total_duration').innerText =
         totalDuration + ' / ' + totalContractDays;
+
+
+
+
+    document.getElementById('needed_from_owner').innerText =
+        neededFromOwner.toLocaleString();*/
+
+
+
+        // =========================
+// 💰 إجمالي الجدول الحالي
+// =========================
+let tableTotal = totalAmount;
+
+// =========================
+// 💰 المدفوع سابقًا من قاعدة البيانات
+// =========================
+let paidAmount = {{ $project->payments()->where('payer_type','owner')->sum('net_amount') }};
+
+// =========================
+// 💰 المطلوب الحالي = الفرق
+// =========================
+let neededFromOwner = tableTotal - paidAmount;
+
+// منع القيم السالبة
+if (neededFromOwner < 0) neededFromOwner = 0;
+
+// =========================
+// 📊 عرض القيم
+// =========================
+document.getElementById('total_amount').innerText =
+    tableTotal.toLocaleString();
+
+document.getElementById('paid_amount').innerText =
+    paidAmount.toLocaleString();
+
+document.getElementById('needed_from_owner').innerText =
+    neededFromOwner.toLocaleString();
+
+document.getElementById('total_duration').innerText =
+    totalDuration + ' / ' + totalContractDays;
 
     // =========================
     // 📈 PROGRESS BAR (FIXED - REAL TOTAL)
