@@ -188,7 +188,7 @@ $hasData =
     ($row['amount'] ?? 0) > 0 ||
     !empty($row['start_date']);
 
-if ($hasData)
+if (true)
         //continue;
     {
 
