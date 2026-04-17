@@ -737,7 +737,7 @@ function calculate(e = null) {
 
 
 
-        // =========================
+        /*// =========================
 // 💰 إجمالي الجدول الحالي
 // =========================
 let tableTotal = totalAmount;
@@ -745,7 +745,7 @@ let tableTotal = totalAmount;
 // =========================
 // 💰 المدفوع سابقًا من قاعدة البيانات
 // =========================
-let paidAmount = {{ $project->payments()->where('payer_type','owner')->sum('net_amount') }};
+let paidAmount = {{ $project->payments()->where('payer_type','owner')->sum('total_amount') }};
 
 // =========================
 // 💰 المطلوب الحالي = الفرق
@@ -768,7 +768,63 @@ document.getElementById('needed_from_owner').innerText =
     neededFromOwner.toLocaleString();
 
 document.getElementById('total_duration').innerText =
+    totalDuration + ' / ' + totalContractDays;*/
+
+
+
+
+
+
+
+// =========================
+// 💰 إجمالي الجدول الحالي (المستحقات)
+// =========================
+let tableTotal = totalAmount;
+
+// =========================
+// 💰 إجمالي الدفعات داخل الجدول الحالي فقط
+// (مبني على payment_percentage)
+// =========================
+let totalApprovedPayments = 0;
+
+document.querySelectorAll('#rows tr').forEach(row => {
+    let paymentInput = row.querySelector('.payment');
+
+    if (!paymentInput) return;
+
+    let payment = parseFloat(paymentInput.value) || 0;
+
+    totalApprovedPayments += payment;
+});
+
+// نحول النسبة لقيمة مالية
+let approvedPaymentsValue = 0;//(totalApprovedPayments / 100) * {{ $project->project_owner_support ?? 0 }};
+
+// =========================
+// 💰 المطلوب الحالي
+// =========================
+let neededFromOwner = tableTotal;//tableTotal - approvedPaymentsValue;
+
+// منع السالب
+if (neededFromOwner < 0) neededFromOwner = 0;
+
+// =========================
+// 📊 عرض القيم
+// =========================
+document.getElementById('total_amount').innerText =
+    tableTotal.toLocaleString();
+
+document.getElementById('paid_amount').innerText =
+    approvedPaymentsValue.toLocaleString();
+
+document.getElementById('needed_from_owner').innerText =
+    neededFromOwner.toLocaleString();
+
+document.getElementById('total_duration').innerText =
     totalDuration + ' / ' + totalContractDays;
+
+
+
 
     // =========================
     // 📈 PROGRESS BAR (FIXED - REAL TOTAL)

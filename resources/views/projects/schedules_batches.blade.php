@@ -64,9 +64,9 @@
 
         <thead>
         <tr>
-            <th>رقم الجدول</th>
-            <th>عدد البنود</th>
-            <th>النسبة المحددة</th>
+            <th>رقم الدفعة</th>
+            <!-- <th>عدد البنود</th>
+            <th>النسبة المحددة</th> -->
             <th>نسبة الدفعات</th>
             <th>نسبة الإنجاز</th>
             <th>المبلغ</th>
@@ -90,9 +90,9 @@
                 style="cursor:pointer;">
 
                 <td>#{{ $row->batch_id }}</td>
-                <td>{{ $row->rows_count }}</td>
+                <!-- <td>{{ $row->rows_count }}</td>
 
-                <td>{{ $row->total_target }}%</td>
+                <td>{{ $row->total_target }}%</td> -->
                 <td>{{ $row->total_payment }}%</td>
                 <td>{{ $row->total_completion }}%</td>
                 <td>{{ number_format($row->total_amount ?? 0, 0) }}</td>
