@@ -69,10 +69,10 @@
             <th>النسبة المحددة</th> -->
             <th>نسبة الدفعات</th>
             <th>نسبة الإنجاز</th>
-            <th>المبلغ</th>
+            <!-- <th>مبلغ الدفعة</th> -->
 
-            <th>مبلغ البند</th>
-            <th>الإجمالي التراكمي</th>
+            <th>مبلغ الدفعة</th>
+            <th> ما سبق</th>
             <th>المتبقي على المالك</th>
 
             <th>اعتماد المقاول</th>
@@ -95,7 +95,7 @@
                 <td>{{ $row->total_target }}%</td> -->
                 <td>{{ $row->total_payment }}%</td>
                 <td>{{ $row->total_completion }}%</td>
-                <td>{{ number_format($row->total_amount ?? 0, 0) }}</td>
+                <!-- <td>{{ number_format($row->total_amount ?? 0, 0) }}</td> -->
 
 
                 <td>{{ number_format($row->amount, 0) }}</td>
