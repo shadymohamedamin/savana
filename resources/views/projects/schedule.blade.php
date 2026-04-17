@@ -226,6 +226,12 @@ tfoot tr {
             <td>{{ number_format($project->project_owner_support ?? 0) }}</td>
         </tr>
 
+        <tr>
+            
+            <th>رقم الدفعة</th>
+            <td>{{ $batchId ?? request('batch_id') ?? '-' }}</td>
+        </tr>
+
 
 
     </table>
