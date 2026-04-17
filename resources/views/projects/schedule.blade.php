@@ -776,7 +776,7 @@ document.getElementById('total_duration').innerText =
 
 
 
-// =========================
+/*// =========================
 // 💰 إجمالي الجدول الحالي (المستحقات)
 // =========================
 let tableTotal = totalAmount;
@@ -821,7 +821,45 @@ document.getElementById('needed_from_owner').innerText =
     neededFromOwner.toLocaleString();
 
 document.getElementById('total_duration').innerText =
+    totalDuration + ' / ' + totalContractDays;*/
+
+
+
+
+
+let tableTotal = totalAmount;
+
+// 🔥 جاية من Laravel
+let previousCumulative = {{ $previousCumulative ?? 0 }};
+
+// =========================
+// 💰 الإجمالي الكلي
+// =========================
+let totalAll = tableTotal-previousCumulative ;
+
+// =========================
+// 💰 المطلوب (بدون مدفوع يدوي هنا)
+// =========================
+let neededFromOwner = totalAll;
+
+// =========================
+// 📊 عرض
+// =========================
+document.getElementById('total_amount').innerText =
+    tableTotal.toLocaleString();
+
+document.getElementById('paid_amount').innerText =
+    previousCumulative.toLocaleString();
+
+document.getElementById('needed_from_owner').innerText =
+    neededFromOwner.toLocaleString();
+
+document.getElementById('total_duration').innerText =
     totalDuration + ' / ' + totalContractDays;
+
+
+
+
 
 
 

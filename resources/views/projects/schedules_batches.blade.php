@@ -100,7 +100,7 @@
 
                 <td>{{ number_format($row->amount, 0) }}</td>
 
-                <td>{{ number_format($row->cumulative_amount, 0) }}</td>
+                <td>{{ number_format($row->previous_amount, 0) }}</td>
 
                 <td>
                     {{ number_format($row->owner_remaining, 0) }}

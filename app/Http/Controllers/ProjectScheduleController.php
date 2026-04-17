@@ -100,6 +100,11 @@ public function index($project)
     //$schedules = $project->schedules()->orderBy('item_no')->get();
 $batchId = request('batch_id');
 
+
+$previousCumulative = ProjectSchedule::where('project_id', $project->id)
+    ->where('batch_id', '<', $batchId)
+    ->sum('amount');
+
 /*if (!$batchId) {
     $batchId = ProjectSchedule::where('project_id', $project->id)->max('batch_id');
 }*/
@@ -149,7 +154,7 @@ $schedules = $default->map(function ($item) use ($lastBatchRows) {
         'start_date' => $saved->start_date ?? null,
     ];
 });
-    return view('projects.schedule', compact('project', 'schedules','batchId'));
+    return view('projects.schedule', compact('project', 'schedules','batchId','previousCumulative'));
 }
 
 
@@ -347,6 +352,12 @@ public function batches($project)
             $previousAmounts[$row->item_no] = $row->amount ?? 0;
         }
 
+
+
+        $previousAmount = ProjectSchedule::where('project_id', $project->id)
+            ->where('batch_id', '<', $batch->batch_id)
+            ->sum('amount');
+
         // التراكمي
         $cumulative += $batchIncrease;
 
@@ -364,6 +375,8 @@ public function batches($project)
 
             // التراكمي
             'cumulative_amount' => $cumulative,
+
+            'previous_amount' => $previousAmount,
 
             // 🔥 المتبقي الصحيح
             'owner_remaining' => $remaining,
