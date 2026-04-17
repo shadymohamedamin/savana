@@ -300,17 +300,13 @@ public function createNewBatch($project)
         'batch_id' => $newBatchId
     ]);
 }
-public function batches($project)
+/*public function batches($project)
 {
     $project = Project::findOrFail($project);
 
     $projectValue = $project->project_owner_support ?? 0;
 
-    /*$batches = ProjectSchedule::where('project_id', $project->id)
-        ->select('batch_id')
-        ->distinct()
-        ->orderBy('batch_id', 'asc')
-        ->get();*/
+
 
         $batches = ProjectSchedule::where('project_id', $project->id)
     ->whereNotNull('batch_id')
@@ -324,7 +320,7 @@ public function batches($project)
 
     $batchesData = collect();
 
-    foreach ($batches as $batch) {
+    /*foreach ($batches as $batch) {
 
         $rows = ProjectSchedule::where('project_id', $project->id)
             ->where('batch_id', $batch->batch_id)
@@ -358,6 +354,80 @@ public function batches($project)
             ->where('batch_id', '<', $batch->batch_id)
             ->sum('amount');
 
+        $previousAmount = ProjectSchedule::where('project_id', $project->id)
+            ->where('batch_id', '<', $batch->batch_id)
+            ->select('batch_id')
+            ->distinct()
+            ->get()
+            ->sum(function ($b) use ($project) {
+
+        return ProjectSchedule::where('project_id', $project->id)
+            ->where('batch_id', $b->batch_id)
+            ->sum('amount');
+    });*/
+
+
+    /*foreach ($batches as $batch) {
+
+    $rows = ProjectSchedule::where('project_id', $project->id)
+        ->where('batch_id', $batch->batch_id)
+        ->orderBy('item_no')
+        ->get();
+
+    $approval = ProjectScheduleApproval::firstOrCreate([
+        'project_id' => $project->id,
+        'batch_id' => $batch->batch_id,
+    ]);
+
+    $batchIncrease = 0;
+
+    foreach ($rows as $row) {
+
+        $prev = $previousAmounts[$row->item_no] ?? 0;
+
+        $diff = ($row->amount ?? 0) - $prev;
+
+        if ($diff < 0) $diff = 0;
+
+        $batchIncrease += $diff;
+
+        $previousAmounts[$row->item_no] = $row->amount ?? 0;
+    }
+
+    // ✅ ما سبق = التراكمي قبل إضافة الباتش الحالي
+    $previousAmount = $cumulative;
+
+    // ✅ بعد كده نزود
+    $cumulative += $batchIncrease;
+
+    $remaining = $projectValue - $cumulative;
+
+    $batchesData->push((object)[
+        'batch_id' => $batch->batch_id,
+        'rows_count' => $rows->count(),
+
+        'total_amount' => $rows->sum('amount'),
+
+        'amount' => $batchIncrease,
+
+        'cumulative_amount' => $cumulative,
+
+        'previous_amount' => $previousAmount, // 👈 الصح
+
+        'owner_remaining' => $remaining,
+
+        'total_target' => $rows->sum('target_percentage'),
+        'total_payment' => $rows->sum('payment_percentage'),
+        'total_completion' => $rows->sum('completion_percentage'),
+
+        'created_at' => optional($rows->first())->created_at,
+
+        'contractor_approved' => $approval->contractor_approved,
+        'owner_approved' => $approval->owner_approved,
+        'consultant_approved' => $approval->consultant_approved,
+    ]);
+}
+
         // التراكمي
         $cumulative += $batchIncrease;
 
@@ -379,6 +449,101 @@ public function batches($project)
             'previous_amount' => $previousAmount,
 
             // 🔥 المتبقي الصحيح
+            'owner_remaining' => $remaining,
+
+            'total_target' => $rows->sum('target_percentage'),
+            'total_payment' => $rows->sum('payment_percentage'),
+            'total_completion' => $rows->sum('completion_percentage'),
+
+            'created_at' => optional($rows->first())->created_at,
+
+            'contractor_approved' => $approval->contractor_approved,
+            'owner_approved' => $approval->owner_approved,
+            'consultant_approved' => $approval->consultant_approved,
+        ]);
+    }
+
+    return view('projects.schedules_batches', [
+        'project' => $project,
+        'batchesData' => $batchesData
+    ]);
+}*/
+
+
+
+
+
+public function batches($project)
+{
+    $project = Project::findOrFail($project);
+
+    $projectValue = $project->project_owner_support ?? 0;
+
+    $batches = ProjectSchedule::where('project_id', $project->id)
+        ->whereNotNull('batch_id')
+        ->select('batch_id')
+        ->distinct()
+        ->orderBy('batch_id', 'asc')
+        ->get();
+
+    $previousAmounts = [];
+    $cumulative = 0;
+
+    $batchesData = collect();
+
+    foreach ($batches as $batch) {
+
+        $rows = ProjectSchedule::where('project_id', $project->id)
+            ->where('batch_id', $batch->batch_id)
+            ->orderBy('item_no')
+            ->get();
+
+        $approval = ProjectScheduleApproval::firstOrCreate([
+            'project_id' => $project->id,
+            'batch_id' => $batch->batch_id,
+        ]);
+
+        $batchIncrease = 0;
+
+        foreach ($rows as $row) {
+
+            $prev = $previousAmounts[$row->item_no] ?? 0;
+
+            // الفرق الحقيقي
+            $diff = ($row->amount ?? 0) - $prev;
+
+            if ($diff < 0) $diff = 0;
+
+            $batchIncrease += $diff;
+
+            $previousAmounts[$row->item_no] = $row->amount ?? 0;
+        }
+
+        // ✅ ما سبق (قبل إضافة الباتش الحالي)
+        $previousAmount = $cumulative;
+
+        // ✅ التراكمي بعد إضافة الباتش
+        $cumulative += $batchIncrease;
+
+        $remaining = $projectValue - $cumulative;
+
+        $batchesData->push((object)[
+            'batch_id' => $batch->batch_id,
+            'rows_count' => $rows->count(),
+
+            // إجمالي القيم داخل الباتش (عرض فقط)
+            'total_amount' => $rows->sum('amount'),
+
+            // الزيادة الفعلية في الباتش
+            'amount' => $batchIncrease,
+
+            // التراكمي
+            'cumulative_amount' => $cumulative,
+
+            // 👈 ده أهم عمود (ما سبق)
+            'previous_amount' => $previousAmount,
+
+            // المتبقي على المالك
             'owner_remaining' => $remaining,
 
             'total_target' => $rows->sum('target_percentage'),
