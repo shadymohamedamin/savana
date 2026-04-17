@@ -301,11 +301,18 @@ public function batches($project)
 
     $projectValue = $project->project_owner_support ?? 0;
 
-    $batches = ProjectSchedule::where('project_id', $project->id)
+    /*$batches = ProjectSchedule::where('project_id', $project->id)
         ->select('batch_id')
         ->distinct()
         ->orderBy('batch_id', 'asc')
-        ->get();
+        ->get();*/
+
+        $batches = ProjectSchedule::where('project_id', $project->id)
+    ->whereNotNull('batch_id')
+    ->select('batch_id')
+    ->distinct()
+    ->orderBy('batch_id', 'asc')
+    ->get();
 
     $previousAmounts = [];
     $cumulative = 0;
