@@ -145,6 +145,20 @@ Route::middleware(['auth', 'checkRole:co-admin,admin'])->group(function () {
 Route::middleware(['auth'])->group(function () {
 
 
+
+Route::post('/projects/schedule/approve', [ProjectScheduleController::class, 'approve']);
+
+
+
+
+Route::get('/projects/{project}/schedules-batches', [ProjectScheduleController::class, 'batches'])
+    ->name('projects.schedules.batches');
+
+Route::get('/projects/{project}/schedule/new-batch', [ProjectScheduleController::class, 'createNewBatch'])
+    ->name('projects.schedule.newBatch');
+
+
+
 Route::get('/projects/{id}/schedule-pdf', [ProjectController::class, 'projectSchedulePdf'])
     ->name('projects.schedule.pdf');
 
@@ -547,3 +561,4 @@ Route::get('/reset-password/{token}', function ($token) {
 
 Route::resource('owner-requirment-tender-totals', App\Http\Controllers\OwnerRequirmentTenderTotalController::class);
 Route::resource('project-schedules', App\Http\Controllers\ProjectScheduleController::class);
+Route::resource('project-schedule-approvals', App\Http\Controllers\ProjectScheduleApprovalController::class);

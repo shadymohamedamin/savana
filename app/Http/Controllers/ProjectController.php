@@ -484,7 +484,7 @@ public function contractSpecificationsPdf(Request $request, $id)
 
 
 
-public function projectSchedulePdf(Request $request, $id)
+/*public function projectSchedulePdf(Request $request, $id)
 {
     $project = \App\Models\Project::with([
         'ownerUser',
@@ -522,6 +522,62 @@ public function projectSchedulePdf(Request $request, $id)
     $mpdf->WriteHTML($html);
 
     $fileName = "project_schedule_{$project->id}.pdf";
+    $action = $request->get('action', 'preview');
+
+    if ($action === 'download') {
+        return $mpdf->Output($fileName, 'D');
+    }
+
+    return $mpdf->Output($fileName, 'I');
+}*/
+
+
+public function projectSchedulePdf(Request $request, $id)
+{
+    $project = \App\Models\Project::with([
+        'ownerUser',
+        'contractorUser',
+        'projectName',
+        'projectRegion'
+    ])->findOrFail($id);
+
+    // ✅ نجيب آخر batch
+    $lastBatchId = \App\Models\ProjectSchedule::where('project_id', $id)
+        ->max('batch_id');
+
+    // ✅ نجيب بياناته فقط
+    $schedules = \App\Models\ProjectSchedule::where('project_id', $id)
+        ->where('batch_id', $lastBatchId)
+        ->orderBy('item_no')
+        ->get();
+
+    $html = view('pdf.project-schedule', compact('project', 'schedules'))->render();
+
+    $mpdf = new \Mpdf\Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'default_font' => 'amiri',
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+        'margin_top' => 35,
+        'margin_footer' => 5,
+    ]);
+
+    $mpdf->SetHTMLHeader('
+        <div style="text-align:center;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:90px;width:70%;">
+        </div>
+    ');
+
+    $mpdf->SetHTMLFooter('
+        <div style="text-align:center;font-size:12px;">
+            صفحة {PAGENO} من {nbpg}
+        </div>
+    ');
+
+    $mpdf->WriteHTML($html);
+
+    $fileName = "project_schedule_{$project->id}_batch_{$lastBatchId}.pdf";
     $action = $request->get('action', 'preview');
 
     if ($action === 'download') {

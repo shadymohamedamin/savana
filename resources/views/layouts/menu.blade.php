@@ -208,3 +208,10 @@
         <p>Project Schedules</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('projectScheduleApprovals.index') }}" class="nav-link {{ Request::is('projectScheduleApprovals*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Project Schedule Approvals</p>
+    </a>
+</li>

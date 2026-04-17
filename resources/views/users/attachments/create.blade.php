@@ -196,10 +196,10 @@
   
         @if($isCotractorFiles&&in_array(Auth::user()->role_id, [1,4,11,12]))
 
-            <a href="{{ route('projects.schedule', $project->id) }}"
+            <a href="{{ route('projects.schedules.batches', $project->id) }}"
                 class="btn btn-olive px-4 btn-sm"  
                 style="background:#d4af37;color:#2f3a1f;font-weight: 700; margin-right: 1rem;">
-                    <i class="fas fa-users"></i>  الجدول الزمني
+                    <i class="fas fa-users"></i>  الجداول الزمنية
             </a>
         @elseif($isTender&&in_array(Auth::user()->role_id, [1,4,11,12]))
         <div class="flex justify-start" style="gap: 1rem;">
@@ -336,14 +336,17 @@
 
 
 
-
+@php
+$lastBatchId = \App\Models\ProjectSchedule::where('project_id', $project->id)
+    ->max('batch_id') ?? 1;
+@endphp
 
 <div class="contract-box">
     <span class="mb-1">📊 جدول مراحل المشروع</span>
 
 
 
-    <a href="{{ route('projects.schedule', $project->id) }}"
+    <a href="{{ route('projects.schedule', ['project' => $project->id, 'batch_id' => $lastBatchId]) }}"
                 class="btn btn-warning btn-sm mb-1 edit-btn">
                 ✏️ {{ __('تعديل') }}
                 </a>
@@ -352,12 +355,20 @@
 
 
     <a target="_blank"
-       href="{{ route('projects.schedule.pdf', ['id' => $project->id, 'action' => 'preview']) }}"
+       href="{{ route('projects.schedule.pdf', [
+        'id' => $project->id,
+        'batch_id' => $lastBatchId,
+        'action' => 'preview'
+   ]) }}"
        class="btn btn-outline-primary btn-sm mb-1">
         👁 معاينة
     </a>
 
-    <a href="{{ route('projects.schedule.pdf', ['id' => $project->id, 'action' => 'download']) }}"
+    <a href="{{ route('projects.schedule.pdf', [
+        'id' => $project->id,
+        'batch_id' => $lastBatchId,
+        'action' => 'download'
+   ]) }}"
        class="btn btn-success btn-sm mb-1">
         ⬇ تحميل
     </a>

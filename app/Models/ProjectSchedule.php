@@ -19,7 +19,11 @@ class ProjectSchedule extends Model
         'notes',
         'due_date',
         'target_percentage',
-        'start_date'
+        'start_date',
+        'batch_id',
+        'contractor_approved',
+        'owner_approved',
+        'consultant_approved',
     ];
 
     protected $casts = [
@@ -39,6 +43,7 @@ class ProjectSchedule extends Model
         'amount' => 'nullable',
         'notes' => 'nullable|string|max:65535',
         'due_date' => 'nullable',
+
         'created_at' => 'nullable',
         'updated_at' => 'nullable'
     ];

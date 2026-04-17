@@ -1,3 +1,21 @@
+<!-- <input type="checkbox"
+    class="approve-toggle"
+    data-batch="{{ $row->batch_id }}"
+    data-type="contractor"
+    {{ $row->contractor_approved ? 'checked' : '' }}
+    {{ $role != 'contractor' ? 'disabled' : '' }}>
+{{ $role != 'consultant' ? 'disabled' : '' }}
+{{ $role != 'contractor' ? 'disabled' : '' }}
+{{ $role != 'owner' ? 'disabled' : '' }} -->
+
+
+
+
+
+
+
+
+
 @extends('layouts.app')
 
 @section('content')

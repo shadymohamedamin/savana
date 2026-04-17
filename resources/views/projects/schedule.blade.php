@@ -166,9 +166,9 @@ tfoot tr {
             🖨️ طباعة PDF
         </button>
 
-        <a href="{{ route('projects.index') }}" class="btn btn-secondary btn-sm">
-            رجوع
-        </a>
+        <a href="{{ route('projects.schedules.batches', $project->id) }}" class="btn btn-secondary btn-sm">
+    رجوع
+</a>
     </div>
 </div>
 
@@ -378,6 +378,8 @@ tfoot tr {
                value="{{ optional($row->start_date)->format('Y-m-d') }}">
     </td>
 
+
+<input type="hidden" name="batch_id" value="{{ $batchId }}">
     <td>
         <input type="number" class="form-control"
                name="rows[{{ $i }}][duration_days]"
@@ -507,13 +509,14 @@ tfoot tr {
     </button>
 
     <a target="_blank"
-       href="{{ route('projects.schedule.pdf', [
-            $project->id,
-            'action' => 'preview'
-       ]) }}"
-       class="btn btn-dark px-4">
-        👁 معاينة
-    </a>
+   href="{{ route('projects.schedule.pdf', [
+        'id' => $project->id,
+        'action' => 'preview',
+        'batch_id' => $batchId
+   ]) }}"
+   class="btn btn-dark px-4">
+    👁 معاينة
+</a>
 
 </div>
 
@@ -577,332 +580,6 @@ function addRow() {
 
 let projectValue = {{ $project->project_owner_support ?? 0 }};
 let originalTotalAmount = {{ $schedules->sum('amount') }};
-/* ================= CALCULATE ================= */
-/*function calculate(changedInput = null) {
-
-    let total = 0;
-    let percentTotal = 0;
-
-    let rows = document.querySelectorAll('#rows tr');
-
-    rows.forEach(row => {
-
-        let percentInput = row.querySelector('.payment');
-        let amountInput  = row.querySelector('.amount');
-
-        let percent = parseFloat(percentInput?.value) || 0;
-
-        percentTotal += percent;
-
-        // 🔥 حساب المبلغ
-        let amount = (percent / 100) * projectValue;
-
-        if (amountInput) {
-            amountInput.value = Math.round(amount);
-        }
-
-        total += amount;
-
-      
-        percentInput.classList.remove('bg-danger','bg-warning','bg-success','text-white');
-
- 
-
-    });
-
-  
-    if (percentTotal > 100 && changedInput) {
-
-        let currentVal = parseFloat(changedInput.value) || 0;
-        let otherTotal = percentTotal - currentVal;
-        let allowed = 100 - otherTotal;
-
-        if (allowed < 0) allowed = 0;
-
-        changedInput.value = allowed.toFixed(2);
-        calculate();
-        return;
-    }
-
-   
-    let vat = total * 0.05;
-    let grand = total + vat;
-
-    document.getElementById('total').innerText = total.toLocaleString();
-    document.getElementById('vat').innerText = vat.toLocaleString();
-    document.getElementById('grand_total').innerText = grand.toLocaleString();
-    document.getElementById('percent_total').innerText = percentTotal.toFixed(2) + '%';
-
-   
-    let bar = document.getElementById('progress_bar');
-
-    bar.style.width = percentTotal + "%";
-
-    if (percentTotal > 75) {
-        bar.style.background = "#c44f5b"; // أحمر
-    } else if (percentTotal > 50) {
-        bar.style.background = "#b19c58"; // أصفر
-    } else {
-        bar.style.background = "#62d77e"; // أخضر
-    }
-}*/
-
-/*function calculate(changedInput = null) {
-
-    let totalAmount = 0;
-    let totalPaymentPercent = 0;
-    let totalCompletionPercent = 0;
-    let totalDuration = 0;
-
-    let rows = document.querySelectorAll('#rows tr');
-
-    rows.forEach(row => {
-
-        let paymentInput = row.querySelector('.payment');
-        let completionInput = row.querySelector('.completion');
-        let durationInput = row.querySelector('[name*="duration_days"]');
-        let amountInput  = row.querySelector('.amount');
-
-        let payment = parseFloat(paymentInput?.value) || 0;
-        let completion = parseFloat(completionInput?.value) || 0;
-        let duration = parseFloat(durationInput?.value) || 0;
-
-        totalPaymentPercent += payment;
-        totalCompletionPercent += completion;
-        totalDuration += duration;
-
-        // 🔥 حساب المبلغ
-        let amount = (payment / 100) * projectValue;
-
-        if (amountInput) {
-            amountInput.value = Math.round(amount);
-        }
-
-        totalAmount += amount;
-
-    });
-
-   
-    if (totalPaymentPercent > 100 && changedInput) {
-
-        let currentVal = parseFloat(changedInput.value) || 0;
-        let otherTotal = totalPaymentPercent - currentVal;
-        let allowed = 100 - otherTotal;
-
-        if (allowed < 0) allowed = 0;
-
-        changedInput.value = allowed.toFixed(2);
-
-        calculate();
-        return;
-    }
-
-    
-    document.getElementById('total_payment_percent').innerText =
-        totalPaymentPercent.toFixed(2) + '%';
-
-    document.getElementById('total_completion_percent').innerText =
-        totalCompletionPercent.toFixed(2) + '%';
-
-    document.getElementById('total_duration').innerText =
-        totalDuration;
-
-    document.getElementById('total_amount').innerText =
-        totalAmount.toLocaleString();
-
-
-
-
-        let bar = document.getElementById('progress_bar');
-
-    bar.style.width = percentTotal + "%";
-
-    if (percentTotal > 75) {
-        bar.style.background = "#c44f5b"; // أحمر
-    } else if (percentTotal > 50) {
-        bar.style.background = "#b19c58"; // أصفر
-    } else {
-        bar.style.background = "#62d77e"; // أخضر
-    }
-}*/
-
-/*function calculate(e = null) {
-
-    let rows = document.querySelectorAll('#rows tr');
-
-    let totalAmount = 0;
-    let totalPaymentPercent = 0;
-    let totalCompletionPercent = 0;
-    let totalDurationUsed = 0;
-
-    let contractMonths = {{ $project->bank_contract_duration ?? 0 }};
-    let totalContractDays = contractMonths * 31;
-
-    let projectValue = {{ $project->project_owner_support ?? 0 }};
-
-    // ========================
-    // 1️⃣ حساب القيم
-    // ========================
-    /*rows.forEach(row => {
-
-        let paymentInput = row.querySelector('.payment');
-        let completionInput = row.querySelector('.completion');
-        let durationInput = row.querySelector('[name*="duration_days"]');
-        let amountInput = row.querySelector('.amount');
-
-        let payment = parseFloat(paymentInput?.value) || 0;
-        let completion = parseFloat(completionInput?.value) || 0;
-        let duration = parseFloat(durationInput?.value) || 0;
-
-        totalPaymentPercent += payment;
-        totalCompletionPercent += completion;
-        totalDurationUsed += duration;
-
-        let amount = (payment / 100) * projectValue;
-
-        if (amountInput) {
-            amountInput.value = Math.round(amount);
-        }
-    });*/
-
-
-    /*rows.forEach(row => {
-
-    let paymentInput = row.querySelector('.payment');
-    let targetInput  = row.querySelector('.target'); // 👈 جديد
-    let completionInput = row.querySelector('.completion');
-    let durationInput = row.querySelector('[name*="duration_days"]');
-    let amountInput = row.querySelector('.amount');
-
-    let payment = parseFloat(paymentInput?.value) || 0;
-    let target  = parseFloat(targetInput?.value) || 0; // 👈 جديد
-    let completion = parseFloat(completionInput?.value) || 0;
-    let duration = parseFloat(durationInput?.value) || 0;
-
-    // ✅ منع تجاوز target (أهم سطر)
-    if (payment > target) {
-        payment = target;
-        paymentInput.value = target;
-    }
-
-    totalPaymentPercent += payment;
-    totalCompletionPercent += completion;
-    totalDurationUsed += duration;
-
-    let amount = (payment / 100) * projectValue;
-
-    if (amountInput) {
-        amountInput.value = Math.round(amount);
-    }
-});
-
-    // ========================
-    // 2️⃣ منع تجاوز 100% (لكن يسمح بالنقص)
-    // ========================
-    if (e?.target?.classList.contains('payment')) {
-
-        let currentInput = e.target;
-
-        let otherTotal = 0;
-
-        rows.forEach(row => {
-            let inp = row.querySelector('.payment');
-            if (inp !== currentInput) {
-                otherTotal += parseFloat(inp.value) || 0;
-            }
-        });
-
-        let maxAllowed = 100 - otherTotal;
-
-        if (parseFloat(currentInput.value) > maxAllowed) {
-            currentInput.value = maxAllowed > 0 ? maxAllowed.toFixed(2) : 0;
-        }
-    }
-
-    // ========================
-    // 3️⃣ منع تجاوز المدة (لكن يسمح بالنقص)
-    // ========================
-    if (e?.target?.name?.includes('duration_days')) {
-
-        let currentInput = e.target;
-
-        let otherTotal = 0;
-
-        rows.forEach(row => {
-            let inp = row.querySelector('[name*="duration_days"]');
-            if (inp !== currentInput) {
-                otherTotal += parseFloat(inp.value) || 0;
-            }
-        });
-
-        let maxAllowed = totalContractDays - otherTotal;
-
-        if (parseFloat(currentInput.value) > maxAllowed) {
-            currentInput.value = maxAllowed > 0 ? maxAllowed : 0;
-        }
-    }
-
-    // ========================
-    // 4️⃣ المتبقي
-    // ========================
-    let remainingDays = totalContractDays - totalDurationUsed;
-    if (remainingDays < 0) remainingDays = 0;
-
-    // ========================
-    // 5️⃣ UI Update
-    // ========================
-    document.getElementById('total_payment_percent').innerText =
-        totalPaymentPercent.toFixed(2) + '%';
-
-    document.getElementById('total_completion_percent').innerText =
-        totalCompletionPercent.toFixed(2) + '%';
-
-    document.getElementById('total_duration').innerText =
-        totalDurationUsed + ' / ' + totalContractDays;
-
-    document.getElementById('total_amount').innerText =
-        totalAmount.toLocaleString();
-
-    let remainingEl = document.getElementById('remaining_duration');
-    if (remainingEl) {
-        remainingEl.innerText = remainingDays;
-    }
-
-    // ========================
-    // 6️⃣ Progress Bar
-    // ========================
-    let bar = document.getElementById('progress_bar');
-
-    let percent = Math.min(totalPaymentPercent, 100);
-
-    bar.style.width = percent + "%";
-
-    bar.style.background =
-        percent > 90 ? "#dc3545" :
-        percent > 60 ? "#ffc107" :
-        "#28a745";
-
-
-
-
-
-
-
-
-
-<colgroup>
-    <col style="width:5%;">    <!-- رقم -->
-    <col style="width:28%;">   <!-- بيان الأعمال -->
-    <col style="width:8%;">    <!-- النسبة المحددة -->
-    <col style="width:8%;">    <!-- نسبة الإنجاز -->
-    <col style="width:14%;">   <!-- تاريخ البدء -->
-    <col style="width:8%;">    <!-- المدة -->
-    <col style="width:10%;">   <!-- المبلغ -->
-    <col style="width:19%;">   <!-- الملاحظات -->
-</colgroup>
-
-
-}*/
 function calculate(e = null) {
 
     let rows = document.querySelectorAll('#rows tr');
@@ -1009,45 +686,54 @@ function calculate(e = null) {
         totalAmount.toLocaleString();
 
     // =========================
-// 💰 المطلوب من المالك
-// =========================
+    // 💰 المطلوب من المالك
+    // =========================
 
-let neededFromOwner =  totalAmount  - originalTotalAmount ;
+    let neededFromOwner = totalAmount - originalTotalAmount;
+    let projectId = {{ $project->id }};
+    localStorage.setItem('needed_from_owner_' + projectId, neededFromOwner);
 
-document.getElementById('needed_from_owner').innerText =
-    neededFromOwner.toLocaleString();
+    let savedNeeded = localStorage.getItem('needed_from_owner_' + projectId);
+
+    if (savedNeeded !== null) {
+        document.getElementById('needed_from_owner').innerText =
+            parseFloat(savedNeeded).toLocaleString();
+    }
+
+    document.getElementById('needed_from_owner').innerText =
+        neededFromOwner.toLocaleString();
 
     document.getElementById('total_duration').innerText =
         totalDuration + ' / ' + totalContractDays;
 
     // =========================
-// 📈 PROGRESS BAR (FIXED - REAL TOTAL)
-// =========================
+    // 📈 PROGRESS BAR (FIXED - REAL TOTAL)
+    // =========================
 
-// استخدم الإجمالي الحقيقي
-let progressPercent = totalCompletionPercent;
+    // استخدم الإجمالي الحقيقي
+    let progressPercent = totalCompletionPercent;
 
-// حماية
-progressPercent = Math.min(Math.max(progressPercent, 0), 100);
+    // حماية
+    progressPercent = Math.min(Math.max(progressPercent, 0), 100);
 
-let bar = document.getElementById('progress_bar');
+    let bar = document.getElementById('progress_bar');
 
-bar.style.width = progressPercent + '%';
+    bar.style.width = progressPercent + '%';
 
-// الرقم داخل البار
-bar.innerText = 'النسب المنجزة             ' +'  '+ progressPercent.toFixed(1) + '%';
+    // الرقم داخل البار
+    bar.innerText = 'النسب المنجزة             ' + '  ' + progressPercent.toFixed(1) + '%';
 
-bar.style.display = 'flex';
-bar.style.alignItems = 'center';
-bar.style.justifyContent = 'center';
-bar.style.color = '#fff';
-bar.style.fontWeight = 'bold';
+    bar.style.display = 'flex';
+    bar.style.alignItems = 'center';
+    bar.style.justifyContent = 'center';
+    bar.style.color = '#fff';
+    bar.style.fontWeight = 'bold';
 
-// الألوان
-bar.style.background =
-    progressPercent >= 90 ? "#dc3545" :
-    progressPercent >= 60 ? "#ffc107" :
-    "#28a745";
+    // الألوان
+    bar.style.background =
+        progressPercent >= 90 ? "#dc3545" :
+        progressPercent >= 60 ? "#ffc107" :
+        "#28a745";
 }
 /* ================= DEFAULT DATA ================= */
 // function loadDefault() {
