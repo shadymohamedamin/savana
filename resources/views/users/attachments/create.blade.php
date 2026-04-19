@@ -196,11 +196,19 @@
   
         @if($isCotractorFiles&&in_array(Auth::user()->role_id, [1,4,11,12]))
 
+
+        <div class="flex justify-start" style="gap: 1rem;">
+            <a href="{{ route('projects.schedule.newBatch', $project->id) }}"
+            class="btn btn-olive px-4 btn-sm"
+                    style="background:#d4af37;color:#2f3a1f;font-weight:700;font-size:1rem;">
+                <i class="fas fa-plus"></i> طلب دفعة 
+            </a>
             <a href="{{ route('projects.schedules.batches', $project->id) }}"
                 class="btn btn-olive px-4 btn-sm"  
                 style="background:#d4af37;color:#2f3a1f;font-weight: 700; margin-right: 1rem;">
-                    <i class="fas fa-users"></i>  الجداول الزمنية
+                    <i class="fas fa-users"></i>  جداول الدفوعات 
             </a>
+        </div>
         @elseif($isTender&&in_array(Auth::user()->role_id, [1,4,11,12]))
         <div class="flex justify-start" style="gap: 1rem;">
             

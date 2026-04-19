@@ -51,7 +51,7 @@
         <a href="{{ route('projects.schedule.newBatch', $project->id) }}"
            class="btn btn-olive px-4 btn-sm"
                 style="background:#d4af37;color:#2f3a1f;font-weight:700;font-size:1rem;">
-            <i class="fas fa-plus"></i> جدول جديد
+            <i class="fas fa-plus"></i> طلب دفعة 
         </a>
 
     </div>

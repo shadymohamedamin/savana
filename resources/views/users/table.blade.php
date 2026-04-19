@@ -272,16 +272,72 @@
 </style>
 @endpush
 
-<!-- <script>
-let canvas = document.getElementById("signature-pad");
-let signaturePad = new SignaturePad(canvas);
 
-function clearPad() {
-    signaturePad.clear();
-}
-</script>
 
-<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script> -->
+
+
+
+
+
+
+
+<!-- 
+<canvas id="signature-pad" width="400" height="150" style="border:1px solid #ccc;"></canvas>
+<button id="clear-btn" class="btn btn-sm btn-olive">مسح</button>
+
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let canvas = document.getElementById("signature-pad");
+
+        // تأكد من أن العنصر canvas موجود في الصفحة
+        if (!canvas) {
+            console.error("Canvas element not found.");
+            return;
+        }
+
+        let signaturePad = new SignaturePad(canvas);
+
+        // تحقق إذا كانت اللوحة جاهزة للرسم
+        signaturePad.onBegin = function () {
+            console.log("Started drawing on the canvas");
+        };
+
+        signaturePad.onEnd = function () {
+            console.log("Ended drawing on the canvas");
+        };
+
+        // إضافة حدث لإظهار رسالة عند الضغط على اللوحة
+        canvas.addEventListener('mousedown', function() {
+            console.log("Mouse down on canvas.");
+        });
+
+        canvas.addEventListener('mousemove', function() {
+            console.log("Mouse is moving on canvas.");
+        });
+
+        canvas.addEventListener('mouseup', function() {
+            console.log("Mouse up on canvas.");
+        });
+
+        // مسح التوقيع عند الضغط على الزر
+        document.getElementById('clear-btn').addEventListener('click', function() {
+            console.log("Clearing the canvas...");
+            signaturePad.clear();
+        });
+    });
+</script> -->
+
+
+
+
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {

@@ -1298,6 +1298,12 @@ body, html {
 
 
 
+<a href="{{ route('projects.schedules.batches', $project->id) }}"
+   class="panel-btn-full {{ Route::currentRouteName() == 'projects.project-payments.index' ? 'active' : '' }}">
+    <i class="fas fa-clipboard-list"></i>
+    جداول الدفوعات
+</a>
+
 
 
             <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=project_documents') }}"
@@ -1344,10 +1350,10 @@ body, html {
                 <i class="fas fa-clipboard-list"></i>
                 الاشراف
             </a>
-            <a href="{{ url('#') }}" class="panel-btn-full">
+            <!-- <a href="{{ url('#') }}" class="panel-btn-full">
                 <i class="fas fa-clipboard-list"></i>
                 التصميم
-            </a>
+            </a> -->
 @endif
 
             </div>

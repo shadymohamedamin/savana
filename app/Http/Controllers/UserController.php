@@ -165,6 +165,30 @@ class UserController extends AppBaseController
         } else {
             unset($input['password']);
         }
+
+
+
+
+        if ($request->filled('signature')) {
+    // جاي من canvas (base64)
+    $image = $request->signature;
+
+    $image = str_replace('data:image/png;base64,', '', $image);
+    $image = str_replace(' ', '+', $image);
+
+    $imageName = 'signatures/' . uniqid() . '.png';
+
+    \Storage::disk('public')->put($imageName, base64_decode($image));
+
+    $input['signature'] = $imageName;
+}
+
+// لو رفع ملف
+if ($request->hasFile('signature_file')) {
+    $path = $request->file('signature_file')->store('signatures', 'public');
+
+    $input['signature'] = $path;
+}
         // تشفير الباسورد
         //$input['password'] = bcrypt($input['password']);
 

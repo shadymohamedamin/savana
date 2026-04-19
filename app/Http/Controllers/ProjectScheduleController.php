@@ -101,9 +101,35 @@ public function index($project)
 $batchId = request('batch_id');
 
 
-$previousCumulative = ProjectSchedule::where('project_id', $project->id)
+/*$previousCumulative = ProjectSchedule::where('project_id', $project->id)
     ->where('batch_id', '<', $batchId)
-    ->sum('amount');
+    ->sum('amount');*/
+
+$batchId = request('batch_id');
+
+// كل الباتشات اللي قبل الحالي
+$previousRows = ProjectSchedule::where('project_id', $project->id)
+    ->where('batch_id', '<', $batchId)
+    ->orderBy('batch_id')
+    ->orderBy('item_no')
+    ->get();
+
+$previousCumulative = 0;
+$previousAmounts = [];
+
+foreach ($previousRows as $row) {
+
+    $prev = $previousAmounts[$row->item_no] ?? 0;
+
+    $diff = ($row->amount ?? 0) - $prev;
+
+    if ($diff < 0) $diff = 0;
+
+    $previousCumulative += $diff;
+
+    $previousAmounts[$row->item_no] = $row->amount ?? 0;
+}
+
 
 /*if (!$batchId) {
     $batchId = ProjectSchedule::where('project_id', $project->id)->max('batch_id');

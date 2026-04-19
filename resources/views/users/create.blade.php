@@ -148,6 +148,13 @@
 
 </div>
 
+
+
+
+
+
+
+
             {{-- 
             <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
                 {!! Form::label('sex', __('Gender'), ['class' => 'font-semibold text-gray-600']) !!}
@@ -163,6 +170,37 @@
                 {!! Form::checkbox('Active', 1, old('Active', 1)) !!}
                 <label>{{ __('Active') }}</label>
             </div>
+
+
+
+
+            <div class="mt-3">
+
+    <label>Signature</label>
+
+    <!-- Canvas -->
+    <canvas id="signature-pad" width="400" height="150"
+            style="border:1px solid #ccc; display:block;"></canvas>
+
+    <!-- Buttons -->
+    <div class="mt-2 d-flex gap-2">
+        <button type="button" id="clear-signature" class="btn btn-sm btn-danger">
+            مسح
+        </button>
+    </div>
+
+    <!-- Hidden input -->
+    <input type="hidden" name="signature" id="signature-input">
+
+    <hr>
+
+    <!-- Upload image -->
+    <input type="file" name="signature_file" id="signature-file" accept="image/*" class="form-control">
+
+    <!-- Preview -->
+    <img id="signature-preview" style="margin-top:10px; max-height:100px; display:none;" />
+
+</div>
             
 
         </div>
@@ -287,7 +325,55 @@ document.addEventListener('input', function (e) {
 
 
 
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
 
+<script>
+let signaturePad;
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const canvas = document.getElementById("signature-pad");
+
+    if (!canvas) return;
+
+    signaturePad = new SignaturePad(canvas);
+
+    // زر المسح
+    document.getElementById('clear-signature').addEventListener('click', function () {
+        signaturePad.clear();
+    });
+
+    // عند رفع صورة
+    document.getElementById('signature-file').addEventListener('change', function (e) {
+        const file = e.target.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const preview = document.getElementById('signature-preview');
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // قبل الإرسال
+    document.querySelector('form').addEventListener('submit', function () {
+
+        if (!signaturePad.isEmpty()) {
+            document.getElementById('signature-input').value =
+                signaturePad.toDataURL(); // base64
+        }
+
+    });
+
+});
+</script>
+@endpush
 
 
 
