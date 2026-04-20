@@ -737,6 +737,51 @@ function printPage() {
 
 
 
+
+
+document.addEventListener('input', function(e) {
+    // إذا تم التعديل في تاريخ البدء أو المدة
+    if (e.target.name.includes('start_date') || e.target.name.includes('duration_days')) {
+        updateNextStartDate(e.target);
+    }
+
+    calculate(e);
+});
+
+// دالة لحساب التاريخ التالي بناءً على المدة
+function updateNextStartDate(currentElement) {
+    let row = currentElement.closest('tr');
+    let startDateInput = row.querySelector('.start-date');
+    let durationInput = row.querySelector('[name*="duration_days"]');
+
+    // التحقق من أن المدخلات تحتوي على قيم صحيحة
+    if (startDateInput && durationInput) {
+        let startDateValue = startDateInput.value;
+        let durationValue = parseInt(durationInput.value) || 0;
+
+        // إذا كان هناك تاريخ بداية ومدة
+        if (startDateValue && durationValue > 0) {
+            let startDate = new Date(startDateValue);
+            let nextStartDate = new Date(startDate);
+            nextStartDate.setDate(startDate.getDate() + durationValue);
+
+            // صيغة التاريخ بالـ Y-m-d
+            let nextStartDateStr = nextStartDate.toISOString().split('T')[0];
+
+            // البحث عن الصف التالي
+            let nextRow = row.nextElementSibling;
+            if (nextRow) {
+                let nextStartDateInput = nextRow.querySelector('.start-date');
+                if (nextStartDateInput) {
+                    nextStartDateInput.value = nextStartDateStr; // تحديث تاريخ البداية في الصف التالي
+                }
+            }
+        }
+    }
+}
+
+
+
 document.addEventListener('input', function(e) {
 
     // 🔥 منع إدخال لو disabled
