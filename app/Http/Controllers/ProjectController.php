@@ -318,16 +318,16 @@ public function contractPdf(Request $request, $id)
         </div>
     ');//<img src="{{ public_path('images/signature.jpeg') }}" style="height:150px;">
     $mpdf->SetHTMLFooter('
-        <div style=" text-align:left; padding-bottom:0rem;padding-left:2.5rem;">
-            <img src="'.public_path('images/signature.jpeg').'" style="height:100px;">
-        </div>
+        
         <div style="text-align:center; font-size:12px; margin-top:1rem;">
             صفحة {PAGENO} من {nbpg}
         </div>
     ');
 
 
-    
+    //<div style=" text-align:left; padding-bottom:0rem;padding-left:2.5rem;">
+    //        <img src="'.public_path('images/signature.jpeg').'" style="height:100px;">
+    //    </div>
 
     $mpdf->WriteHTML($html);
 

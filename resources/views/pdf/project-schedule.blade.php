@@ -110,7 +110,7 @@ Carbon::setLocale('ar');
             $totalAmount = 0;
             $totalCompletion = 0;
 
-            $projectValue = $project->project_owner_support ?? 0;
+            $projectValue = $project->bank_contract_value ?? 0;//$project->project_owner_support ?? 0;
         @endphp
 
         @foreach($schedules as $row)
