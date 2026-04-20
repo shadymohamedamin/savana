@@ -561,6 +561,7 @@ function calculate(e = null) {
 
     let totalPaymentPercent = 0;
     let totalCompletionPercent = 0;
+    let totalTargetPercent = 0;
     let totalAmount = 0;
     let totalDuration = 0;
 
@@ -576,13 +577,16 @@ function calculate(e = null) {
         let durationInput = row.querySelector('[name*="duration_days"]');
         let amountInput = row.querySelector('.amount');
 
-        if (!paymentInput || !completionInput) return;
+        if (!paymentInput || !completionInput || !targetInput) return; // تحقق من وجود الحقول
 
         let payment = parseFloat(paymentInput.value) || 0;
         let target = parseFloat(targetInput?.value) || 0;
         let completion = parseFloat(completionInput.value) || 0;
         let duration = parseFloat(durationInput?.value) || 0;
 
+
+
+        
         // 🔒 منع تجاوز target
         if (payment > target) {
             payment = target;
@@ -603,6 +607,7 @@ function calculate(e = null) {
 
         totalPaymentPercent += payment;
         totalCompletionPercent += completion;
+        totalTargetPercent += target;
         totalAmount += amount;
         totalDuration += duration;
     });
@@ -656,6 +661,9 @@ function calculate(e = null) {
 
     document.getElementById('total_completion_percent').innerText =
         totalCompletionPercent.toFixed(2) + '%';
+
+    document.getElementById('total_target_percent').innerText = // تحديث قيمة النسبة المستهدفة
+        totalTargetPercent.toFixed(2) + '%';
 
     document.getElementById('total_amount').innerText =
         totalAmount.toLocaleString();
