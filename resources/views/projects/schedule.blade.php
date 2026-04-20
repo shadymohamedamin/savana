@@ -359,9 +359,11 @@ tfoot tr {
     </td>
 
     <td>
-        <input readonly type="number" class="form-control target"
+        <input type="number" class="form-control target"
                name="rows[{{ $i }}][target_percentage]"
-               value="{{ $row->target_percentage }}">
+               value="{{ $row->target_percentage }}"
+               @if(!in_array(auth()->user()->role_id, [1,4,11,12])) readonly @endif
+               >
     </td>
 
     <td>
@@ -453,30 +455,7 @@ tfoot tr {
 
 </table>
 
-<!-- <button type="button" onclick="addRow()" class="btn btn-secondary">
-    ➕ إضافة صف
-</button> -->
 
-<!-- SUMMARY -->
-<!-- <div class="mt-4 p-3 bg-white rounded shadow-sm">
-
-    <h5>📊 الملخص</h5>
-
-    <p>إجمالي الدفعات: <strong id="total">0</strong></p>
-
-    <p>قيمة الضريبة (5%):
-        <strong id="vat">0</strong>
-    </p>
-
-    <p>الإجمالي النهائي:
-        <strong id="grand_total">0</strong>
-    </p>
-
-    <p>إجمالي نسبة الدفعات:
-        <strong id="percent_total">0%</strong>
-    </p>
-
-</div> -->
 
 
 
@@ -570,38 +549,11 @@ function addRow() {
     document.getElementById('rows').insertAdjacentHTML('beforeend', row);
 }
 
-/* ================= CALCULATIONS ================= */
-/*function calculate() {
-
-    let total = 0;
-    let percentTotal = 0;
-
-    document.querySelectorAll('.amount').forEach(el => {
-        total += parseFloat(el.value) || 0;
-    });
-
-    document.querySelectorAll('.payment').forEach(el => {
-        percentTotal += parseFloat(el.value) || 0;
-    });
-
-    // منع > 100%
-    if (percentTotal > 100) {
-        alert('⚠️ مجموع نسب الدفعات لا يجب أن يتجاوز 100%');
-    }
-
-    let vat = total * 0.05;
-    let grand = total + vat;
-
-    document.getElementById('total').innerText = total.toLocaleString();
-    document.getElementById('vat').innerText = vat.toLocaleString();
-    document.getElementById('grand_total').innerText = grand.toLocaleString();
-    document.getElementById('percent_total').innerText = percentTotal + '%';
-}*/
 
 
 
 
-let projectValue = {{ $project->project_owner_support ?? 0 }};
+let projectValue = {{ $project->bank_contract_value ?? 0 }};//{{ $project->project_owner_support ?? 0 }};
 let originalTotalAmount = {{ $schedules->sum('amount') }};
 function calculate(e = null) {
 
@@ -612,7 +564,7 @@ function calculate(e = null) {
     let totalAmount = 0;
     let totalDuration = 0;
 
-    let projectValue = {{ $project->project_owner_support ?? 0 }};
+    let projectValue = {{ $project->bank_contract_value ?? 0 }};//{{ $project->project_owner_support ?? 0 }};
     let contractMonths = {{ $project->bank_contract_duration ?? 0 }};
     let totalContractDays = contractMonths * 30;
 
@@ -708,121 +660,6 @@ function calculate(e = null) {
     document.getElementById('total_amount').innerText =
         totalAmount.toLocaleString();
 
-    // =========================
-    // 💰 المطلوب من المالك
-    // =========================
-
-    /*let neededFromOwner = totalAmount - originalTotalAmount;
-    let projectId = {{ $project->id }};
-    localStorage.setItem('needed_from_owner_' + projectId, neededFromOwner);
-
-    let savedNeeded = localStorage.getItem('needed_from_owner_' + projectId);
-
-    if (savedNeeded !== null) {
-        document.getElementById('needed_from_owner').innerText =
-            parseFloat(savedNeeded).toLocaleString();
-    }
-
-    document.getElementById('needed_from_owner').innerText =
-        neededFromOwner.toLocaleString();
-
-    document.getElementById('total_duration').innerText =
-        totalDuration + ' / ' + totalContractDays;
-
-
-
-
-    document.getElementById('needed_from_owner').innerText =
-        neededFromOwner.toLocaleString();*/
-
-
-
-        /*// =========================
-// 💰 إجمالي الجدول الحالي
-// =========================
-let tableTotal = totalAmount;
-
-// =========================
-// 💰 المدفوع سابقًا من قاعدة البيانات
-// =========================
-let paidAmount = {{ $project->payments()->where('payer_type','owner')->sum('total_amount') }};
-
-// =========================
-// 💰 المطلوب الحالي = الفرق
-// =========================
-let neededFromOwner = tableTotal - paidAmount;
-
-// منع القيم السالبة
-if (neededFromOwner < 0) neededFromOwner = 0;
-
-// =========================
-// 📊 عرض القيم
-// =========================
-document.getElementById('total_amount').innerText =
-    tableTotal.toLocaleString();
-
-document.getElementById('paid_amount').innerText =
-    paidAmount.toLocaleString();
-
-document.getElementById('needed_from_owner').innerText =
-    neededFromOwner.toLocaleString();
-
-document.getElementById('total_duration').innerText =
-    totalDuration + ' / ' + totalContractDays;*/
-
-
-
-
-
-
-
-/*// =========================
-// 💰 إجمالي الجدول الحالي (المستحقات)
-// =========================
-let tableTotal = totalAmount;
-
-// =========================
-// 💰 إجمالي الدفعات داخل الجدول الحالي فقط
-// (مبني على payment_percentage)
-// =========================
-let totalApprovedPayments = 0;
-
-document.querySelectorAll('#rows tr').forEach(row => {
-    let paymentInput = row.querySelector('.payment');
-
-    if (!paymentInput) return;
-
-    let payment = parseFloat(paymentInput.value) || 0;
-
-    totalApprovedPayments += payment;
-});
-
-// نحول النسبة لقيمة مالية
-let approvedPaymentsValue = 0;//(totalApprovedPayments / 100) * {{ $project->project_owner_support ?? 0 }};
-
-// =========================
-// 💰 المطلوب الحالي
-// =========================
-let neededFromOwner = tableTotal;//tableTotal - approvedPaymentsValue;
-
-// منع السالب
-if (neededFromOwner < 0) neededFromOwner = 0;
-
-// =========================
-// 📊 عرض القيم
-// =========================
-document.getElementById('total_amount').innerText =
-    tableTotal.toLocaleString();
-
-document.getElementById('paid_amount').innerText =
-    approvedPaymentsValue.toLocaleString();
-
-document.getElementById('needed_from_owner').innerText =
-    neededFromOwner.toLocaleString();
-
-document.getElementById('total_duration').innerText =
-    totalDuration + ' / ' + totalContractDays;*/
-
 
 
 
@@ -893,53 +730,12 @@ document.getElementById('total_duration').innerText =
         progressPercent >= 60 ? "#ffc107" :
         "#28a745";
 }
-/* ================= DEFAULT DATA ================= */
-// function loadDefault() {
 
-//     let data = [
-//         {no:1,title:'دفعة مقدمة',p:18,c:38,d:0,a:265999},
-//         {no:2,title:'تجهيز الموقع',p:0,c:15,d:15,a:0},
-//         {no:3,title:'الحفر',p:0,c:5,d:5,a:0},
-//         {no:4,title:'صب القواعد',p:0,c:20,d:20,a:0},
-//         {no:5,title:'صب الجسور',p:0,c:20,d:20,a:0},
-//         {no:6,title:'صب سقف الأرضي',p:6,c:48,d:48,a:42000},
-//     ];
-
-//     let rows = '';
-
-//     data.forEach((r,i)=>{
-//         rows += `
-//         <tr>
-//             <td><input class="form-control" name="rows[${i}][item_no]" value="${r.no}"></td>
-//             <td><input class="form-control" name="rows[${i}][title]" value="${r.title}"></td>
-//             <td><input class="form-control percent payment" name="rows[${i}][payment_percentage]" value="${r.p}"></td>
-//             <td><input class="form-control percent completion" name="rows[${i}][completion_percentage]" value="${r.c}"></td>
-//             <td><input class="form-control" name="rows[${i}][duration_days]" value="${r.d}"></td>
-//             <td><input class="form-control amount" name="rows[${i}][amount]" value="${r.a}"></td>
-//             <td><input class="form-control" name="rows[${i}][notes]"></td>
-//         </tr>
-//         `;
-//     });
-
-//     document.getElementById('rows').innerHTML = rows;
-
-//     calculate();
-// }
-
-/* ================= PRINT ================= */
 function printPage() {
     window.print();
 }
 
-/* ================= EVENTS ================= */
-/*document.addEventListener('input', function(e) {
-    if (
-        e.target.classList.contains('amount') ||
-        e.target.classList.contains('percent')
-    ) {
-        calculate();
-    }
-});*/
+
 
 document.addEventListener('input', function(e) {
 
@@ -950,6 +746,13 @@ document.addEventListener('input', function(e) {
     }
 
     calculate(e);
+});
+
+
+document.addEventListener('input', function(e) {
+    if (e.target.classList.contains('target')) {
+        calculate(e);
+    }
 });
 
 /* INIT */

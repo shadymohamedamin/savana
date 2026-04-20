@@ -316,12 +316,18 @@ public function contractPdf(Request $request, $id)
         <div style="text-align:center; margin-bottom:0.5rem;">
             <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
         </div>
-    ');
+    ');//<img src="{{ public_path('images/signature.jpeg') }}" style="height:150px;">
     $mpdf->SetHTMLFooter('
+        <div style=" text-align:left; padding-bottom:0rem;padding-left:2.5rem;">
+            <img src="'.public_path('images/signature.jpeg').'" style="height:100px;">
+        </div>
         <div style="text-align:center; font-size:12px; margin-top:1rem;">
             صفحة {PAGENO} من {nbpg}
         </div>
     ');
+
+
+    
 
     $mpdf->WriteHTML($html);
 
@@ -550,8 +556,19 @@ public function projectSchedulePdf(Request $request, $id)
         ->where('batch_id', $lastBatchId)
         ->orderBy('item_no')
         ->get();
+$batchId = $request->get('batch_id');
 
-    $html = view('pdf.project-schedule', compact('project', 'schedules'))->render();
+// لو مش موجود → استخدم آخر batch (fallback)
+if (!$batchId) {
+    $batchId = \App\Models\ProjectSchedule::where('project_id', $id)
+        ->max('batch_id');
+}
+    $approval = \App\Models\ProjectScheduleApproval::where('project_id', $id)
+    ->where('batch_id', $batchId)
+    ->first();
+    //dd($approval);
+
+    $html = view('pdf.project-schedule', compact('approval','project', 'schedules'))->render();
 
     $mpdf = new \Mpdf\Mpdf([
         'mode' => 'utf-8',

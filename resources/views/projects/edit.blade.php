@@ -702,6 +702,11 @@
 
 
 
+
+
+
+
+
 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
                     {!! Form::label('approved_area', __('المساحة المعتمدة من البلدية')) !!}
                     {!! Form::text('approved_area', null, ['class' => 'form-control rounded']) !!}
@@ -711,6 +716,22 @@
                     {!! Form::label('linear_meter_area', __('مساحة السور بالمتر الطولي')) !!}
                     {!! Form::text('linear_meter_area', null, ['class' => 'form-control rounded']) !!}
                 </div>
+
+
+
+<div class="form-item">
+                        {!! Form::label('consultant_id', __('Consultant')) !!}
+                        {!! Form::select(
+                            'consultant_id',
+                            $consultants,
+                            $consultantId ?? null,
+                            [
+                                'class' => 'form-control',
+                                'placeholder' => '-- اختر الاستشاري --'
+                            ]
+                        ) !!}
+                    </div>
+
 
 </div>
 </div>

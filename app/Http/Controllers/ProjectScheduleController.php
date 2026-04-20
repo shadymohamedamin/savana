@@ -167,7 +167,8 @@ $schedules = $default->map(function ($item) use ($lastBatchRows) {
     return (object) [
         'item_no' => $item['item_no'],
         'title' => $item['title'],
-        'target_percentage' => $item['target_percentage'],
+        //'target_percentage' => $item['target_percentage'],
+        'target_percentage' => $saved->target_percentage ?? $item['target_percentage'],
 
         // لو فيه بيانات → خدها
         'payment_percentage' => $saved->payment_percentage ?? 0,

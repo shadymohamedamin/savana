@@ -66,7 +66,7 @@ class TenderRequirementsSeeder extends Seeder
             'parent_id' => $mainStructure->id,
             'is_general' => 0,
             'slug' => 'substructure-works', // ✅ تعديل slug ليكون فريد
-        ]);
+        ]);//'Underground Water Tank Room'
 
         $this->item($B,'الحفر','Excavation','M3','excavation'); // ✅ تعديل slug
         $this->item($B,'الرودبيس','Road Base','M3','road-base'); // ✅ تعديل slug

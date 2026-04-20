@@ -182,13 +182,35 @@ Carbon::setLocale('ar');
         <td class="signature-title">توقيع الاستشاري</td>
     </tr>
 
-    <tr>
+     <tr>
         <td></td>
         <td></td>
         <td>
             <img src="{{ public_path('images/signature.jpeg') }}" style="height:80px;">
         </td>
-    </tr>
+    </tr> 
+
+
+    <!-- <tr>
+    <td>
+        @if($approval?->contractor_approved && $project->contractorUser?->signature)
+            <img src="{{ public_path('storage/' . $project->contractorUser->signature) }}" style="height:80px;">
+        @endif
+    </td>
+
+    <td>
+        @if($approval?->owner_approved && $project->ownerUser?->signature)
+            <img src="{{ asset($project?->ownerUser?->signature) }}"  style="height:80px;">
+        @endif
+    </td>
+
+    <td>
+       
+        @if($approval?->consultant_approved && $project->consultantUser?->signature)
+           <img src="{{ public_path('images/signature.jpeg') }}" style="height:80px;">                  <img src="{{ public_path('storage/' . $project->consultantUser->signature) }}" style="height:80px;"> 
+        @endif
+    </td>
+</tr> -->
 
 </table>
 

@@ -15,7 +15,7 @@
     @include('adminlte-templates::common.errors')
 
     <div class="card shadow-xl p-4 m-4" style="background-color: #f5f5dc;">
-        {!! Form::model($user, ['route' => ['users.update', $user->id], 'method' => 'patch']) !!}
+        {!! Form::model($user, ['route' => ['users.update', $user->id], 'method' => 'patch','files' => true,'id' => 'user-form']) !!}
 
         <div class="card-body">
             <div class="d-flex flex-wrap align-items-center gap-3">
@@ -215,7 +215,7 @@
     <!-- عرض التوقيع الحالي -->
     @if($user->signature)
         <div class="mb-2">
-            <img src="{{ asset('storage/'.$user->signature) }}"
+            <img src="{{ asset($user->signature) }}"
                  style="max-height:100px; border:1px solid #ccc;">
         </div>
     @endif
@@ -298,6 +298,75 @@
 }
 </style>
 @endpush
+
+
+
+
+
+
+
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+
+<script>
+let signaturePad;
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const canvas = document.getElementById("signature-pad");
+
+    if (!canvas) return;
+
+    signaturePad = new SignaturePad(canvas);
+
+    // زر المسح
+    document.getElementById('clear-signature').addEventListener('click', function () {
+        signaturePad.clear();
+    });
+document.getElementById('user-form').addEventListener('submit', function () {
+
+    if (signaturePad && !signaturePad.isEmpty()) {
+        document.getElementById('signature-input').value =
+            signaturePad.toDataURL();
+    }
+
+});
+    // عند رفع صورة
+    document.getElementById('signature-file').addEventListener('change', function (e) {
+        const file = e.target.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const preview = document.getElementById('signature-preview');
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // قبل الإرسال
+    document.querySelector('form').addEventListener('submit', function () {
+
+        if (!signaturePad.isEmpty()) {
+            document.getElementById('signature-input').value =
+                signaturePad.toDataURL(); // base64
+        }
+
+    });
+
+});
+</script>
+@endpush
+
+
+
+
+
 
 @push('scripts')
 @if (session('success'))
