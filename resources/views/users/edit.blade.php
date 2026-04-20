@@ -207,7 +207,7 @@
 
 
 
-<!-- 
+
                 <div class="mt-3">
 
     <label>Signature</label>
@@ -250,7 +250,7 @@
     <img id="signature-preview"
          style="margin-top:10px; max-height:100px; display:none;" />
 
-</div> -->
+</div> 
 
 
 

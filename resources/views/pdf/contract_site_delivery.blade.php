@@ -182,17 +182,11 @@ $dateFormatted = $contractDate
 
 
 
-@include('pdf.contract_header', ['project' => $project,'isBank'=>false,'showContractor' => true,'title'=>'وثيقة  تسليم الموقع'])
+@include('pdf.contract_header', ['isSiteDelivery'=>true,'project' => $project,'isBank'=>false,'showContractor' => true,'title'=>'وثيقة  تسليم الموقع'])
 
 
 
-<div class="intro-text" style="margin-top:3rem;">
-    انه في يوم <strong>{{ $dayName }}</strong> الموافق
-    <strong>{{ $dateFormatted }}</strong>
-    تم تسليم الموقع المذكور ادناه الى المقاول خالياً من العوائق وصالحاً للبناء فيه،
-    ويبدأ احتساب مدة التنفيذ من يوم    تسليم الموقع شاملة فترة التحضير.
 
-</div>
 
 
 <table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:50px;">

@@ -156,6 +156,25 @@
             والرجوع إليه في جميع الاستفسارات الفنية والتنفيذية.
             وقد تم هذا الاتفاق برضا وقبول جميع الأطراف.
                 </td>
+            @elseif(!empty($isSiteDelivery)&&$isSiteDelivery)
+                <td colspan="3" class="intro-text" style="margin-top:3rem;">
+                    
+                    
+                        انه في يوم <strong>{{ $dayName }}</strong> الموافق
+                        <strong>{{ $dateFormatted }}</strong>
+                        تم تسليم الموقع المذكور ادناه الى المقاول خالياً من العوائق وصالحاً للبناء فيه،
+                        ويبدأ احتساب مدة التنفيذ من يوم    تسليم الموقع شاملة فترة التحضير.
+
+                     يقوم الطرف الثاني بتنفيذ وانشاء وانجاز وصيانة المشروع المذكور اعلاه لقاء مبلغ وقدره
+                <br><br>
+
+                {{ number_format($amount) }} درهم
+                <br>
+                ( {{ $amountInWords }} درهم )
+
+                <br><br>
+                و ذلك حسب المتفق عليه والمعتمد وفق للمناقصة التي جرت
+                </td>
             @else
             <td colspan="3">
                 يقوم الطرف الثاني بتنفيذ وانشاء وانجاز وصيانة المشروع المذكور اعلاه لقاء مبلغ وقدره
@@ -177,7 +196,7 @@
 
 
 
-
+<!-- 
 <table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:50px; table-layout: fixed;">
     <tr>
         @if($showContractor ?? false)
@@ -203,4 +222,4 @@
            <img src="{{ public_path('images/signature.jpeg') }}" style="height:150px;">
         </td>
     </tr>
-</table>
+</table> -->
