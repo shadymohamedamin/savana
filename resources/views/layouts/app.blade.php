@@ -1369,10 +1369,10 @@ body, html {
 <div class="project-top-bar">
 
     <!-- زر اسم المالك -->
-    <div class="top-pill" onclick="window.location.href='{{ url('users/' . optional($project->ownerUser)->id . '/edit') }}'">
-    <i class="fas fa-user-tie me-2"></i>
-    {{ optional($project->ownerUser)->name ?? '—' }}
-</div>
+    <div class="top-pill">
+        <i class="fas fa-user-tie me-2"></i>
+        {{ optional($project->ownerUser)->name ?? '—' }}
+    </div>
 
     <!-- زر عنوان الصفحة -->
     <div class="top-pill center-pill">
@@ -1417,7 +1417,7 @@ body, html {
 
 
 
-<div class="owner-title">
+<div onclick="window.location.href='{{ url('users/' . optional($project->ownerUser)->id . '/edit') }}'" style="cursor:pointer;" class="owner-title">
     <i class="fas fa-user-tie me-2"></i>
      المالك : {{ optional($project->ownerUser)->name ?? '—' }}
 </div>
