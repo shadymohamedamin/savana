@@ -165,7 +165,7 @@ Carbon::setLocale('ar');
             <td>{{ $totalCompletion }}%</td>
 
             <td>-</td>
-            <td style="font-size:0.8rem;">{{ $totalDuration }} / {{ $project->bank_contract_duration * 31 }}</td>
+            <td style="font-size:0.8rem;">{{ $totalDuration }} / {{ $project->bank_contract_duration * 30 }}</td>
 
             <td>{{ number_format($totalAmount) }}</td>
         </tr>
