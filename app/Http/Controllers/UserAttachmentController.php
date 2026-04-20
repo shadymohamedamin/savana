@@ -237,9 +237,9 @@ public function create(Request $request, $id)
     }
 
     if ($isDesigns) {
-
+//50 ==== 59
         // tender ==>(25-33-34-35)
-        $defaultTypes = [40,50,51,41,55,56,57];//[25, 33, 34, 35];
+        $defaultTypes = [40,50,51,41,55,56,57,59];//[25, 33, 34, 35];
     }
 
     if ($isContractorFiles) {
