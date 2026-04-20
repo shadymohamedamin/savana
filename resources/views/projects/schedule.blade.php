@@ -367,7 +367,7 @@ tfoot tr {
     </td>
 
     <td>
-        <input type="number" class="form-control payment"
+        <input type="number" class="form-control payment" step="0.01"
                name="rows[{{ $i }}][payment_percentage]"
                value="{{ $row->payment_percentage ?? 0 }}">
     </td>

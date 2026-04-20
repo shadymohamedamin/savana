@@ -207,12 +207,12 @@
 
 
 
-
+<!-- 
                 <div class="mt-3">
 
     <label>Signature</label>
 
-    <!-- عرض التوقيع الحالي -->
+    
     @if($user->signature)
         <div class="mb-2">
             <img src="{{ asset($user->signature) }}"
@@ -220,11 +220,11 @@
         </div>
     @endif
 
-    <!-- Canvas -->
+    
     <canvas id="signature-pad" width="400" height="150"
             style="border:1px solid #ccc; display:block;"></canvas>
 
-    <!-- Buttons -->
+  
     <div class="mt-2 d-flex gap-2">
         <button type="button" id="clear-signature" class="btn btn-sm btn-danger">
             مسح
@@ -237,20 +237,26 @@
         @endif
     </div>
 
-    <!-- hidden -->
+   
     <input type="hidden" name="signature" id="signature-input">
     <input type="hidden" name="remove_signature" id="remove-signature">
 
     <hr>
 
-    <!-- upload -->
+   
     <input type="file" name="signature_file" id="signature-file" accept="image/*" class="form-control">
 
-    <!-- preview -->
+   
     <img id="signature-preview"
          style="margin-top:10px; max-height:100px; display:none;" />
 
-</div>
+</div> -->
+
+
+
+
+
+
 
             </div>
         </div>
