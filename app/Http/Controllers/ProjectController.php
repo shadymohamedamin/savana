@@ -566,9 +566,12 @@ if (!$batchId) {
     $approval = \App\Models\ProjectScheduleApproval::where('project_id', $id)
     ->where('batch_id', $batchId)
     ->first();
-    //dd($approval);
 
-    $html = view('pdf.project-schedule', compact('approval','project', 'schedules'))->render();
+
+    $approvalCreatedAt = $approval->created_at ?? null;
+    //dd($approvalCreatedAt->format('yy-mm-dd'));
+
+    $html = view('pdf.project-schedule', compact('approval','project', 'schedules','approvalCreatedAt'))->render();
 
     $mpdf = new \Mpdf\Mpdf([
         'mode' => 'utf-8',

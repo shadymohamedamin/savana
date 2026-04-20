@@ -82,6 +82,7 @@ Carbon::setLocale('ar');
     'project' => $project,
     'isBank'=>false,
     'showContractor' => true,
+    'approvalCreatedAt'=>$approvalCreatedAt,
     'title'=>' الجدول الزمني'
 ])
 
@@ -164,7 +165,7 @@ Carbon::setLocale('ar');
             <td>{{ $totalCompletion }}%</td>
 
             <td>-</td>
-            <td>{{ $totalDuration }} / {{ $project->bank_contract_duration * 31 }}</td>
+            <td style="font-size:0.8rem;">{{ $totalDuration }} / {{ $project->bank_contract_duration * 31 }}</td>
 
             <td>{{ number_format($totalAmount) }}</td>
         </tr>
@@ -183,13 +184,12 @@ Carbon::setLocale('ar');
     </tr>
 
      <tr>
-    <td>
-    @if($approval?->contractor_approved && $project->contractorUser?->signature)
-    @php dd(asset( $project->contractorUser->signature)); @endphp
-    <img src="{{ asset( $project->contractorUser->signature) }}" style="height:80px;">
-@endif
-</td>
-</tr>
+        <td></td>
+        <td></td>
+        <td>
+            <img src="{{ public_path('images/signature.jpeg') }}" style="height:80px;">
+        </td>
+    </tr> 
 
 
     

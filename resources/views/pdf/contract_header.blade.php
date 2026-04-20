@@ -125,6 +125,12 @@
 </td>
 </tr>
 
+ @if(!empty($approvalCreatedAt)&&$approvalCreatedAt)
+        <tr>
+            <td class="bold"> تاريخ  الدفعة</td>
+            <td colspan="2">{{ $approvalCreatedAt?->format('Y-m-d')??'-' }}</td>
+        </tr>
+@endif
         <tr>
             <td class="bold"> تاريخ توقيع العقد</td>
             <td colspan="2">{{ $project->contract_signed_at?->format('Y-m-d')??'-' }}</td>
