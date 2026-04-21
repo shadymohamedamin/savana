@@ -745,7 +745,26 @@ function printPage() {
 
 
 
+document.addEventListener('DOMContentLoaded', function() {
+    // تعيين تاريخ تسليم الموقع كأول تاريخ بدء في الجدول
+    let endDate = "{{ optional($project->end_date)->format('Y-m-d') }}"; // الحصول على تاريخ تسليم الموقع
 
+    if (endDate) {
+        let firstRowStartDateInput = document.querySelector('#rows tr:first-child .start-date');
+        if (firstRowStartDateInput) {
+            firstRowStartDateInput.value = endDate; // تعيين تاريخ تسليم الموقع لأول صف
+        }
+    }
+});
+
+// إذا تم تعديل تاريخ البدء أو المدة، يمكن تحديث تواريخ الصفوف التالية
+document.addEventListener('input', function(e) {
+    if (e.target.name.includes('start_date') || e.target.name.includes('duration_days')) {
+        updateNextStartDate(e.target);
+    }
+
+    calculate(e);
+});
 
 document.addEventListener('input', function(e) {
     // إذا تم التعديل في تاريخ البدء أو المدة
