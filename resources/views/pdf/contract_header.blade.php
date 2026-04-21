@@ -202,7 +202,7 @@
 
 
 
-<!-- 
+
 <table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:50px; table-layout: fixed;">
     <tr>
         @if($showContractor ?? false)
@@ -228,4 +228,4 @@
            <img src="{{ public_path('images/signature.jpeg') }}" style="height:150px;">
         </td>
     </tr>
-</table> -->
+</table> 
