@@ -27,6 +27,32 @@
                     اختيار المقاولين المرشحين للمناقصة
                 </h4>
 
+
+               
+
+        <div class="text-center px-2 py-1"
+             style="background:#fff;border-radius:8px;min-width:140px;">
+            <div style="font-size:12px;color:#555;">
+                المساحة المعتمدة من البلدية
+            </div>
+            <div style="font-weight:bold;">
+                {{ $project->approved_area ?? '-' }}
+            </div>
+        </div>
+
+        <div class="text-center px-2 py-1"
+             style="background:#fff;border-radius:8px;min-width:140px;">
+            <div style="font-size:12px;color:#555;">
+                مساحة السور بالمتر الطولي
+            </div>
+            <div style="font-weight:bold;">
+                {{ $project->linear_meter_area ?? '-' }}
+            </div>
+        </div>
+
+
+
+
                 <div class="d-flex gap-2">
 
                 

@@ -14,12 +14,12 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
+            margin-bottom: 0px;
         }
 
         td, th {
             border: 1px solid #000;
-            padding: 8px;
+            padding: 5px;
             vertical-align: top;
         }
 
@@ -54,7 +54,7 @@
          .signature-table {
         width: 100%;
         border-collapse: collapse;
-        margin-top: 20px;
+        margin-top: 0px;
     }
 
     .signature-table td {
@@ -104,9 +104,66 @@ $dateFormatted = $startDate->translatedFormat('d/m/Y'); // مثال: 07/01/2026
 
 
 
-@include('pdf.contract_header', ['project' => $project,'isBank'=>false,'showContractor' => false,'title'=>' عقد اتفاق بين المالك و الاستشاري'])
+<!-- @include('pdf.contract_header', ['project' => $project,'isBank'=>false,'showContractor' => false,'title'=>' عقد اتفاق بين المالك و الاستشاري']) -->
 
 
+
+<table>
+        <tr>
+            <td class="title" colspan="4" class="section-title">{{' عقد اتفاق بين المالك و الاستشاري'}}</td>
+        </tr>
+
+
+        
+        <!-- <tr>
+            <td colspan="3" class="center">
+                بإشرافنا نحن<br>
+                سافانا ديزاين للاستشارات الهندسية والتصميم الداخلي – رأس الخيمة<br>
+                مكتب 407 أبراج جلفار – رأس الخيمة<br>
+                525015080
+            </td>
+        </tr> -->
+
+
+
+        
+ 
+
+
+
+
+
+    <tr>
+        <td class="bold">وصف المشروع</td>
+        <td>{{ $project->projectName?->name_ar }}</td>
+
+        <td class="bold">المنطقة</td>
+        <td>{{ $project->projectRegion?->name_ar ?? '—' }}</td>
+    </tr>
+
+    <tr>
+        <td class="bold">رقم القسيمة</td>
+        <td>{{ $project->qasmia_number ?? '—' }}</td>
+
+        <td class="bold">تاريخ العقد</td>
+        <td>{{ $project->contract_signed_at?->format('Y-m-d') ?? '-' }}</td>
+    </tr>
+
+    <tr>
+        <td class="bold">قيمة المشروع</td>
+        <td>
+            {{
+                $project->bank_contract_value
+            }}
+        </td>
+
+        <!-- <td class="bold">تاريخ الدفعة</td>
+        <td>
+            {{ !empty($approvalCreatedAt) ? $approvalCreatedAt->format('Y-m-d') : '-' }}
+        </td> -->
+    </tr>
+
+</table>
 
 
 

@@ -182,6 +182,7 @@ public function create(Request $request, $id)
 
 
     if($projectDocuments) {
+        
         $defaultTypes=[2,10,12,13,14,15,16,17];
     }
 
@@ -224,7 +225,7 @@ public function create(Request $request, $id)
    
 
     // لو المستخدم مقاول أو بيشوف ملفات مقاول
-    if ($isContractorUser || $isContractorModel) {
+    if (($isContractorUser&&!$projectDocuments) || ($isContractorModel&&!$projectDocuments)) {
         
         $defaultTypes = array_unique(array_merge($baseUserTypes, $contractorTypes));//$contractorTypes;//
     }
@@ -245,6 +246,7 @@ public function create(Request $request, $id)
     if ($isContractorFiles) {
 
         // tender ==>(25-33-34-35)
+        
         $defaultTypes = [25, 33, 34, 35,36,37,38,39];
     }
 
