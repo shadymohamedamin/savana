@@ -375,16 +375,17 @@ public function takleefContractPdf(Request $request, $id)
     $mpdf->WriteHTML($html);
 
     $action = $request->get('action', 'preview');
+//takleef_contract_{$project->id}
 
     if ($action === 'download') {
-        return $mpdf->Output("takleef_contract_{$project->id}.pdf", 'D');
+        return $mpdf->Output("خطاب التكليف.pdf", 'D');
     }
 
     if ($action === 'print') {
-        return $mpdf->Output("takleef_contract_{$project->id}.pdf", 'I');
+        return $mpdf->Output("خطاب التكليف.pdf", 'I');
     }
 
-    return $mpdf->Output("takleef_contract_{$project->id}.pdf", 'I');
+    return $mpdf->Output("خطاب التكليف.pdf", 'I');
 }
 
 
