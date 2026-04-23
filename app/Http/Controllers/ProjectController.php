@@ -427,15 +427,25 @@ public function contractOwnerConsultantPdf(Request $request, $id)
 
     $action = $request->get('action', 'preview');
 
+
+
+// الحصول على اسم المالك
+$ownerName = $project?->ownerUser?->name ?? 'مالك_غير_محدد';  // إذا كان الاسم غير موجود، يتم استخدام 'مالك_غير_محدد'
+
+// اسم الملف مع اسم المالك
+$fileName = "عقد_الاتفاق_بين_المالك_والاستشاري_" . $ownerName . ".pdf";
+
+
+
     if ($action === 'download') {
-        return $mpdf->Output("contract_owner_consultant_{$project->id}.pdf", 'D');
+        return $mpdf->Output($fileName, 'D');
     }
 
     if ($action === 'print') {
-        return $mpdf->Output("contract_owner_consultant_{$project->id}.pdf", 'I'); // Browser print
+        return $mpdf->Output($fileName, 'I'); // Browser print
     }
 
-    return $mpdf->Output("contract_owner_consultant_{$project->id}.pdf", 'I');
+    return $mpdf->Output($fileName, 'I');
 }
 
 

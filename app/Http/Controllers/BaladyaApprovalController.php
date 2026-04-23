@@ -79,14 +79,14 @@ class BaladyaApprovalController extends AppBaseController
     // }
 
 
-public function index($projectId) 
+/*public function index($projectId) 
 {
     if (FALSE){//!in_array(auth()->user()->role_id, [1,4,11,12])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'
     ]);
-}
+  }
     $ownerId = request('owner_id');
     $project = \App\Models\Project::find($projectId);
 
@@ -101,12 +101,55 @@ public function index($projectId)
     $editApproval = $editId ? BaladyaApproval::find($editId) : null;
 
     return view('baladya_approvals.index', compact(
-        'baladyaApprovals', 
+        'baladyaApprovals',
         'statusTypes', 
         'projectId', 
         'editApproval',
         'project'
     ));//->with('owner_id', $ownerId);
+}*/
+
+
+
+
+public function index($projectId) 
+{
+    if (FALSE){ //!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        return redirect()->back()->with('toast', [
+            'type' => 'error',
+            'message' => 'ليس لديك الصلاحيات الكافية'
+        ]);
+    }
+
+    // استخراج المعاملات من الرابط
+    $ownerId = request('owner_id');
+    $isDesignsApproved = request('isDesignsApproved'); // تحقق إذا كانت موجودة
+
+    // جلب بيانات المشروع
+    $project = \App\Models\Project::find($projectId);
+
+    // استعلام لعرض اعتمادات البلدية
+    $baladyaApprovals = BaladyaApproval::where('project_id', $projectId)
+        ->when($ownerId, fn($q) => $q->where('owner_id', $ownerId)) // فلترة بـ owner_id
+        ->when($isDesignsApproved, fn($q) => $q->whereIn('status_type_id', [1, 2, 3])) // إذا كانت isDesignsApproved موجودة، يتم تصفية الصفوف حسب الأنواع الثلاثة
+        ->orderBy('created_at') // ترتيب النتائج حسب التاريخ
+        ->paginate(15); // عدد الصفوف التي يتم عرضها في الصفحة
+
+    // جلب الأنواع النشطة
+    $statusTypes = \App\Models\BaladyaStatusType::where('active', 1)->pluck('name_ar', 'id');
+
+    // جلب المعرف الذي سيتم تعديله
+    $editId = request('edit_id');
+    $editApproval = $editId ? BaladyaApproval::find($editId) : null;
+
+    // إرجاع البيانات إلى العرض
+    return view('baladya_approvals.index', compact(
+        'baladyaApprovals',
+        'statusTypes', 
+        'projectId', 
+        'editApproval',
+        'project'
+    ));
 }
 
 

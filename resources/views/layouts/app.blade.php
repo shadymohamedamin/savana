@@ -1316,13 +1316,17 @@ body, html {
 
 
 
-            <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=designs') }}"
+            <!-- <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=designs') }}"
    class="panel-btn-full {{ request('mode') == 'designs' ? 'active' : '' }}">
     <i class="fas fa-clipboard-list"></i>
      المخططات المعتمدة
+</a> -->
+
+<a href="{{ url('projects/'.$project->id.'/baladya-approvals?isDesignsApproved=true') }}"
+   class="panel-btn-full {{ request('mode') == 'designs' ? 'active' : '' }}">
+    <i class="fas fa-clipboard-list"></i>
+    المخططات المعتمدة
 </a>
-
-
 
 
             <a href="{{ url('#') }}" class="panel-btn-full">
