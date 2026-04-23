@@ -376,16 +376,24 @@ public function takleefContractPdf(Request $request, $id)
 
     $action = $request->get('action', 'preview');
 //takleef_contract_{$project->id}
+//$project->ownerUser->name_ar
+
+// الحصول على اسم المالك
+$ownerName = $project->ownerUser->name_ar ?? 'مالك_غير_محدد';  // إذا كان الاسم غير موجود، يتم استخدام 'مالك_غير_محدد'
+
+// اسم الملف مع اسم المالك
+$fileName = "خطاب_التكليف_" . $ownerName . ".pdf";
+
 
     if ($action === 'download') {
-        return $mpdf->Output("خطاب التكليف.pdf", 'D');
+        return $mpdf->Output($fileName, 'D');
     }
 
     if ($action === 'print') {
-        return $mpdf->Output("خطاب التكليف.pdf", 'I');
+        return $mpdf->Output($fileName, 'I');
     }
 
-    return $mpdf->Output("خطاب التكليف.pdf", 'I');
+    return $mpdf->Output($fileName, 'I');
 }
 
 
