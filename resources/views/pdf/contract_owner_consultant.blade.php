@@ -149,21 +149,36 @@ $dateFormatted = $startDate->translatedFormat('d/m/Y'); // مثال: 07/01/2026
         <td>{{ $project->contract_signed_at?->format('Y-m-d') ?? '-' }}</td>
     </tr>
 
-    <tr>
+    <!-- <tr>
         <td class="bold">قيمة المشروع</td>
         <td>
             {{
                 $project->bank_contract_value
             }}
-        </td>
+        </td> -->
 
         <!-- <td class="bold">تاريخ الدفعة</td>
         <td>
             {{ !empty($approvalCreatedAt) ? $approvalCreatedAt->format('Y-m-d') : '-' }}
         </td> -->
-    </tr>
+    <!-- </tr> -->
 
 </table>
+
+
+<table>
+        <tr>
+            <td colspan="3" class="section-title">تم الاتفاق بين كل من</td>
+        </tr>
+        <tr>
+            <td class="bold">الطرف الأول(المالك)</td>
+            <td colspan="2">{{ $project->ownerUser?->name ?? 'المالك' }}</td>
+        </tr>
+        <tr>
+            <td class="bold">الطرف الثالث (الاستشاري)</td>
+            <td colspan="2">سافانا ديزاين للاستشارات الهندسية</td>
+        </tr>
+    </table>
 
 
 
@@ -243,9 +258,9 @@ $dateFormatted = $startDate->translatedFormat('d/m/Y'); // مثال: 07/01/2026
     </td>
 </tr>
 </table>
+    
 
-
-<table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:50px;">
+<table style="width:100%; border-collapse:collapse; margin-top:0px; margin-bottom:50px;">
     <tr>
         
         <td class="bold center section-title" style="text-align:center; font-weight:bold;">
