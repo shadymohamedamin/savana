@@ -379,7 +379,7 @@ public function takleefContractPdf(Request $request, $id)
 //$project->ownerUser->name_ar
 
 // الحصول على اسم المالك
-$ownerName = $project->ownerUser->name_ar ?? 'مالك_غير_محدد';  // إذا كان الاسم غير موجود، يتم استخدام 'مالك_غير_محدد'
+$ownerName = $project?->ownerUser?->name ?? 'مالك_غير_محدد';  // إذا كان الاسم غير موجود، يتم استخدام 'مالك_غير_محدد'
 
 // اسم الملف مع اسم المالك
 $fileName = "خطاب_التكليف_" . $ownerName . ".pdf";
