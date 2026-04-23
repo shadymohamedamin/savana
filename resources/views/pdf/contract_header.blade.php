@@ -104,6 +104,13 @@
             <td class="bold">وصف المشروع</td>
             <td colspan="2"> {{ $project->projectName?->name_ar }}</td>
         </tr>
+
+        <tr>
+            <td class="bold"> مدة العقد الاساسي بالاشهر </td>
+            <td colspan="2"> {{ $project->bank_contract_duration }}</td>
+        </tr>
+
+        
         <tr>
             <td class="bold">المنطقة</td>
             <td colspan="2">{{ $project->projectRegion?->name_ar ?? '—' }}</td>
