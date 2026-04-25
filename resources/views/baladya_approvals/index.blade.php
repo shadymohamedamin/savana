@@ -95,7 +95,7 @@
                 <tr   data-href="{{ route('projects.baladya-approvals.edit', [
                         'project' => $projectId,
                         'id' => $row->id
-                    ]) }}?owner_id={{ request('owner_id') }}"
+                    ]) }}?isDesignsApproved={{request('isDesignsApproved') }}"
                     class="clickable-row"
                     style="cursor:pointer;">
                     
@@ -366,7 +366,7 @@ $hasFiles = collect($files)->filter()->count();
                                     <a href="{{ route('projects.baladya-approvals.edit', [
                                             'project' => $projectId,
                                             'id' => $row->id
-                                        ]) }}?owner_id={{ request('owner_id') }}"
+                                        ]) }}?isDesignsApproved={{request('isDesignsApproved') }}"
                                     class="dropdown-item">
                                         <i class="far fa-edit"></i> {{ __('Edit') }}
                                     </a>

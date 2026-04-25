@@ -72,7 +72,7 @@ class ProjectScheduleController extends AppBaseController
         ['item_no'=>6,'title'=>' البلاستر الخارجي / الحجر الخارجي','target_percentage'=>3,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>7,'title'=>' البلاستر الداخلي','target_percentage'=>4,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>8,'title'=>' البلاط للجدران والارضيات والادراج','target_percentage'=>6,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
-        ['item_no'=>9,'title'=>'الصبغ الداخلي والخارجي','target_percentage'=>5,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
+        ['item_no'=>9,'title'=>'الصبغ  الخارجي','target_percentage'=>5,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>10,'title'=>' الابواب الداخلية','target_percentage'=>5,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>11,'title'=>' الطبقات العازلة','target_percentage'=>3,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>12,'title'=>' الالمنيوم والزجاج والدرابزينات','target_percentage'=>6,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
@@ -822,4 +822,16 @@ public function approve(Request $request)
 
         return redirect(route('projectSchedules.index'));
     }
+public function deleteBatch($projectId, $batchId)
+{
+    \App\Models\ProjectSchedule::where('project_id', $projectId)
+        ->where('batch_id', $batchId)
+        ->delete();
+
+    return redirect()
+        ->back()
+        ->with('success', 'تم حذف الدفعة بالكامل');
+}
+
+
 }

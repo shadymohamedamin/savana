@@ -1236,10 +1236,10 @@ body, html {
         <div class="project-actions-scroll">
             <div class="project-actions-full">
             @if(isset($project) && in_array(auth()->user()->role_id, [1,4,11,12]))
-                <a href="{{ route('users.index') }}" class="panel-btn-full">
+                <!-- <a href="{{ route('users.index') }}" class="panel-btn-full">
                     <i class="far fa-users"></i>
                     المستخدمين
-                </a>
+                </a> -->
             
 
             <a href="{{ route('projects.edit', $project->id) }}"
@@ -1251,7 +1251,7 @@ body, html {
 
 
                 <a href="{{ url('projects/'.$project->id.'/tender-contractors') }}"
-   class="panel-btn-full {{ request('mode') == 'tenderr' ? 'active' : '' }}">
+   class="panel-btn-full {{ Route::currentRouteName() == 'projects.tender.contractors' ? 'active' : '' }}">
     <i class="fas fa-clipboard-list"></i>
     المقاولين المرشحين
 </a>
@@ -1270,7 +1270,7 @@ body, html {
             
 
 <a href="{{ route('projects.baladya-approvals.index', ['project' => $project->id]) }}"
-   class="panel-btn-full {{ Route::currentRouteName() == 'projects.baladya-approvals.index' ? 'active' : '' }}">
+   class="panel-btn-full {{ Route::currentRouteName() == 'projects.baladya-approvals.index' && !request('isDesignsApproved') ? 'active' : '' }}">
     <i class="fas fa-clipboard-list"></i>
     اعتمادات البلدية
 </a>
@@ -1297,9 +1297,8 @@ body, html {
 </a>
 
 
-
 <a href="{{ route('projects.schedules.batches', $project->id) }}"
-   class="panel-btn-full {{ Route::currentRouteName() == 'projects.project-payments.index' ? 'active' : '' }}">
+   class="panel-btn-full {{ Route::currentRouteName() == 'projects.schedules.batches' ? 'active' : '' }}">
     <i class="fas fa-clipboard-list"></i>
     جداول الدفوعات
 </a>
@@ -1323,7 +1322,7 @@ body, html {
 </a> -->
 
 <a href="{{ url('projects/'.$project->id.'/baladya-approvals?isDesignsApproved=true') }}"
-   class="panel-btn-full {{ request('mode') == 'designs' ? 'active' : '' }}">
+   class="panel-btn-full {{ request('isDesignsApproved') ? 'active' : '' }}">
     <i class="fas fa-clipboard-list"></i>
     المخططات المعتمدة
 </a>
@@ -1335,10 +1334,10 @@ body, html {
             </a>
 
 
-            <a href="{{ route('projects.index') }}" class="panel-btn-full">
+            <!-- <a href="{{ route('projects.index') }}" class="panel-btn-full">
                 <i class="fas fa-clipboard-list"></i>
                     العودة إلى المشاريع
-            </a>
+            </a> -->
 @endif
 
 @if(isset($project) && in_array(auth()->user()->role_id, [1,4,11,12]))
@@ -1354,10 +1353,10 @@ body, html {
                 <i class="fas fa-clipboard-list"></i>
                 الاشراف
             </a>
-            <!-- <a href="{{ url('#') }}" class="panel-btn-full">
+            <a href="{{ url('#') }}" class="panel-btn-full">
                 <i class="fas fa-clipboard-list"></i>
                 التصميم
-            </a> -->
+            </a>
 @endif
 
             </div>
@@ -1412,10 +1411,10 @@ body, html {
     </div>
 
     <!-- زر العودة -->
-    <a href="{{ route('projects.index') }}" class="top-pill link-pill">
+    <!-- <a href="{{ route('projects.index') }}" class="top-pill link-pill">
         <i class="fas fa-arrow-left me-2"></i>
         العودة إلى المشاريع
-    </a>
+    </a> -->
 
 </div> --}}
 

@@ -452,7 +452,11 @@
                     
                     
                     @php
-                        $lastApproval = $project->baladyaApprovals->first();
+                        $lastApproval2 = $project->baladyaApprovals->first();
+                        $lastApproval = $project->baladyaApprovals
+                            ->sortByDesc('id') // أو created_at
+                            ->first();
+                            //dd($lastApproval);
                         $daysDiff = $lastApproval && $lastApproval->opened_at && $lastApproval->approved_at
                                     ? $lastApproval->approved_at->diffInDays($lastApproval->opened_at)
                                     : null;
@@ -504,7 +508,7 @@
                             {{ number_format($project->paid_with_vat ?? 0, 0) }}
                         </td>
                         <td style="background-color:#f5f5dc;">
-                            {{ $project->baladyaApprovals->first()?->building_license_number ?? '-' }}
+                            {{ $lastApproval->building_license_number ?? '-' }}
                         </td>
 
 

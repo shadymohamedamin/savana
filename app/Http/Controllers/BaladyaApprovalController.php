@@ -349,12 +349,13 @@ public function index($projectId)
 
     public function edit($projectId, $id)
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
-    return redirect()->back()->with('toast', [
-        'type' => 'error',
-        'message' => 'ليس لديك الصلاحيات الكافية'
-    ]);
-}
+        $isDesignsApproved = request('isDesignsApproved');
+        if (!$isDesignsApproved&&!in_array(auth()->user()->role_id, [1,4,11,12])) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'ليس لديك الصلاحيات الكافية'
+            ]);
+        }
         $baladyaApproval = $this->baladyaApprovalRepository->find($id);
         if (!$baladyaApproval) {
             Flash::error(__('اعتماد البلدية غير موجود'));

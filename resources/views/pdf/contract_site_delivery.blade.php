@@ -113,66 +113,6 @@ $dateFormatted = $contractDate
     : '-';
 
 @endphp
-<!-- ===== Title ===== -->
-<!-- <table>
-    <tr>
-        <td class="title" colspan="3">
-            عقد تسليم الموقع
-        </td>
-    </tr>
-</table>
-
-
-
-
-<table class="info-table">
-    <tr>
-        <td>فيلا السيدة</td>
-        <td>{{ $project->ownerUser->name ?? '—' }}</td>
-    </tr>
-    <tr>
-        <td>رقم القسيمة</td>
-        <td>{{ $project->qasmia_number ?? '—' }}</td>
-    </tr>
-    <tr>
-        <td>الإمارة</td>
-        <td>{{ $project->city->Region ?? '—' }}</td>
-    </tr>
-    <tr>
-        <td>المنطقة</td>
-        <td>{{ $project->projectRegion->name_ar ?? '—' }}</td>
-    </tr>
-
-
-    <tr>
-        <td class="bold" > التاريخ</td>
-        <td >{{ $project->contract_signed_at->format('d/m/Y')??'-' }}</td>
-
-    </tr>
-    <tr>
-
-        <td class="bold">الطرف الثاني</td>
-        <td >{{ $project->contractorUser->name ?? 'المقاول' }}</td>
-    </tr>
-
-
-    <tr>
-        <td class="bold">  (الاستشاري)</td>
-        <td >سافانا ديزاين للاستشارات الهندسية</td>
-    </tr>
-</table>
-
-<div class="intro-text">
-    انه في يوم <strong>{{ $dayName }}</strong> الموافق
-    <strong>{{ $dateFormatted }}</strong>
-    تم تسليم الموقع المذكور ادناه الى المقاول خالياً من العوائق وصالحاً للبناء فيه،
-    ويبدأ احتساب مدة التنفيذ من يوم    تسليم الموقع شاملة فترة التحضير.
-
-</div>
-
-<div class="page-spacer"></div> -->
-
-<!-- ===== Signatures ===== -->
 
 
 
@@ -189,7 +129,7 @@ $dateFormatted = $contractDate
 
 
 
-<table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:50px;">
+<!-- <table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:50px;">
     <tr>
         <td class="bold center section-title" style="text-align:center; font-weight:bold;">
             توقيع وختم المقاول
@@ -211,7 +151,7 @@ $dateFormatted = $contractDate
            <img src="{{ public_path('images/signature.jpeg') }}" style="height:100px;">
         </td>
     </tr>
-</table>
+</table> -->
 
 
 

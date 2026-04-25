@@ -145,6 +145,10 @@ Route::middleware(['auth', 'checkRole:co-admin,admin'])->group(function () {
 Route::middleware(['auth'])->group(function () {
 
 
+Route::delete('/projects/{project}/schedule/batch/{batch}', 
+    [ProjectScheduleController::class, 'deleteBatch']
+)->name('projects.schedule.deleteBatch');
+
 
 Route::post('/projects/schedule/approve', [ProjectScheduleController::class, 'approve']);
 

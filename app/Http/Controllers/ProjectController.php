@@ -333,16 +333,23 @@ public function contractPdf(Request $request, $id)
 
     $action = $request->get('action', 'preview');
 
+
+$ownerName = $project?->ownerUser?->name ?? 'مالك_غير_محدد';  // إذا كان الاسم غير موجود، يتم استخدام 'مالك_غير_محدد'
+
+// اسم الملف مع اسم المالك
+$fileName = "العقد_الاساسي_" . $ownerName . ".pdf";
+
+
     if ($action === 'download') {
-        return $mpdf->Output("contract_{$project->id}.pdf", 'D');
+        return $mpdf->Output($fileName, 'D');
     }
 
     if ($action === 'print') {
-        return $mpdf->Output("contract_{$project->id}.pdf", 'I'); // Browser print
+        return $mpdf->Output($fileName, 'I'); // Browser print
     }
 
     // Default = preview
-    return $mpdf->Output("contract_{$project->id}.pdf", 'I');
+    return $mpdf->Output($fileName, 'I');
 }
 
 
@@ -493,16 +500,22 @@ public function contractSpecificationsPdf(Request $request, $id)
     $mpdf->WriteHTML($html);
 
     $action = $request->get('action', 'preview');
-    $fileName = "contract_specifications_{$project->id}.pdf";
+    
+    
+    
+$ownerName = $project?->ownerUser?->name ?? 'مالك_غير_محدد';  // إذا كان الاسم غير موجود، يتم استخدام 'مالك_غير_محدد'
+$fileName = "عقد_المواصفات_الفنية_" . $ownerName . ".pdf";
+
 
     if ($action === 'download') {
         return $mpdf->Output($fileName, 'D');
     }
 
     if ($action === 'print') {
-        return $mpdf->Output($fileName, 'I');
+        return $mpdf->Output($fileName, 'I'); // Browser print
     }
 
+    // Default = preview
     return $mpdf->Output($fileName, 'I');
 }
 
@@ -656,15 +669,21 @@ public function hawyaContractPdf(Request $request, $id)
 
     $action = $request->get('action', 'preview');
 
+        
+$ownerName = $project?->ownerUser?->name ?? 'مالك_غير_محدد';  // إذا كان الاسم غير موجود، يتم استخدام 'مالك_غير_محدد'
+$fileName = "عقد_الحاوية_" . $ownerName . ".pdf";
+
+
     if ($action === 'download') {
-        return $mpdf->Output("contract_hawya_{$project->id}.pdf", 'D');
+        return $mpdf->Output($fileName, 'D');
     }
 
     if ($action === 'print') {
-        return $mpdf->Output("contract_hawya_{$project->id}.pdf", 'I');
+        return $mpdf->Output($fileName, 'I'); // Browser print
     }
 
-    return $mpdf->Output("contract_hawya_{$project->id}.pdf", 'I');
+    // Default = preview
+    return $mpdf->Output($fileName, 'I');
 }
 
 
@@ -701,15 +720,21 @@ public function siteDeliveryContractPdf(Request $request, $id)
 
     $action = $request->get('action', 'preview');
 
+        
+$ownerName = $project?->ownerUser?->name ?? 'مالك_غير_محدد';  // إذا كان الاسم غير موجود، يتم استخدام 'مالك_غير_محدد'
+$fileName = "عقد_تسليم_الموقع_" . $ownerName . ".pdf";
+
+
     if ($action === 'download') {
-        return $mpdf->Output("site_delivery_contract_{$project->id}.pdf", 'D');
+        return $mpdf->Output($fileName, 'D');
     }
 
     if ($action === 'print') {
-        return $mpdf->Output("site_delivery_contract_{$project->id}.pdf", 'I');
+        return $mpdf->Output($fileName, 'I'); // Browser print
     }
 
-    return $mpdf->Output("site_delivery_contract_{$project->id}.pdf", 'I');
+    // Default = preview
+    return $mpdf->Output($fileName, 'I');
 }
 
 
@@ -742,15 +767,21 @@ public function bankContractPdf(Request $request, $id)
 
     $action = $request->get('action', 'preview');
 
+        
+$ownerName = $project?->ownerUser?->name ?? 'مالك_غير_محدد';  // إذا كان الاسم غير موجود، يتم استخدام 'مالك_غير_محدد'
+$fileName = "عقد_البنك_" . $ownerName . ".pdf";
+
+
     if ($action === 'download') {
-        return $mpdf->Output("bank_contract_{$project->id}.pdf", 'D');
+        return $mpdf->Output($fileName, 'D');
     }
 
     if ($action === 'print') {
-        return $mpdf->Output("bank_contract_{$project->id}.pdf", 'I');
+        return $mpdf->Output($fileName, 'I'); // Browser print
     }
 
-    return $mpdf->Output("bank_contract_{$project->id}.pdf", 'I');
+    // Default = preview
+    return $mpdf->Output($fileName, 'I');
 }
 
 
@@ -797,11 +828,33 @@ public function ownerRequirementContractPdf(Request $request, $id)
 
     $action = $request->get('action', 'preview');
 
-    return match ($action) {
+
+
+
+    
+$ownerName = $project?->ownerUser?->name ?? 'مالك_غير_محدد';  // إذا كان الاسم غير موجود، يتم استخدام 'مالك_غير_محدد'
+$fileName = "عقد_احتياجات_المالك_" . $ownerName . ".pdf";
+
+
+    if ($action === 'download') {
+        return $mpdf->Output($fileName, 'D');
+    }
+
+    if ($action === 'print') {
+        return $mpdf->Output($fileName, 'I'); // Browser print
+    }
+
+    // Default = preview
+    return $mpdf->Output($fileName, 'I');
+
+
+
+
+    /*return match ($action) {
         'download' => $mpdf->Output("owner_requirements_contract_{$project->id}.pdf", 'D'),
         'print'    => $mpdf->Output("owner_requirements_contract_{$project->id}.pdf", 'I'),
         default    => $mpdf->Output("owner_requirements_contract_{$project->id}.pdf", 'I'),
-    };
+    };*/
 }
 
 
@@ -885,11 +938,21 @@ public function pricingContractPdf(Request $request, $id)
 
     $action = $request->get('action', 'preview');
 
-    return match ($action) {
-        'download' => $mpdf->Output("contract_pricing_{$project->id}.pdf", 'D'),
-        'print'    => $mpdf->Output("contract_pricing_{$project->id}.pdf", 'I'),
-        default    => $mpdf->Output("contract_pricing_{$project->id}.pdf", 'I'),
-    };
+        
+$ownerName = $project?->ownerUser?->name ?? 'مالك_غير_محدد';  // إذا كان الاسم غير موجود، يتم استخدام 'مالك_غير_محدد'
+$fileName = "عقد_اسعار_التوريد_" . $ownerName . ".pdf";
+
+
+    if ($action === 'download') {
+        return $mpdf->Output($fileName, 'D');
+    }
+
+    if ($action === 'print') {
+        return $mpdf->Output($fileName, 'I'); // Browser print
+    }
+
+    // Default = preview
+    return $mpdf->Output($fileName, 'I');
 }
 
 
@@ -999,11 +1062,21 @@ public function tenderContractPdf(Request $request, $id)
 
     $action = $request->get('action', 'preview');
 
-    return match ($action) {
-        'download' => $mpdf->Output("contract_tender_{$project->id}.pdf", 'D'),
-        'print'    => $mpdf->Output("contract_tender_{$project->id}.pdf", 'I'),
-        default    => $mpdf->Output("contract_tender_{$project->id}.pdf", 'I'),
-    };
+        
+$ownerName = $project?->ownerUser?->name ?? 'مالك_غير_محدد';  // إذا كان الاسم غير موجود، يتم استخدام 'مالك_غير_محدد'
+$fileName = "عقد_حساب_الكميات_" . $ownerName . ".pdf";
+
+
+    if ($action === 'download') {
+        return $mpdf->Output($fileName, 'D');
+    }
+
+    if ($action === 'print') {
+        return $mpdf->Output($fileName, 'I'); // Browser print
+    }
+
+    // Default = preview
+    return $mpdf->Output($fileName, 'I');
 }
 
 /*public function pricingContractPdf(Request $request, $id)
@@ -1083,15 +1156,21 @@ public function bankTableContractPdf(Request $request, $id)
 
     $action = $request->get('action', 'preview');
 
+        
+$ownerName = $project?->ownerUser?->name ?? 'مالك_غير_محدد';  // إذا كان الاسم غير موجود، يتم استخدام 'مالك_غير_محدد'
+$fileName = "عقد_البنك_" . $ownerName . ".pdf";
+
+
     if ($action === 'download') {
-        return $mpdf->Output("bank_table_contract_{$project->id}.pdf", 'D');
+        return $mpdf->Output($fileName, 'D');
     }
 
     if ($action === 'print') {
-        return $mpdf->Output("bank_table_contract_{$project->id}.pdf", 'I');
+        return $mpdf->Output($fileName, 'I'); // Browser print
     }
 
-    return $mpdf->Output("bank_table_contract_{$project->id}.pdf", 'I');
+    // Default = preview
+    return $mpdf->Output($fileName, 'I');
 }
 
 

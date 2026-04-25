@@ -79,6 +79,7 @@
             <th>اعتماد المالك</th>
             <th>اعتماد الاستشاري</th>
             <th>تاريخ الإنشاء</th>
+            <th>الإعدادات</th>
         </tr>
         </thead>
 
@@ -148,6 +149,50 @@
                 <td>
                     {{ $row->created_at ? $row->created_at->format('Y-m-d') : '-' }}
                 </td>
+
+
+
+
+
+
+
+
+
+                <td onclick="event.stopPropagation();">
+    <div class="dropdown">
+        <button class="btn btn-sm btn-olive dropdown-toggle"
+                style="background:#2f3a1f;color:#d4af37;font-weight:600;"
+                data-bs-toggle="dropdown">
+            <i class="fas fa-cog"></i>
+        </button>
+
+        <ul class="dropdown-menu dropdown-menu-end" style="background:#f5f5dc;">
+
+            {{-- تعديل --}}
+            <li>
+                <a href="{{ route('projects.schedule', $project->id) }}?batch_id={{ $row->batch_id }}"
+                   class="dropdown-item">
+                    <i class="far fa-edit"></i> تعديل
+                </a>
+            </li>
+
+            {{-- حذف --}}
+            <li>
+                <form method="POST"
+                      action="{{ route('projects.schedule.deleteBatch', [$project->id, $row->batch_id]) }}">
+                    @csrf
+                    @method('DELETE')
+
+                    <button class="dropdown-item text-danger"
+                            onclick="return confirm('هل أنت متأكد من الحذف؟')">
+                        <i class="far fa-trash-alt"></i> حذف
+                    </button>
+                </form>
+            </li>
+
+        </ul>
+    </div>
+</td>
 
             </tr>
 

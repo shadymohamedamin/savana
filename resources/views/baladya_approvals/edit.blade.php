@@ -71,6 +71,10 @@
 }
 
 </style>
+
+
+@if(!request('isDesignsApproved'))
+
 <section class="content-header">
     <div class="container-fluid">
         <h3>{{ __('Edit') }} {{ __('Baladya Approval') }}</h3>
@@ -347,10 +351,10 @@
         </div>
 
 
+@endif
 
 
-
-
+@if(request('isDesignsApproved'))
 <div class="card shadow-sm rounded-4 mt-4" style="background-color:#f5f5dc;margin:40px;padding:0px;">
     <div class="card-header" style="background:#D4AF37;color:#2f3a1f;font-size:1.3rem;font-weight:600;">
         <h4 class="card-title mb-0">{{ __('الملفات المعتمدة') }}</h4>
@@ -387,7 +391,7 @@
     </div>
 </div>
 
-
+@endif
 
 
 

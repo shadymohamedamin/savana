@@ -321,7 +321,11 @@ public function ownerRequirementsTenderTotal()
 }
 
 
-
+public function latestApproval()
+{
+    return $this->hasOne(\App\Models\BaladyaApproval::class)
+                ->latestOfMany();
+}
 
 
 

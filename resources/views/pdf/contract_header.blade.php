@@ -22,7 +22,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 18px;
+            margin-bottom: 5px;
         }
 
         td,
@@ -127,8 +127,8 @@
             ? $project->container_contract_value
             : ($isBank
                 ? '800,000'
-                : $project->bank_contract_value)
-    }}
+                : number_format($project->bank_contract_value))
+    }} درهم
 </td>
 </tr>
 
@@ -179,13 +179,13 @@
                         ويبدأ احتساب مدة التنفيذ من يوم    تسليم الموقع شاملة فترة التحضير.
 
                      يقوم الطرف الثاني بتنفيذ وانشاء وانجاز وصيانة المشروع المذكور اعلاه لقاء مبلغ وقدره
-                <br><br>
+           
 
                 {{ number_format($amount) }} درهم
-                <br>
+      
                 ( {{ $amountInWords }} درهم )
 
-                <br><br>
+          
                 و ذلك حسب المتفق عليه والمعتمد وفق للمناقصة التي جرت
                 </td>
             @else
