@@ -185,7 +185,17 @@ Carbon::setLocale('ar');
 
      <tr>
         <td></td>
-        <td></td>
+        <td>
+
+
+        <div class="mb-2">
+            <img src="{{ asset('signatures/69ed38be3badc.png') }}"
+                 style="max-height:100px; border:1px solid #ccc;">
+        </div>
+        </td>
+
+
+        
         <td>
             <img src="{{ public_path('images/signature.jpeg') }}" style="height:80px;">
         </td>
