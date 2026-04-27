@@ -578,17 +578,19 @@ public function projectSchedulePdf(Request $request, $id)
         'projectName',
         'projectRegion'
     ])->findOrFail($id);
-
+    
+    $batchId = $request->get('batch_id');
     // ✅ نجيب آخر batch
+    
     $lastBatchId = \App\Models\ProjectSchedule::where('project_id', $id)
         ->max('batch_id');
+    if(!$batchId)$batchId=$lastBatchId;
 
     // ✅ نجيب بياناته فقط
     $schedules = \App\Models\ProjectSchedule::where('project_id', $id)
-        ->where('batch_id', $lastBatchId)
+        ->where('batch_id', $batchId)//$lastBatchId)
         ->orderBy('item_no')
         ->get();
-$batchId = $request->get('batch_id');
 
 // لو مش موجود → استخدم آخر batch (fallback)
 if (!$batchId) {
@@ -610,7 +612,7 @@ if (!$batchId) {
 
 
 
-
+//dd($batchId);
 $projectScheduleApproval = \App\Models\ProjectScheduleApproval::where('project_id', $id)
     ->where('batch_id', $batchId)
     ->first();

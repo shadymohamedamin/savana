@@ -1290,11 +1290,11 @@ body, html {
     عقود المقاول
 </a>
 
-<a href="{{ route('projects.project-payments.index', ['project' => $project->id]) }}"
+<!-- <a href="{{ route('projects.project-payments.index', ['project' => $project->id]) }}"
    class="panel-btn-full {{ Route::currentRouteName() == 'projects.project-payments.index' ? 'active' : '' }}">
     <i class="fas fa-clipboard-list"></i>
     دفعات المشروع
-</a>
+</a> -->
 
 
 <a href="{{ route('projects.schedules.batches', $project->id) }}"

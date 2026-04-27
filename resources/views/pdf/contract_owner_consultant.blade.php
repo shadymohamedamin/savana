@@ -7,7 +7,7 @@
             font-family: 'amiri', serif;
             direction: rtl;
             text-align: right;
-            font-size: 15px;
+            font-size: 13px;
             line-height: 1.9;
         }
 
@@ -62,18 +62,18 @@
         text-align: center;
         vertical-align: middle;
         padding: 10px;
-        font-size: 14px;
+        font-size: 12px;
     }
 
     .signature-header {
         background-color: #e9e2c7;
         font-weight: bold;
-        font-size: 16px;
+        font-size: 14px;
     }
 
     .signature-space {
-        min-height: 20px;
-        height: 20px;
+        min-height: 15px;
+        height: 15px;
     }
     </style>
 </head>
@@ -257,6 +257,11 @@ $dateFormatted = $startDate->translatedFormat('d/m/Y'); // مثال: 07/01/2026
         14 -  يحق للطرف الأول تغيير الطرف الثاني (الاستشاري) أثناء تنفيذ مشروع البناء، وليس قبل ذلك بأي حال من الأحوال ،و في حال الطرف الاول قرر عدم مواصلة المشروع قبل 
 مرحلة التنفيذ يلتزم بدفع باقي المبالغ المستحقة و يكون المبلغ المدفوع في البند 2 نظير اعمال التصاميم المبدئية فقط مع الاحتفاظ بحقوق التصميم.
     </td>
+
+<tr><td colspan="3">15 - زيارات إشرافية بمعدل أربع (4) شهريًا، قابلة للزيادة أو النقصان حسب احتياجات المشروع والموقع ومتطلبات المقاول.</td></tr>
+<tr><td colspan="3">16 - عند توقف العمل بالموقع، لا تُستحق رسوم الإشراف إلا في حال وجود أعمال مكتبية أو تنسيقية تُعد بديلاً عن الإشراف.</td></tr>
+
+    
 </tr>
 </table>
     

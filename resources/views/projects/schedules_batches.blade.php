@@ -41,17 +41,33 @@
 
     <div class="d-flex gap-2">
 
-        <a href="{{ route('projects.index') }}"
-           class="btn btn-olive px-4 btn-sm"
-                style="background:#d4af37;color:#2f3a1f;font-weight:700;font-size:1rem;">
-            <i class="fas fa-arrow-left"></i> رجوع
-        </a>
+        
 
         {{-- زرار جدول جديد --}}
         <a href="{{ route('projects.schedule.newBatch', $project->id) }}"
            class="btn btn-olive px-4 btn-sm"
                 style="background:#d4af37;color:#2f3a1f;font-weight:700;font-size:1rem;">
-            <i class="fas fa-plus"></i> طلب دفعة 
+            <i class="fas fa-plus"></i> طلب دفعة مالك
+        </a>
+
+        {{-- زرار جدول جديد --}}
+        <a href="{{ route('projects.project-payments.create', $project->id) }}"
+           class="btn btn-olive px-4 btn-sm"
+                style="background:#d4af37;color:#2f3a1f;font-weight:700;font-size:1rem;">
+            <i class="fas fa-plus"></i> طلب دفعة بنك
+        </a>
+
+        {{-- زرار جدول جديد --}}
+        <a href="{{ route('projects.project-payments.index', ['project' => $project->id]) }}"
+           class="btn btn-olive px-4 btn-sm"
+                style="background:#d4af37;color:#2f3a1f;font-weight:700;font-size:1rem;">
+            <i class="fas fa-plus"></i>   معاينة جدول الدفعات للبنك والمالك
+        </a>
+
+        <a href="{{ route('projects.index') }}"
+           class="btn btn-olive px-4 btn-sm"
+                style="background:#d4af37;color:#2f3a1f;font-weight:700;font-size:1rem;">
+            <i class="fas fa-arrow-left"></i> رجوع
         </a>
 
     </div>
@@ -173,6 +189,28 @@
                 <a href="{{ route('projects.schedule', $project->id) }}?batch_id={{ $row->batch_id }}"
                    class="dropdown-item">
                     <i class="far fa-edit"></i> تعديل
+                </a>
+            </li>
+
+
+     
+
+
+
+            {{-- معاينة --}}
+            <li>
+                <a 
+                href="{{ route('projects.schedule.pdf', [
+                    'id' => $project->id,
+                    'action' => 'preview',
+                    'batch_id' => $row->batch_id
+            ]) }}"
+                
+                
+                
+                
+                   class="dropdown-item">
+                    <i class="far fa-edit"></i> معاينة
                 </a>
             </li>
 
