@@ -186,12 +186,6 @@ Carbon::setLocale('ar');
      <tr>
         <td></td>
         <td>
-
-
-        <!-- <div class="mb-2">
-            <img src="{{ asset('signatures/69ed38be3badc.png') }}"
-                 style="max-height:100px;">
-        </div> -->   
         </td>
 
 
@@ -204,7 +198,152 @@ Carbon::setLocale('ar');
 
     
 
-</table>
+</table> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ================= SIGNATURE ================= -->
+<!-- <table class="signature-table">
+    <tr>
+        <td class="signature-title">توقيع المقاول</td>
+        <td class="signature-title">توقيع المالك</td>
+        <td class="signature-title">توقيع الاستشاري</td>
+    </tr>
+
+    <tr>
+        <td>
+            @if($showSignature && $project->contractorUser && $project->contractorUser->signature)
+                <img src="{{ public_path('images/' . $project->contractorUser->signature) }}" style="height:80px;">
+            @else
+                <span>لا يوجد توقيع</span>
+            @endif
+        </td>
+
+        <td>
+            @if($showSignature && $project->ownerUser && $project->ownerUser->signature)
+                <img src="{{ public_path('images/' . $project->ownerUser->signature) }}" style="height:80px;">
+            @else
+                <span>لا يوجد توقيع</span>
+            @endif
+        </td>
+
+        <td>
+            @if($showSignature && $project->consultantUser && $project->consultantUser->signature)
+                <img src="{{ public_path('images/' . $project->consultantUser->signature) }}" style="height:80px;">
+            @else
+                <span>لا يوجد توقيع</span>
+            @endif
+        </td>
+    </tr>
+</table> -->
+
+
+<!-- 
+@php
+    // تأكد من أن المسار لا يحتوي على تكرار للمجلد
+    $signaturePath = public_path('signatures/' . ltrim($project?->ownerUser?->signature, 'signatures/'));
+    
+    // تحقق من وجود الملف قبل محاولة تحميله
+    if (file_exists($signaturePath)) {
+        $signatureBase64 = base64_encode(file_get_contents($signaturePath));
+    } else {
+        $signatureBase64 = null;
+    }
+@endphp
+
+@if($signatureBase64)
+    <img src="data:image/png;base64,{{ $signatureBase64 }}" style="height:80px;">
+@else
+    <span>لا يوجد توقيع</span>
+@endif -->
+
+
+
+
+
+
+<!-- @php
+    // تحديد مسار التوقيع لكل من المقاول، المالك، والاستشاري
+    $contractorSignaturePath = public_path('signatures/' . ltrim($project?->contractorUser?->signature ?? '', 'signatures/'));
+    $ownerSignaturePath = public_path('signatures/' . ltrim($project?->ownerUser?->signature ?? '', 'signatures/'));
+    $consultantSignaturePath = public_path('signatures/' . ltrim($project?->consultantUser?->signature ?? '', 'signatures/'));
+
+    // عرض المسارات لفحصها
+    //dd($contractorSignaturePath, $ownerSignaturePath, $consultantSignaturePath);
+
+    // التحقق من وجود توقيع المالك
+    $ownerSignatureBase64 = null;
+    if ($ownerApproved &&!empty($ownerSignaturePath) && file_exists($ownerSignaturePath) && is_file($ownerSignaturePath)) {
+        $ownerSignatureBase64 = base64_encode(file_get_contents($ownerSignaturePath));
+    }
+
+    // التحقق من وجود توقيع الاستشاري
+    $consultantSignatureBase64 = null;
+    if ($consultantApproved &&!empty($consultantSignaturePath) && file_exists($consultantSignaturePath) && is_file($consultantSignaturePath)) {
+        $consultantSignatureBase64 = base64_encode(file_get_contents($consultantSignaturePath));
+    }
+
+    // التحقق من وجود توقيع المقاول
+    $contractorSignatureBase64 = null;
+    if ($contractorApproved &&!empty($contractorSignaturePath) && file_exists($contractorSignaturePath) && is_file($contractorSignaturePath)) {
+        $contractorSignatureBase64 = base64_encode(file_get_contents($contractorSignaturePath));
+    }
+
+@endphp
+
+
+<table class="signature-table">
+    <tr>
+        <td class="signature-title">توقيع المقاول</td>
+        <td class="signature-title">توقيع المالك</td>
+        <td class="signature-title">توقيع الاستشاري</td>
+    </tr>
+    <tr>
+        
+        <td>
+            @if($contractorSignatureBase64)
+                <img src="data:image/png;base64,{{ $contractorSignatureBase64 }}" style="height:80px;">
+            @else
+                <span>  </span>
+            @endif
+        </td>
+
+        
+        <td>
+            @if($ownerSignatureBase64)
+                <img src="data:image/png;base64,{{ $ownerSignatureBase64 }}" style="height:80px;">
+            @else
+                <span>  </span>
+            @endif
+        </td>
+
+       
+        <td>
+            @if($consultantSignatureBase64)
+                <img src="data:image/png;base64,{{ $consultantSignatureBase64 }}" style="height:80px;">
+            @elseif($consultantApproved)
+                <img src="{{ public_path('images/signature.jpeg') }}" style="height:80px;">
+            @else
+                <span>  </span>
+            @endif
+        </td>
+    </tr>
+</table> -->
+
+
+
+
+
 
 </body>
 </html>

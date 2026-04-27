@@ -595,15 +595,50 @@ if (!$batchId) {
     $batchId = \App\Models\ProjectSchedule::where('project_id', $id)
         ->max('batch_id');
 }
+
+
+
+
+
     $approval = \App\Models\ProjectScheduleApproval::where('project_id', $id)
     ->where('batch_id', $batchId)
     ->first();
 
 
+
+
+
+
+
+
+$projectScheduleApproval = \App\Models\ProjectScheduleApproval::where('project_id', $id)
+    ->where('batch_id', $batchId)
+    ->first();
+$showSignature = false; 
+if ($projectScheduleApproval) {
+    if ($projectScheduleApproval->contractor_approved || 
+        $projectScheduleApproval->owner_approved || 
+        $projectScheduleApproval->consultant_approved) {
+        $showSignature = true; 
+    }
+}
+
+
+
     $approvalCreatedAt = $approval->created_at ?? null;
     //dd($approvalCreatedAt->format('yy-mm-dd'));
 
-    $html = view('pdf.project-schedule', compact('approval','project', 'schedules','approvalCreatedAt'))->render();
+
+
+
+$contractorApproved = $approval ? $approval->contractor_approved : false;
+    $ownerApproved = $approval ? $approval->owner_approved : false;
+    $consultantApproved = $approval ? $approval->consultant_approved : false;
+
+
+
+
+    $html = view('pdf.project-schedule', compact('contractorApproved','ownerApproved','consultantApproved','projectScheduleApproval','showSignature','approval','project', 'schedules','approvalCreatedAt'))->render();
 
     $mpdf = new \Mpdf\Mpdf([
         'mode' => 'utf-8',
@@ -638,6 +673,101 @@ if (!$batchId) {
 
     return $mpdf->Output($fileName, 'I');
 }
+
+
+
+
+
+
+
+
+/*public function projectSchedulePdf(Request $request, $id)
+{
+    $project = \App\Models\Project::with([
+        'ownerUser',
+        'contractorUser',
+        'projectName',
+        'projectRegion'
+    ])->findOrFail($id);
+
+    // Get the latest batch ID
+    $lastBatchId = \App\Models\ProjectSchedule::where('project_id', $id)
+        ->max('batch_id');
+
+    // Get schedules for the latest batch
+    $schedules = \App\Models\ProjectSchedule::where('project_id', $id)
+        ->where('batch_id', $lastBatchId)
+        ->orderBy('item_no')
+        ->get();
+
+    // Get batch ID from the request, or use the latest batch as fallback
+    $batchId = $request->get('batch_id');
+    if (!$batchId) {
+        $batchId = \App\Models\ProjectSchedule::where('project_id', $id)
+            ->max('batch_id');
+    }
+
+    // Get the approval data for the given batch
+    $approval = \App\Models\ProjectScheduleApproval::where('project_id', $id)
+        ->where('batch_id', $batchId)
+        ->first();
+
+    // Check if the approval statuses for contractor, owner, or consultant are true
+    $contractorApproved = $approval ? $approval->contractor_approved : false;
+    $ownerApproved = $approval ? $approval->owner_approved : false;
+    $consultantApproved = $approval ? $approval->consultant_approved : false;
+
+    // Set $showSignature to true if any of the approvals are true
+    $showSignature = $contractorApproved || $ownerApproved || $consultantApproved;
+
+    // Prepare the approval created date
+    $approvalCreatedAt = $approval ? $approval->created_at : null;
+
+    // Pass all necessary data to the view
+    $html = view('pdf.project-schedule', compact(
+        'project', 'schedules', 'approval', 
+        'contractorApproved', 'ownerApproved', 'consultantApproved',
+        'showSignature', 'approvalCreatedAt'
+    ))->render();
+
+    // Create the PDF using mPDF
+    $mpdf = new \Mpdf\Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'default_font' => 'amiri',
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+        'margin_top' => 35,
+        'margin_footer' => 5,
+    ]);
+
+    $mpdf->SetHTMLHeader('
+        <div style="text-align:center;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:90px;width:70%;">
+        </div>
+    ');
+
+    $mpdf->SetHTMLFooter('
+        <div style="text-align:center;font-size:12px;">
+            صفحة {PAGENO} من {nbpg}
+        </div>
+    ');
+
+    $mpdf->WriteHTML($html);
+
+    // Set the file name
+    $fileName = "project_schedule_{$project->id}_batch_{$lastBatchId}.pdf";
+    $action = $request->get('action', 'preview');
+
+    // Return the PDF file either for download or preview
+    if ($action === 'download') {
+        return $mpdf->Output($fileName, 'D');
+    }
+
+    return $mpdf->Output($fileName, 'I');
+}*/
+
+
 
 public function hawyaContractPdf(Request $request, $id)
 {
