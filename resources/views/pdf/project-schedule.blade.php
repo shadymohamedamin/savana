@@ -243,8 +243,8 @@ Carbon::setLocale('ar');
         <td class="bold">قيمة المشروع</td>
         <td>
             {{
-                $project->bank_contract_value
-            }}
+                number_format($project->bank_contract_value);
+            }} درهم
         </td>
 
         <td class="bold">تاريخ الدفعة</td>
