@@ -611,12 +611,12 @@
 
         {{-- الصورة الحالية --}}
         @if($project->project_image)
-            <a href="{{ asset('Files/'.$project->project_image) }}"
-               target="_blank"
-               class="btn btn-sm btn-outline-primary w-100 mt-1 stored-file">
-                👁 عرض الصورة الحالية
-            </a>
-        @endif
+    <a href="{{ asset('Files/'.$project->project_image) }}"
+       target="_blank"
+       class="btn btn-sm btn-outline-primary w-100 mt-1 stored-file">
+        👁 عرض الصورة الحالية
+    </a>
+@endif
 
         {{-- preview --}}
         <a href="#"

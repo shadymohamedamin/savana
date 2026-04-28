@@ -1477,7 +1477,7 @@ $fileName = "عقد_البنك_" . $ownerName . ".pdf";
     }*/
 
 
-public function update($id, UpdateProjectRequest $request)
+/*public function update($id, UpdateProjectRequest $request)
 {
     if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
     return redirect()->back()->with('toast', [
@@ -1553,8 +1553,87 @@ public function update($id, UpdateProjectRequest $request)
             'type'    => 'success',
             'message' => __('Project updated successfully.')
         ]);
-}
+}*/
+public function update($id, UpdateProjectRequest $request)
+{
+    if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        return redirect()->back()->with('toast', [
+            'type' => 'error',
+            'message' => 'ليس لديك الصلاحيات الكافية'
+        ]);
+    }
 
+    $project = $this->projectRepository->find($id);
+
+    if (empty($project)) {
+        return redirect()->back()
+            ->with('toast', [
+                'type' => 'error',
+                'message' => __('Project not found.')
+            ]);
+    }
+
+    // التحقق من رفع الصورة وحفظها
+    if ($request->hasFile('project_image')) {
+        // حذف الصورة السابقة إن كانت موجودة
+        if ($project->project_image && file_exists(public_path('Files/'.$project->project_image))) {
+            unlink(public_path('Files/'.$project->project_image)); // حذف الصورة القديمة
+        }
+
+        // رفع الصورة الجديدة
+        $image = $request->file('project_image');
+        $imageName = time().'_'.$image->getClientOriginalName();
+        $image->move(public_path('Files'), $imageName); // حفظ الصورة في مجلد Files
+
+        // تخزين المسار الجديد للصورة في قاعدة البيانات
+        $project->project_image = 'Files/'.$imageName;
+        $project->save();
+    }
+
+    // تحديث بيانات المشروع
+    $this->projectRepository->update($request->all(), $id);
+
+    // ==============================
+    // تحديث المستخدمين المرتبطين
+    // ==============================
+    $roles = [
+        'owner_id'      => 2,
+        'contractor_id' => 3,
+        'consultant_id' => 7,
+    ];
+
+    foreach ($roles as $field => $roleId) {
+        if ($request->filled($field)) {
+            \App\Models\ProjectUser::updateOrCreate(
+                [
+                    'project_id' => $project->id,
+                    'user_id'    => $request->$field,
+                ],
+                [
+                    'role_id' => $roleId,
+                ]
+            );
+        }
+    }
+
+    // لو عايز يروح للمرفقات بعد التحديث
+    if ($request->action === 'save_attachments') {
+        return redirect()->route('users.attachments.create', [
+                'id'   => $project->id,
+                'type' => 'projects'
+            ])->with('toast', [
+                'type'    => 'success',
+                'message' => __('Project updated successfully. You can now upload attachments.')
+            ]);
+    }
+
+    return redirect()
+        ->back()
+        ->with('toast', [
+            'type'    => 'success',
+            'message' => __('Project updated successfully.')
+        ]);
+}
 
 
     /**
