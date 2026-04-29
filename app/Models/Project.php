@@ -54,6 +54,7 @@ class Project extends Model
         'contract_signed_at',
         'project_image',
         'container_contract_value',
+        'approved_area_license',
 
 
 

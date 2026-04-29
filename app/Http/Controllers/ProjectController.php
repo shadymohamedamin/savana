@@ -1574,7 +1574,7 @@ public function update($id, UpdateProjectRequest $request)
     }
 //dd($project->project_image);
     // التحقق من رفع الصورة وحفظها
-    if ($request->hasFile('project_image')) {
+    /*if ($request->hasFile('project_image')) {
         // حذف الصورة السابقة إن كانت موجودة
         if ($project->project_image && file_exists(public_path('Files/'.$project->project_image))) {
             unlink(public_path('Files/'.$project->project_image)); // حذف الصورة القديمة
@@ -1588,8 +1588,33 @@ public function update($id, UpdateProjectRequest $request)
         // تخزين المسار الجديد للصورة في قاعدة البيانات
         $project->project_image = 'Files/'.$imageName;
         $project->save();
-    }
+    }*/
 
+
+if ($request->hasFile('approved_file') && $request->file('approved_file')->isValid()) {
+    $file = $request->file('approved_file');
+
+    // تأكد من أن الملف تم تحميله بنجاح
+    $filename = $baladyaApproval->id . '_baladya_' . time() . '_' . $file->getClientOriginalName();
+
+    // حفظ الملف في public/Files
+    $file->move(public_path('Files'), $filename);
+
+    // تحقق إذا كان الملف موجود في المجلد
+    $path = public_path('Files') . '/' . $filename;
+    if (file_exists($path)) {
+        // تخزين اسم الملف في قاعدة البيانات
+
+        dd($fileName);
+        $input['approved_file'] = $filename;
+    } else {
+        // إذا كان الملف لم يتم حفظه، قم بإرجاع خطأ أو رسالة مناسبة
+        return redirect()->back()->with('toast', [
+            'type' => 'error',
+            'message' => 'لم يتم حفظ الملف بشكل صحيح',
+        ]);
+    }
+}
     // تحديث بيانات المشروع
     $this->projectRepository->update($request->all(), $id);
 

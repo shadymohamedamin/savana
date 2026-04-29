@@ -600,38 +600,18 @@
 
 
 
-<div class="form-item">
-    <div class="border rounded p-2 small bg-light attachment-box">
-
-        <input type="hidden" name="project_image_delete" value="0" class="delete-flag">
-
-        <input type="file"
-               name="project_image"
-               class="form-control form-control-sm attachment-input mb-1">
-
-        {{-- الصورة الحالية --}}
-        @if($project->project_image)
-    <a href="{{ asset('Files/'.$project->project_image) }}"
-       target="_blank"
-       class="btn btn-sm btn-outline-primary w-100 mt-1 stored-file">
-        👁 عرض الصورة الحالية
-    </a>
-@endif
-
-        {{-- preview --}}
-        <a href="#"
-           target="_blank"
-           class="btn btn-sm btn-outline-success w-100 mt-1 preview-file d-none">
-            👁 معاينة
-        </a>
-
-        <button type="button"
-                class="btn btn-sm btn-outline-danger w-100 mt-1 remove-file">
-            🗑 حذف
-        </button>
-
-    </div>
+{{-- إضافة حقل صورة المشروع --}}
+<div class="form-group">
+    {!! Form::label('project_image', 'صورة المشروع') !!}
+    {!! Form::file('project_image', ['class' => 'form-control']) !!}
 </div>
+
+{{-- عرض صورة المشروع إذا كانت موجودة --}}
+@if($project->project_image)
+    <div class="form-group">
+        <img src="{{ asset('Files/' . $project->project_image) }}" alt="Project Image" class="img-fluid">
+    </div>
+@endif
 
 
 <div class="w-100">
@@ -710,6 +690,11 @@
 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
                     {!! Form::label('approved_area', __('المساحة المعتمدة من البلدية')) !!}
                     {!! Form::text('approved_area', null, ['class' => 'form-control rounded']) !!}
+                </div>
+
+<div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+                    {!! Form::label('approved_area_license', __('المساحة المعتمدة من الرخصة')) !!}
+                    {!! Form::text('approved_area_license', null, ['class' => 'form-control rounded']) !!}
                 </div>
 
                 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">

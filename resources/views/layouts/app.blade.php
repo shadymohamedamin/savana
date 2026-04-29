@@ -842,11 +842,12 @@ body, html {
     box-shadow:0 10px 25px rgba(0,0,0,0.25);
     position:relative;
     overflow:hidden;
+    /* max-width:150px; */
 }
 
 /* ICON */
 .project-card i{
-    font-size:28px;
+    font-size:32px;
     color:#d4af37;
     margin-bottom:10px;
     display:block;
@@ -854,7 +855,7 @@ body, html {
 
 /* TEXT */
 .project-card span{
-    font-size:14px;
+    font-size:18px;
     font-weight:600;
 }
 
@@ -887,7 +888,95 @@ body, html {
 
 
 
+/* GRID */
+.project-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 20px;
+    margin-top: 20px;
+    margin-bottom:30px;
+    margin-right:50px;
+    margin-left:50px;
+}
 
+/* CARD */
+.project-card {
+    background: linear-gradient(135deg, #2f3a1f, #1f2937);
+    color: #fff;
+    border-radius: 18px;
+    padding: 25px 15px;
+    text-align: center;
+    text-decoration: none;
+    transition: 0.3s ease;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    position: relative;
+    overflow: hidden;
+}
+
+/* ICON */
+.project-card i {
+    font-size: 32px;
+    color: #d4af37;
+    margin-bottom: 13px;
+    display: block;
+}
+
+/* TEXT */
+.project-card span {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+/* HOVER */
+.project-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
+}
+
+/* GLOW EFFECT */
+.project-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    opacity: 0;
+    transition: 0.4s;
+}
+
+.project-card:hover::before {
+    opacity: 1;
+    animation: shine 1s;
+}
+
+@keyframes shine {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(100%);
+    }
+}
+
+/* ACTIVE LINK */
+.project-card.active {
+    background: linear-gradient(135deg, #2c854f, #72943f);
+    color: #d4af37; /* Color for text when active */
+}
+
+.project-card.active i {
+    color: #fff; /* Color for icon when active */
+}
+
+/* HOVER EFFECT ON LINK */
+.project-card:hover {
+    background-color: #444; /* Change background when hovering */
+    color: #ffca28; /* Highlight color when hovering */
+}
+
+.project-card:hover i {
+    color: #fff; /* Icon color change on hover */
+}
 
     </style>
 
@@ -1306,226 +1395,97 @@ body, html {
 
 
 
-{{-- ✅ حط هنا كود لوحة المشروع --}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @if(isset($project))
-<div class="project-panel-full">
+<div class="project-cards-grid">
 
-    
-    <div class="project-panel-body-full">
+    @if(isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12]))
+        <a href="{{ route('projects.edit', $project->id) }}" class="project-card {{ Route::currentRouteName() == 'projects.edit' ? 'active' : '' }}">
+            <i class="fas fa-edit fa-2x"></i>
+            <span>تعديل المشروع</span>
+        </a>
 
-        
+        <a href="{{ url('projects/'.$project->id.'/tender-contractors') }}" class="project-card {{ Route::currentRouteName() == 'projects.tender.contractors' ? 'active' : '' }}">
+            <i class="fas fa-users fa-2x"></i>
+            <span>المقاولين المرشحين</span>
+        </a>
+    @endif
 
-        <div class="project-actions-scroll">
-            <div class="project-actions-full">
-            @if(isset($project) && in_array(auth()->user()->role_id, [1,4,11,12]))
-                <!-- <a href="{{ route('users.index') }}" class="panel-btn-full">
-                    <i class="far fa-users"></i>
-                    المستخدمين
-                </a> -->
-            
+    @if((isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12])) || (isset($project) && $project->contractor_id == auth()->user()->id))
+        <a href="{{ route('projects.baladya-approvals.index', ['project' => $project->id]) }}" class="project-card {{ Route::currentRouteName() == 'projects.baladya-approvals.index' && !request('isDesignsApproved') ? 'active' : '' }}">
+            <i class="fas fa-check-circle fa-2x"></i>
+            <span>اعتمادات البلدية</span>
+        </a>
 
-            <a href="{{ route('projects.edit', $project->id) }}"
-                class="panel-btn-full {{ Route::currentRouteName() == 'projects.edit' ? 'active' : '' }}">
-                    <i class="far fa-folder"></i>
-                    تعديل المشروع
-                </a>
+        <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=tender') }}" class="project-card {{ request('mode') == 'tender' ? 'active' : '' }}">
+            <i class="fas fa-file-contract fa-2x"></i>
+            <span>المناقصة</span>
+        </a>
 
+        <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=contractor_files') }}" class="project-card {{ request('mode') == 'contractor_files' ? 'active' : '' }}">
+            <i class="fas fa-hard-hat fa-2x"></i>
+            <span>عقود المقاول</span>
+        </a>
 
+        <a href="{{ route('projects.schedules.batches', $project->id) }}" class="project-card {{ Route::currentRouteName() == 'projects.schedules.batches' ? 'active' : '' }}">
+            <i class="fas fa-calendar-alt fa-2x"></i>
+            <span>جداول الدفوعات</span>
+        </a>
 
-                <a href="{{ url('projects/'.$project->id.'/tender-contractors') }}"
-   class="panel-btn-full {{ Route::currentRouteName() == 'projects.tender.contractors' ? 'active' : '' }}">
-    <i class="fas fa-clipboard-list"></i>
-    المقاولين المرشحين
-</a>
+        <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=project_documents') }}" class="project-card {{ request('mode') == 'project_documents' ? 'active' : '' }}">
+            <i class="fas fa-folder-open fa-2x"></i>
+            <span>مستندات المشروع</span>
+        </a>
 
+        <a href="{{ url('projects/'.$project->id.'/baladya-approvals?isDesignsApproved=true') }}" class="project-card {{ request('isDesignsApproved') ? 'active' : '' }}">
+            <i class="fas fa-drafting-compass fa-2x"></i>
+            <span>المخططات المعتمدة</span>
+        </a>
+    @endif
 
+    @if(isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12]))
+        <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}" class="project-card {{ request()->is('users/*/attachments/create') && !request('mode') ? 'active' : '' }}">
+            <i class="fas fa-file-signature fa-2x"></i>
+            <span>عقود الاستشاري</span>
+        </a>
 
+        <a href="{{ url('#') }}" class="project-card">
+            <i class="fas fa-cogs fa-2x"></i>
+            <span>الاشراف</span>
+        </a>
 
-            @endif
-
-
-@if((isset($project) && in_array(auth()->user()->role_id, [1,4,11,12]))||(isset($project) && $project->contractor_id==auth()->user()->id))
-            
-            
- 
-
-            
-
-<a href="{{ route('projects.baladya-approvals.index', ['project' => $project->id]) }}"
-   class="panel-btn-full {{ Route::currentRouteName() == 'projects.baladya-approvals.index' && !request('isDesignsApproved') ? 'active' : '' }}">
-    <i class="fas fa-clipboard-list"></i>
-    اعتمادات البلدية
-</a>
-
-            <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=tender') }}"
-   class="panel-btn-full {{ request('mode') == 'tender' ? 'active' : '' }}">
-    <i class="fas fa-clipboard-list"></i>
-    المناقصة
-</a>
-
-
-
-
-            <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=contractor_files') }}"
-   class="panel-btn-full {{ request('mode') == 'contractor_files' ? 'active' : '' }}">
-    <i class="fas fa-clipboard-list"></i>
-    عقود المقاول
-</a>
-
-<!-- <a href="{{ route('projects.project-payments.index', ['project' => $project->id]) }}"
-   class="panel-btn-full {{ Route::currentRouteName() == 'projects.project-payments.index' ? 'active' : '' }}">
-    <i class="fas fa-clipboard-list"></i>
-    دفعات المشروع
-</a> -->
-
-
-<a href="{{ route('projects.schedules.batches', $project->id) }}"
-   class="panel-btn-full {{ Route::currentRouteName() == 'projects.schedules.batches' ? 'active' : '' }}">
-    <i class="fas fa-clipboard-list"></i>
-    جداول الدفوعات
-</a>
-
-
-
-            <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=project_documents') }}"
-            class="panel-btn-full {{ request('mode') == 'project_documents' ? 'active' : '' }}">
-                <i class="fas fa-clipboard-list"></i>
-            مستندات المشروع
-            </a>
-
-
-
-
-
-            <!-- <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=designs') }}"
-   class="panel-btn-full {{ request('mode') == 'designs' ? 'active' : '' }}">
-    <i class="fas fa-clipboard-list"></i>
-     المخططات المعتمدة
-</a> -->
-
-<a href="{{ url('projects/'.$project->id.'/baladya-approvals?isDesignsApproved=true') }}"
-   class="panel-btn-full {{ request('isDesignsApproved') ? 'active' : '' }}">
-    <i class="fas fa-clipboard-list"></i>
-    المخططات المعتمدة
-</a>
-
-
-            <a href="{{ url('#') }}" class="panel-btn-full">
-                <i class="fas fa-clipboard-list"></i>
-                الرسائل والتنبيهات
-            </a>
-
-
-            <!-- <a href="{{ route('projects.index') }}" class="panel-btn-full">
-                <i class="fas fa-clipboard-list"></i>
-                    العودة إلى المشاريع
-            </a> -->
-@endif
-
-@if(isset($project) && in_array(auth()->user()->role_id, [1,4,11,12]))
-            
-           <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}"
-                class="panel-btn-full {{ request()->is('users/*/attachments/create') && !request('mode') ? 'active' : '' }}">
-                    <i class="fas fa-clipboard-list"></i>
-                    عقود الاستشاري
-                </a>
-
-
-            <a href="{{ url('#') }}" class="panel-btn-full">
-                <i class="fas fa-clipboard-list"></i>
-                الاشراف
-            </a>
-            <a href="{{ url('#') }}" class="panel-btn-full">
-                <i class="fas fa-clipboard-list"></i>
-                التصميم
-            </a>
-@endif
-
-            </div>
-        </div>
-
-    </div>
-    
-
-
+        <a href="{{ url('#') }}" class="project-card">
+            <i class="fas fa-pencil-alt fa-2x"></i>
+            <span>التصميم</span>
+        </a>
+    @endif
 
 </div>
-{{-- 
-<div class="project-top-bar">
-
-    <!-- زر اسم المالك -->
-    <div class="top-pill">
-        <i class="fas fa-user-tie me-2"></i>
-        {{ optional($project->ownerUser)->name ?? '—' }}
-    </div>
-
-    <!-- زر عنوان الصفحة -->
-    <div class="top-pill center-pill">
-        <i class="fas fa-folder-open me-2"></i>
-        @php
-    $routeName = Route::currentRouteName();
-
-    $titles = [
-        'projects.edit' => 'تعديل المشروع',
-        'users.index' => 'المستخدمين',
-        'projects.baladya-approvals.index' => 'اعتمادات البلدية',
-        'projects.project-payments.index' => 'دفعات المشروع',
-    ];
-
-    // صفحات المرفقات حسب mode
-    if(request()->is('users/*/attachments/create')) {
-        if(request('mode') === 'tender') {
-            $pageTitle = 'المناقصة';
-        } elseif(request('mode') === 'contractor_files') {
-            $pageTitle = 'عقود المقاول';
-        } else {
-            $pageTitle = 'عقود الاستشاري';
-        }
-    } else {
-        $pageTitle = $titles[$routeName] ?? 'لوحة المشروع';
-    }
-@endphp
-{{ $pageTitle }}
-        <!-- <div class="top-pill center-pill">
-            <i class="fas fa-folder-open me-2"></i>
-            
-        </div> -->
-    </div>
-
-    <!-- زر العودة -->
-    <!-- <a href="{{ route('projects.index') }}" class="top-pill link-pill">
-        <i class="fas fa-arrow-left me-2"></i>
-        العودة إلى المشاريع
-    </a> -->
-
-</div> --}}
-
-
-
-<div onclick="window.location.href='{{ url('users/' . optional($project->ownerUser)->id . '/edit') }}'" style="cursor:pointer;" class="owner-title">
-    <i class="fas fa-user-tie me-2"></i>
-     المالك : {{ optional($project->ownerUser)->name ?? '—' }}
-</div>
-
-
-
-
-
-
-
 @endif
-
-
-
-
-
-
-
-
-
-
-
 
 
 
