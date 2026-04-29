@@ -27,7 +27,7 @@
 
         td, th {
             border: 1px solid #000;
-            padding: 4px;
+            padding: 2px;
             vertical-align: top;
         }
 
@@ -69,7 +69,7 @@
         border: 1px solid #000;
         text-align: center;
         vertical-align: middle;
-        padding: 10px;
+        padding: 5px;
         font-size: 16px;
     }
 
@@ -108,13 +108,13 @@ body {
     font-size: 20px;
     font-weight: bold;
     text-align: center;
-    padding: 5px;
-    margin-bottom: 5px;
+    padding: 4px;
+    margin-bottom: 2px;
 }
 
 .sub-header {
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     font-size: 13px;
 }
 
@@ -251,6 +251,20 @@ Carbon::setLocale('ar');
         <td>
             {{ !empty($approvalCreatedAt) ? $approvalCreatedAt->format('Y-m-d') : '-' }}
         </td> 
+    </tr>
+
+
+    <tr>
+            <td class="bold"> (المالك)</td>
+            <td >{{ $project->ownerUser?->name ?? 'المالك' }}</td>
+            <td class="bold">  (المقاول)</td>
+            <td >  {{ $project->contractorUser?->name ?? 'المقاول' }} </td>
+    </tr>
+    <tr>
+            <td class="bold"> تاريخ انتهاء الموقع</td>
+            <td >{{ $project->contractor_contract_end_date ?? '-' }}</td>
+            <td class="bold">  تاريخ تسليم الموقع</td>
+            <td >  {{ $project->end_date ?? 'المقاول' }} </td>
     </tr>
 
 </table>
