@@ -173,7 +173,7 @@
             <td colspan="2">{{ $project->ownerUser?->name ?? 'المالك' }}</td>
         </tr>
         <tr>
-            <td class="bold">الطرف الثالث (الاستشاري)</td>
+            <td class="bold">الطرف الثاني (الاستشاري)</td>
             <td colspan="2">سافانا ديزاين للاستشارات الهندسية</td>
         </tr>
     </table>
