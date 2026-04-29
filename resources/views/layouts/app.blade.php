@@ -1537,54 +1537,6 @@ body, html {
 
 
 
-<!-- 
-<div class="project-cards-grid">
-
-    <a href="{{ route('projects.edit', $project->id) }}" class="project-card">
-        <i class="fas fa-edit"></i>
-        <span>تعديل المشروع</span>
-    </a>
-
-    <a href="{{ url('projects/'.$project->id.'/tender-contractors') }}" class="project-card">
-        <i class="fas fa-users"></i>
-        <span>المقاولين المرشحين</span>
-    </a>
-
-    <a href="{{ route('projects.baladya-approvals.index', ['project' => $project->id]) }}" class="project-card">
-        <i class="fas fa-check-circle"></i>
-        <span>اعتمادات البلدية</span>
-    </a>
-
-    <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=tender') }}" class="project-card">
-        <i class="fas fa-file-contract"></i>
-        <span>المناقصة</span>
-    </a>
-
-    <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=contractor_files') }}" class="project-card">
-        <i class="fas fa-hard-hat"></i>
-        <span>عقود المقاول</span>
-    </a>
-
-    <a href="{{ route('projects.schedules.batches', $project->id) }}" class="project-card">
-        <i class="fas fa-calendar-alt"></i>
-        <span>جداول الدفوعات</span>
-    </a>
-
-    <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=project_documents') }}" class="project-card">
-        <i class="fas fa-folder-open"></i>
-        <span>مستندات المشروع</span>
-    </a>
-
-    <a href="{{ url('projects/'.$project->id.'/baladya-approvals?isDesignsApproved=true') }}" class="project-card">
-        <i class="fas fa-drafting-compass"></i>
-        <span>المخططات المعتمدة</span>
-    </a>
-
-</div> -->
-
-
-
-
 
 
 
