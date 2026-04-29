@@ -582,7 +582,7 @@
 .project-actions-full{
     display:grid;
 
-    grid-template-columns: repeat(7, auto); /* 6 عناصر في الصف */
+    grid-template-columns: repeat(6, auto); /* 6 عناصر في الصف */
 
     justify-content:center; /* يجعلهم في المنتصف */
 
@@ -805,6 +805,89 @@ body, html {
 .main-content {
     background-color: transparent !important;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* GRID */
+.project-cards-grid{
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap:20px;
+    margin-top:20px;
+}
+
+/* CARD */
+.project-card{
+    background: linear-gradient(135deg, #2f3a1f, #1f2937);
+    color:#fff;
+    border-radius:18px;
+    padding:25px 15px;
+    text-align:center;
+    text-decoration:none;
+    transition:0.3s ease;
+    box-shadow:0 10px 25px rgba(0,0,0,0.25);
+    position:relative;
+    overflow:hidden;
+}
+
+/* ICON */
+.project-card i{
+    font-size:28px;
+    color:#d4af37;
+    margin-bottom:10px;
+    display:block;
+}
+
+/* TEXT */
+.project-card span{
+    font-size:14px;
+    font-weight:600;
+}
+
+/* HOVER */
+.project-card:hover{
+    transform:translateY(-8px) scale(1.03);
+    box-shadow:0 15px 35px rgba(0,0,0,0.35);
+}
+
+/* GLOW EFFECT */
+.project-card::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(120deg, transparent, rgba(255,255,255,0.2), transparent);
+    opacity:0;
+    transition:0.4s;
+}
+
+.project-card:hover::before{
+    opacity:1;
+    animation:shine 1s;
+}
+
+@keyframes shine{
+    from{transform:translateX(-100%);}
+    to{transform:translateX(100%);}
+}
+
+
+
+
+
 
     </style>
 
@@ -1432,6 +1515,75 @@ body, html {
 
 
 @endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 
+<div class="project-cards-grid">
+
+    <a href="{{ route('projects.edit', $project->id) }}" class="project-card">
+        <i class="fas fa-edit"></i>
+        <span>تعديل المشروع</span>
+    </a>
+
+    <a href="{{ url('projects/'.$project->id.'/tender-contractors') }}" class="project-card">
+        <i class="fas fa-users"></i>
+        <span>المقاولين المرشحين</span>
+    </a>
+
+    <a href="{{ route('projects.baladya-approvals.index', ['project' => $project->id]) }}" class="project-card">
+        <i class="fas fa-check-circle"></i>
+        <span>اعتمادات البلدية</span>
+    </a>
+
+    <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=tender') }}" class="project-card">
+        <i class="fas fa-file-contract"></i>
+        <span>المناقصة</span>
+    </a>
+
+    <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=contractor_files') }}" class="project-card">
+        <i class="fas fa-hard-hat"></i>
+        <span>عقود المقاول</span>
+    </a>
+
+    <a href="{{ route('projects.schedules.batches', $project->id) }}" class="project-card">
+        <i class="fas fa-calendar-alt"></i>
+        <span>جداول الدفوعات</span>
+    </a>
+
+    <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=project_documents') }}" class="project-card">
+        <i class="fas fa-folder-open"></i>
+        <span>مستندات المشروع</span>
+    </a>
+
+    <a href="{{ url('projects/'.$project->id.'/baladya-approvals?isDesignsApproved=true') }}" class="project-card">
+        <i class="fas fa-drafting-compass"></i>
+        <span>المخططات المعتمدة</span>
+    </a>
+
+</div> -->
+
+
+
 
 
 

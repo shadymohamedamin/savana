@@ -1572,7 +1572,7 @@ public function update($id, UpdateProjectRequest $request)
                 'message' => __('Project not found.')
             ]);
     }
-
+//dd($project->project_image);
     // التحقق من رفع الصورة وحفظها
     if ($request->hasFile('project_image')) {
         // حذف الصورة السابقة إن كانت موجودة
