@@ -262,9 +262,9 @@ Carbon::setLocale('ar');
     </tr>
     <tr>
             <td class="bold"> تاريخ انتهاء الموقع</td>
-            <td >{{ $project->contractor_contract_end_date ?? '-' }}</td>
+            <td >{{ $project->contractor_contract_end_date?->format('Y-m-d') ?? '-' }}</td>
             <td class="bold">  تاريخ تسليم الموقع</td>
-            <td >  {{ $project->end_date ?? 'المقاول' }} </td>
+            <td >  {{ $project->end_date?->format('Y-m-d') ?? 'المقاول' }} </td>
     </tr>
 
 </table>
