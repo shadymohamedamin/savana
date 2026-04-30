@@ -235,7 +235,7 @@ tfoot tr {
 
             <th>تاريخ انتهاء عقد المقاول</th>
             <td>
-                {{ optional($project?->contractor_end_date)?->format('Y-m-d') ?? '—' }}
+                {{ optional($project?->contractor_contract_end_date)?->format('Y-m-d') ?? '—' }}
             </td>
         </tr>
 
