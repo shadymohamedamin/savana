@@ -304,10 +304,10 @@ Carbon::setLocale('ar');
 
 <colgroup>
     <col style="width:5%">   <!-- رقم -->
-    <col style="width:40%">  <!-- بيان الأعمال (كبرناه) -->
-    <col style="width:8%">   <!-- النسبة المحددة (صغرناها) -->
-    <col style="width:8%">   <!-- نسبة الدفعة -->
-    <col style="width:8%">   <!-- المنجز -->
+    <col style="width:46%">  <!-- بيان الأعمال (كبرناه) -->
+    <col style="width:6%">   <!-- النسبة المحددة (صغرناها) -->
+    <col style="width:6%">   <!-- نسبة الدفعة -->
+    <col style="width:6%">   <!-- المنجز -->
     <col style="width:12%">  <!-- تاريخ -->
     <col style="width:5%">  <!-- مدة -->
     <col style="width:14%">  <!-- مبلغ -->
