@@ -336,7 +336,7 @@ Carbon::setLocale('ar');
 
 
 <!-- ================= TABLE ================= -->
-<table class="payments-table">
+<table class="payments-table555">
 
 
 
