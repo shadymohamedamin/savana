@@ -65,7 +65,7 @@ class ProjectScheduleController extends AppBaseController
 
     return [
         ['item_no'=>1,'title'=>' الحفر والدفان والدمك','target_percentage'=>4,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
-        ['item_no'=>2,'title'=>' الخرسانة تحت منسوب الارض','target_percentage'=>14,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
+        ['item_no'=>2,'title'=>' الخرسانة تحت المنسوب ','target_percentage'=>14,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>3,'title'=>' خرسانة الطابق الارضي   ','target_percentage'=>10,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>4,'title'=>' خرسانة الطابق الأول  ','target_percentage'=>12,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>5,'title'=>' الطابوق الارضي والاول','target_percentage'=>6,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
