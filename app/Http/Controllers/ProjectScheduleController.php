@@ -64,18 +64,18 @@ class ProjectScheduleController extends AppBaseController
 
 
     return [
-        ['item_no'=>1,'title'=>' الحفر ','target_percentage'=>4,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
+        ['item_no'=>1,'title'=>' الحفر والدفان والدمك','target_percentage'=>4,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>2,'title'=>' الخرسانة تحت منسوب الارض','target_percentage'=>14,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>3,'title'=>' خرسانة الطابق الارضي   ','target_percentage'=>10,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>4,'title'=>' خرسانة الطابق الأول  ','target_percentage'=>12,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
-        ['item_no'=>5,'title'=>' الطابوق','target_percentage'=>6,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
+        ['item_no'=>5,'title'=>' الطابوق الارضي والاول','target_percentage'=>6,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>6,'title'=>' البلاستر الخارجي   ','target_percentage'=>3,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>7,'title'=>' البلاستر الداخلي','target_percentage'=>4,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>8,'title'=>' البلاط للجدران والارضيات ','target_percentage'=>6,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>9,'title'=>'الصبغ  الخارجي','target_percentage'=>5,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>10,'title'=>' الابواب الداخلية','target_percentage'=>5,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>11,'title'=>' الطبقات العازلة','target_percentage'=>3,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
-        ['item_no'=>12,'title'=>' الالمنيوم والزجاج والدرابزينات','target_percentage'=>6,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
+        ['item_no'=>12,'title'=>' الالمنيوم والزجاج ','target_percentage'=>6,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>13,'title'=>'تمديدات وتسليكات الكهرباء','target_percentage'=>8,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>14,'title'=>'الاعمال الصحية والاطقم ','target_percentage'=>6,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
         ['item_no'=>15,'title'=>' السور   والبوابات','target_percentage'=>7,'payment_percentage'=>0,'completion_percentage'=>null,'duration_days'=>null,'amount'=>null],
