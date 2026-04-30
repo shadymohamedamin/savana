@@ -758,25 +758,25 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // إذا تم تعديل تاريخ البدء أو المدة، يمكن تحديث تواريخ الصفوف التالية
-document.addEventListener('input', function(e) {
+/*document.addEventListener('input', function(e) {
     if (e.target.name.includes('start_date') || e.target.name.includes('duration_days')) {
         updateNextStartDate(e.target);
     }
 
     calculate(e);
-});
+});*/
 
-document.addEventListener('input', function(e) {
+/*document.addEventListener('input', function(e) {
     // إذا تم التعديل في تاريخ البدء أو المدة
     if (e.target.name.includes('start_date') || e.target.name.includes('duration_days')) {
-        updateNextStartDate(e.target);
+        distributeDates();//updateNextStartDate(e.target);
     }
 
     calculate(e);
-});
+});*/
 
 // دالة لحساب التاريخ التالي بناءً على المدة
-function updateNextStartDate(currentElement) {
+/*function updateNextStartDate(currentElement) {
     let row = currentElement.closest('tr');
     let startDateInput = row.querySelector('.start-date');
     let durationInput = row.querySelector('[name*="duration_days"]');
@@ -805,7 +805,68 @@ function updateNextStartDate(currentElement) {
             }
         }
     }
+}*/
+function distributeAllDates() {
+
+    let rows = document.querySelectorAll('#rows tr');
+
+    function parseDate(dateStr) {
+        let parts = dateStr.split('-');
+        return new Date(parts[0], parts[1] - 1, parts[2]);
+    }
+
+    function formatDate(date) {
+        let y = date.getFullYear();
+        let m = String(date.getMonth() + 1).padStart(2, '0');
+        let d = String(date.getDate()).padStart(2, '0');
+        return `${y}-${m}-${d}`;
+    }
+
+    let firstDateInput = rows[0].querySelector('.start-date');
+
+    if (!firstDateInput || !firstDateInput.value) return;
+
+    let baseDate = parseDate(firstDateInput.value);
+
+    for (let i = 1; i < rows.length; i++) {
+
+        let prevDuration = parseFloat(
+            rows[i - 1].querySelector('[name*="duration_days"]')?.value
+        ) || 0;
+
+        baseDate.setDate(baseDate.getDate() + prevDuration);
+
+        let nextStart = rows[i].querySelector('.start-date');
+
+        if (nextStart) {
+            nextStart.value = formatDate(baseDate);
+        }
+    }
 }
+
+
+
+
+document.addEventListener('input', function(e) {
+
+    // 🔒 منع التعديل لو disabled
+    if (e.target.disabled) return;
+
+    // 📅 لو تعديل في التاريخ أو المدة → وزّع التواريخ
+    if (
+        e.target.name.includes('start_date') ||
+        e.target.name.includes('duration_days')
+    ) {
+        let row = e.target.closest('tr');
+let index = Array.from(document.querySelectorAll('#rows tr')).indexOf(row);
+
+distributeAllDates();    }
+
+    // 🧮 احسب دائمًا
+    calculate(e);
+});
+
+
 
 
 
@@ -821,11 +882,11 @@ document.addEventListener('input', function(e) {
 });
 
 
-document.addEventListener('input', function(e) {
+/*document.addEventListener('input', function(e) {
     if (e.target.classList.contains('target')) {
         calculate(e);
     }
-});
+});*/
 
 /* INIT */
 calculate();

@@ -144,6 +144,8 @@ Route::middleware(['auth', 'checkRole:co-admin,admin'])->group(function () {
 });
 Route::middleware(['auth'])->group(function () {
 
+Route::get('projects/{project}/table', [ProjectController::class, 'showTable'])->name('projects.table');
+
 
 Route::delete('/projects/{project}/schedule/batch/{batch}', 
     [ProjectScheduleController::class, 'deleteBatch']

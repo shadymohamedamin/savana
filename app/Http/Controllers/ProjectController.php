@@ -1381,24 +1381,29 @@ $fileName = "عقد_البنك_" . $ownerName . ".pdf";
     /**
      * Display the specified Project.
      */
-    public function show($id)
+          public function showTable($projectId)
+
     {
         if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
-    return redirect()->back()->with('toast', [
-        'type' => 'error',
-        'message' => 'ليس لديك الصلاحيات الكافية'
-    ]);
-}
-        $project = $this->projectRepository->find($id);
-
-        if (empty($project)) {
-            Flash::error('Project not found');
-
-            return redirect(route('projects.index'));
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'ليس لديك الصلاحيات الكافية'
+            ]);
         }
 
-        return view('projects.show')->with('project', $project);
-    }
+    // العثور على المشروع بواسطة المعرف
+    $project = Project::findOrFail($projectId);
+    
+    // حساب المساحات الإجمالية لكل مالك
+    $ownersData = $project->ownerRequirements()
+        ->selectRaw('owner_id, SUM(approved_area) as total_area')
+        ->groupBy('owner_id')
+        ->with('ownerUser') // إضافة العلاقة للمستخدم (المالك)
+        ->get();
+
+    // إرسال البيانات إلى العرض
+    return view('projects.show', compact('project', 'ownersData'));
+}
 
     /**
      * Show the form for editing the specified Project.

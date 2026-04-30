@@ -511,8 +511,11 @@
 <div class="card-section">
 
 <div class="card-header" style="text-align: center;">
-<i class="fas fa-building me-1" ></i> معلومات المشروع
-</div>
+        <i class="fas fa-building me-1"></i> معلومات المشروع
+        <a href="{{ route('projects.table', $project->id) }}" class="btn btn-olive btn-sm" style="margin-left: 15px;">
+            انتقل إلى الجدول
+        </a>
+    </div>
 
 <div class="card-body">
 
