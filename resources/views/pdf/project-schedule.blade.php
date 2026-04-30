@@ -301,6 +301,7 @@ Carbon::setLocale('ar');
             <th>تاريخ البدء</th>
             <th>المدة (يوم)</th>
             <th>المبلغ</th>
+            <th>الملاحظات</th>
         </tr>
     </thead>
 
@@ -353,6 +354,8 @@ Carbon::setLocale('ar');
                 <td>{{ $row->duration_days }}</td>
 
                 <td>{{ number_format($amount) }}</td>
+
+                <td>{{ $row->notes }}</td>
             </tr>
 
         @endforeach
@@ -370,6 +373,7 @@ Carbon::setLocale('ar');
             <td style="font-size:0.8rem;">{{ $totalDuration }} / {{ $project->bank_contract_duration * 30 }}</td>
 
             <td>{{ number_format($totalAmount) }}</td>
+            
         </tr>
 
     </tbody>
