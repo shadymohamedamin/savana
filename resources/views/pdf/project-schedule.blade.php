@@ -162,7 +162,54 @@ th {
 
 
 
+.payments-table {
+    width: 100%;
+    table-layout: fixed;
+}
 
+.payments-table th,
+.payments-table td {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+
+
+.payments-table th:nth-child(1),
+.payments-table td:nth-child(1) {
+    width: 4%;
+}
+
+.payments-table th:nth-child(2),
+.payments-table td:nth-child(2) {
+    width: 45%;
+    text-align: right;
+}
+
+.payments-table th:nth-child(3),
+.payments-table td:nth-child(3),
+.payments-table th:nth-child(4),
+.payments-table td:nth-child(4),
+.payments-table th:nth-child(5),
+.payments-table td:nth-child(5) {
+    width: 6%;
+}
+
+.payments-table th:nth-child(6),
+.payments-table td:nth-child(6) {
+    width: 12%;
+}
+
+.payments-table th:nth-child(7),
+.payments-table td:nth-child(7) {
+    width: 5%;
+}
+
+.payments-table th:nth-child(8),
+.payments-table td:nth-child(8) {
+    width: 16%;
+}
 
 
 
@@ -289,7 +336,7 @@ Carbon::setLocale('ar');
 
 
 <!-- ================= TABLE ================= -->
-<table>
+<table class="payments-table">
 
 
 
