@@ -267,6 +267,12 @@ Carbon::setLocale('ar');
             <td >  {{ $project->end_date?->format('Y-m-d') ?? 'المقاول' }} </td>
     </tr>
 
+
+    <tr>
+        <td class="bold"> رقم الدفعة</td>
+        <td colspan="3" >{{ $batchId ?? 'غير متوفر' }}</td> <!-- عرض رقم الدفعة -->
+    </tr>
+
 </table>
 
 

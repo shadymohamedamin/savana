@@ -640,7 +640,7 @@ $contractorApproved = $approval ? $approval->contractor_approved : false;
 
 
 
-    $html = view('pdf.project-schedule', compact('contractorApproved','ownerApproved','consultantApproved','projectScheduleApproval','showSignature','approval','project', 'schedules','approvalCreatedAt'))->render();
+    $html = view('pdf.project-schedule', compact('batchId','contractorApproved','ownerApproved','consultantApproved','projectScheduleApproval','showSignature','approval','project', 'schedules','approvalCreatedAt'))->render();
 
     $mpdf = new \Mpdf\Mpdf([
         'mode' => 'utf-8',
