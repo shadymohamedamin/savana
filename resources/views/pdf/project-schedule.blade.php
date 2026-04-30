@@ -274,10 +274,7 @@ Carbon::setLocale('ar');
 
 
         
-        <td>تاريخ انتهاء عقد المقاول</td>
-        <td>
-            {{ optional($project->contractor_end_date)->format('Y-m-d') ?? '—' }}
-        </td>
+        
 
     </tr>
 

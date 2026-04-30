@@ -230,6 +230,13 @@ tfoot tr {
             
             <th>رقم الدفعة</th>
             <td>{{ $batchId ?? request('batch_id') ?? '-' }}</td>
+
+
+
+            <th>تاريخ انتهاء عقد المقاول</th>
+            <td>
+                {{ optional($project?->contractor_end_date)?->format('Y-m-d') ?? '—' }}
+            </td>
         </tr>
 
 
