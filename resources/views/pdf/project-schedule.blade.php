@@ -15,7 +15,7 @@
             font-family: 'amiri', serif;
             direction: rtl;
             text-align: right;
-            font-size: 13px;
+            font-size: 11px;
             line-height: 1.9;
         }
 
@@ -27,13 +27,13 @@
 
         td, th {
             border: 1px solid #000;
-            padding: 2px;
+            padding: 1px;
             vertical-align: top;
         }
 
         .title {
             background-color: #e9e2c7;
-            font-size: 22px;
+            font-size: 18px;
             font-weight: bold;
             text-align: center;
         }
@@ -42,7 +42,7 @@
             background-color: #e9e2c7;
             font-weight: bold;
             text-align: center;
-            font-size: 18px;
+            font-size: 16px;
         }
 
         .center {
@@ -301,7 +301,7 @@ Carbon::setLocale('ar');
             <th>تاريخ البدء</th>
             <th>المدة (يوم)</th>
             <th>المبلغ</th>
-            <th>الملاحظات</th>
+            <!-- <th>الملاحظات</th> -->
         </tr>
     </thead>
 
@@ -355,7 +355,7 @@ Carbon::setLocale('ar');
 
                 <td>{{ number_format($amount) }}</td>
 
-                <td>{{ $row->notes }}</td>
+                <!-- <td>{{ $row->notes }}</td> -->
             </tr>
 
         @endforeach
