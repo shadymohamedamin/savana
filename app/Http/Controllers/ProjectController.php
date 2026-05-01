@@ -765,12 +765,79 @@ public function projectSchedulePdf(Request $request, $id)
     $ownerApproved = $approval ? $approval->owner_approved : false;
     $consultantApproved = $approval ? $approval->consultant_approved : false;
     
+
+
+
+
+
+
+
+
+
+
+
+
+
+$previousAmounts = [];
+$cumulative = 0;
+
+$allBatches = \App\Models\ProjectSchedule::where('project_id', $id)
+    ->whereNotNull('batch_id')
+    ->select('batch_id')
+    ->distinct()
+    ->orderBy('batch_id', 'asc')
+    ->get();
+
+$previousAmount = 0;
+$batchIncrease = 0;
+$cumulativee=0;
+
+foreach ($allBatches as $batch) {
+
+    $rows = \App\Models\ProjectSchedule::where('project_id', $id)
+        ->where('batch_id', $batch->batch_id)
+        ->orderBy('item_no')
+        ->get();
+
+    $currentBatchIncrease = 0;
+
+    foreach ($rows as $row) {
+
+        $prev = $previousAmounts[$row->item_no] ?? 0;
+
+        $diff = ($row->amount ?? 0) - $prev;
+        if ($diff < 0) $diff = 0;
+
+        $currentBatchIncrease += $diff;
+
+        $previousAmounts[$row->item_no] = $row->amount ?? 0;
+    }
+
+    if ($batch->batch_id == $batchId) {
+        $previousAmount = $cumulative;   // 👈 ما سبق
+        $batchIncrease = $currentBatchIncrease;
+        $cumulative += $currentBatchIncrease; // 👈 الإجمالي بعد الدفعة
+        break;
+    }
+
+    $cumulative += $currentBatchIncrease;
+
+    
+}
+
+
+$cumulativee=$cumulative-$previousAmount;
+
+
+
+
+
     $generalNote = optional($schedules->first())->notes;
     // Render the HTML view for the PDF
     $html = view('pdf.project-schedule', compact(
         'generalNote','batchId', 'contractorApproved', 'ownerApproved', 'consultantApproved',
         'projectScheduleApproval', 'showSignature', 'approval', 'project',
-        'schedules', 'approvalCreatedAt', 'previousAmount', 'cumulative', 'remaining', 'batchIncrease'
+        'schedules', 'approvalCreatedAt', 'previousAmount', 'cumulative','cumulativee', 'remaining', 'batchIncrease'
     ))->render();
 
 

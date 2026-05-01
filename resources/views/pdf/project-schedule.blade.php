@@ -270,8 +270,6 @@ Carbon::setLocale('ar');
 
 
 
-
-
 <table>
         <tr>
             <td class="title" colspan="4" class="section-title">{{' عقد     جدول الدفعات'}}</td>
@@ -469,7 +467,7 @@ Carbon::setLocale('ar');
             <td>-</td>
             <td style="font-size:0.8rem;">{{ $totalDuration }} / {{ $project->bank_contract_duration * 30 }}</td>
 
-            <td>{{ number_format($cumulative) }}</td>
+            <td>{{ number_format($cumulativee) }}</td>
             <!-- <td>{{ number_format($totalAmount) }}</td> -->
             
         </tr>
