@@ -330,7 +330,7 @@ tfoot tr {
     <col style="width:12%;">
     <col style="width:8%;">
     <col style="width:10%;">
-    <col style="width:10%;">
+    <!-- <col style="width:10%;"> -->
 </colgroup>
 
 <thead>
@@ -344,7 +344,7 @@ tfoot tr {
     <th>تاريخ البدء</th>
     <th>المدة</th>
     <th>المبلغ</th>
-    <th>ملاحظات</th>
+    <!-- <th>ملاحظات</th> -->
 </tr>
 </thead>
 
@@ -407,11 +407,11 @@ tfoot tr {
                value="{{ $row->amount }}" readonly>
     </td>
 
-    <td>
+    <!-- <td>
         <input class="form-control"
                name="rows[{{ $i }}][notes]"
                value="{{ $row->notes }}">
-    </td>
+    </td> -->
 
 </tr>
 @endforeach
@@ -432,7 +432,7 @@ tfoot tr {
     <!-- إجمالي كل المستحقات -->
     <td id="total_amount">0</td>
 
-    <td>-</td>
+    <!-- <td>-</td> -->
 </tr>
 
 <!-- 🔥 الصف الجديد: المستلم سابقًا -->
@@ -441,7 +441,7 @@ tfoot tr {
         إجمالي ما تم استلامه من الدفعات السابقة
     </td>
     <td style="background:#ffe8a1;font-weight:bold;font-size:18px;" id="paid_amount">0</td>
-    <td>-</td>
+    <!-- <td>-</td> -->
 </tr>
 
 <!-- 🔥 الصف الجديد: المطلوب الحالي -->
@@ -450,7 +450,7 @@ tfoot tr {
         إجمالي المطلوب الحالي من المالك
     </td>
     <td style="background:#ffe8a1;font-weight:bold;font-size:18px;" id="needed_from_owner">0</td>
-    <td>-</td>
+    <!-- <td>-</td> -->
 </tr>
 
 </tfoot>
@@ -468,7 +468,7 @@ tfoot tr {
 
 
 
-
+<!-- 
 <table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:50px; table-layout: fixed;">
     <tr>
 
@@ -494,7 +494,7 @@ tfoot tr {
            <img src="{{ asset('images/signature.jpeg') }}" style="height:150px;">
         </td>
     </tr>
-</table>
+</table> -->
 
 
 
@@ -508,6 +508,29 @@ tfoot tr {
         💾 حفظ
     </button>
 </div> -->
+
+
+
+
+
+
+
+
+
+
+<!-- <input type="hidden" name="rows[0][notes]" id="hidden_note"> -->
+<div class="mt-4">
+    <label class="bold" style="text-align:center;">ملاحظة عامة</label>
+    <textarea name="general_note" id="general_note"
+          class="form-control"
+          rows="4"
+          placeholder="اكتب ملاحظة عامة تظهر في العقد...">
+    {{ $schedules[0]->notes ?? '' }}
+</textarea></div>
+
+
+
+
 
 
 <div class="floating-actions d-flex gap-3 justify-content-center">
@@ -749,6 +772,11 @@ document.getElementById('total_duration').innerText =
 function printPage() {
     window.print();
 }
+
+
+
+
+
 
 
 

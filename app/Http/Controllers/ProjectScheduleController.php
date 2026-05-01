@@ -213,7 +213,13 @@ $batchId = $request->batch_id;
 if (!$batchId) {
     $lastBatch = ProjectSchedule::where('project_id', $project->id)->max('batch_id');
     $batchId = $lastBatch ? $lastBatch + 1 : 1;
-}foreach ($request->rows as $row) {
+}
+
+
+$generalNote = $request->general_note;
+
+foreach ($request->rows as $index => $row) {
+//foreach ($request->rows as $row) {
 $hasData =
     ($row['payment_percentage'] ?? 0) > 0 ||
     ($row['completion_percentage'] ?? 0) > 0 ||
@@ -237,7 +243,8 @@ if (true)
             'completion_percentage' => $row['completion_percentage'] ?? 0,
             'duration_days' => $row['duration_days'],
             'amount' => $row['amount'],
-            'notes' => $row['notes'] ?? null,
+            //'notes' => $row['notes'] ?? null,
+            'notes' => $index == 0 ? $generalNote : null,
             'start_date' => $row['start_date'] ?? null,
         ]
     );

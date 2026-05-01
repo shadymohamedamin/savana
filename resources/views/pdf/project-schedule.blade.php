@@ -213,6 +213,33 @@ th {
 
 
 
+
+
+
+
+
+
+
+
+
+.note-box {
+    border: 1.5px solid #000;
+    padding: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    min-height: 30px;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.note-title {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+
+
+
 </style>
 
 </head>
@@ -303,21 +330,23 @@ Carbon::setLocale('ar');
 
     <tr>
             <td class="bold"> (المالك)</td>
-            <td >{{ $project->ownerUser?->name ?? 'المالك' }}</td>
+            <td >{{ $project->ownerUser?->name ?? '-' }}</td>
             <td class="bold">  (المقاول)</td>
-            <td >  {{ $project->contractorUser?->name ?? 'المقاول' }} </td>
+            <td >  {{ $project->contractorUser?->name ?? '-' }} </td>
     </tr>
     <tr>
             <td class="bold"> تاريخ انتهاء الموقع</td>
             <td >{{ $project->contractor_contract_end_date?->format('Y-m-d') ?? '-' }}</td>
             <td class="bold">  تاريخ تسليم الموقع</td>
-            <td >  {{ $project->end_date?->format('Y-m-d') ?? 'المقاول' }} </td>
+            <td >  {{ $project->end_date?->format('Y-m-d') ?? '-' }} </td>
     </tr>
 
 
     <tr>
         <td class="bold"> رقم الدفعة</td>
-        <td colspan="3" >{{ $batchId ?? 'غير متوفر' }}</td> <!-- عرض رقم الدفعة -->
+        <td colspan="" >{{ $batchId ?? '-' }}</td> <!-- عرض رقم الدفعة -->
+        <td class="bold">  ما سبق دفعه</td>
+        <td colspan="" >{{ $previousAmount ?? '-' }}</td> <!-- عرض رقم الدفعة -->
 
 
         
@@ -348,28 +377,27 @@ Carbon::setLocale('ar');
 
 
 
-
 <colgroup>
     <col style="width:5%">   <!-- رقم -->
-    <col style="width:46%">  <!-- بيان الأعمال (كبرناه) -->
-    <col style="width:6%">   <!-- النسبة المحددة (صغرناها) -->
-    <col style="width:6%">   <!-- نسبة الدفعة -->
-    <col style="width:6%">   <!-- المنجز -->
-    <col style="width:12%">  <!-- تاريخ -->
-    <col style="width:5%">  <!-- مدة -->
-    <col style="width:14%">  <!-- مبلغ -->
+    <col style="width:48%">  <!-- بيان الأعمال (كبرناه) -->
+    <col style="width:5%">   <!-- النسبة المحددة (صغرناها) -->
+    <col style="width:5%">   <!-- نسبة الدفعة (صغرناها) -->
+    <col style="width:5%">   <!-- المنجز (صغرناها) -->
+    <col style="width:8%">   <!-- تاريخ البدء (صغرناها) -->
+    <col style="width:5%">   <!-- مدة (صغرناها) -->
+    <col style="width:19%">  <!-- مبلغ (كبيرناها) -->
 </colgroup>
 
     <thead>
-        <tr>
-            <th>#</th>
-            <th>بيان الأعمال</th>
-            <th>النسبة المحددة</th> <!-- ✅ جديد -->
-            <th>نسبة الدفعة</th>
-            <th>النسب المنجزة  %</th>
-            <th>تاريخ البدء</th>
-            <th>المدة (يوم)</th>
-            <th>المبلغ</th>
+        <tr >
+            <th class="section-title">#</th>
+            <th class="section-title">بيان الأعمال</th>
+            <th class="section-title">النسبة المحددة</th> <!-- ✅ جديد -->
+            <th class="section-title">نسبة الدفعة</th>
+            <th class="section-title">النسب المنجزة  %</th>
+            <th class="section-title">تاريخ البدء</th>
+            <th class="section-title">المدة (يوم)</th>
+            <th class="section-title">المبلغ</th>
             <!-- <th>الملاحظات</th> -->
         </tr>
     </thead>
@@ -441,13 +469,27 @@ Carbon::setLocale('ar');
             <td>-</td>
             <td style="font-size:0.8rem;">{{ $totalDuration }} / {{ $project->bank_contract_duration * 30 }}</td>
 
-            <td>{{ number_format($totalAmount) }}</td>
+            <td>{{ number_format($cumulative) }}</td>
+            <!-- <td>{{ number_format($totalAmount) }}</td> -->
             
         </tr>
 
     </tbody>
 
 </table>
+
+
+
+
+@if(!empty($generalNote))
+    <div class="note-box">
+        <!-- <div class="note-title">ملاحظات عامة:</div> -->
+        <div>
+            {{ $generalNote }}
+        </div>
+    </div>
+@endif
+
 
 <!-- ================= SIGNATURE ================= -->
 <table class="signature-table">

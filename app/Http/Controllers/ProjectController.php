@@ -570,7 +570,7 @@ $fileName = "عقد_المواصفات_الفنية_" . $ownerName . ".pdf";
 }*/
 
 
-public function projectSchedulePdf(Request $request, $id)
+/*public function projectSchedulePdf(Request $request, $id)
 {
     $project = \App\Models\Project::with([
         'ownerUser',
@@ -674,7 +674,146 @@ $contractorApproved = $approval ? $approval->contractor_approved : false;
     }
 
     return $mpdf->Output($fileName, 'I');
+}*/
+
+
+
+
+
+
+
+
+public function projectSchedulePdf(Request $request, $id)
+{
+    $project = \App\Models\Project::with([
+        'ownerUser',
+        'contractorUser',
+        'projectName',
+        'projectRegion'
+    ])->findOrFail($id);
+    
+    $batchId = $request->get('batch_id');
+    
+    // ✅ نجيب آخر batch
+    $lastBatchId = \App\Models\ProjectSchedule::where('project_id', $id)
+        ->max('batch_id');
+    if(!$batchId) $batchId = $lastBatchId;
+
+    // ✅ نجيب بياناته فقط
+    $schedules = \App\Models\ProjectSchedule::where('project_id', $id)
+        ->where('batch_id', $batchId)
+        ->orderBy('item_no')
+        ->get();
+
+    // لو مش موجود → استخدم آخر batch (fallback)
+    if (!$batchId) {
+        $batchId = \App\Models\ProjectSchedule::where('project_id', $id)
+            ->max('batch_id');
+    }
+
+    // Get approval data
+    $approval = \App\Models\ProjectScheduleApproval::where('project_id', $id)
+        ->where('batch_id', $batchId)
+        ->first();
+
+    $projectScheduleApproval = \App\Models\ProjectScheduleApproval::where('project_id', $id)
+        ->where('batch_id', $batchId)
+        ->first();
+    $showSignature = false;
+    if ($projectScheduleApproval) {
+        if ($projectScheduleApproval->contractor_approved || 
+            $projectScheduleApproval->owner_approved || 
+            $projectScheduleApproval->consultant_approved) {
+            $showSignature = true;
+        }
+    }
+
+    // Initialize previousAmounts and cumulative
+    $previousAmounts = [];
+    $cumulative = 0;
+
+    // Calculate the total increase (batchIncrease) and previousAmount for each row in the batch
+    $batchIncrease = 0;
+
+    foreach ($schedules as $schedule) {
+        $prev = $previousAmounts[$schedule->item_no] ?? 0;
+
+        // Calculate the difference (real increase) for this item
+        $diff = ($schedule->amount ?? 0) - $prev;
+
+        if ($diff < 0) $diff = 0;
+
+        $batchIncrease += $diff;
+
+        $previousAmounts[$schedule->item_no] = $schedule->amount ?? 0;
+    }
+
+    // Calculate the previous amount (before this batch)
+    $previousAmount = $cumulative;
+
+    // Update cumulative with the batch increase
+    $cumulative += $batchIncrease;
+
+    // Get the remaining amount for the project owner
+    $projectValue = $project->project_owner_support ?? 0;
+    $remaining = $projectValue - $cumulative;
+
+    $approvalCreatedAt = $approval->created_at ?? null;
+
+    // Prepare data for the view (pdf)
+    $contractorApproved = $approval ? $approval->contractor_approved : false;
+    $ownerApproved = $approval ? $approval->owner_approved : false;
+    $consultantApproved = $approval ? $approval->consultant_approved : false;
+    
+    $generalNote = optional($schedules->first())->notes;
+    // Render the HTML view for the PDF
+    $html = view('pdf.project-schedule', compact(
+        'generalNote','batchId', 'contractorApproved', 'ownerApproved', 'consultantApproved',
+        'projectScheduleApproval', 'showSignature', 'approval', 'project',
+        'schedules', 'approvalCreatedAt', 'previousAmount', 'cumulative', 'remaining', 'batchIncrease'
+    ))->render();
+
+
+    $mpdf = new \Mpdf\Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'default_font' => 'amiri',
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+        'margin_top' => 35,
+        'margin_footer' => 5,
+    ]);
+
+    $mpdf->SetHTMLHeader('
+        <div style="text-align:center;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:90px;width:70%;">
+        </div>
+    ');
+
+    $mpdf->SetHTMLFooter('
+        <div style="text-align:center;font-size:12px;">
+            صفحة {PAGENO} من {nbpg}
+        </div>
+    ');
+
+    $mpdf->WriteHTML($html);
+
+    $fileName = "project_schedule_{$project->id}_batch_{$lastBatchId}.pdf";
+    $action = $request->get('action', 'preview');
+
+    if ($action === 'download') {
+        return $mpdf->Output($fileName, 'D');
+    }
+
+    return $mpdf->Output($fileName, 'I');
 }
+
+
+
+
+
+
+
 
 
 
