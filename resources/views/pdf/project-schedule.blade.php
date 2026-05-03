@@ -347,7 +347,7 @@ Carbon::setLocale('ar');
         <td class="bold"> رقم الدفعة</td>
         <td colspan="" >{{ $batchId ?? '-' }}</td> <!-- عرض رقم الدفعة -->
         <td class="bold">  ما سبق دفعه</td>
-        <td colspan="" >{{ number_format($previousAmount) ?? '-' } درهم</td> <!-- عرض رقم الدفعة -->
+        <td colspan="" >{{ number_format($previousAmount) ?? '-' }} درهم</td> <!-- عرض رقم الدفعة -->
 
 
         
