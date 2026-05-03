@@ -164,6 +164,19 @@
                 'style' => 'background-color:#2f3a1f;color:#d4af37;font-weight:600;'
             ]) !!}
 
+
+
+
+<a target="_blank"
+
+   href="{{ route('projects.contract.message.pdf', [
+        'id' => $project->id,
+        'action' => 'preview'
+   ]) }}"
+   class="btn btn-dark px-4">
+    👁 معاينة
+</a>
+
             <a href="{{ route('projects.messages.index', $project->id) }}"
                class="btn btn-secondary btn-sm">
                 رجوع

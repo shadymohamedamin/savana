@@ -178,12 +178,42 @@ tfoot tr {
 <form method="POST" action="{{ route('projects.schedule.store', $project->id) }}">
 @csrf
 
+
+
+
+
+
+
+
+
+
 <div class="group-header mb-3 text-center">
     جدول مراحل المشروع
 </div>
 
 
+@php
+    $currentBatch = $batchId ?? request('batch_id') ?? 1;
+    $maxBatches = 5; // عدد الدفعات (تقدر تخليه ديناميك)
+@endphp
 
+<div class="mb-4 d-flex gap-2 flex-wrap justify-content-center">
+
+    @for($i = 1; $i <= $maxBatches; $i++)
+        <a 
+        
+        
+        href="{{ route('projects.schedule', [
+            'project' => $project->id,
+            'batch_id' => $i
+        ]) }}"
+           class="btn btn-sm {{ $currentBatch == $i ? 'btn-dark' : 'btn-outline-dark' }}">
+           
+            💰 دفعة {{ $i }}
+        </a>
+    @endfor
+
+</div>
 
 <div class="p-4 mb-3 bg-white rounded shadow-sm">
 

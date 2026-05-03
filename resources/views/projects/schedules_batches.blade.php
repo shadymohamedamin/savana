@@ -174,7 +174,7 @@
 
 
 
-                <td onclick="event.stopPropagation();">
+                <!-- <td onclick="event.stopPropagation();">
     <div class="dropdown">
         <button class="btn btn-sm btn-olive dropdown-toggle"
                 style="background:#2f3a1f;color:#d4af37;font-weight:600;"
@@ -230,7 +230,61 @@
 
         </ul>
     </div>
+</td> -->
+
+
+
+
+
+
+
+<td onclick="event.stopPropagation();">
+    <div class="d-flex gap-1">
+
+        {{-- ✏️ تعديل --}}
+        <a href="{{ route('projects.schedule', $project->id) }}?batch_id={{ $row->batch_id }}"
+           class="btn btn-sm btn-olive"
+           title="تعديل">
+            <i class="fas fa-edit"></i>
+        </a>
+
+        {{-- 👁 معاينة --}}
+        <a href="{{ route('projects.schedule.pdf', [
+                'id' => $project->id,
+                'action' => 'preview',
+                'batch_id' => $row->batch_id
+        ]) }}"
+           target="_blank"
+           class="btn btn-sm btn-dark"
+           title="معاينة">
+            <i class="fas fa-eye"></i>
+        </a>
+
+        {{-- 🗑 حذف --}}
+        <form method="POST"
+              action="{{ route('projects.schedule.deleteBatch', [$project->id, $row->batch_id]) }}">
+            @csrf
+            @method('DELETE')
+
+            <button type="submit"
+                    class="btn btn-sm btn-danger"
+                    title="حذف"
+                    onclick="return confirm('هل أنت متأكد من الحذف؟')">
+                <i class="fas fa-trash"></i>
+            </button>
+        </form>
+
+    </div>
 </td>
+
+
+
+
+
+
+
+
+
 
             </tr>
 

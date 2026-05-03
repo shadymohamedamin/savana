@@ -1477,7 +1477,7 @@ public function bankTableContractPdf(Request $request, $id)
         'default_font' => 'amiri',
         'autoScriptToLang' => true,
         'autoLangToFont' => true,
-    'margin_footer' => 5,
+        'margin_footer' => 5,
         'margin_top' => 35
     ]);
     $mpdf->SetHTMLHeader('
@@ -1511,6 +1511,49 @@ $fileName = "عقد_البنك_" . $ownerName . ".pdf";
     return $mpdf->Output($fileName, 'I');
 }
 
+
+
+
+
+
+
+
+public function messageContractPdf(Request $request, $id)
+{
+    $project = \App\Models\Project::findOrFail($id);
+
+    $receiver = \App\Models\User::find($request->receiver_id);
+    $cc = \App\Models\User::find($request->cc_user_id);
+    $type = \App\Models\MessageType::find($request->message_type_id);
+
+    $html = view('pdf.contract_message', [
+        'project' => $project,
+        'sender' => auth()->user()->name,
+        'receiver' => $receiver?->name ?? '-',
+        'cc' => $cc?->name ?? '-',
+        'type' => $type?->name_ar ?? '-',
+        'messageText' => $request->message,
+        'attachmentName' => $request->file('attachment')?->getClientOriginalName()
+    ])->render();
+
+    $mpdf = new \Mpdf\Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'default_font' => 'amiri',
+        'margin_top' => 35
+    ]);
+
+    // نفس الهيدر بتاعك
+    $mpdf->SetHTMLHeader('
+        <div style="text-align:center;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
+        </div>
+    ');
+
+    $mpdf->WriteHTML($html);
+
+    return $mpdf->Output('message.pdf', 'I');
+}
 
 
 

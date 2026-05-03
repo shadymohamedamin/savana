@@ -330,6 +330,14 @@ Route::get('/projects/{id}/contract-owner-requirements',
 
 
 Route::get(
+    '/projects/{id}/contract-message',
+    [App\Http\Controllers\ProjectController::class, 'messageContractPdf']
+)->name('projects.contract.message.pdf');
+
+
+
+
+Route::get(
     '/projects/{id}/contract-pricing',
     [App\Http\Controllers\ProjectController::class, 'pricingContractPdf']
 )->name('projects.contract.pricing.pdf');
