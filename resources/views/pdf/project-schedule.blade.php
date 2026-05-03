@@ -452,7 +452,7 @@ Carbon::setLocale('ar');
                 <td>{{ $target }}%</td> <!-- ✅ جديد -->
                 
                 
-                <td>{{ $payment }}%</td>
+                <td>{{ intval($payment) }}%</td>
                 <td>{{ $completion}}%</td>
 
 <td>
