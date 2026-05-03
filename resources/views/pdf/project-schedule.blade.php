@@ -295,7 +295,12 @@ Carbon::setLocale('ar');
 
 
 
-
+    <tr>
+            <td class="bold"> (المالك)</td>
+            <td >{{ $project->ownerUser?->name ?? '-' }}</td>
+            <td class="bold">  (المقاول)</td>
+            <td >  {{ $project->contractorUser?->name ?? '-' }} </td>
+    </tr>
 
     <tr>
         <td class="bold">وصف المشروع</td>
@@ -328,18 +333,13 @@ Carbon::setLocale('ar');
     </tr>
 
 
-    <tr>
-            <td class="bold"> (المالك)</td>
-            <td >{{ $project->ownerUser?->name ?? '-' }}</td>
-            <td class="bold">  (المقاول)</td>
-            <td >  {{ $project->contractorUser?->name ?? '-' }} </td>
-    </tr>
+    
     <tr>
             <td class="bold">  تاريخ تسليم الموقع</td>
             
-            <td >{{ $project->contractor_contract_end_date?->format('Y-m-d') ?? '-' }}   </td>
-            <td class="bold"> تاريخ انتهاء الموقع</td>
             <td > {{ $project->end_date?->format('Y-m-d') ?? '-' }}  </td>
+            <td class="bold"> تاريخ انتهاء الموقع</td>
+            <td >{{ $project->contractor_contract_end_date?->format('Y-m-d') ?? '-' }}   </td>
     </tr>
 
 
