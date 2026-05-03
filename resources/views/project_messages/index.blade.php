@@ -1,31 +1,71 @@
 @extends('layouts.app')
 
 @section('content')
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>Project Messages</h1>
-                </div>
-                <div class="col-sm-6">
-                    <a class="btn btn-primary float-right"
-                       href="{{ route('projectMessages.create') }}">
-                        Add New
-                    </a>
-                </div>
-            </div>
-        </div>
-    </section>
 
-    <div class="content px-3">
+<div class="card shadow-sm rounded-4" style="background-color:#f5f5dc;margin:40px;">
 
-        @include('flash::message')
+    {{-- Header --}}
+    <div class="card-header d-flex justify-content-between align-items-center"
+         style="background:#D4AF37;color:#2f3a1f;font-size:1.3rem;font-weight:600;">
 
-        <div class="clearfix"></div>
+        <h4 class="mb-0">رسائل المشروع</h4>
 
-        <div class="card">
-            @include('project_messages.table')
-        </div>
+        <a href="{{ route('projects.messages.create', $project->id) }}"
+           class="btn btn-sm"
+           style="background:#2f3a1f;color:#d4af37;">
+            <i class="fas fa-plus"></i> رسالة جديدة
+        </a>
     </div>
+
+    {{-- Table --}}
+    <div class="table-responsive p-3">
+        <table class="table table-hover align-middle">
+
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>من</th>
+                    <th>إلى</th>
+                    <th>CC</th>
+                    <th>نوع الرسالة</th>
+                    <th>الرسالة</th>
+                    <th>مرفق</th>
+                    <th>التاريخ</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @forelse($messages as $i => $msg)
+                    <tr>
+                        <td>{{ $i + 1 }}</td>
+                        <td>{{ $msg->sender->name ?? '-' }}</td>
+                        <td>{{ $msg->receiver->name ?? '-' }}</td>
+                        <td>{{ $msg->cc->name ?? '-' }}</td>
+                        <td>{{ $msg->type->name_ar ?? '-' }}</td>
+                        <td>{{ \Illuminate\Support\Str::limit($msg->message, 40) }}</td>
+
+                        <td>
+                            @if($msg->attachment)
+                                <a href="{{ asset('storage/'.$msg->attachment) }}" target="_blank">
+                                    📎
+                                </a>
+                            @else
+                                -
+                            @endif
+                        </td>
+
+                        <td>{{ $msg->created_at->format('Y-m-d') }}</td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="8" class="text-center">لا توجد رسائل</td>
+                    </tr>
+                @endforelse
+            </tbody>
+
+        </table>
+    </div>
+
+</div>
 
 @endsection

@@ -167,12 +167,12 @@ th {
     table-layout: fixed;
 }
 
-.payments-table th,
+/* .payments-table th,
 .payments-table td {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-}
+} */
 
 
 
@@ -239,7 +239,9 @@ th {
 
 
 
-
+table {
+    table-layout: fixed;
+}
 </style>
 
 </head>
@@ -334,9 +336,9 @@ Carbon::setLocale('ar');
     </tr>
     <tr>
             <td class="bold"> تاريخ انتهاء الموقع</td>
-            <td >{{ $project->contractor_contract_end_date?->format('Y-m-d') ?? '-' }}</td>
+            <td >{{ $project->end_date?->format('Y-m-d') ?? '-' }}</td>
             <td class="bold">  تاريخ تسليم الموقع</td>
-            <td >  {{ $project->end_date?->format('Y-m-d') ?? '-' }} </td>
+            <td > {{ $project->contractor_contract_end_date?->format('Y-m-d') ?? '-' }}  </td>
     </tr>
 
 
@@ -361,9 +363,16 @@ Carbon::setLocale('ar');
 
 
 
-
+@if(!empty($generalNote))
+    <div class="note-box">
+        <!-- <div class="note-title">ملاحظات عامة:</div> -->
+        <div>
+           الملاحظة: {{ $generalNote }}
+        </div>
+    </div>
+@endif
 <!-- ================= TABLE ================= -->
-<table class="payments-table555">
+<table class="payments-table">
 
 
 
@@ -378,7 +387,7 @@ Carbon::setLocale('ar');
 <colgroup>
     <col style="width:5%">   <!-- رقم -->
     <col style="width:48%">  <!-- بيان الأعمال (كبرناه) -->
-    <col style="width:5%">   <!-- النسبة المحددة (صغرناها) -->
+    <col style="width:2%">   <!-- النسبة المحددة (صغرناها) -->
     <col style="width:5%">   <!-- نسبة الدفعة (صغرناها) -->
     <col style="width:5%">   <!-- المنجز (صغرناها) -->
     <col style="width:8%">   <!-- تاريخ البدء (صغرناها) -->
@@ -386,13 +395,17 @@ Carbon::setLocale('ar');
     <col style="width:19%">  <!-- مبلغ (كبيرناها) -->
 </colgroup>
 
+
+
+
+
     <thead>
         <tr >
             <th class="section-title">#</th>
             <th class="section-title">بيان الأعمال</th>
             <th class="section-title">النسبة المحددة</th> <!-- ✅ جديد -->
             <th class="section-title">نسبة الدفعة</th>
-            <th class="section-title">النسب المنجزة  %</th>
+            <th class="section-title">النسب المنجزة  </th>
             <th class="section-title">تاريخ البدء</th>
             <th class="section-title">المدة (يوم)</th>
             <th class="section-title">المبلغ</th>
@@ -443,12 +456,12 @@ Carbon::setLocale('ar');
 
 <td>
     {{ $row->start_date 
-        ? \Carbon\Carbon::parse($row->start_date)->format('Y-m-d') 
+        ? \Carbon\Carbon::parse($row->start_date)->format('y-m-d') 
         : '-' }}
 </td>
                 <td>{{ $row->duration_days }}</td>
 
-                <td>{{ number_format($amount) }}</td>
+                <td>{{ number_format($amount) }} </td>
 
                 <!-- <td>{{ $row->notes }}</td> -->
             </tr>
@@ -479,14 +492,7 @@ Carbon::setLocale('ar');
 
 
 
-@if(!empty($generalNote))
-    <div class="note-box">
-        <!-- <div class="note-title">ملاحظات عامة:</div> -->
-        <div>
-            {{ $generalNote }}
-        </div>
-    </div>
-@endif
+
 
 
 <!-- ================= SIGNATURE ================= -->

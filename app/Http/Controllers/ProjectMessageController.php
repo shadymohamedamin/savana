@@ -31,30 +31,72 @@ class ProjectMessageController extends AppBaseController
             ->latest()
             ->get();
 
-        return view('messages.index', compact('project','messages'));
+        return view('project_messages.index', compact('project','messages'));
     }
 
     /**
      * Show the form for creating a new ProjectMessage.
      */
-    public function create()
-    {
-        return view('project_messages.create');
-    }
+    public function create($projectId)
+{
+    $project = \App\Models\Project::findOrFail($projectId);
+
+    $users = \App\Models\User::pluck('name', 'id');
+
+    $types = \App\Models\MessageType::pluck('name_ar', 'id'); // زي baladya_status_types
+
+    return view('project_messages.create', compact('project','users','types'));
+}
 
     /**
      * Store a newly created ProjectMessage in storage.
      */
-    public function store(CreateProjectMessageRequest $request)
-    {
-        $input = $request->all();
-
-        $projectMessage = $this->projectMessageRepository->create($input);
-
-        Flash::success('Project Message saved successfully.');
-
-        return redirect(route('projectMessages.index'));
+    public function store(Request $request, $projectId)
+{
+    // ✅ صلاحيات
+    if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        return redirect()->back()->with('toast', [
+            'type' => 'error',
+            'message' => 'ليس لديك الصلاحيات الكافية'
+        ]);
     }
+
+    // ✅ validation
+    $request->validate([
+        'type_id'     => 'required|exists:message_types,id',
+        'receiver_id' => 'required|exists:users,id',
+        'cc_id'       => 'nullable|exists:users,id',
+        'subject'     => 'nullable|string|max:255',
+        'message'     => 'required|string',
+        'attachment'  => 'nullable|file|max:10240', // 10MB
+    ]);
+
+    // ✅ تجهيز البيانات
+    $data = $request->all();
+
+    $data['project_id'] = $projectId;
+    $data['sender_id']  = auth()->id();
+
+    // ✅ رفع ملف واحد
+    if ($request->hasFile('attachment')) {
+        $file = $request->file('attachment');
+        $name = time().'_'.$file->getClientOriginalName();
+        $file->move(public_path('Files'), $name);
+        $data['attachment'] = $name;
+    }
+
+    // ✅ حفظ
+    \App\Models\ProjectMessage::create($data);
+
+    // ✅ رجوع
+    return redirect()->route('projects.messages.index', $projectId)
+        ->with([
+            'toast' => [
+                'type' => 'success',
+                'message' => 'تم إرسال الرسالة بنجاح'
+            ]
+        ]);
+}
 
     /**
      * Display the specified ProjectMessage.
