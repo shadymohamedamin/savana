@@ -215,3 +215,17 @@
         <p>Project Schedule Approvals</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('messageTypes.index') }}" class="nav-link {{ Request::is('messageTypes*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Message Types</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('projectMessages.index') }}" class="nav-link {{ Request::is('projectMessages*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Project Messages</p>
+    </a>
+</li>

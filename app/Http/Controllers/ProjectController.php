@@ -1587,7 +1587,7 @@ $fileName = "عقد_البنك_" . $ownerName . ".pdf";
     /**
      * Display the specified Project.
      */
-          public function showTable($projectId)
+          public function show($projectId)
 
     {
         if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
@@ -1598,17 +1598,26 @@ $fileName = "عقد_البنك_" . $ownerName . ".pdf";
         }
 
     // العثور على المشروع بواسطة المعرف
-    $project = Project::findOrFail($projectId);
+    //$project = \App\Models\Project::findOrFail($projectId);
     
     // حساب المساحات الإجمالية لكل مالك
-    $ownersData = $project->ownerRequirements()
-        ->selectRaw('owner_id, SUM(approved_area) as total_area')
-        ->groupBy('owner_id')
-        ->with('ownerUser') // إضافة العلاقة للمستخدم (المالك)
-        ->get();
+
+/*$ownersData = \App\Models\Project::selectRaw('owner_id, SUM(approved_area_license) as total_area')
+    ->whereNotNull('owner_id')
+    ->groupBy('owner_id')
+    ->with('ownerUser')
+    ->get();*/
+
+
+    $ownersData = \App\Models\Project::selectRaw('owner_id, SUM(approved_area_license) as total_area')
+    ->whereNotNull('owner_id')
+    ->groupBy('owner_id')
+    ->havingRaw('SUM(approved_area_license) > 0')
+    ->with('ownerUser')
+    ->get();
 
     // إرسال البيانات إلى العرض
-    return view('projects.show', compact('project', 'ownersData'));
+    return view('projects.show', compact('ownersData'));
 }
 
     /**

@@ -26,7 +26,7 @@ use App\Http\Controllers\BaladyaStatusTypeController;
 use App\Http\Controllers\OwnerRequirementController;
 use App\Http\Controllers\ProjectOwnerRequirementController;
 use App\Http\Controllers\ProjectScheduleController;
-
+use App\Http\Controllers\ProjectMessageController;
 use App\Models\Project;            // ✅ أهم سطر
 use App\Models\ProjectSchedule;   // ✅
 
@@ -143,6 +143,27 @@ Route::middleware(['auth', 'checkRole:co-admin,admin'])->group(function () {
     //Route::resource('primary_datas', App\Http\Controllers\PrimaryDataController::class);
 });
 Route::middleware(['auth'])->group(function () {
+
+
+
+
+Route::prefix('projects/{project}/messages')->group(function () {
+
+    Route::get('/', [ProjectMessageController::class, 'index'])->name('projects.messages.index');
+
+    Route::get('/create', [ProjectMessageController::class, 'create'])->name('projects.messages.create');
+
+    Route::post('/', [ProjectMessageController::class, 'store'])->name('projects.messages.store');
+
+});
+
+
+
+
+
+
+
+
 
 Route::get('projects/{project}/table', [ProjectController::class, 'showTable'])->name('projects.table');
 
@@ -568,3 +589,5 @@ Route::get('/reset-password/{token}', function ($token) {
 Route::resource('owner-requirment-tender-totals', App\Http\Controllers\OwnerRequirmentTenderTotalController::class);
 Route::resource('project-schedules', App\Http\Controllers\ProjectScheduleController::class);
 Route::resource('project-schedule-approvals', App\Http\Controllers\ProjectScheduleApprovalController::class);
+Route::resource('message-types', App\Http\Controllers\MessageTypeController::class);
+Route::resource('project-messages', App\Http\Controllers\ProjectMessageController::class);

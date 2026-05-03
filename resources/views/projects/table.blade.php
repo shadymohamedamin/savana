@@ -178,6 +178,18 @@
         <!-- <h4 class="mx-auto">{{ __('Projects') }}</h4> -->
 
         <div class="d-flex gap-2">
+
+
+            <button onclick="exportTableToExcel('projects-table')" 
+                    class="btn btn-success btn-sm">
+                <i class="fas fa-file-excel"></i> تصدير Excel
+            </button>
+            <a href="{{ route('projects.show', 1) }}"
+               class="btn btn-olive btn-sm"
+               style="background:#2f3a1f;color:#d4af37;">
+                <i class="fas fa-list"></i> {{ __('جدول المساحات') }}
+            </a>
+
             <a href="{{ route('projects.index') }}"
                class="btn btn-olive btn-sm"
                style="background:#2f3a1f;color:#d4af37;">
@@ -360,8 +372,11 @@
         <!-- <table class="table table-hover align-middle rounded-4"
                style="border:1px solid #D4AF37;"> -->
 
-        <table class="table table-hover align-middle rounded-4 custom-table"
-               style="border:1px solid #D4AF37;">
+        <!-- <table class="table table-hover align-middle rounded-4 custom-table"
+               style="border:1px solid #D4AF37;"> -->
+        <table id="projects-table"
+       class="table table-hover align-middle rounded-4 custom-table"
+       style="border:1px solid #D4AF37;">
            <thead class="custom-header" style="background-color:#d4af37;color:#2f3a1f;">
 
             <tr class="project-roww"style="background-color:#d4af37; cursor:pointer;">
@@ -655,6 +670,51 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+<script>
+function exportTableToExcel(tableID, filename = 'projects') {
+    let table = document.getElementById(tableID).cloneNode(true);
+
+    // حذف أي عناصر مش عايزها (اختياري)
+    table.querySelectorAll('a, button').forEach(el => el.remove());
+
+    let html = `
+    <html xmlns:o="urn:schemas-microsoft-com:office:office"
+          xmlns:x="urn:schemas-microsoft-com:office:excel"
+          xmlns="http://www.w3.org/TR/REC-html40">
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        ${table.outerHTML}
+    </body>
+    </html>`;
+
+    let blob = new Blob(['\ufeff', html], {
+        type: 'application/vnd.ms-excel'
+    });
+
+    let url = URL.createObjectURL(blob);
+
+    let link = document.createElement("a");
+    link.href = url;
+    link.download = filename + '.xls';
+    document.body.appendChild(link);
+    link.click();
+
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+}
+</script>
+
+
+
 
 
 <script>
