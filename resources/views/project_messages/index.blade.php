@@ -48,7 +48,7 @@
 
         <h4 class="mb-0">رسائل المشروع</h4>
 
-        <a href="{{ route('projedcts.messages.create', $project->id) }}"
+        <a href="{{ route('projectts.messages.create', $project->id) }}"
            class="btn btn-sm"
            style="background:#2f3a1f;color:#d4af37;">
             <i class="fas fa-plus"></i> رسالة جديدة
