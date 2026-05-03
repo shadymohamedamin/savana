@@ -26,7 +26,7 @@ class ProjectMessageController extends AppBaseController
     {
         $project = \App\Models\Project::findOrFail($projectId);
 
-        $messages =  \App\Models\ProjectMessage::with(['sender','receiver','cc','type'])
+        $messages =  \App\Models\ProjectMessage::with(['sender','receiver','ccUser','messageType'])
             ->where('project_id', $projectId)
             ->latest()
             ->get();
@@ -63,7 +63,7 @@ class ProjectMessageController extends AppBaseController
 
     // ✅ validation
     $request->validate([
-        'type_id'     => 'required|exists:message_types,id',
+        'message_type_id'     => 'required|exists:message_types,id',
         'receiver_id' => 'required|exists:users,id',
         'cc_id'       => 'nullable|exists:users,id',
         'subject'     => 'nullable|string|max:255',

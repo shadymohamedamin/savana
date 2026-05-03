@@ -26,8 +26,8 @@
 
             {{-- نوع الرسالة --}}
             <div style="min-width:250px;max-width:250px;">
-                {!! Form::label('type_id', 'نوع الرسالة') !!}
-                {!! Form::select('type_id', $types, null, [
+                {!! Form::label('message_type_id', 'نوع الرسالة') !!}
+                {!! Form::select('message_type_id', $types, null, [
                     'class' => 'form-control',
                     'placeholder' => '-- اختر --',
                     'required'

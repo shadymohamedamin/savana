@@ -35,6 +35,13 @@ class ProjectMessage extends Model
         'updated_at' => 'nullable'
     ];
 
+
+
+
+
+
+
+
     public function ccUser(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(\App\Models\User::class, 'cc_user_id');

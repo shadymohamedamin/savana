@@ -335,10 +335,11 @@ Carbon::setLocale('ar');
             <td >  {{ $project->contractorUser?->name ?? '-' }} </td>
     </tr>
     <tr>
-            <td class="bold"> تاريخ انتهاء الموقع</td>
-            <td >{{ $project->end_date?->format('Y-m-d') ?? '-' }}</td>
             <td class="bold">  تاريخ تسليم الموقع</td>
-            <td > {{ $project->contractor_contract_end_date?->format('Y-m-d') ?? '-' }}  </td>
+            
+            <td >{{ $project->contractor_contract_end_date?->format('Y-m-d') ?? '-' }}   </td>
+            <td class="bold"> تاريخ انتهاء الموقع</td>
+            <td > {{ $project->end_date?->format('Y-m-d') ?? '-' }}  </td>
     </tr>
 
 
@@ -346,7 +347,7 @@ Carbon::setLocale('ar');
         <td class="bold"> رقم الدفعة</td>
         <td colspan="" >{{ $batchId ?? '-' }}</td> <!-- عرض رقم الدفعة -->
         <td class="bold">  ما سبق دفعه</td>
-        <td colspan="" >{{ $previousAmount ?? '-' }}</td> <!-- عرض رقم الدفعة -->
+        <td colspan="" >{{ number_format($previousAmount) ?? '-' } درهم</td> <!-- عرض رقم الدفعة -->
 
 
         

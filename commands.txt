@@ -7,7 +7,16 @@ ADD UNIQUE unique_tender (
 );
 
 
+INSERT INTO message_types (name_ar, name_en, created_at, updated_at) VALUES
 
+('رسالة تأخير', 'Delay Message', NOW(), NOW()),
+('رسالة سوء تنفيذ', 'Bad Execution Message', NOW(), NOW()),
+('رسالة سبب توقف الاشغال', 'Work توقف Reason Message', NOW(), NOW()),
+('رسالة تنبيه قبل البدء باتخاذ اجراءات السلامة', 'Safety Warning Before Start', NOW(), NOW()),
+('رسالة تركيب الكاميرا بالموقع', 'Camera Installation Message', NOW(), NOW()),
+('رسالة تنظيف الموقع', 'Site Cleaning Message', NOW(), NOW()),
+('رسالة للمالك بتوفير مواد التشطيبات', 'Finishing Materials Request', NOW(), NOW()),
+('رسالة للمالك بتأخر دفعة المقاول', 'Contractor Payment Delay Notice', NOW(), NOW());
 
 
 
