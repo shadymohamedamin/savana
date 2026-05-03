@@ -500,9 +500,9 @@ Carbon::setLocale('ar');
 <table class="signature-table">
 
     <tr>
-        <td class="signature-title">توقيع المقاول</td>
+        <td class="signature-title">ختم وتوقيع المقاول</td>
         <td class="signature-title">توقيع المالك</td>
-        <td class="signature-title">توقيع الاستشاري</td>
+        <td class="signature-title">ختم وتوقيع الاستشاري</td>
     </tr>
 
      <tr>
