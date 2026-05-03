@@ -183,7 +183,7 @@ th {
 
 .payments-table th:nth-child(2),
 .payments-table td:nth-child(2) {
-    width: 45%;
+    width: 40%;
     text-align: right;
 }
 
@@ -203,7 +203,7 @@ th {
 
 .payments-table th:nth-child(7),
 .payments-table td:nth-child(7) {
-    width: 5%;
+    width: 10%;
 }
 
 .payments-table th:nth-child(8),
@@ -386,12 +386,12 @@ Carbon::setLocale('ar');
 
 <colgroup>
     <col style="width:5%">   <!-- رقم -->
-    <col style="width:48%">  <!-- بيان الأعمال (كبرناه) -->
+    <col style="width:42%">  <!-- بيان الأعمال (كبرناه) -->
     <col style="width:2%">   <!-- النسبة المحددة (صغرناها) -->
     <col style="width:5%">   <!-- نسبة الدفعة (صغرناها) -->
     <col style="width:5%">   <!-- المنجز (صغرناها) -->
     <col style="width:8%">   <!-- تاريخ البدء (صغرناها) -->
-    <col style="width:5%">   <!-- مدة (صغرناها) -->
+    <col style="width:11%">   <!-- مدة (صغرناها) -->
     <col style="width:19%">  <!-- مبلغ (كبيرناها) -->
 </colgroup>
 
