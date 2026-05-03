@@ -14,16 +14,73 @@
 
     <div class="card shadow-xl p-4 m-4" style="background-color:#f5f5dc;">
 
+
+
+
+
+
+
         {!! Form::open([
             'route' => ['projects.messages.store', $project->id],
             'files' => true
         ]) !!}
 
+
+
+
+
+
+        @if(isset($replyTo))
+<div class="card mb-3 border-left border-primary p-3" style="background:#eef2ff">
+
+    <h5 class="mb-2">📩 الرد على رسالة</h5>
+
+    <p><strong>الموضوع:</strong> {{ $replyTo->messageType->name_ar ?? '-' }}</p>
+
+    <p><strong>الرسالة:</strong><br>
+        {{ $replyTo->message }}
+    </p>
+
+    <p><strong>من:</strong> {{ $replyTo->sender->name ?? '-' }}</p>
+
+    <p><strong>إلى:</strong> {{ $replyTo->receiver->name ?? '-' }}</p>
+
+    <p><strong>CC:</strong> {{ $replyTo->ccUser->name ?? '-' }}</p>
+
+    @if($replyTo->attachment)
+        <a href="{{ asset('Files/'.$replyTo->attachment) }}" target="_blank">
+            📎 فتح المرفق
+        </a>
+    @endif
+
+</div>
+@endif
+            @if(isset($replyTo))
+            <!-- <div class="alert alert-info">
+                <strong>رد على رسالة:</strong>
+                <br>
+                {{ \Illuminate\Support\Str::limit($replyTo->message, 100) }}
+            </div> -->
+
+                <input type="hidden" name="parent_id" value="{{ $replyTo->id }}">
+                {{-- نوع الرسالة الأصلي --}}
+                <input type="hidden" name="message_type_id" value="{{ $replyTo->message_type_id }}">
+
+                {{-- المرسل إليه الأصلي --}}
+                <input type="hidden" name="receiver_id" value="{{ $replyTo->sender_id }}">
+
+            
+            @endif
+
+
+
+
+
         <input type="hidden" name="project_id" value="{{ $project->id }}">
         <input type="hidden" name="sender_id" value="{{ auth()->id() }}">
 
         <div class="card-body d-flex flex-wrap gap-3">
-
+            @if(!isset($replyTo))
             {{-- نوع الرسالة --}}
             <div style="min-width:250px;max-width:250px;">
                 {!! Form::label('message_type_id', 'نوع الرسالة') !!}
@@ -43,23 +100,24 @@
                     'required'
                 ]) !!}
             </div>
+            @endif
 
             {{-- CC (اختياري) --}}
             <div style="min-width:250px;max-width:250px;">
-                {!! Form::label('cc_id', 'CC (اختياري)') !!}
-                {!! Form::select('cc_id', $users, null, [
+                {!! Form::label('cc_user_id', 'CC (اختياري)') !!}
+                {!! Form::select('cc_user_id', $users, null, [
                     'class' => 'form-control',
                     'placeholder' => '-- بدون'
                 ]) !!}
             </div>
 
-            {{-- عنوان --}}
+            <!-- {{-- عنوان --}}
             <div style="min-width:250px;max-width:250px;">
                 {!! Form::label('subject', 'عنوان الرسالة') !!}
                 {!! Form::text('subject', null, [
                     'class' => 'form-control'
                 ]) !!}
-            </div>
+            </div> -->
 
 
 

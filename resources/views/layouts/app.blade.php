@@ -1465,6 +1465,12 @@ body, html {
             <i class="fas fa-drafting-compass fa-2x"></i>
             <span>المخططات المعتمدة</span>
         </a>
+
+        <a href="{{ route('projects.messages.index', $project->id) }}" 
+        class="project-card {{ Route::currentRouteName() == 'projects.messages.index' ? 'active' : '' }}">
+            <i class="fas fa-envelope fa-2x"></i>
+            <span>الرسائل والتنبيهات</span>
+        </a>
     @endif
 
     @if(isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12]))
@@ -1485,11 +1491,7 @@ body, html {
 
 
 
-        <a href="{{ route('projects.messages.index', $project->id) }}" 
-        class="project-card {{ Route::currentRouteName() == 'projects.messages.index' ? 'active' : '' }}">
-            <i class="fas fa-envelope fa-2x"></i>
-            <span>الرسائل والتنبيهات</span>
-        </a>
+        
     @endif
 
 </div>

@@ -26,26 +26,42 @@ class ProjectMessageController extends AppBaseController
     {
         $project = \App\Models\Project::findOrFail($projectId);
 
-        $messages =  \App\Models\ProjectMessage::with(['sender','receiver','ccUser','messageType'])
+        /*$messages =  \App\Models\ProjectMessage::with(['sender','receiver','ccUser','messageType'])
             ->where('project_id', $projectId)
-            ->latest()
-            ->get();
+            ->orderBy('created_at')
+            ->get();*/
 
+
+            $messages = \App\Models\ProjectMessage::with([
+        'sender','receiver','ccUser','messageType','replies.sender'
+            ])
+            ->where('project_id', $projectId)
+            ->whereNull('parent_id') // ✅ الرسائل الأساسية فقط
+            ->orderBy('created_at')
+            ->get();
+        //dd($messages);
         return view('project_messages.index', compact('project','messages'));
     }
 
     /**
      * Show the form for creating a new ProjectMessage.
      */
-    public function create($projectId)
+public function create($projectId, Request $request)
 {
     $project = \App\Models\Project::findOrFail($projectId);
 
     $users = \App\Models\User::pluck('name', 'id');
+    $types = \App\Models\MessageType::pluck('name_ar', 'id');
 
-    $types = \App\Models\MessageType::pluck('name_ar', 'id'); // زي baladya_status_types
+    $replyTo = null;
 
-    return view('project_messages.create', compact('project','users','types'));
+    if ($request->reply_to) {
+        $replyTo = \App\Models\ProjectMessage::find($request->reply_to);
+    }
+
+    return view('project_messages.create', compact(
+        'project','users','types','replyTo'
+    ));
 }
 
     /**
@@ -54,12 +70,12 @@ class ProjectMessageController extends AppBaseController
     public function store(Request $request, $projectId)
 {
     // ✅ صلاحيات
-    if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    /*if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
         return redirect()->back()->with('toast', [
             'type' => 'error',
             'message' => 'ليس لديك الصلاحيات الكافية'
         ]);
-    }
+    }*/
 
     // ✅ validation
     $request->validate([
@@ -69,13 +85,17 @@ class ProjectMessageController extends AppBaseController
         'subject'     => 'nullable|string|max:255',
         'message'     => 'required|string',
         'attachment'  => 'nullable|file|max:10240', // 10MB
+        'parent_id' => 'nullable|exists:project_messages,id',
     ]);
 
     // ✅ تجهيز البيانات
     $data = $request->all();
 
+    //dd($request);
+
     $data['project_id'] = $projectId;
     $data['sender_id']  = auth()->id();
+    $data['parent_id'] = $request->parent_id;
 
     // ✅ رفع ملف واحد
     if ($request->hasFile('attachment')) {

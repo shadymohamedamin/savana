@@ -2,6 +2,44 @@
 
 @section('content')
 
+
+
+
+<style>
+
+    .msg-row {
+        cursor: pointer;
+        transition: 0.2s;
+    }
+
+    .msg-row:hover {
+        background: #f0ead6;
+    }
+
+    .replies-box {
+        background: #eee;
+        padding: 10px;
+        margin-top: 5px;
+        border-radius: 8px;
+    }
+
+    .reply-item {
+        background: #fff;
+        margin-bottom: 8px;
+        padding: 10px;
+        border-radius: 6px;
+        border-right: 3px solid #2f3a1f;
+    }
+
+
+
+.replies-box {
+    background: #f3f3f3;
+    border-right: 4px solid #999;
+}
+</style>
+
+
 <div class="card shadow-sm rounded-4" style="background-color:#f5f5dc;margin:40px;">
 
     {{-- Header --}}
@@ -10,7 +48,7 @@
 
         <h4 class="mb-0">رسائل المشروع</h4>
 
-        <a href="{{ route('projeckts.messages.create', $project->id) }}"
+        <a href="{{ route('projects.messages.create', $project->id) }}"
            class="btn btn-sm"
            style="background:#2f3a1f;color:#d4af37;">
             <i class="fas fa-plus"></i> رسالة جديدة
@@ -22,7 +60,7 @@
         <table class="table table-hover align-middle">
 
             <thead>
-                <tr>
+                <tr >
                     <th>#</th>
                     <th>من</th>
                     <th>إلى</th>
@@ -31,22 +69,23 @@
                     <th>الرسالة</th>
                     <th>مرفق</th>
                     <th>التاريخ</th>
+                    <th>الاعدادات</th>
                 </tr>
             </thead>
 
             <tbody>
                 @forelse($messages as $i => $msg)
-                    <tr>
+                    <tr class="msg-row" onclick="toggleReplies({{ $msg->id }})">
                         <td>{{ $i + 1 }}</td>
                         <td>{{ $msg->sender->name ?? '-' }}</td>
                         <td>{{ $msg->receiver->name ?? '-' }}</td>
-                        <td>{{ $msg->cc->name ?? '-' }}</td>
+                        <td>{{ $msg->ccUser->name ?? '-' }}</td>
                         <td>{{ $msg->type->name_ar ?? '-' }}</td>
                         <td>{{ \Illuminate\Support\Str::limit($msg->message, 40) }}</td>
 
                         <td>
                             @if($msg->attachment)
-                                <a href="{{ asset('storage/'.$msg->attachment) }}" target="_blank">
+                                <a href="{{ asset('Files/'.$msg->attachment) }}" target="_blank">
                                     📎
                                 </a>
                             @else
@@ -55,7 +94,76 @@
                         </td>
 
                         <td>{{ $msg->created_at->format('Y-m-d') }}</td>
+
+                        <td style="background:#fff;" onclick="event.stopPropagation();">
+
+                            <div class="dropdown">
+
+                                <button class="btn btn-sm btn-olive dropdown-toggle"
+                                        style="background:#2f3a1f;color:#d4af37;font-weight:600;"
+                                        data-bs-toggle="dropdown">
+                                    <i class="fas fa-cog"></i>
+                                </button>
+
+                                <ul class="dropdown-menu dropdown-menu-end" style="background:#f5f5dc;">
+
+                                    {{-- 👇 رد على الرسالة --}}
+                                    <li>
+                                        <a class="dropdown-item"
+                                        href="{{ route('projects.messages.create', $project->id) }}?reply_to={{ $msg->id }}">
+
+                                            <i class="fas fa-reply"></i> رد
+                                        </a>
+                                    </li>
+
+                                    <li><hr class="dropdown-divider"></li>
+
+                                    {{-- ملاحظة: ممكن تخلي حذف/تعديل لو عايز --}}
+                                </ul>
+
+                            </div>
+
+                            </td>
+
+
+                            
                     </tr>
+
+
+                    <tr>
+    <td colspan="9">
+
+        <div id="replies-{{ $msg->id }}" class="replies-box" style="display:none;">
+
+            @forelse($msg->replies as $reply)
+
+                <div class="reply-item">
+
+                    <div class="d-flex justify-content-between">
+                        <strong>{{ $reply->sender->name ?? '-' }}</strong>
+                        <small>{{ $reply->created_at->format('Y-m-d H:i') }}</small>
+                    </div>
+
+                    <div style="margin-top:5px;">
+                        {{ $reply->message }}
+                    </div>
+
+                    @if($reply->attachment)
+                        <a href="{{ asset('Files/'.$reply->attachment) }}" target="_blank">
+                            📎 ملف
+                        </a>
+                    @endif
+
+                </div>
+
+            @empty
+                <div class="text-muted">لا توجد ردود</div>
+            @endforelse
+
+        </div>
+
+    </td>
+</tr>
                 @empty
                     <tr>
                         <td colspan="8" class="text-center">لا توجد رسائل</td>
@@ -69,3 +177,31 @@
 </div>
 
 @endsection
+
+
+<script>
+
+function showReplyForm(messageId){
+    document.getElementById('parent_id').value = messageId;
+    document.getElementById('message').focus();
+}
+
+
+
+
+
+</script>
+
+
+
+<script>
+function toggleReplies(id) {
+    let el = document.getElementById('replies-' + id);
+
+    if (el.style.display === 'none' || el.style.display === '') {
+        el.style.display = 'block';
+    } else {
+        el.style.display = 'none';
+    }
+}
+</script>

@@ -14,8 +14,11 @@ class ProjectMessage extends Model
         'receiver_id',
         'cc_user_id',
         'message_type_id',
+        'subject',
         'message',
-        'attachment'
+        'attachment',
+        'readed',
+        'parent_id'
     ];
 
     protected $casts = [
@@ -32,13 +35,24 @@ class ProjectMessage extends Model
         'message' => 'required|string|max:65535',
         'attachment' => 'nullable|string|max:255',
         'created_at' => 'nullable',
-        'updated_at' => 'nullable'
+        'updated_at' => 'nullable',
+        'parent_id' => 'nullable|exists:project_messages,id',
     ];
 
 
 
 
+// الرسالة الأب
+public function parent()
+{
+    return $this->belongsTo(ProjectMessage::class, 'parent_id');
+}
 
+// الردود
+public function replies()
+{
+    return $this->hasMany(ProjectMessage::class, 'parent_id')->orderBy('created_at');
+}
 
 
 
