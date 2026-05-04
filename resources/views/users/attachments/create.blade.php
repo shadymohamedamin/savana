@@ -134,7 +134,7 @@
     <!-- <h3>{{ __('Manage Attachments for') }}: {{ $model->name }}</h3> -->
 
 
-@if (in_array(auth()->user()->role_id, [1,4,11,12]))
+@if (in_array(auth()->user()->role_id, [1,4,11,12,7]))
     <div></div>
     <!-- <h3>
         {{ $isEdit ? __('Edit Attachments for') : __('Manage Attachments for') }}
@@ -194,7 +194,7 @@
     <div class="card-header    d-flex justify-content-between align-items-center" style="background:#d4af37">
         <span style="font-weight: 700;">{{ __('معاينة وطباعة المستندات ') }}</span>
   
-        @if($isCotractorFiles&&in_array(Auth::user()->role_id, [1,4,11,12]))
+        @if($isCotractorFiles&&in_array(Auth::user()->role_id, [1,4,11,12,7]))
 
 
         <div class="flex justify-start" style="gap: 1rem;">
@@ -209,7 +209,7 @@
                     <i class="fas fa-users"></i>  جداول الدفوعات 
             </a>
         </div>
-        @elseif($isTender&&in_array(Auth::user()->role_id, [1,4,11,12]))
+        @elseif($isTender&&in_array(Auth::user()->role_id, [1,4,11,12,7]))
         <div class="flex justify-start" style="gap: 1rem;">
             
             <a href="{{ route('projects.tender.contractors', $model->id) }}"
@@ -230,7 +230,7 @@
                     <i class="fas fa-file-signature"></i> حساب الكميات
             </a> --}}
         </div>
-        @elseif(!$isCotractorFiles&&!$projectDocuments&&$type='projects'&&in_array(Auth::user()->role_id, [1,4,11,12]))
+        @elseif(!$isCotractorFiles&&!$projectDocuments&&$type='projects'&&in_array(Auth::user()->role_id, [1,4,11,12,7]))
         <a href="{{ route('projects.owner-requirements.index', ['project' => $model->id]) }}" class="btn btn-olive px-4 btn-sm"
                 style="background:#d4af37;color:#2f3a1f; font-weight: 700;margin-right: 1rem;">
                 <i class="fas fa-clipboard-list"></i>
@@ -487,7 +487,7 @@ $lastBatchId = \App\Models\ProjectSchedule::where('project_id', $project->id)
                 </a>
                 @endif
             </div>
-<!-- !in_array(auth()->user()->role_id, [1,4,11,12]) && -->
+<!-- !in_array(auth()->user()->role_id, [1,4,11,12,7]) && -->
             @if($isTender||$isDesigns) 
                 @foreach($rows as $row)
                     @php
@@ -1014,7 +1014,7 @@ $lastBatchId = \App\Models\ProjectSchedule::where('project_id', $project->id)
 
 
 @php
-    $canUpload = in_array(auth()->user()->role_id, [1,4,11,12]) 
+    $canUpload = in_array(auth()->user()->role_id, [1,4,11,12,7]) 
         || auth()->id() == $model->id;
 @endphp
 

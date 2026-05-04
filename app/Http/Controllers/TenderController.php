@@ -208,7 +208,7 @@ class TenderController extends Controller
 
 public function contractors(Project $project)
 {
-    if (!in_array(auth()->user()->role_id, [1, 4, 11, 12])) {
+    if (!in_array(auth()->user()->role_id, [1, 4, 11, 12,7])) {
         return redirect()->back()->with('toast', [
             'type' => 'error',
             'message' => 'ليس لديك الصلاحيات الكافية'
@@ -422,7 +422,7 @@ $contractors = $contractors->sortBy(function ($contractor) use ($awardedContract
 */
 public function award(Project $project, $contractorId)
 {
-    if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
         return redirect()->back()->with('toast', [
             'type' => 'error',
             'message' => 'ليس لديك الصلاحيات الكافية'
@@ -473,7 +473,7 @@ public function award(Project $project, $contractorId)
 
     public function unaward(Project $project)
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'
@@ -576,7 +576,7 @@ public function award(Project $project, $contractorId)
 
         public function store(Request $request, Project $project)
         {
-            if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+            if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'

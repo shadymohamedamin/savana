@@ -81,7 +81,7 @@ class BaladyaApprovalController extends AppBaseController
 
 /*public function index($projectId) 
 {
-    if (FALSE){//!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    if (FALSE){//!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'
@@ -114,7 +114,7 @@ class BaladyaApprovalController extends AppBaseController
 
 public function index($projectId) 
 {
-    if (FALSE){ //!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    if (FALSE){ //!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
         return redirect()->back()->with('toast', [
             'type' => 'error',
             'message' => 'ليس لديك الصلاحيات الكافية'
@@ -160,7 +160,7 @@ public function index($projectId)
      */
     public function create($projectId)
 {
-    if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'
@@ -242,7 +242,7 @@ public function index($projectId)
 
         public function store(CreateBaladyaApprovalRequest $request, $projectId)
 {
-    if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'
@@ -326,7 +326,7 @@ public function index($projectId)
      */
     public function show($id)
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'
@@ -350,7 +350,7 @@ public function index($projectId)
     public function edit($projectId, $id)
     {
         $isDesignsApproved = request('isDesignsApproved');
-        if (!$isDesignsApproved&&!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!$isDesignsApproved&&!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
             return redirect()->back()->with('toast', [
                 'type' => 'error',
                 'message' => 'ليس لديك الصلاحيات الكافية'
@@ -374,7 +374,7 @@ public function index($projectId)
 // تحديث الاعتماد
     public function update(CreateBaladyaApprovalRequest $request, $projectId, $id)
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'
@@ -556,7 +556,7 @@ if ($request->hasFile('architect_file') && $request->file('architect_file')->isV
      */
     public function destroy($projectId, $id)
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'

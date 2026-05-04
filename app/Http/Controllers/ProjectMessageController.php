@@ -50,7 +50,13 @@ public function create($projectId, Request $request)
 {
     $project = \App\Models\Project::findOrFail($projectId);
 
-    $users = \App\Models\User::pluck('name', 'id');
+    //$users = \App\Models\User::pluck('name', 'id');
+    $users = \App\Models\User::whereIn('id', [
+    $project->owner_id,
+    $project->contractor_id,
+    $project->consultant_id
+])->pluck('name', 'id');
+    
     $types = \App\Models\MessageType::pluck('name_ar', 'id');
 
     $replyTo = null;
@@ -67,10 +73,10 @@ public function create($projectId, Request $request)
     /**
      * Store a newly created ProjectMessage in storage.
      */
-    public function store(Request $request, $projectId)
+    /*public function store(Request $request, $projectId)
 {
     // ✅ صلاحيات
-    /*if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    /*if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
         return redirect()->back()->with('toast', [
             'type' => 'error',
             'message' => 'ليس لديك الصلاحيات الكافية'
@@ -78,7 +84,7 @@ public function create($projectId, Request $request)
     }*/
 
     // ✅ validation
-    $request->validate([
+ /*   $request->validate([
         'message_type_id'     => 'required|exists:message_types,id',
         'receiver_id' => 'required|exists:users,id',
         'cc_id'       => 'nullable|exists:users,id',
@@ -116,7 +122,97 @@ public function create($projectId, Request $request)
                 'message' => 'تم إرسال الرسالة بنجاح'
             ]
         ]);
+}*/
+
+
+
+
+
+
+
+
+
+public function store(Request $request, $projectId)
+{
+    $project = \App\Models\Project::findOrFail($projectId);
+
+    $user = auth()->user();
+
+    // IDs
+    $consultantId = $project->consultant_id;
+    $contractorId = $project->contractor_id;
+    $ownerId      = $project->owner_id;
+
+    // Validation
+    $request->validate([
+        'message' => 'required|string',
+        'attachment' => 'nullable|file|max:10240',
+    ]);
+
+    $data = $request->all();
+
+    $data['project_id'] = $projectId;
+    $data['sender_id']  = $user->id;
+
+    // 🧠 LOGIC
+    if ($user->id == $consultantId) {
+
+        // الاستشاري
+        if (!in_array($request->receiver_id, [$ownerId, $contractorId])) {
+            return back()->with('toast', [
+                'type' => 'error',
+                'message' => 'يمكنك الإرسال فقط للمالك أو المقاول'
+            ]);
+        }
+
+    } elseif ($user->id == $contractorId) {
+
+        // المقاول
+        $data['receiver_id'] = $consultantId;
+
+        // المالك اختياري CC
+        if ($request->cc_user_id && $request->cc_user_id != $ownerId) {
+            return back()->with('toast', [
+                'type' => 'error',
+                'message' => 'يمكنك إضافة المالك فقط في CC'
+            ]);
+        }
+
+    } elseif ($user->id == $ownerId) {
+
+        // المالك
+        $data['receiver_id'] = $contractorId;
+
+        // الاستشاري لازم يكون CC
+        $data['cc_user_id'] = $consultantId;
+
+    }
+
+    // reply logic
+    if ($request->parent_id) {
+        $data['parent_id'] = $request->parent_id;
+    }
+
+    // upload
+    if ($request->hasFile('attachment')) {
+        $file = $request->file('attachment');
+        $name = time().'_'.$file->getClientOriginalName();
+        $file->move(public_path('Files'), $name);
+        $data['attachment'] = $name;
+    }
+
+    \App\Models\ProjectMessage::create($data);
+
+    return redirect()->route('projects.messages.index', $projectId)
+        ->with([
+            'toast' => [
+                'type' => 'success',
+                'message' => 'تم إرسال الرسالة بنجاح'
+            ]
+        ]);
 }
+
+
 
     /**
      * Display the specified ProjectMessage.

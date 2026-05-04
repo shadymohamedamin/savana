@@ -399,7 +399,7 @@ tfoot tr {
         <input type="number" class="form-control target"
                name="rows[{{ $i }}][target_percentage]"
                value="{{ $row->target_percentage }}"
-               @if(!in_array(auth()->user()->role_id, [1,4,11,12])) readonly @endif
+               @if(!in_array(auth()->user()->role_id, [1,4,11,12,7])) readonly @endif
                >
     </td>
 

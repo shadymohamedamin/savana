@@ -27,7 +27,7 @@ class UserController extends AppBaseController
      */
     public function index(Request $request)
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
             return redirect()->back()->with('toast', [
                 'type' => 'error',
                 'message' => 'ليس لديك الصلاحيات الكافية'
@@ -92,7 +92,7 @@ class UserController extends AppBaseController
      */
     public function create(Request $request)
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
             return redirect()->back()->with('toast', [
                 'type' => 'error',
                 'message' => 'ليس لديك الصلاحيات الكافية'
@@ -122,7 +122,7 @@ class UserController extends AppBaseController
     public function store(CreateUserRequest $request)
     {
 
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
             return redirect()->back()->with('toast', [
                 'type' => 'error',
                 'message' => 'ليس لديك الصلاحيات الكافية'
@@ -242,7 +242,7 @@ if ($request->hasFile('signature_file')) {
      */
     public function show($id)
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
             return redirect()->back()->with('toast', [
                 'type' => 'error',
                 'message' => 'ليس لديك الصلاحيات الكافية'
@@ -264,7 +264,7 @@ if ($request->hasFile('signature_file')) {
      */
     public function edit($id)
 {
-    if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
         return redirect()->back()->with('toast', [
             'type' => 'error',
             'message' => 'ليس لديك الصلاحيات الكافية'
@@ -291,7 +291,7 @@ if ($request->hasFile('signature_file')) {
      */
     public function update($id, UpdateUserRequest $request)
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
             return redirect()->back()->with('toast', [
                 'type' => 'error',
                 'message' => 'ليس لديك الصلاحيات الكافية'
@@ -442,7 +442,7 @@ if ($request->hasFile('signature_file')) {
      */
     public function destroy($id)
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
             return redirect()->back()->with('toast', [
                 'type' => 'error',
                 'message' => 'ليس لديك الصلاحيات الكافية'

@@ -33,7 +33,7 @@ class ProjectController extends AppBaseController
         'contractor',
         'baladyaApprovals' => fn($q) => $q->latest()->take(1),
     ]);*///vat_amount
-$allowedRoles = [1,4,11,12];
+$allowedRoles = [1,4,11,12,7];
     $query = \App\Models\Project::query()
         ->with([
             'status',
@@ -1561,7 +1561,7 @@ public function messageContractPdf(Request $request, $id)
 
     public function store(CreateProjectRequest $request)
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'
@@ -1633,7 +1633,7 @@ public function messageContractPdf(Request $request, $id)
           public function show($projectId)
 
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
             return redirect()->back()->with('toast', [
                 'type' => 'error',
                 'message' => 'ليس لديك الصلاحيات الكافية'
@@ -1668,7 +1668,7 @@ public function messageContractPdf(Request $request, $id)
      */
     public function edit($id)
 {
-    if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'
@@ -1742,7 +1742,7 @@ public function messageContractPdf(Request $request, $id)
 
 /*public function update($id, UpdateProjectRequest $request)
 {
-    if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'
@@ -1819,7 +1819,7 @@ public function messageContractPdf(Request $request, $id)
 }*/
 public function update($id, UpdateProjectRequest $request)
 {
-    if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
         return redirect()->back()->with('toast', [
             'type' => 'error',
             'message' => 'ليس لديك الصلاحيات الكافية'
@@ -1931,7 +1931,7 @@ if ($request->hasFile('approved_file') && $request->file('approved_file')->isVal
      */
     public function destroy($id)
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'

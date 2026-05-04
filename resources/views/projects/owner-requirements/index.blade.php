@@ -431,7 +431,7 @@ body{
 
         
         <div class=" d-flex justify-content-between align-items-center gap-2">
-            @if (in_array(auth()->user()->role_id, [1,4,11,12]))
+            @if (in_array(auth()->user()->role_id, [1,4,11,12,7]))
             <a href="{{ route('projects.tender.contractors', $project->id) }}"
                 class="btn btn-olive px-4 btn-sm"
                 style="background:#d4af37;color:#2f3a1f;font-weight:700;font-size:1rem;">

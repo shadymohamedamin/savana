@@ -19,7 +19,7 @@
                     {{ __('You are logged in!') }} -->
                     <h3>👤 {{ __('Welcome') }}, {{ Auth::user()->name }}</h3>
 
-                    @if(in_array(Auth::user()->role_id, [1,4,11,12]))
+                    @if(in_array(Auth::user()->role_id, [1,4,11,12,7]))
                     
                     <div class="mt-4">
                         <a href="{{ url('/users/' . Auth::id() . '/attachments/create?type=users') }}"

@@ -8,6 +8,12 @@
     </div>
 </section>
 
+
+@php
+$user = auth()->user();
+@endphp
+
+
 <div class="content px-3">
 
     @include('adminlte-templates::common.errors')
@@ -91,8 +97,11 @@
                 ]) !!}
             </div>
 
+
+
+
             {{-- المرسل إليه --}}
-            <div style="min-width:250px;max-width:250px;">
+            <!-- <div style="min-width:250px;max-width:250px;">
                 {!! Form::label('receiver_id', 'إلى') !!}
                 {!! Form::select('receiver_id', $users, null, [
                     'class' => 'form-control',
@@ -100,16 +109,105 @@
                     'required'
                 ]) !!}
             </div>
-            @endif
+            @endif -->
+
+
+
+@if($user->id == $project->consultant_id)
+
+    {!! Form::label('receiver_id','إلى') !!}
+    {!! Form::select('receiver_id', [
+        $project->owner_id => 'المالك',
+        $project->contractor_id => 'المقاول'
+    ], null, ['class'=>'form-control','required']) !!}
+
+@endif
+
+
+@if($user->id == $project->contractor_id)
+
+    <input type="hidden" name="receiver_id" value="{{ $project->consultant_id }}">
+
+    <div class="form-control bg-light">
+        إلى: الاستشاري
+    </div>
+
+@endif
+
+
+@if($user->id == $project->owner_id)
+
+    <input type="hidden" name="receiver_id" value="{{ $project->contractor_id }}">
+
+    <div class="form-control bg-light">
+        إلى: المقاول
+    </div>
+
+@endif
+
+
+
+
+
+
+
+
+
+
+
+
 
             {{-- CC (اختياري) --}}
-            <div style="min-width:250px;max-width:250px;">
+            <!-- <div style="min-width:250px;max-width:250px;">
                 {!! Form::label('cc_user_id', 'CC (اختياري)') !!}
                 {!! Form::select('cc_user_id', $users, null, [
                     'class' => 'form-control',
                     'placeholder' => '-- بدون'
                 ]) !!}
-            </div>
+            </div> -->
+
+
+
+
+
+
+
+@if($user->id == $project->consultant_id)
+
+    {!! Form::label('cc_user_id','CC') !!}
+    {!! Form::select('cc_user_id', [
+        $project->owner_id => 'المالك',
+        $project->contractor_id => 'المقاول'
+    ], null, ['class'=>'form-control','placeholder'=>'اختياري']) !!}
+
+@endif
+
+
+@if($user->id == $project->contractor_id)
+
+    {!! Form::label('cc_user_id','CC') !!}
+    {!! Form::select('cc_user_id', [
+        $project->owner_id => 'المالك'
+    ], null, ['class'=>'form-control','placeholder'=>'اختياري']) !!}
+
+@endif
+
+
+@if($user->id == $project->owner_id)
+
+    <input type="hidden" name="cc_user_id" value="{{ $project->consultant_id }}">
+
+    <div class="form-control bg-light">
+        CC: الاستشاري
+    </div>
+
+@endif
+
+
+
+
+
+
 
             <!-- {{-- عنوان --}}
             <div style="min-width:250px;max-width:250px;">

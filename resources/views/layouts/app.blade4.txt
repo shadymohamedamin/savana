@@ -11,7 +11,7 @@
 
         <div class="project-actions-scroll">
             <div class="project-actions-full">
-            @if(isset($project) && in_array(auth()->user()->role_id, [1,4,11,12]))
+            @if(isset($project) && in_array(auth()->user()->role_id, [1,4,11,12,7]))
                 <!-- <a href="{{ route('users.index') }}" class="panel-btn-full">
                     <i class="far fa-users"></i>
                     المستخدمين
@@ -38,7 +38,7 @@
             @endif
 
 
-@if((isset($project) && in_array(auth()->user()->role_id, [1,4,11,12]))||(isset($project) && $project->contractor_id==auth()->user()->id))
+@if((isset($project) && in_array(auth()->user()->role_id, [1,4,11,12,7]))||(isset($project) && $project->contractor_id==auth()->user()->id))
             
             
  
@@ -116,7 +116,7 @@
             </a> -->
 @endif
 
-@if(isset($project) && in_array(auth()->user()->role_id, [1,4,11,12]))
+@if(isset($project) && in_array(auth()->user()->role_id, [1,4,11,12,7]))
             
            <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}"
                 class="panel-btn-full {{ request()->is('users/*/attachments/create') && !request('mode') ? 'active' : '' }}">

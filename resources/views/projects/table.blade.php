@@ -179,7 +179,7 @@
 
         <div class="d-flex gap-2">
 
-
+@if(in_array(Auth::user()->role_id, [1,4,11,12,7]))
             <button onclick="exportTableToExcel('projects-table')" 
                     class="btn btn-success btn-sm">
                 <i class="fas fa-file-excel"></i> تصدير Excel
@@ -189,6 +189,8 @@
                style="background:#2f3a1f;color:#d4af37;">
                 <i class="fas fa-list"></i> {{ __('جدول المساحات') }}
             </a>
+
+@endif
 
             <a href="{{ route('projects.index') }}"
                class="btn btn-olive btn-sm"
@@ -380,7 +382,7 @@
            <thead class="custom-header" style="background-color:#d4af37;color:#2f3a1f;">
 
             <tr class="project-roww"style="background-color:#d4af37; cursor:pointer;">
-                @if(in_array(auth()->user()->role_id, [1,4,11,12]))
+                @if(in_array(auth()->user()->role_id, [1,4,11,12,7]))
                     <th style="background-color:#d4af37;">{{ __('Code') }}</th>
                     <th style="background-color:#d4af37;">{{ __('Owner') }}</th>
                     <th style="background-color:#d4af37;">{{ __('رقم القسيمة') }}</th>
@@ -427,7 +429,7 @@
                 @php
                     $owner = $project->users->firstWhere('pivot.role_id', 1);
                     $contractor = $project->users->firstWhere('pivot.role_id', 3);
-                    $targetUrl = in_array(auth()->user()->role_id, [1,4,11,12])
+                    $targetUrl = in_array(auth()->user()->role_id, [1,4,11,12,7])
                         ? route('projects.edit', $project->id)
                         : url('users/'.$project->id.'/attachments/create?type=projects&mode=tender');
                 @endphp
@@ -439,7 +441,7 @@
 
 
 
-                @if(in_array(auth()->user()->role_id, [1,4,11,12]))
+                @if(in_array(auth()->user()->role_id, [1,4,11,12,7]))
                 
                     
                     <td style="background-color:#f5f5dc;">{{ $project->project_code }}</td>

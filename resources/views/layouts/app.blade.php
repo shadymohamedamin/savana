@@ -1074,7 +1074,7 @@ body, html {
 
                                     {{-- Only for admins or researchers --}}
                                     {{-- @if(Auth::user()->role !== 'public_user')
-                                       @if(in_array(Auth::user()->role_id, [1,4,11,12]))
+                                       @if(in_array(Auth::user()->role_id, [1,4,11,12,7]))
                                         <li class="nav-item">
                                             <a style="font-size: 1.4rem;" class="nav-link" href="{{ url('/users') }}">{{ __('Users') }}</a>
                                         </li>
@@ -1108,7 +1108,7 @@ body, html {
                                         </a>
                                     </li>
 
-                                    @if(in_array(Auth::user()->role_id, [1,4,11,12]))
+                                    @if(in_array(Auth::user()->role_id, [1,4,11,12,7]))
                                         <li class="nav-item text-center">
                                             <a style=" font-size: 1.4rem;" class="text-center nav-link" href="{{ url('/users') }}">{{ __('Users') }}</a>
                                         </li>
@@ -1130,7 +1130,7 @@ body, html {
 
 
                                     @auth
-                                        @if(!in_array(Auth::user()->role_id, [1,4,11,12]))
+                                        @if(!in_array(Auth::user()->role_id, [1,4,11,12,7]))
                                             <li class="nav-item mx-2">
                                                 <a class="nav-link" 
                                                 href="{{ route('users.attachments.create', ['id' => Auth::id(), 'type' => 'users']) }}">
@@ -1423,7 +1423,7 @@ body, html {
 @if(isset($project))
 <div class="project-cards-grid">
 
-    @if(isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12]))
+    @if(isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7]))
         <a href="{{ route('projects.edit', $project->id) }}" class="project-card {{ Route::currentRouteName() == 'projects.edit' ? 'active' : '' }}">
             <i class="fas fa-edit fa-2x"></i>
             <span>تعديل المشروع</span>
@@ -1435,7 +1435,7 @@ body, html {
         </a>
     @endif
 
-    @if((isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12])) || (isset($project) && $project->contractor_id == auth()->user()->id))
+    @if((isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7])) || (isset($project) && $project->contractor_id == auth()->user()->id))
         <a href="{{ route('projects.baladya-approvals.index', ['project' => $project->id]) }}" class="project-card {{ Route::currentRouteName() == 'projects.baladya-approvals.index' && !request('isDesignsApproved') ? 'active' : '' }}">
             <i class="fas fa-check-circle fa-2x"></i>
             <span>اعتمادات البلدية</span>
@@ -1473,7 +1473,7 @@ body, html {
         </a> 
     @endif
 
-    @if(isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12]))
+    @if(isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7]))
         <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}" class="project-card {{ request()->is('users/*/attachments/create') && !request('mode') ? 'active' : '' }}">
             <i class="fas fa-file-signature fa-2x"></i>
             <span>عقود الاستشاري</span>
