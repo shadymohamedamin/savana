@@ -7,14 +7,14 @@
             font-family: 'amiri', serif;
             direction: rtl;
             text-align: right;
-            font-size: 13px;
+            font-size: 14px;
             line-height: 1.9;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 0px;
+            margin-bottom: 10px;
         }
 
         td, th {
