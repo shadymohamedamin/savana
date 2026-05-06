@@ -50,6 +50,64 @@
             text-align: center;
             vertical-align: bottom;
         }
+
+
+
+
+
+
+
+
+/* ===== ألوان الجداول ===== */
+.table-structure {
+    background-color: #cfd8c3;
+}
+
+.table-sanitary {
+    background-color: #e6d2c3;
+}
+
+.table-electric {
+    background-color: #c9d6e3;
+}
+
+/* ===== عنوان السيكشن ===== */
+.section-header {
+    background-color: #e6a87c;
+    color: #0b3d91;
+    font-weight: bold;
+    font-size: 18px;
+    text-align: center;
+}
+
+/* ===== جدول عام ===== */
+.spec-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+    table-layout: fixed;
+}
+
+.spec-table td {
+    border: 1px solid #000;
+    padding: 6px;
+    text-align: center;
+    font-size: 13px;
+}
+
+/* عمود العنوان */
+.spec-label {
+    font-weight: bold;
+    width: 30%;
+}
+
+/* عمود القيم */
+.spec-value {
+    width: 70%;
+}
+
+
+
     </style>
 </head>
 <body>

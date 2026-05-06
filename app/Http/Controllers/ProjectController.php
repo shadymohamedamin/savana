@@ -1522,31 +1522,28 @@ public function messageContractPdf(Request $request, $id)
 {
     $project = \App\Models\Project::findOrFail($id);
 
-    $receiver = \App\Models\User::find($request->receiver_id);
-    $cc = \App\Models\User::find($request->cc_user_id);
-    $type = \App\Models\MessageType::find($request->message_type_id);
+    $message = \App\Models\ProjectMessage::with([
+        'sender','receiver','ccUser','messageType'
+    ])->findOrFail($request->message_id);
 
     $html = view('pdf.contract_message', [
         'project' => $project,
-        'sender' => auth()->user()->name,
-        'receiver' => $receiver?->name ?? '-',
-        'cc' => $cc?->name ?? '-',
-        'type' => $type?->name_ar ?? '-',
-        'messageText' => $request->message,
-        'attachmentName' => $request->file('attachment')?->getClientOriginalName()
+        'message' => $message,
     ])->render();
 
     $mpdf = new \Mpdf\Mpdf([
         'mode' => 'utf-8',
         'format' => 'A4',
         'default_font' => 'amiri',
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+        'margin_footer' => 5,
         'margin_top' => 35
     ]);
 
-    // نفس الهيدر بتاعك
     $mpdf->SetHTMLHeader('
         <div style="text-align:center;">
-            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:90px;width:60%;">
         </div>
     ');
 

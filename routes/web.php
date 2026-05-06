@@ -145,7 +145,8 @@ Route::middleware(['auth', 'checkRole:co-admin,admin'])->group(function () {
 Route::middleware(['auth'])->group(function () {
 
 
-
+Route::delete('projects/messages/{id}', [ProjectMessageController::class, 'destroy'])
+    ->name('projects.messages.destroy');
 
 Route::prefix('projects/{project}/messages')->group(function () {
 

@@ -272,19 +272,21 @@ public function store(Request $request, $projectId)
      * @throws \Exception
      */
     public function destroy($id)
-    {
-        $projectMessage = $this->projectMessageRepository->find($id);
+{
+    $msg = \App\Models\ProjectMessage::findOrFail($id);
 
-        if (empty($projectMessage)) {
-            Flash::error('Project Message not found');
-
-            return redirect(route('projectMessages.index'));
-        }
-
-        $this->projectMessageRepository->delete($id);
-
-        Flash::success('Project Message deleted successfully.');
-
-        return redirect(route('projectMessages.index'));
+    if ($msg->sender_id != auth()->id()) {
+        return back()->with('toast', [
+            'type' => 'error',
+            'message' => 'غير مسموح لك حذف هذه الرسالة'
+        ]);
     }
+
+    $msg->delete();
+
+    return back()->with('toast', [
+        'type' => 'success',
+        'message' => 'تم الحذف'
+    ]);
+}
 }

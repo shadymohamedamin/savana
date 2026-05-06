@@ -1466,7 +1466,7 @@ body, html {
             <span>المخططات المعتمدة</span>
         </a>
 
-         <!-- <a href="{{ route('projects.messages.index', $project->id) }}" 
+          <!-- <a href="{{ route('projects.messages.index', $project->id) }}" 
         class="project-card {{ Route::currentRouteName() == 'projects.messages.index' ? 'active' : '' }}">
             <i class="fas fa-envelope fa-2x"></i>
             <span>الرسائل والتنبيهات</span>

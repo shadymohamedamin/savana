@@ -37,6 +37,16 @@
     background: #f3f3f3;
     border-right: 4px solid #999;
 }
+
+
+
+
+
+
+
+.preview-btn {
+    padding-bottom: 0px !important;
+}
 </style>
 
 
@@ -95,7 +105,7 @@
 
                         <td>{{ $msg->created_at->format('Y-m-d') }}</td>
 
-                        <td style="background:#fff;" onclick="event.stopPropagation();">
+                        <!-- <td style="background:#fff;" onclick="event.stopPropagation();">
 
                             <div class="dropdown">
 
@@ -123,7 +133,47 @@
 
                             </div>
 
-                            </td>
+                            </td> -->
+
+
+                            <td onclick="event.stopPropagation();">
+    <div class="d-flex gap-1">
+
+        {{-- 👁 معاينة --}}
+        <a target="_blank"
+   href="{{ route('projects.contract.message.pdf', [
+        'id' => $project->id,
+        'message_id' => $msg->id, // 👈 مهم جدا
+        'action' => 'preview'
+   ]) }}"
+   class="btn btn-sm btn-dark preview-btn"
+   title="معاينة">
+    <i class="fas fa-eye"></i>
+</a>
+
+        {{-- ↩️ رد --}}
+        <a href="{{ route('projects.messages.create', $project->id) }}?reply_to={{ $msg->id }}"
+           class="btn btn-sm btn-olive"
+           title="رد">
+            <i class="fas fa-reply"></i>
+        </a>
+
+        {{-- 🗑 حذف --}}
+        <form method="POST"
+              action="{{ route('projects.messages.destroy', $msg->id) }}">
+            @csrf
+            @method('DELETE')
+
+            <button type="submit"
+                    class="btn btn-sm btn-danger"
+                    title="حذف"
+                    onclick="return confirm('هل أنت متأكد من حذف الرسالة؟')">
+                <i class="fas fa-trash"></i>
+            </button>
+        </form>
+
+    </div>
+</td>
 
 
                             
@@ -137,7 +187,7 @@
 
             @forelse($msg->replies as $reply)
 
-                <div class="reply-item">
+                <!-- <div class="reply-item">
 
                     <div class="d-flex justify-content-between">
                         <strong>{{ $reply->sender->name ?? '-' }}</strong>
@@ -154,7 +204,55 @@
                         </a>
                     @endif
 
-                </div>
+                </div> -->
+
+
+
+
+                <div class="reply-item">
+
+    <div class="d-flex justify-content-between align-items-center">
+        <strong>{{ $reply->sender->name ?? '-' }}</strong>
+
+        <div class="d-flex gap-1">
+
+            {{-- 👁 --}}
+            <a href="{{ route('projects.contract.message.pdf', [
+        'id' => $project->id,
+        'action' => 'preview'
+   ]) }}"
+               class="btn btn-sm btn-dark">
+                <i class="fas fa-eye"></i>
+            </a>
+
+            {{-- 🗑 --}}
+            <form method="POST"
+                  action="{{ route('projects.messages.destroy', $reply->id) }}">
+                @csrf
+                @method('DELETE')
+
+                <button class="btn btn-sm btn-danger"
+                        onclick="return confirm('حذف الرد؟')">
+                    <i class="fas fa-trash"></i>
+                </button>
+            </form>
+
+        </div>
+    </div>
+
+    <small>{{ $reply->created_at->format('Y-m-d H:i') }}</small>
+
+    <div class="mt-2">
+        {{ $reply->message }}
+    </div>
+
+    @if($reply->attachment)
+        <a href="{{ asset('Files/'.$reply->attachment) }}" target="_blank">
+            📎 ملف
+        </a>
+    @endif
+
+</div>
 
             @empty
                 <div class="text-muted">لا توجد ردود</div>

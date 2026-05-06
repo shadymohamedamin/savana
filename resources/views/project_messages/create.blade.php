@@ -114,13 +114,13 @@ $user = auth()->user();
 
 
 @if($user->id == $project->consultant_id)
-
+<div style="min-width:250px;max-width:250px;">
     {!! Form::label('receiver_id','إلى') !!}
     {!! Form::select('receiver_id', [
         $project->owner_id => 'المالك',
         $project->contractor_id => 'المقاول'
     ], null, ['class'=>'form-control','required']) !!}
-
+</div>
 @endif
 
 
@@ -173,23 +173,23 @@ $user = auth()->user();
 
 
 @if($user->id == $project->consultant_id)
-
+<div style="min-width:250px;max-width:250px;">
     {!! Form::label('cc_user_id','CC') !!}
     {!! Form::select('cc_user_id', [
         $project->owner_id => 'المالك',
         $project->contractor_id => 'المقاول'
     ], null, ['class'=>'form-control','placeholder'=>'اختياري']) !!}
-
+</div>
 @endif
 
 
 @if($user->id == $project->contractor_id)
-
+<div style="min-width:250px;max-width:250px;">
     {!! Form::label('cc_user_id','CC') !!}
     {!! Form::select('cc_user_id', [
         $project->owner_id => 'المالك'
     ], null, ['class'=>'form-control','placeholder'=>'اختياري']) !!}
-
+</div>
 @endif
 
 
