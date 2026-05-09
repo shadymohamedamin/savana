@@ -90,7 +90,7 @@
                         <td>{{ $msg->sender->name ?? '-' }}</td>
                         <td>{{ $msg->receiver->name ?? '-' }}</td>
                         <td>{{ $msg->ccUser->name ?? '-' }}</td>
-                        <td>{{ $msg->type->name_ar ?? '-' }}</td>
+                        <td>{{ $msg->messageType->name_ar ?? '-' }}</td>
                         <td>{{ \Illuminate\Support\Str::limit($msg->message, 40) }}</td>
 
                         <td>
@@ -211,7 +211,10 @@
 
                 <div class="reply-item">
 
-    <div class="d-flex justify-content-between align-items-center">
+
+
+
+                <div class="d-flex justify-content-between align-items-center">
         <strong>{{ $reply->sender->name ?? '-' }}</strong>
 
         <div class="d-flex gap-1">
@@ -219,6 +222,7 @@
             {{-- 👁 --}}
             <a href="{{ route('projects.contract.message.pdf', [
         'id' => $project->id,
+        'message_id' => $reply->id,
         'action' => 'preview'
    ]) }}"
                class="btn btn-sm btn-dark">

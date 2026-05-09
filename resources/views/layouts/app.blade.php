@@ -1253,9 +1253,21 @@ body, html {
 
                                     🔔
 
-                                    @if((isset($expiringAttachments) && $expiringAttachments->count())||(isset($expiringProjects) && $expiringProjects->count()))
+                                    @if(
+                                        (isset($expiringAttachments) && $expiringAttachments->count())
+                                        ||
+                                        (isset($expiringProjects) && $expiringProjects->count())
+                                        ||
+                                        (isset($messageNotifications) && $messageNotifications->count())
+                                    )
                                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                            {{ ($expiringAttachments->count() ?? 0) + ($expiringProjects->count() ?? 0) }}
+                                            {{
+    ($expiringAttachments->count() ?? 0)
+    +
+    ($expiringProjects->count() ?? 0)
+    +
+    ($messageNotifications->count() ?? 0)
+}}
                                         </span>
                                     @endif
 
@@ -1300,6 +1312,68 @@ body, html {
                                     
                                     
                                     
+
+
+<li><hr class="dropdown-divider"></li>
+
+<li class="dropdown-header fw-bold">
+    الرسائل
+</li>
+
+@forelse($messageNotifications as $notification)
+
+<li>
+
+    <a class="dropdown-item small"
+       
+
+       href="{{ route('projects.messages.create', $notification->project_id) }}?reply_to={{ $notification->id }}"
+       
+       
+       >
+
+        📩
+
+        <strong style="color:#d4af37;">
+            {{ $notification->sender->name ?? '-' }}
+        </strong>
+
+        <br>
+
+        <span style="color:#d4af37;">
+
+            {{ $notification->messageType->name_ar ?? 'رسالة' }}
+
+        </span>
+
+        <br>
+
+        <small class="text-mutedd" style="color:#d4af37;">
+
+            {{ $notification->created_at->diffForHumans() }}
+
+        </small>
+
+    </a>
+
+</li>
+
+@empty
+
+<li class="dropdown-item text-mutedd small" style="color:#d4af37;">
+    لا توجد رسائل جديدة
+</li>
+
+@endforelse
+
+
+
+
+
+
+
+
+
                                     <li class="dropdown-header fw-bold">
                                         {{ __('Expiring Documents') }}
                                     </li>
@@ -1309,13 +1383,13 @@ body, html {
                                             <a class="dropdown-item small"
                                             href="{{ url('/users/' . Auth::id() . '/attachments/create?type=users') }}">
                                                 📄 <strong>{{ $file->file_name }}</strong><br>
-                                                <span class="text-muted">
+                                                <span class="text-mutedd" style="color:#d4af37;">
                                                     {{ optional($file->expiration_date)->format('d M Y') }}
                                                 </span>
                                             </a>
                                         </li>
                                     @empty
-                                        <li class="dropdown-item text-muted small">
+                                        <li class="dropdown-item text-mutedd small" style="color:#d4af37;">
                                             {{ __('No expiring documents') }}
                                         </li>
                                     @endforelse
@@ -1466,11 +1540,11 @@ body, html {
             <span>المخططات المعتمدة</span>
         </a>
 
-          <!-- <a href="{{ route('projects.messages.index', $project->id) }}" 
+          <a href="{{ route('projects.messages.index', $project->id) }}" 
         class="project-card {{ Route::currentRouteName() == 'projects.messages.index' ? 'active' : '' }}">
             <i class="fas fa-envelope fa-2x"></i>
             <span>الرسائل والتنبيهات</span>
-        </a>  -->
+        </a> 
     @endif
 
     @if(isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7]))

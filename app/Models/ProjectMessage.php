@@ -18,6 +18,7 @@ class ProjectMessage extends Model
         'message',
         'attachment',
         'readed',
+        'read_at',
         'parent_id'
     ];
 

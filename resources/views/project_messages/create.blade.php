@@ -43,9 +43,12 @@ $user = auth()->user();
 
     <p><strong>الموضوع:</strong> {{ $replyTo->messageType->name_ar ?? '-' }}</p>
 
+    <p><strong>رقم الرسالة:</strong> {{ $replyTo->id ?? '-' }}</p>
+
     <p><strong>الرسالة:</strong><br>
         {{ $replyTo->message }}
     </p>
+
 
     <p><strong>من:</strong> {{ $replyTo->sender->name ?? '-' }}</p>
 
@@ -68,14 +71,22 @@ $user = auth()->user();
                 {{ \Illuminate\Support\Str::limit($replyTo->message, 100) }}
             </div> -->
 
-                <input type="hidden" name="parent_id" value="{{ $replyTo->id }}">
+                <!-- <input type="hidden" name="parent_id" value="{{ $replyTo->id }}">
                 {{-- نوع الرسالة الأصلي --}}
-                <input type="hidden" name="message_type_id" value="{{ $replyTo->message_type_id }}">
+                <input type="hidden" name="message_type_id" value="{{ $replyTo->message_type_id }}"> -->
 
                 {{-- المرسل إليه الأصلي --}}
-                <input type="hidden" name="receiver_id" value="{{ $replyTo->sender_id }}">
+                <!-- <input type="hidden" name="receiver_id" value="{{ $replyTo->sender_id }}"> -->
 
-            
+                @if(isset($replyTo))
+
+                    <input type="hidden" name="parent_id" value="{{ $replyTo->id }}">
+
+                    <input type="hidden"
+                        name="message_type_id"
+                        value="{{ $replyTo->message_type_id }}">
+
+                @endif
             @endif
 
 
@@ -128,7 +139,7 @@ $user = auth()->user();
 
     <input type="hidden" name="receiver_id" value="{{ $project->consultant_id }}">
 
-    <div class="form-control bg-light">
+    <div class="form-control bg-light" style="min-width:250px;max-width:250px;">
         إلى: الاستشاري
     </div>
 
@@ -139,7 +150,7 @@ $user = auth()->user();
 
     <input type="hidden" name="receiver_id" value="{{ $project->contractor_id }}">
 
-    <div class="form-control bg-light">
+    <div class="form-control bg-light" style="min-width:250px;max-width:250px;">
         إلى: المقاول
     </div>
 
@@ -265,7 +276,7 @@ $user = auth()->user();
 
 
 
-<a target="_blank"
+<!-- <a target="_blank"
 
    href="{{ route('projects.contract.message.pdf', [
         'id' => $project->id,
@@ -273,7 +284,7 @@ $user = auth()->user();
    ]) }}"
    class="btn btn-dark px-4">
     👁 معاينة
-</a>
+</a> -->
 
             <a href="{{ route('projects.messages.index', $project->id) }}"
                class="btn btn-secondary btn-sm">

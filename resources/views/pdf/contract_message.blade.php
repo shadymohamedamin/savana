@@ -54,7 +54,7 @@ td, th {
 
 /* التوقيع */
 .signature-table td {
-    height: 80px;
+    height: 20px;
 }
 
 
@@ -88,10 +88,26 @@ td, th {
 
 <!-- ================= HEADER ================= -->
 <table>
+
+
+
+
+
+
     <tr>
         <td colspan="4" class="title">
             {{ $message->messageType->name_ar ?? 'رسالة مشروع' }}
         </td>
+    </tr>
+
+
+
+    <tr>
+        <td class="bold">المالك</td>
+        <td>{{ $project->ownerUser?->name ?? '-' }}</td>
+
+        <td class="bold">المقاول</td>
+        <td>{{ $project->contractorUser?->name ?? '-' }}</td>
     </tr>
 
     <tr>
@@ -118,21 +134,40 @@ td, th {
         <td>{{ $message->messageType->name_ar ?? '-' }}</td>
     </tr>
 
-    <tr>
-        <td class="bold">المالك</td>
-        <td>{{ $project->ownerUser?->name ?? '-' }}</td>
-
-        <td class="bold">المقاول</td>
-        <td>{{ $project->contractorUser?->name ?? '-' }}</td>
-    </tr>
+    
 
     <tr>
         <td class="bold">قيمة المشروع</td>
         <td>{{ number_format($project->bank_contract_value) }} درهم</td>
 
-        <td class="bold">تاريخ العقد</td>
-        <td>{{ $project->contract_signed_at?->format('Y-m-d') ?? '-' }}</td>
+        <!-- <td class="bold">تاريخ العقد</td>
+        <td>{{ $project->contract_signed_at?->format('Y-m-d') ?? '-' }}</td> -->
+        <td class="bold">رقم الرسالة</td>
+        <td>{{ $message->id ?? '-' }}</td>
+
     </tr>
+
+
+    @if($message->parent_id)
+
+<tr>
+    <td class="bold">رد على الرسالة</td>
+
+    <td>
+        #{{ $message->parent_id }}
+    </td>
+
+    <td class="bold">تاريخ الرد</td>
+
+    <td>
+        {{ $message->created_at->format('Y-m-d') }}
+    </td>
+</tr>
+
+@endif
+
+
+
 </table>
 
 <!-- ================= MESSAGE ================= -->
