@@ -3,11 +3,10 @@
 @section('content')
 
 <section class="content-header">
-    <div class="container-fluid">
+    <div class="container-fluid d-flex justify-content-center">
         <h3>إنشاء رسالة جديدة</h3>
     </div>
 </section>
-
 
 @php
 $user = auth()->user();
@@ -208,7 +207,7 @@ $user = auth()->user();
 
     <input type="hidden" name="cc_user_id" value="{{ $project->consultant_id }}">
 
-    <div class="form-control bg-light">
+    <div class="form-control bg-light" style="min-width:250px;max-width:250px;">
         CC: الاستشاري
     </div>
 

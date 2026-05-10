@@ -382,7 +382,7 @@
            <thead class="custom-header" style="background-color:#d4af37;color:#2f3a1f;">
 
             <tr class="project-roww"style="background-color:#d4af37; cursor:pointer;">
-                @if(in_array(auth()->user()->role_id, [1,4,11,12,7]))
+                @if(in_array(auth()->user()->role_id, [1,4,11,12,7,2]))
                     <th style="background-color:#d4af37;">{{ __('Code') }}</th>
                     <th style="background-color:#d4af37;">{{ __('Owner') }}</th>
                     <th style="background-color:#d4af37;">{{ __('رقم القسيمة') }}</th>
@@ -441,7 +441,7 @@
 
 
 
-                @if(in_array(auth()->user()->role_id, [1,4,11,12,7]))
+                @if(in_array(auth()->user()->role_id, [1,4,11,12,7,2]))
                 
                     
                     <td style="background-color:#f5f5dc;">{{ $project->project_code }}</td>

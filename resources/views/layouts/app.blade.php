@@ -978,6 +978,117 @@ body, html {
     color: #fff; /* Icon color change on hover */
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.project-user-card{
+
+    min-width:250px;
+
+    background:#fff;
+
+    border:1px solid #ececec;
+
+    border-radius:14px;
+
+    padding:16px;
+
+    display:flex;
+
+    justify-items:center;
+
+    align-items:center;
+
+    gap:14px;
+
+    cursor:pointer;
+
+    transition:all .25s ease;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.05);
+}
+
+.project-user-card:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 8px 20px rgba(0,0,0,.12);
+
+    border-color:#d4af37;
+}
+
+.project-user-card .icon{
+
+    width:52px;
+
+    height:52px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:20px;
+
+    color:#fff;
+}
+
+.owner-icon{
+
+    background:#2f3a1f;
+}
+
+.contractor-icon{
+
+    background:#b8860b;
+}
+
+.consultant-icon{
+
+    background:#4b6584;
+}
+
+
+
+
+
+
+
+
     </style>
 
 </head>
@@ -1509,7 +1620,7 @@ body, html {
         </a>
     @endif
 
-    @if((isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7])) || (isset($project) && $project->contractor_id == auth()->user()->id))
+    @if((isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2])) || (isset($project) && $project->contractor_id == auth()->user()->id))
         <a href="{{ route('projects.baladya-approvals.index', ['project' => $project->id]) }}" class="project-card {{ Route::currentRouteName() == 'projects.baladya-approvals.index' && !request('isDesignsApproved') ? 'active' : '' }}">
             <i class="fas fa-check-circle fa-2x"></i>
             <span>اعتمادات البلدية</span>
@@ -1547,7 +1658,7 @@ body, html {
         </a> 
     @endif
 
-    @if(isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7]))
+    @if(isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2]))
         <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}" class="project-card {{ request()->is('users/*/attachments/create') && !request('mode') ? 'active' : '' }}">
             <i class="fas fa-file-signature fa-2x"></i>
             <span>عقود الاستشاري</span>
@@ -1569,7 +1680,77 @@ body, html {
     @endif
 
 </div>
+
+
+<!-- <div onclick="window.location.href='{{ url('users/' . optional($project->ownerUser)->id . '/edit') }}'" style="cursor:pointer;" class="owner-title">
+    <i class="fas fa-user-tie me-2"></i>
+     المالك : {{ optional($project->ownerUser)->name ?? '—' }}
+</div> -->
+
+<div class="d-flex flex-wrap justify-content-center gap-3 mt-3">
+
+    {{-- المالك --}}
+    <div
+        onclick="window.location.href='{{ url('users/' . optional($project->ownerUser)->id . '/edit') }}'"
+        class="project-user-card">
+
+        <div class="icon owner-icon">
+            <i class="fas fa-user-tie"></i>
+        </div>
+
+        <div>
+            <div class="small text-muted">المالك</div>
+
+            <div class="fw-bold">
+                {{ optional($project->ownerUser)->name ?? '—' }}
+            </div>
+        </div>
+
+    </div>
+
+    {{-- المقاول --}}
+    <div
+        onclick="window.location.href='{{ url('users/' . optional($project->contractorUser)->id . '/edit') }}'"
+        class="project-user-card">
+
+        <div class="icon contractor-icon">
+            <i class="fas fa-hard-hat"></i>
+        </div>
+
+        <div>
+            <div class="small text-muted">المقاول المعتمد</div>
+
+            <div class="fw-bold">
+                {{ optional($project->contractorUser)->name ?? '—' }}
+            </div>
+        </div>
+
+    </div>
+
+    {{-- الاستشاري --}}
+    <div
+        onclick="window.location.href='{{ url('users/' . optional($project->consultantUser)->id . '/edit') }}'"
+        class="project-user-card">
+
+        <div class="icon consultant-icon">
+            <i class="fas fa-drafting-compass"></i>
+        </div>
+
+        <div>
+            <div class="small text-muted">الاستشاري</div>
+
+            <div class="fw-bold">
+                {{ optional($project->consultantUser)->name ?? '—' }}
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
 @endif
+
 
 
 

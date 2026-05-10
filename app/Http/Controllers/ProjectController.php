@@ -131,6 +131,13 @@ $allowedRoles = [1,4,11,12,7];
 
         if (!in_array(auth()->user()->role_id, $allowedRoles)) {
 
+
+
+        if ($user->role_id == 2) {
+
+            $query->where('owner_id', $user->id);
+
+        } else {
             $query->whereHas('projectUsers', function ($q) {
                 $q->where('user_id', auth()->id())
                 ->whereIn('role_id', [3, 8])
@@ -142,9 +149,10 @@ $allowedRoles = [1,4,11,12,7];
             }])
             ->select('projects.*')
             ->distinct();
+        }
     }
     $projects = $query->orderByDesc('created_at')->paginate(15);
-    
+    //dd($projects);
 
 /*if (!in_array(auth()->user()->role_id, $allowedRoles)) {
 
