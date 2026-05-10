@@ -1606,7 +1606,7 @@ body, html {
 
 
 @if(isset($project))
-<div class="project-cards-grid">
+<!-- <div class="project-cards-grid">
 
     @if(isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7]))
         <a href="{{ route('projects.edit', $project->id) }}" class="project-card {{ Route::currentRouteName() == 'projects.edit' ? 'active' : '' }}">
@@ -1679,13 +1679,178 @@ body, html {
         
     @endif
 
-</div>
+</div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 <!-- <div onclick="window.location.href='{{ url('users/' . optional($project->ownerUser)->id . '/edit') }}'" style="cursor:pointer;" class="owner-title">
     <i class="fas fa-user-tie me-2"></i>
      المالك : {{ optional($project->ownerUser)->name ?? '—' }}
 </div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@if(isset($project))
+<div class="project-cards-grid">
+
+    {{-- تعديل المشروع --}}
+    @if(isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7]))
+        <a href="{{ route('projects.edit', $project->id) }}"
+           class="project-card {{ Route::currentRouteName() == 'projects.edit' ? 'active' : '' }}">
+            <i class="fas fa-edit fa-2x"></i>
+            <span>تعديل المشروع</span>
+        </a>
+    @endif
+
+
+    {{-- مستندات المشروع --}}
+    @if((isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2])) || ($project->contractor_id == auth()->id()))
+        <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=project_documents') }}"
+           class="project-card {{ request('mode') == 'project_documents' ? 'active' : '' }}">
+            <i class="fas fa-folder-open fa-2x"></i>
+            <span>مستندات المشروع</span>
+        </a>
+    @endif
+
+
+    {{-- عقود الاستشاري --}}
+    @if(isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2]))
+        <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}"
+           class="project-card {{ request()->is('users/*/attachments/create') && !request('mode') ? 'active' : '' }}">
+            <i class="fas fa-file-signature fa-2x"></i>
+            <span>عقود الاستشاري</span>
+        </a>
+    @endif
+
+
+    {{-- التصميم --}}
+    @if(isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2]))
+        <a href="{{ url('#') }}" class="project-card">
+            <i class="fas fa-pencil-alt fa-2x"></i>
+            <span>التصميم</span>
+        </a>
+    @endif
+
+
+    {{-- اعتمادات البلدية --}}
+    @if((isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2])) || ($project->contractor_id == auth()->id()))
+        <a href="{{ route('projects.baladya-approvals.index', ['project' => $project->id]) }}"
+           class="project-card {{ Route::currentRouteName() == 'projects.baladya-approvals.index' && !request('isDesignsApproved') ? 'active' : '' }}">
+            <i class="fas fa-check-circle fa-2x"></i>
+            <span>اعتمادات البلدية</span>
+        </a>
+    @endif
+
+
+    {{-- المخططات المعتمدة --}}
+    @if((isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2])) || ($project->contractor_id == auth()->id()))
+        <a href="{{ url('projects/'.$project->id.'/baladya-approvals?isDesignsApproved=true') }}"
+           class="project-card {{ request('isDesignsApproved') ? 'active' : '' }}">
+            <i class="fas fa-drafting-compass fa-2x"></i>
+            <span>المخططات المعتمدة</span>
+        </a>
+    @endif
+
+
+    {{-- المناقصة --}}
+    @if((isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2])) || ($project->contractor_id == auth()->id()))
+        <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=tender') }}"
+           class="project-card {{ request('mode') == 'tender' ? 'active' : '' }}">
+            <i class="fas fa-file-contract fa-2x"></i>
+            <span>المناقصة</span>
+        </a>
+    @endif
+
+
+    {{-- عقود المقاول --}}
+    @if((isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2])) || ($project->contractor_id == auth()->id()))
+        <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=contractor_files') }}"
+           class="project-card {{ request('mode') == 'contractor_files' ? 'active' : '' }}">
+            <i class="fas fa-hard-hat fa-2x"></i>
+            <span>عقود المقاول</span>
+        </a>
+    @endif
+
+
+    {{-- جدول الدفعات --}}
+    @if((isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2])) || ($project->contractor_id == auth()->id()))
+        <a href="{{ route('projects.schedules.batches', $project->id) }}"
+           class="project-card {{ Route::currentRouteName() == 'projects.schedules.batches' ? 'active' : '' }}">
+            <i class="fas fa-calendar-alt fa-2x"></i>
+            <span>جدول الدفعات</span>
+        </a>
+    @endif
+
+
+    {{-- الاشراف --}}
+    @if(isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2]))
+        <a href="{{ url('#') }}" class="project-card">
+            <i class="fas fa-cogs fa-2x"></i>
+            <span>الاشراف</span>
+        </a>
+    @endif
+
+
+    {{-- الرسائل والتنبيهات --}}
+    @if((isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2])) || ($project->contractor_id == auth()->id()))
+        <a href="{{ route('projects.messages.index', $project->id) }}"
+           class="project-card {{ Route::currentRouteName() == 'projects.messages.index' ? 'active' : '' }}">
+            <i class="fas fa-envelope fa-2x"></i>
+            <span>الرسائل والتنبيهات</span>
+        </a>
+    @endif
+
+
+    {{-- الانجاز --}}
+    <a href="{{ url('#') }}" class="project-card">
+        <i class="fas fa-chart-line fa-2x"></i>
+        <span>الانجاز</span>
+    </a>
+
+</div>
+@endif
+
+
+
+
+
+
 
 <div class="d-flex flex-wrap justify-content-center gap-3 mt-3">
 
