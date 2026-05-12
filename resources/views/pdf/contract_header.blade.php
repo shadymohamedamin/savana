@@ -67,12 +67,12 @@
             <td class="title" colspan="3" colspan="3" class="section-title">{{$title}}</td>
         </tr>
         <tr>
-            <td colspan="3" class="center">
+            <!-- <td colspan="3" class="center">
                 بإشرافنا نحن<br>
                 سافانا ديزاين للاستشارات الهندسية والتصميم الداخلي – رأس الخيمة<br>
                 مكتب 407 أبراج جلفار – رأس الخيمة<br>
                 525015080
-            </td>
+            </td> -->
         </tr>
     </table>
 
@@ -90,7 +90,8 @@
         </tr>
         <tr>
             <td class="bold">الطرف الثالث (الاستشاري)</td>
-            <td colspan="2">سافانا ديزاين للاستشارات الهندسية</td>
+            <!-- <td colspan="2">سافانا ديزاين للاستشارات الهندسية</td> -->
+             <td colspan="2">   </td>
         </tr>
     </table>
 
@@ -232,7 +233,7 @@
         <td class="signature" style="height:80px; border-bottom:1px solid #000; width:33%;"></td>
 
         <td class="signature" style="height:80px; border-bottom:1px solid #000; text-align:center; width:33%;">
-           <img src="{{ public_path('images/signature.jpeg') }}" style="height:150px;">
+           <!-- <img src="{{ public_path('images/signature.jpeg') }}" style="height:150px;"> -->
         </td>
     </tr>
 </table> 
