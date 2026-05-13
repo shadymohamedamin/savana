@@ -19,6 +19,7 @@ class ProjectPayment extends Model
         'attachment',
         'attachment_2',   // الملف الثاني
         'attachment_3',   // الملف الثالث
+        'schedule_batch_id',
     ];
 
 

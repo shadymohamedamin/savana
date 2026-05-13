@@ -524,77 +524,82 @@ public function batches($project)
     $cumulative = 0;
 
     $batchesData = collect();
-
     foreach ($batches as $batch) {
 
-        $rows = ProjectSchedule::where('project_id', $project->id)
-            ->where('batch_id', $batch->batch_id)
-            ->orderBy('item_no')
-            ->get();
+    $rows = ProjectSchedule::where('project_id', $project->id)
+        ->where('batch_id', $batch->batch_id)
+        ->orderBy('item_no')
+        ->get();
 
-        $approval = ProjectScheduleApproval::firstOrCreate([
-            'project_id' => $project->id,
-            'batch_id' => $batch->batch_id,
-        ]);
+    $approval = ProjectScheduleApproval::firstOrCreate([
+        'project_id' => $project->id,
+        'batch_id' => $batch->batch_id,
+    ]);
 
-        $batchIncrease = 0;
+    $payment = \App\Models\ProjectPayment::where('project_id', $project->id)
+        ->where('schedule_batch_id', $batch->batch_id)
+        ->latest()
+        ->first();
 
-        foreach ($rows as $row) {
+    $batchIncrease = 0;
 
-            $prev = $previousAmounts[$row->item_no] ?? 0;
+    foreach ($rows as $row) {
 
-            // الفرق الحقيقي
-            $diff = ($row->amount ?? 0) - $prev;
+        $prev = $previousAmounts[$row->item_no] ?? 0;
 
-            if ($diff < 0) $diff = 0;
+        $diff = ($row->amount ?? 0) - $prev;
 
-            $batchIncrease += $diff;
+        if ($diff < 0) $diff = 0;
 
-            $previousAmounts[$row->item_no] = $row->amount ?? 0;
-        }
+        $batchIncrease += $diff;
 
-        // ✅ ما سبق (قبل إضافة الباتش الحالي)
-        $previousAmount = $cumulative;
-
-        // ✅ التراكمي بعد إضافة الباتش
-        $cumulative += $batchIncrease;
-
-        $remaining = $projectValue - $cumulative;
-
-        $batchesData->push((object)[
-            'batch_id' => $batch->batch_id,
-            'rows_count' => $rows->count(),
-
-            // إجمالي القيم داخل الباتش (عرض فقط)
-            'total_amount' => $rows->sum('amount'),
-
-            // الزيادة الفعلية في الباتش
-            'amount' => $batchIncrease,
-
-            // التراكمي
-            'cumulative_amount' => $cumulative,
-
-            // 👈 ده أهم عمود (ما سبق)
-            'previous_amount' => $previousAmount,
-
-            // المتبقي على المالك
-            'owner_remaining' => $remaining,
-
-            'total_target' => $rows->sum('target_percentage'),
-            'total_payment' => $rows->sum('payment_percentage'),
-            'total_completion' => $rows->sum('completion_percentage'),
-
-            'created_at' => optional($rows->first())->created_at,
-
-            'contractor_approved' => $approval->contractor_approved,
-            'owner_approved' => $approval->owner_approved,
-            'consultant_approved' => $approval->consultant_approved,
-        ]);
+        $previousAmounts[$row->item_no] = $row->amount ?? 0;
     }
 
+    $previousAmount = $cumulative;
+
+    $cumulative += $batchIncrease;
+
+    $remaining = $projectValue - $cumulative;
+
+    $batchesData->push((object)[
+
+        'batch_id' => $batch->batch_id,
+        'rows_count' => $rows->count(),
+
+        'total_amount' => $rows->sum('amount'),
+
+        'amount' => $batchIncrease,
+
+        'cumulative_amount' => $cumulative,
+
+        'previous_amount' => $previousAmount,
+
+        'owner_remaining' => $remaining,
+
+        'total_target' => $rows->sum('target_percentage'),
+        'total_payment' => $rows->sum('payment_percentage'),
+        'total_completion' => $rows->sum('completion_percentage'),
+
+        'created_at' => optional($rows->first())->created_at,
+
+        'contractor_approved' => $approval->contractor_approved,
+        'owner_approved' => $approval->owner_approved,
+        'consultant_approved' => $approval->consultant_approved,
+
+        // الملفات
+        'payment_file' => $payment?->attachment,
+        'invoice_file' => $payment?->attachment_2,
+        'receipt_file' => $payment?->attachment_3,
+
+        'project_payment_id' => $payment?->id,
+
+    ]);
+}
     return view('projects.schedules_batches', [
         'project' => $project,
-        'batchesData' => $batchesData
+        'batchesData' => $batchesData,
+        'payment' => $payment
     ]);
 }
 
@@ -736,6 +741,7 @@ public function approve(Request $request)
                 'vat_amount'   => $batchTotal / 21,
                 'net_amount'   => $batchTotal - ($batchTotal / 21),
                 'payment_date' => $paymentDate,
+                'schedule_batch_id' => $batchId
             ]);
         }
     }

@@ -237,7 +237,7 @@
 
 
 
-
+<!-- 
 <td onclick="event.stopPropagation();">
     <div class="d-flex gap-1">
 
@@ -275,13 +275,93 @@
         </form>
 
     </div>
+</td> -->
+
+
+
+
+
+<td onclick="event.stopPropagation();">
+    <div class="d-flex gap-1 flex-wrap">
+
+        {{-- ✏️ تعديل --}}
+        <a href="{{ route('projects.schedule', $project->id) }}?batch_id={{ $row->batch_id }}"
+           class="btn btn-sm btn-olive"
+           title="تعديل">
+            <i class="fas fa-edit"></i>
+        </a>
+
+        {{-- 👁 معاينة --}}
+        <a href="{{ route('projects.schedule.pdf', [
+                'id' => $project->id,
+                'action' => 'preview',
+                'batch_id' => $row->batch_id
+        ]) }}"
+           target="_blank"
+           class="btn btn-sm btn-dark"
+           title="معاينة">
+            <i class="fas fa-eye"></i>
+        </a>
+
+        {{-- 💰 تحويل لدفعة مشروع --}}
+        @if($row?->project_payment_id)
+    <a href="{{ route('projects.project-payments.edit', [
+            'project' => $project->id,
+            'id' => $row->project_payment_id,
+            'batch_id' => $row->batch_id
+    ]) }}"
+       class="btn btn-sm btn-success"
+       title="تعديل دفعة المشروع">
+        <i class="fas fa-money-bill-wave"></i>
+    </a>
+@endif
+
+        {{-- 📄 معاينة ملف الدفعة --}}
+        @if($row->payment_file)
+            <a href="{{ asset('Files/'.$row->payment_file) }}"
+               target="_blank"
+               class="btn btn-sm btn-primary"
+               title="الدفعة">
+                <i class="fas fa-file-alt"></i>
+            </a>
+        @endif
+
+        {{-- 🧾 معاينة الفاتورة --}}
+        @if($row->invoice_file)
+            <a href="{{ asset('Files/'.$row->invoice_file) }}"
+               target="_blank"
+               class="btn btn-sm btn-warning"
+               title="الفاتورة">
+                <i class="fas fa-file-invoice"></i>
+            </a>
+        @endif
+
+        {{-- 🧾 معاينة الإيصال --}}
+        @if($row->receipt_file)
+            <a href="{{ asset('Files/'.$row->receipt_file) }}"
+               target="_blank"
+               class="btn btn-sm btn-info"
+               title="الإيصال">
+                <i class="fas fa-receipt"></i>
+            </a>
+        @endif
+
+        {{-- 🗑 حذف --}}
+        <form method="POST"
+              action="{{ route('projects.schedule.deleteBatch', [$project->id, $row->batch_id]) }}">
+            @csrf
+            @method('DELETE')
+
+            <button type="submit"
+                    class="btn btn-sm btn-danger"
+                    title="حذف"
+                    onclick="return confirm('هل أنت متأكد من الحذف؟')">
+                <i class="fas fa-trash"></i>
+            </button>
+        </form>
+
+    </div>
 </td>
-
-
-
-
-
-
 
 
 
