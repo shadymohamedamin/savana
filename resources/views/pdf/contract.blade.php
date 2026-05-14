@@ -1360,9 +1360,9 @@
     <!-- Clause 79 -->
     <table style="width:100%; border-collapse:collapse; margin-top:20px;">
         <tr class="section-title">
-            <td style="width:10%; text-align:center; font-weight:bold;">78</td>
+            <td style="width:10%; text-align:center; font-weight:bold;">79</td>
             <td style="width:80%; text-align:center; font-weight:bold;"> الزامية التعامل بالنظام الداخلي للمكتب</td>
-            <td style="width:10%; text-align:center; font-weight:bold;">78</td>
+            <td style="width:10%; text-align:center; font-weight:bold;">79</td>
         </tr>
         <tr>
             <td colspan="3" class="center">

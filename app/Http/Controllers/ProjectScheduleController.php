@@ -718,7 +718,7 @@ public function approve(Request $request)
     ) {
 
         $exists = \App\Models\ProjectPayment::where('project_id', $projectId)
-            ->where('payment_no', $batchId)
+            ->where('schedule_batch_id', $batchId)
             ->where('payer_type', 'owner')
             ->exists();
 
