@@ -1261,7 +1261,10 @@ html {
 
 
 
-
+.project-card{
+    width:170px;
+    height:130px;
+}
 
 
 
