@@ -107,13 +107,17 @@
         /* ===== OLIVE GOLD ANIMATED NAVBAR ===== */
 
 .olive-navbar {
-    background: linear-gradient(
+    /* background: linear-gradient(
         270deg,
         #1f2937,
         #2f3a1f,
         #3f4f2f,
         #2f3a1f
-    );
+    ); */
+
+
+    background-color: rgb(249 247 237);
+    color: rgb(146 114 42 / 1);
     background-size: 600% 600%;
     animation: oliveGradient 12s ease infinite;
     padding: 0.9rem 0;
@@ -142,7 +146,9 @@
 
 /* Links */
 .olive-navbar .nav-link {
-    color: #f3f4f6 !important;
+    /* color: #f3f4f6 !important;
+    background-color: rgb(249 247 237); */
+    color: rgb(146 114 42 / 1);
     font-weight: 600;
     margin: 0 6px;
     position: relative;
@@ -190,13 +196,18 @@
 }
 
 .olive-navbar .dropdown-item {
-    color: #f3f4f6;
+    /* color: #f3f4f6; */
+
+    background-color: rgb(249 247 237);
+    color: rgb(146 114 42 / 1);
     transition: all 0.3s ease;
 }
 
 .olive-navbar .dropdown-item:hover {
     background: linear-gradient(90deg, #f9e076, #d4af37);
     color: #1f2937;
+
+
 }
 
 /* Shadow glow */
@@ -350,6 +361,7 @@
 /* Date */
 .today-inline-date {
     color:#fff;
+    color: rgb(146 114 42 / 1);
     font-size: 21px;
 }
 
@@ -357,6 +369,7 @@
 .today-inline-time {
     /* color: #ffd700; */
     color:#fff;
+    color: rgb(146 114 42 / 1);
     font-size: 22px;
     font-weight: 700;
 }
@@ -804,7 +817,8 @@
 
 
 body, html {
-    background-color: #f5f5dc !important;
+    /* background-color: #f5f5dc !important; */
+    background-color: #ffffff !important;
 }
 
 .container,

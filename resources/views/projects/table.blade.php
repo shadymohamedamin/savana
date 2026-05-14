@@ -26,6 +26,7 @@
 .custom-header {
     /* background: linear-gradient(90deg, #b8922e, #d4af37); */
     background: #d4af37;
+    
     color: #1f2937;
     font-weight: 700;
 }
