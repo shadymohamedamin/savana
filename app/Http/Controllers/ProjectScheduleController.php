@@ -599,7 +599,7 @@ public function batches($project)
     return view('projects.schedules_batches', [
         'project' => $project,
         'batchesData' => $batchesData,
-        'payment' => $payment
+        
     ]);
 }
 
