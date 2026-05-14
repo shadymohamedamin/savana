@@ -843,165 +843,6 @@ body, html {
 
 
 
-/* GRID */
-.project-cards-grid{
-    display:grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap:20px;
-    margin-top:20px;
-}
-
-/* CARD */
-.project-card{
-    background: linear-gradient(135deg, #2f3a1f, #1f2937);
-    color:#fff;
-    border-radius:18px;
-    padding:25px 15px;
-    text-align:center;
-    text-decoration:none;
-    transition:0.3s ease;
-    box-shadow:0 10px 25px rgba(0,0,0,0.25);
-    position:relative;
-    overflow:hidden;
-    /* max-width:150px; */
-}
-
-/* ICON */
-.project-card i{
-    font-size:32px;
-    color:#d4af37;
-    margin-bottom:10px;
-    display:block;
-}
-
-/* TEXT */
-.project-card span{
-    font-size:18px;
-    font-weight:600;
-}
-
-/* HOVER */
-.project-card:hover{
-    transform:translateY(-8px) scale(1.03);
-    box-shadow:0 15px 35px rgba(0,0,0,0.35);
-}
-
-/* GLOW EFFECT */
-.project-card::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:linear-gradient(120deg, transparent, rgba(255,255,255,0.2), transparent);
-    opacity:0;
-    transition:0.4s;
-}
-
-.project-card:hover::before{
-    opacity:1;
-    animation:shine 1s;
-}
-
-@keyframes shine{
-    from{transform:translateX(-100%);}
-    to{transform:translateX(100%);}
-}
-
-
-
-
-/* GRID */
-.project-cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 20px;
-    margin-top: 20px;
-    margin-bottom:30px;
-    margin-right:50px;
-    margin-left:50px;
-}
-
-/* CARD */
-.project-card {
-    background: linear-gradient(135deg, #2f3a1f, #1f2937);
-    color: #fff;
-    border-radius: 18px;
-    padding: 25px 15px;
-    text-align: center;
-    text-decoration: none;
-    transition: 0.3s ease;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
-    position: relative;
-    overflow: hidden;
-}
-
-/* ICON */
-.project-card i {
-    font-size: 32px;
-    color: #d4af37;
-    margin-bottom: 13px;
-    display: block;
-}
-
-/* TEXT */
-.project-card span {
-    font-size: 18px;
-    font-weight: 600;
-}
-
-/* HOVER */
-.project-card:hover {
-    transform: translateY(-8px) scale(1.03);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.35);
-}
-
-/* GLOW EFFECT */
-.project-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-    opacity: 0;
-    transition: 0.4s;
-}
-
-.project-card:hover::before {
-    opacity: 1;
-    animation: shine 1s;
-}
-
-@keyframes shine {
-    from {
-        transform: translateX(-100%);
-    }
-
-    to {
-        transform: translateX(100%);
-    }
-}
-
-/* ACTIVE LINK */
-.project-card.active {
-    background: linear-gradient(135deg, #2c854f, #72943f);
-    color: #d4af37; /* Color for text when active */
-}
-
-.project-card.active i {
-    color: #fff; /* Color for icon when active */
-}
-
-/* HOVER EFFECT ON LINK */
-.project-card:hover {
-    background-color: #444; /* Change background when hovering */
-    color: #ffca28; /* Highlight color when hovering */
-}
-
-.project-card:hover i {
-    color: #fff; /* Icon color change on hover */
-}
-
-
-
-
 
 
 
@@ -1110,6 +951,600 @@ body,
 html {
     font-family: 'Alexandria', sans-serif !important;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================
+   GOV STYLE PROJECT CARDS
+========================= */
+
+.project-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 18px;
+    margin: 25px 50px 35px;
+}
+
+/* CARD */
+.project-card {
+    background-color: rgb(249 247 237);
+    border: 1.5px solid rgb(146 114 42 / 1);
+    border-radius: 14px;
+    padding: 28px 18px;
+    text-align: center;
+    text-decoration: none;
+    transition: 0.25s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,.04);
+}
+
+/* ICON */
+.project-card i {
+    font-size: 30px;
+    color: rgb(146 114 42 / 1);
+    margin-bottom: 14px;
+    display: block;
+    transition: .25s;
+}
+
+/* TEXT */
+.project-card span {
+    font-size: 17px;
+    font-weight: 700;
+    color: rgb(146 114 42 / 1);
+    transition: .25s;
+}
+
+/* HOVER */
+.project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(146,114,42,.12);
+    background-color: #fffdf7;
+}
+
+/* LIGHT EFFECT */
+.project-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            120deg,
+            transparent,
+            rgba(255,255,255,.35),
+            transparent
+        );
+
+    opacity: 0;
+    transition: .4s;
+}
+
+.project-card:hover::before {
+    opacity: 1;
+    animation: shine 1s;
+}
+
+@keyframes shine {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(100%);
+    }
+}
+
+/* ACTIVE CARD */
+.project-card.active {
+    background-color: rgb(146 114 42 / 1);
+    border-color: rgb(146 114 42 / 1);
+}
+
+/* ACTIVE ICON + TEXT */
+.project-card.active i,
+.project-card.active span {
+    color: #fff;
+}
+
+/* =========================
+   USER CARDS
+========================= */
+
+.project-user-card {
+
+    min-width: 260px;
+
+    background-color: rgb(249 247 237);
+
+    border: 1.5px solid rgb(146 114 42 / 1);
+
+    border-radius: 14px;
+
+    padding: 16px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    cursor: pointer;
+
+    transition: all .25s ease;
+
+    box-shadow: 0 3px 10px rgba(0,0,0,.04);
+}
+
+.project-user-card:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow: 0 10px 20px rgba(146,114,42,.10);
+
+    background: #fffdf8;
+}
+
+/* ICON CIRCLE */
+.project-user-card .icon {
+
+    width: 54px;
+
+    height: 54px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 20px;
+
+    background-color: rgb(146 114 42 / 1);
+
+    color: #fff;
+}
+
+/* TITLES */
+.project-user-card .small {
+
+    color: rgb(146 114 42 / .75) !important;
+
+    font-size: 13px;
+}
+
+/* NAMES */
+.project-user-card .fw-bold {
+
+    color: rgb(146 114 42 / 1);
+
+    font-size: 16px;
+}
+
+/* FONT */
+body,
+html {
+    font-family: 'Alexandria', sans-serif !important;
+}
+
+
+.gov-btn {
+    background-color: rgb(146 114 42 / 1);
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: 7px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: .25s ease;
+    border: none;
+}
+
+.gov-btn:hover {
+    background-color: rgb(120 92 32 / 1);
+    transform: translateY(-1px);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================
+   GOV UAE STYLE
+========================================= */
+
+:root{
+    --gov-gold: rgb(146 114 42 / 1);
+    --gov-bg: rgb(249 247 237);
+    --gov-hover: rgb(255 252 245);
+}
+
+/* FONT */
+body,
+html{
+    font-family: 'Alexandria', sans-serif !important;
+    background:#fff;
+}
+
+/* =========================================
+   PROJECT GRID
+========================================= */
+
+.project-cards-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:18px;
+
+    margin-top:25px;
+    margin-bottom:35px;
+
+    margin-right:50px;
+    margin-left:50px;
+}
+
+/* =========================================
+   PROJECT CARD
+========================================= */
+
+.project-card{
+
+    background-color:var(--gov-bg);
+
+    border:1.5px solid var(--gov-gold);
+
+    border-radius:16px;
+
+    padding:28px 18px;
+
+    text-align:center;
+
+    text-decoration:none;
+
+    transition:.25s ease;
+
+    position:relative;
+
+    overflow:hidden;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.04);
+}
+
+/* ICON */
+.project-card i{
+
+    font-size:30px;
+
+    color:var(--gov-gold);
+
+    margin-bottom:14px;
+
+    display:block;
+
+    transition:.25s ease;
+}
+
+/* TEXT */
+.project-card span{
+
+    font-size:17px;
+
+    font-weight:700;
+
+    color:var(--gov-gold);
+
+    transition:.25s ease;
+}
+
+/* HOVER */
+.project-card:hover{
+
+    transform:translateY(-4px);
+
+    background-color:var(--gov-hover);
+
+    box-shadow:0 12px 24px rgba(146,114,42,.10);
+}
+
+/* SHINE EFFECT */
+.project-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        linear-gradient(
+            120deg,
+            transparent,
+            rgba(255,255,255,.35),
+            transparent
+        );
+
+    opacity:0;
+
+    transition:.4s;
+}
+
+.project-card:hover::before{
+
+    opacity:1;
+
+    animation:shine 1s;
+}
+
+@keyframes shine{
+
+    from{
+        transform:translateX(-100%);
+    }
+
+    to{
+        transform:translateX(100%);
+    }
+}
+
+/* ACTIVE */
+.project-card.active{
+
+    background-color:var(--gov-gold);
+}
+
+/* ACTIVE ICON + TEXT */
+.project-card.active i,
+.project-card.active span{
+
+    color:#fff;
+}
+
+/* =========================================
+   USER CARDS
+========================================= */
+
+.project-user-card{
+
+    min-width:260px;
+
+    background-color:var(--gov-bg);
+
+    border:1.5px solid var(--gov-gold);
+
+    border-radius:16px;
+
+    padding:18px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    cursor:pointer;
+
+    transition:.25s ease;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.04);
+}
+
+/* HOVER */
+.project-user-card:hover{
+
+    transform:translateY(-4px);
+
+    background-color:var(--gov-hover);
+
+    box-shadow:0 12px 24px rgba(146,114,42,.10);
+}
+
+/* ICON CIRCLE */
+.project-user-card .icon{
+
+    width:56px;
+
+    height:56px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background-color:var(--gov-gold);
+
+    flex-shrink:0;
+}
+
+/* ICON */
+.project-user-card .icon i{
+
+    color:#fff;
+
+    font-size:22px;
+}
+
+/* SMALL TITLE */
+.project-user-card .small{
+
+    color:rgba(146,114,42,.70) !important;
+
+    font-size:13px;
+
+    margin-bottom:3px;
+}
+
+/* NAME */
+.project-user-card .fw-bold{
+
+    color:var(--gov-gold);
+
+    font-size:16px;
+
+    font-weight:700;
+}
+
+/* REMOVE OLD COLORS */
+.owner-icon,
+.contractor-icon,
+.consultant-icon{
+
+    background-color:var(--gov-gold) !important;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media(max-width:768px){
+
+    .project-cards-grid{
+
+        margin-right:15px;
+        margin-left:15px;
+
+        grid-template-columns:
+            repeat(auto-fit,minmax(150px,1fr));
+    }
+
+    .project-card{
+
+        padding:22px 14px;
+    }
+
+    .project-card span{
+
+        font-size:15px;
+    }
+
+    .project-user-card{
+
+        width:100%;
+        min-width:100%;
+    }
+}
+
+
+
+
+
+
 
 
 

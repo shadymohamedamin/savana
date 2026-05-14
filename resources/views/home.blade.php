@@ -59,6 +59,7 @@
 
     .gov-btn {
         background-color: rgb(146 114 42 / 1);
+        
         color: #fff;
         padding: 12px 22px;
         border-radius: 6px;
