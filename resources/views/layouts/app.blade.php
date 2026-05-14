@@ -1692,7 +1692,7 @@ html{
 
                                     <li class=" text-center nav-item">
                                         <a style="font-size: 1.4rem;" class="text-center nav-link" href="{{ url('/projects') }}">
-                                            {{ __('Projects') }}
+                                            {{ __('مشاريعنا') }}
                                         </a>
                                     </li>
 
@@ -2272,7 +2272,7 @@ html{
         <a href="{{ route('projects.schedules.batches', $project->id) }}"
            class="project-card {{ Route::currentRouteName() == 'projects.schedules.batches' ? 'active' : '' }}">
             <i class="fas fa-calendar-alt fa-2x"></i>
-            <span>جدول الدفعات</span>
+            <span>طلبات الدفعات</span>
         </a>
     @endif
 
