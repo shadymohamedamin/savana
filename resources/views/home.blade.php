@@ -4,15 +4,25 @@
 
 <style>
     .gov-card {
-        background-color: rgb(249 247 237);
-        
-        border: 1px solid #e5e7eb;
-        border-radius: 12px;
-        margin-top:120px;
-        padding: 120px 40px;
-        animation: fadeInUp 0.6s ease-out;
-    }
 
+    background-color: rgb(249 247 237);
+
+    border: 1px solid rgba(146,114,42,.25);
+
+    border-right: 5px solid rgb(146 114 42 / 1);
+
+    border-left: 5px solid rgb(146 114 42 / 1);
+
+    border-radius: 14px;
+
+    margin-top: 120px;
+
+    padding: 120px 40px;
+
+    animation: fadeInUp 0.6s ease-out;
+
+    box-shadow: 0 10px 30px rgba(146,114,42,.08);
+}
     @keyframes fadeInUp {
         from {
             opacity: 0;
