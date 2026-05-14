@@ -1,5 +1,5 @@
 <style>
-    .table-bordered > :not(caption) > * > * {
+    /* .table-bordered > :not(caption) > * > * {
         border: 1px solid #d4af37;
     }
     thead th {
@@ -10,7 +10,7 @@
     tbody tr:hover {
         background-color: #efe8c8 !important;
     }
-/* ===== TABLE DESIGN ===== */
+
 
 .custom-table {
     border: 2px solid #000;
@@ -22,28 +22,28 @@
     border: 1px solid #000 !important;
 }
 
-/* Header darker */
+
 .custom-header {
-    /* background: linear-gradient(90deg, #b8922e, #d4af37); */
+  
     background: #d4af37;
-    
+
     color: #1f2937;
     font-weight: 700;
 }
 
 .custom-header th {
-    /* linear-gradient(90deg, #b8922e, #d4af37); */
+   
     background: #d4af37;
     border: 1px solid #000 !important;
     text-align: center;
 }
 
-/* Body color */
+
 .custom-table tbody tr {
     background-color: #f5f5dc;
 }
 
-/* Hover effect */
+
 .custom-table tbody tr:hover {
     background-color: #ece2b6;
 }
@@ -57,7 +57,7 @@
 
 
 
-/* ===== GOVERNMENT FILTER DESIGN ===== */
+
 
 .filter-card {
     border: 1px solid #000;
@@ -88,7 +88,7 @@
     box-shadow: none;
 }
 
-/* Buttons */
+
 
 .btn-apply {
     background-color: #2f3a1f;
@@ -138,7 +138,357 @@
     color:#2f3a1f;
     margin-bottom:4px;
     display:block;
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================
+   COLORS
+========================= */
+
+:root{
+    --gov-primary: rgb(146 114 42 / 1);
+    --gov-bg: rgb(249 247 237);
+    --gov-hover: rgb(239 232 200);
+    --gov-text: rgb(146 114 42 / 1);
+    --gov-border: rgb(146 114 42 / 1);
 }
+
+/* =========================
+   GENERAL
+========================= */
+
+body,
+html{
+    font-family:'Alexandria', sans-serif !important;
+    background:#fff;
+}
+
+/* =========================
+   MAIN CARD
+========================= */
+
+.card{
+    background-color: var(--gov-bg) !important;
+    border: 2px solid var(--gov-border) !important;
+    border-radius: 14px !important;
+    overflow: hidden;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.card-header{
+    background-color: var(--gov-bg) !important;
+    border-bottom: 2px solid var(--gov-border) !important;
+    color: var(--gov-text) !important;
+    font-weight: 800;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn-olive,
+.btn-apply,
+.btn-reset,
+.btn-success{
+    background-color: var(--gov-primary) !important;
+    border: 1px solid var(--gov-primary) !important;
+    color: #fff !important;
+    font-weight: 700;
+    transition: .25s ease;
+}
+
+.btn-olive:hover,
+.btn-apply:hover,
+.btn-reset:hover,
+.btn-success:hover{
+    opacity:.92;
+    transform:translateY(-1px);
+}
+
+/* =========================
+   FILTER CARD
+========================= */
+
+.filter-card{
+    background-color: var(--gov-bg) !important;
+    border: 2px solid var(--gov-border) !important;
+    border-radius: 12px;
+}
+
+.filter-body{
+    background-color: var(--gov-bg);
+}
+
+/* =========================
+   INPUTS
+========================= */
+
+.filter-input{
+    border: 1px solid var(--gov-border);
+    background: #fff;
+    color: var(--gov-text);
+    border-radius: 8px;
+    height: 44px;
+    font-weight: 600;
+}
+
+.filter-input:focus{
+    border-color: var(--gov-primary);
+    box-shadow: 0 0 0 0.1rem rgba(146,114,42,.15);
+}
+
+/* =========================
+   LABELS
+========================= */
+
+.form-label,
+.form-item label,
+.card-section label{
+    color: var(--gov-text);
+    font-weight: 800;
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.custom-table{
+    border-collapse: collapse !important;
+    border: 2px solid var(--gov-border) !important;
+    overflow: hidden;
+}
+
+/* HEADER */
+.custom-header{
+    background-color: var(--gov-bg) !important;
+}
+
+.custom-header th{
+    background-color: var(--gov-bg) !important;
+    color: var(--gov-text) !important;
+    border: 1px solid var(--gov-border) !important;
+    font-weight: 800;
+    text-align: center;
+    padding: 16px 10px;
+    white-space: nowrap;
+}
+
+/* BODY */
+
+.custom-table tbody tr{
+    background-color: #fff !important;
+    transition: .2s ease;
+}
+
+.custom-table tbody td{
+    border: 1px solid rgba(146,114,42,.25) !important;
+    color: var(--gov-text);
+    font-weight: 600;
+    padding: 14px 10px;
+    vertical-align: middle;
+}
+
+/* HOVER */
+
+.custom-table tbody tr:hover{
+    background-color: var(--gov-hover) !important;
+}
+
+/* TABLE WRAPPER */
+
+.table-responsive{
+    background-color: var(--gov-bg) !important;
+    border-top: 1px solid rgba(146,114,42,.15);
+}
+
+/* =========================
+   PROJECT CARDS
+========================= */
+
+.project-cards-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+    gap:20px;
+    margin:25px 50px 35px;
+}
+
+.project-card{
+    background-color: var(--gov-bg);
+    border: 2px solid var(--gov-border);
+    border-radius: 16px;
+    padding: 26px 18px;
+    text-align:center;
+    text-decoration:none;
+    transition:.25s ease;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 4px 14px rgba(0,0,0,.04);
+}
+
+.project-card i{
+    color: var(--gov-primary);
+    font-size:32px;
+    margin-bottom:14px;
+}
+
+.project-card span{
+    color: var(--gov-text);
+    font-size:17px;
+    font-weight:800;
+}
+
+.project-card:hover{
+    background-color: var(--gov-hover);
+    transform:translateY(-4px);
+    box-shadow:0 10px 24px rgba(146,114,42,.12);
+}
+
+/* ACTIVE */
+
+.project-card.active{
+    background-color: var(--gov-primary);
+}
+
+.project-card.active span,
+.project-card.active i{
+    color:#fff;
+}
+
+/* =========================
+   USER CARDS
+========================= */
+
+.project-user-card{
+    min-width:250px;
+    background-color: var(--gov-bg);
+    border:2px solid var(--gov-border);
+    border-radius:14px;
+    padding:16px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    cursor:pointer;
+    transition:.25s ease;
+}
+
+.project-user-card:hover{
+    transform:translateY(-3px);
+    background-color: var(--gov-hover);
+    box-shadow:0 8px 20px rgba(146,114,42,.08);
+}
+
+.project-user-card .icon{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    background-color: var(--gov-primary);
+    color:#fff;
+}
+
+/* =========================
+   PAGINATION
+========================= */
+
+.page-link{
+    color: var(--gov-primary);
+    border-color: rgba(146,114,42,.3);
+}
+
+.page-item.active .page-link{
+    background-color: var(--gov-primary);
+    border-color: var(--gov-primary);
+}
+
+/* =========================
+   BADGES
+========================= */
+
+.badge{
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-weight: 700;
+}
+
+/* =========================
+   ANIMATION
+========================= */
+
+.card,
+.project-card,
+.project-user-card{
+    animation:fadeInUp .45s ease;
+}
+
+@keyframes fadeInUp{
+    from{
+        opacity:0;
+        transform:translateY(12px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:768px){
+
+    .project-cards-grid{
+        margin:20px 15px;
+    }
+
+    .custom-header th{
+        font-size:13px;
+    }
+
+    .custom-table tbody td{
+        font-size:13px;
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
 
 </style>
 
