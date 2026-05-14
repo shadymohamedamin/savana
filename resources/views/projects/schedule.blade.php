@@ -279,7 +279,6 @@ tfoot tr {
 
 
 
-<!-- @include('pdf.contract_header', ['project' => $project,'isBank'=>false,'showContractor' => true,'title'=>' العقد الاساسي']) -->
 
 
 <!-- <button type="button" onclick="autoDistribute()" class="btn btn-warning mb-3">

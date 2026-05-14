@@ -253,14 +253,6 @@ use Carbon\Carbon;
 Carbon::setLocale('ar');
 @endphp
 
-<!-- @include('pdf.contract_header', [
-    'project' => $project,
-    'isBank'=>false,
-    'showContractor' => true,
-    'approvalCreatedAt'=>$approvalCreatedAt,
-    'title'=>' الجدول الزمني'
-]) -->
-
 
 
 
