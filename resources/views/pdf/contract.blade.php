@@ -282,7 +282,7 @@
 
 
 
-    <table style="width:100%; border-collapse:collapse;margin-top:30px;">
+    <table style="width:100%; border-collapse:collapse;margin-top:50px;">
 
         <!-- البند 4 -->
         <tr class="section-title" style="margin-top: 10px;">
@@ -344,11 +344,11 @@
     
 
         <tr>
-            <td colspan="3" style="height:150px;"></td>
+            <td colspan="3" style="height:0px;"></td>
         </tr>
 
         <!-- البند 8 -->
-        <tr class="section-title" style="margin-top:30px;">
+        <tr class="section-title" style="margin-top:0px;">
             <td style="width:10%; text-align:center; font-weight:bold;">8</td>
             <td style="width:80%; text-align:center; font-weight:bold;">
                 الاشراف الهندسي من قبل الاستشاري
@@ -356,7 +356,7 @@
             <td style="width:10%; text-align:center; font-weight:bold;">8</td>
         </tr>
         <tr>
-            <td colspan="3" style="text-align:right; padding:10px;">
+            <td colspan="3" style="text-align:right; padding:0px;">
                 يتم دفع رسوم شهرية مقابل الاشراف (700) درهم بدون الضريبة وذلك يتضمن الزيارات الاسبوعية والمتابعة بشكل عام في حال تجاوزت مدة انتهاء المشروع على المدة المتفق عليها , يتم دفع رسوم الاشراف من قبل الطرف المتسبب في التأخير ( المالك او المقاول ) في حال كان الطرفين متسببين في التأخير ف يتم دفع الرسوم المتبقية لأشراف مناصفة بين المالك والمقاول.<br><br>
 
                 يحق للإستشاري إيقاف المقاول عن العمل في حالة عدم التقيد بتعليمات الإستشاري ويسري هذا على المقاولين الذين يحضرهم المقاول الرئيسي أو المالك.<br><br>
@@ -733,7 +733,7 @@
     </table>
 
     <!-- Clause 34 -->
-    <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:50px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">34</td>
             <td style="width:80%; text-align:center; font-weight:bold;">الزيادة في الأسعار</td>
@@ -741,7 +741,7 @@
         </tr>
         <tr>
             <td colspan="3" class="center">
-               في حالة زيادة أسعار المواد بعد التعاقد بزيادة تتخطى قيمة 10 % من السعر المتعاقد عليه يحق للمقاول التقدم بطلب لاسترداد فرق السعر وذلك بشرط أن يكون معدل سير الأعمال طبقاً للمواعيد المتفق عليها في الجدول الزمني وخلال مدة التعاقد وفي حالة كان المقاول هو السبب في تأخير سير الأعمال ان كانت الزيادة المذكورة ناتجة عن التأخر في العمل يتحمل المقاول كافة تكاليف هذا التأخير من حيث زيادة أسعار المواد و يتم تقديم جميع الاثباتات ويلتزم الطرفان بالطريقة المتبعة من الاستشاري في احتساب الفرق سوي بالزبادة او بالنقصان وفي حال العكس نزلت الاسعار يتم احتساب النقص في المواد الاولية و تسترجع لصالح المالك و اي دفعة دفعها المالك للمقاول مقبل تنفيذ بنود معينة لا تحسب فيها زيادة الاسعار  ويلتزم المقاول بتقديم جدول اسعار المواد الاساسية.
+               في حالة زيادة أسعار المواد بعد التعاقد بزيادة تتخطى قيمة 10 % من السعر المتعاقد عليه يحق للمقاول التقدم بطلب لاسترداد فرق السعر وذلك بشرط أن يكون معدل سير الأعمال طبقاً للمواعيد المتفق عليها في الجدول الزمني وخلال مدة التعاقد وفي حالة كان المقاول هو السبب في تأخير سير الأعمال ان كانت الزيادة المذكورة ناتجة عن التأخر في العمل يتحمل المقاول كافة تكاليف هذا التأخير من حيث زيادة أسعار المواد و يتم تقديم جميع الاثباتات ويلتزم الطرفان بالطريقة المتبعة من الاستشاري في احتساب الفرق سوي بالزبادة او بالنقصان وفي حال العكس نزلت الاسعار يتم احتساب النقص في المواد الاولية و تسترجع لصالح المالك و اي دفعة دفعها المالك للمقاول مقابل تنفيذ بنود معينة لا تحسب فيها زيادة الاسعار  ويلتزم المقاول بتقديم جدول اسعار المواد الاساسية.
             </td>
         </tr>
     </table>
@@ -1091,7 +1091,7 @@
 
 
     <!-- Clause 60 -->
-    <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:70px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">60</td>
             <td style="width:80%; text-align:center; font-weight:bold;">سحب بنود</td>
@@ -1203,7 +1203,7 @@
     </table>
 
     <!-- Clause 68 -->
-    <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:70px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">68</td>
             <td style="width:80%; text-align:center; font-weight:bold;">التدقيق من قبل الاستشاري</td>

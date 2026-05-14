@@ -71,6 +71,11 @@
                 ]) !!}
             </div>
 
+            @php
+                $batch_id = request('batch_id');
+    
+            @endphp
+                <input type="hidden" name="batch_id" value="{{ $batch_id }}">
             {{-- Total --}}
             <div style="min-width:250px;max-width:250px;">
                 {!! Form::label('total_amount', __('إجمالي الدفعة (شامل الضريبة)')) !!}

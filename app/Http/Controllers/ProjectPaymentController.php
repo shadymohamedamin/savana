@@ -342,15 +342,36 @@ public function update($id, UpdateProjectPaymentRequest $request)
     $projectPayment->save();
     //dd($projectPayment);
     Flash::success('Project Payment updated successfully.');
+    if ($request->filled('batch_id')) {
 
-    return redirect()->route('projects.project-payments.index', [
+        return redirect()->route('projects.schedules.batches', [
+            'project' => $projectPayment->project_id,
+            'batch_id' => $request->batch_id
+        ])->with([
+            'toast' => [
+                'type' => 'success',
+                'message' => __('تم حفظ الدفعة بنجاح')
+            ]
+        ]);
+    }
+
+return redirect()->route('projects.project-payments.index', [
+    'project' => $projectPayment->project_id
+])->with([
+    'toast' => [
+        'type' => 'success',
+        'message' => __('تم حفظ الدفعة بنجاح')
+    ]
+]);
+
+    /*return redirect()->route('projects.project-payments.index', [
         'project' => $projectPayment->project_id
     ])->with([
         'toast' => [
             'type' => 'success',
             'message' => __('تم حفظ الدفعة بنجاح')
         ]
-    ]);
+    ]);*/
 }
 
 
