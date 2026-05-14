@@ -92,7 +92,8 @@ $startDate = Carbon::parse($project->start_date);
 // اسم اليوم بالعربي
 $dayName = $startDate->translatedFormat('l');
 
-// التاريخ بشكل منسق بالعربي
+// التاريخ بشكل منسق بالعربي    <!-- @include('pdf.contract_header', ['project' => $project,'isBank'=>false,'showContractor' => false,'title'=>' عقد اتفاق بين المالك و الاستشاري']) -->
+
 $dateFormatted = $startDate->translatedFormat('d/m/Y'); // مثال: 07/01/2026
 @endphp
 
@@ -104,7 +105,6 @@ $dateFormatted = $startDate->translatedFormat('d/m/Y'); // مثال: 07/01/2026
 
 
 
-<!-- @include('pdf.contract_header', ['project' => $project,'isBank'=>false,'showContractor' => false,'title'=>' عقد اتفاق بين المالك و الاستشاري']) -->
 
 
 
