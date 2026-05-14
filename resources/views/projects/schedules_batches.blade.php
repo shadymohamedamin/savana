@@ -284,12 +284,12 @@
 <td onclick="event.stopPropagation();">
     <div class="d-flex gap-1 flex-wrap">
 
-        {{-- ✏️ تعديل --}}
+        <!-- {{-- ✏️ تعديل --}}
         <a href="{{ route('projects.schedule', $project->id) }}?batch_id={{ $row->batch_id }}"
            class="btn btn-sm btn-olive"
            title="تعديل">
             <i class="fas fa-edit"></i>
-        </a>
+        </a> -->
 
         {{-- 👁 معاينة --}}
         <a href="{{ route('projects.schedule.pdf', [
