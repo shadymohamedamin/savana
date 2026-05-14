@@ -9,6 +9,7 @@ use App\Repositories\ProjectScheduleRepository;
 use Illuminate\Http\Request;
 use Flash;
 use App\Models\Project;
+use Illuminate\Support\Facades\DB;
 
 
 use App\Models\ProjectSchedule;
@@ -835,7 +836,7 @@ public function approve(Request $request)
 
         return redirect(route('projectSchedules.index'));
     }
-public function deleteBatch($projectId, $batchId)
+/*public function deleteBatch($projectId, $batchId)
 {
     \App\Models\ProjectSchedule::where('project_id', $projectId)
         ->where('batch_id', $batchId)
@@ -844,7 +845,99 @@ public function deleteBatch($projectId, $batchId)
     return redirect()
         ->back()
         ->with('success', 'تم حذف الدفعة بالكامل');
+}*/
+
+
+
+
+
+
+public function deleteBatch($projectId, $batchId)
+{
+    DB::beginTransaction();
+
+    try {
+
+        // ==================================================
+        // ✅ حذف دفعات المشروع المرتبطة بالـ Batch
+        // ==================================================
+        $payments = \App\Models\ProjectPayment::where('project_id', $projectId)
+            ->where(function ($q) use ($batchId) {
+
+                // الربط الجديد
+                $q->where('schedule_batch_id', $batchId)
+
+                // fallback للدفعات القديمة
+                ->orWhere(function ($qq) use ($batchId) {
+                    $qq->where('payment_no', $batchId)
+                       ->where('payer_type', 'owner');
+                });
+
+            })
+            ->get();
+
+        foreach ($payments as $payment) {
+
+            // =========================
+            // حذف الملفات
+            // =========================
+            foreach (['attachment', 'attachment_2', 'attachment_3'] as $field) {
+
+                if (!empty($payment->$field)) {
+
+                    $filePath = public_path('Files/' . $payment->$field);
+
+                    if (file_exists($filePath)) {
+                        @unlink($filePath);
+                    }
+                }
+            }
+
+            // =========================
+            // حذف الدفعة
+            // =========================
+            $payment->delete();
+        }
+
+        // ==================================================
+        // ✅ حذف الاعتمادات
+        // ==================================================
+        \App\Models\ProjectScheduleApproval::where('project_id', $projectId)
+            ->where('batch_id', $batchId)
+            ->delete();
+
+        // ==================================================
+        // ✅ حذف جدول الدفعات
+        // ==================================================
+        \App\Models\ProjectSchedule::where('project_id', $projectId)
+            ->where('batch_id', $batchId)
+            ->delete();
+
+        DB::commit();
+
+        return redirect()
+            ->back()
+            ->with('toast', [
+                'type' => 'success',
+                'message' => 'تم حذف الدفعة والاعتمادات والملفات بنجاح ✅'
+            ]);
+
+    } catch (\Exception $e) {
+
+        DB::rollBack();
+
+        return redirect()
+            ->back()
+            ->with('toast', [
+                'type' => 'error',
+                'message' => 'حدث خطأ أثناء الحذف ❌'
+            ]);
+    }
 }
+
+
+
+
 
 
 }

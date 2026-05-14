@@ -350,7 +350,12 @@
                 $ownerTotalVat   += $ownerVat;
             @endphp
 
-            <tr>
+            <tr class="clickable-row"
+                data-href="{{ route('projects.project-payments.edit', [
+                    'project' => $project->id,
+                    'id' => $ownerPayment->id
+                ]) }}"
+                style="cursor:pointer;">
                 <td class="fw-bold">{{ $index }}</td>
                 <td>{{ optional($ownerPayment->payment_date)->format('d/m/Y') }}</td>
                 <!-- <td class="table-info">{{ number_format($ownerGross,2) }}</td>
@@ -359,7 +364,7 @@
                 <td class="table-info">{{ number_format($ownerRunningPaid,2) }}</td>
                 <td class="table-info fw-bold">{{ number_format($ownerRunningRemaining,2) }}</td>
 
-                <td style="background:#f5f5dc;">
+                <!-- <td style="background:#f5f5dc;">
                     <div class="dropdown" style="background:#f5f5dc;">
                         <button
                             class="btn btn-sm btn-olive dropdown-toggle"
@@ -399,7 +404,44 @@
                             </li>
                         </ul>
                     </div>
-                </td>
+                </td> -->
+
+
+
+                <td style="background:#f5f5dc;" onclick="event.stopPropagation();">
+
+    <div class="d-flex justify-content-center gap-1">
+
+        {{-- تعديل --}}
+        <a href="{{ route('projects.project-payments.edit', [
+                'project' => $project->id,
+                'id' =>  $ownerPayment->id
+            ]) }}"
+           class="btn btn-sm btn-olive"
+           title="تعديل">
+            <i class="fas fa-edit"></i>
+        </a>
+
+        {{-- حذف --}}
+        <form method="POST"
+              action="{{ route('projects.project-payments.destroy', [
+                    'project' => $project->id,
+                    'id' =>  $ownerPayment->id
+              ]) }}">
+            @csrf
+            @method('DELETE')
+
+            <button type="submit"
+                    class="btn btn-sm btn-danger"
+                    title="حذف"
+                    onclick="return confirm('هل أنت متأكد من الحذف؟')">
+                <i class="fas fa-trash"></i>
+            </button>
+        </form>
+
+    </div>
+
+</td>
             </tr>
         @endforeach
 
@@ -464,7 +506,12 @@
                 $bankTotalVat   += $bankVat;
             @endphp
 
-            <tr>
+            <tr class="clickable-row"
+                data-href="{{ route('projects.project-payments.edit', [
+                    'project' => $project->id,
+                    'id' => $ownerPayment->id
+                ]) }}"
+                style="cursor:pointer;">
                 <td class="fw-bold">{{ $index }}</td>
                 <td>{{ optional($bankPayment->payment_date)->format('d/m/Y') }}</td>
                 <!-- <td class="table-primary">{{ number_format($bankGross,2) }}</td>
@@ -475,7 +522,7 @@
 
 
 
-                <td style="background:#f5f5dc;">
+                <!-- <td style="background:#f5f5dc;">
                     <div class="dropdown" style="background:#f5f5dc;">
                         <button
                             class="btn btn-sm btn-olive dropdown-toggle"
@@ -515,7 +562,44 @@
                             </li>
                         </ul>
                     </div>
-                </td>
+                </td> -->
+
+
+
+                <td style="background:#f5f5dc;" onclick="event.stopPropagation();">
+
+    <div class="d-flex justify-content-center gap-1">
+
+        {{-- تعديل --}}
+        <a href="{{ route('projects.project-payments.edit', [
+                'project' => $project->id,
+                'id' =>  $ownerPayment->id
+            ]) }}"
+           class="btn btn-sm btn-olive"
+           title="تعديل">
+            <i class="fas fa-edit"></i>
+        </a>
+
+        {{-- حذف --}}
+        <form method="POST"
+              action="{{ route('projects.project-payments.destroy', [
+                    'project' => $project->id,
+                    'id' =>  $ownerPayment->id
+              ]) }}">
+            @csrf
+            @method('DELETE')
+
+            <button type="submit"
+                    class="btn btn-sm btn-danger"
+                    title="حذف"
+                    onclick="return confirm('هل أنت متأكد من الحذف؟')">
+                <i class="fas fa-trash"></i>
+            </button>
+        </form>
+
+    </div>
+
+</td>
 
             </tr>
         @endforeach
@@ -649,3 +733,30 @@
 @endpush
 
 
+
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    document.querySelectorAll('.clickable-row').forEach(function(row) {
+
+        row.addEventListener('click', function(e) {
+
+            // لو ضغط على زر أو لينك أو فورم مايفتحش الصف
+            if (
+                e.target.closest('a') ||
+                e.target.closest('button') ||
+                e.target.closest('form')
+            ) {
+                return;
+            }
+
+            window.location.href = this.dataset.href;
+        });
+
+    });
+
+});
+</script>
+@endpush
