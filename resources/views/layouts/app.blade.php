@@ -1227,7 +1227,23 @@ html {
 
 
 
+.project-cards-grid{
+    grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+    gap:12px;
+}
 
+.project-card{
+    padding:14px 10px;
+}
+
+.project-card i{
+    font-size:18px;
+    margin-bottom:8px;
+}
+
+.project-card span{
+    font-size:13px;
+}
 
 
 
