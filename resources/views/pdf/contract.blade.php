@@ -121,11 +121,11 @@
 
     <table style="width:100%; border-collapse:collapse; margin-top:30px;">
         <tr class="section-title">
-            <td style="width:10%; text-align:center; font-weight:bold;"></td>
+            <td style="width:10%; text-align:center; font-weight:bold;">1</td>
             <td style="width:80%; text-align:center; font-weight:bold;">
                 إصدار التعليمات, الرسوم
             </td>
-            <td style="width:10%; text-align:center; font-weight:bold;"></td>
+            <td style="width:10%; text-align:center; font-weight:bold;">1</td>
         </tr>
         <tr>
             <td colspan="3" class="center">

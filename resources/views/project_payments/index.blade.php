@@ -509,7 +509,7 @@
             <tr class="clickable-row"
                 data-href="{{ route('projects.project-payments.edit', [
                     'project' => $project->id,
-                    'id' => $ownerPayment->id
+                    'id' => $bankPayment->id
                 ]) }}"
                 style="cursor:pointer;">
                 <td class="fw-bold">{{ $index }}</td>
@@ -573,7 +573,7 @@
         {{-- تعديل --}}
         <a href="{{ route('projects.project-payments.edit', [
                 'project' => $project->id,
-                'id' =>  $ownerPayment->id
+                'id' =>  $bankPayment->id
             ]) }}"
            class="btn btn-sm btn-olive"
            title="تعديل">
@@ -584,7 +584,7 @@
         <form method="POST"
               action="{{ route('projects.project-payments.destroy', [
                     'project' => $project->id,
-                    'id' =>  $ownerPayment->id
+                    'id' =>  $bankPayment->id
               ]) }}">
             @csrf
             @method('DELETE')
