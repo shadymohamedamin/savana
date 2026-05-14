@@ -57,11 +57,14 @@ lkdsnv /lasdkvlb a/lsdkh laksdcy /l;smdcu
 });*/
 
 //home
-/*Route::get('/', function () {
-    return redirect(Auth::check() ? '/projects' : '/login');
-});*/
-Route::get('/', function () {
-    return redirect()->route('projects.index');
+// Route::get('/', function () {
+//     return redirect(Auth::check() ? '/home' : '/login');
+// });
+// Route::get('/', function () {
+//     return redirect()->route('projects.index');
+// });
+ Route::get('/', function () {
+     return redirect('/home');
 });
 Route::get('/two-factor-challenge', [AuthenticatedSessionController::class, 'showTwoFactorChallengeForm']);
 
