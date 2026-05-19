@@ -155,12 +155,15 @@ public function users()
 
 
 
-public function supervisions()
+/*public function supervisions()
 {
     return $this->hasMany(ProjectSupervision::class);
+}*/
+
+public function supervisions()
+{
+    return $this->hasMany(\App\Models\ProjectSupervision::class, 'project_id');
 }
-
-
 
 
 public function schedules()

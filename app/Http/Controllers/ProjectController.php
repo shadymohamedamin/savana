@@ -34,7 +34,7 @@ class ProjectController extends AppBaseController
         'baladyaApprovals' => fn($q) => $q->latest()->take(1),
     ]);*///vat_amount
 $allowedRoles = [1,4,11,12,7];
-    $query = \App\Models\Project::query()
+    /*$query = \App\Models\Project::query()
         ->with([
             'status',
             'ownerUser',
@@ -48,7 +48,49 @@ $allowedRoles = [1,4,11,12,7];
                     \DB::raw('COALESCE(SUM(total_amount ),0)')
                 );
             }
-        ], 'id');
+        ], 'id');*/
+
+
+
+
+
+$query = \App\Models\Project::query()
+    ->with([
+        'status',
+        'ownerUser',
+        'contractor',
+        'users',
+        'baladyaApprovals' => fn($q) => $q->latest()->take(1),
+    ])
+
+    // إجمالي زيارات الإشراف
+    ->withCount([
+        'supervisions as total_supervisions_count'
+    ])
+
+    // زيارات الشهر الحالي
+    ->withCount([
+        'supervisions as current_month_supervisions_count' => function ($q) {
+
+            $q->whereBetween('created_at', [
+                now()->startOfMonth(),
+                now()->endOfMonth()
+            ]);
+
+        }
+    ])
+
+    ->withSum([
+        'payments as paid_with_vat' => function ($q) {
+
+            $q->select(
+                \DB::raw('COALESCE(SUM(total_amount),0)')
+            );
+
+        }
+    ], 'id');
+
+
 
 
 

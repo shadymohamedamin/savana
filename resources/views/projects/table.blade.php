@@ -835,8 +835,20 @@ html{
                              {{ $project->baladyaStatusType->name_ar ?? '—' }}
                         </td>
                         <td style="background-color:#f5f5dc;">
-                            {{ $project->supervision_visits_count ?? '—' }}
-                        </td>
+
+    <span class="badge bg-dark">
+        الكلي:
+        {{ $project->total_supervisions_count ?? 0 }}
+    </span>
+
+    <br><br>
+
+    <span class="badge bg-success">
+        الشهر الحالي:
+        {{ $project->current_month_supervisions_count ?? 0 }}
+    </span>
+
+</td>
                         <td style="background-color:#f5f5dc;">
                             {{ $project->bank_contract_value ?? '—' }}
                             <!-- {{ $project->bank_contract_value ?? '—' }} -->
