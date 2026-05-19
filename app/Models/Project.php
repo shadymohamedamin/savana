@@ -155,7 +155,10 @@ public function users()
 
 
 
-
+public function supervisions()
+{
+    return $this->hasMany(ProjectSupervision::class);
+}
 
 
 

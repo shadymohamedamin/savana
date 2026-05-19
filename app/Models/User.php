@@ -207,7 +207,10 @@ class User extends Authenticatable implements AuditableContract
     {
         return $this->belongsTo(Tblrole::class, 'RoleID');
     }*/
-
+    public function supervisions()
+    {
+        return $this->hasMany(ProjectSupervision::class);
+    }
     public function sexRelation()
     {
         return $this->belongsTo(Sex::class, 'sex'); // assumes Sex model

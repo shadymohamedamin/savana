@@ -2298,7 +2298,8 @@ html{
 
     {{-- الاشراف --}}
     @if(isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2]))
-        <a href="{{ url('#') }}" class="project-card">
+        <a href="{{ route('projects.supervisions.index', $project->id) }}"
+   class="project-card {{ Route::currentRouteName() == 'projects.supervisions.index' ? 'active' : '' }}">
             <i class="fas fa-cogs fa-2x"></i>
             <span>الاشراف</span>
         </a>

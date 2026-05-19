@@ -229,3 +229,17 @@
         <p>Project Messages</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('projectSupervisions.index') }}" class="nav-link {{ Request::is('projectSupervisions*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Project Supervisions</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('supervisionTypes.index') }}" class="nav-link {{ Request::is('supervisionTypes*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Supervision Types</p>
+    </a>
+</li>

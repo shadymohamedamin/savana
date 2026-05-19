@@ -29,7 +29,7 @@ use App\Http\Controllers\ProjectScheduleController;
 use App\Http\Controllers\ProjectMessageController;
 use App\Models\Project;            // ✅ أهم سطر
 use App\Models\ProjectSchedule;   // ✅
-
+use App\Http\Controllers\ProjectSupervisionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -146,6 +146,71 @@ Route::middleware(['auth', 'checkRole:co-admin,admin'])->group(function () {
     //Route::resource('primary_datas', App\Http\Controllers\PrimaryDataController::class);
 });
 Route::middleware(['auth'])->group(function () {
+
+
+
+
+
+
+/*Route::prefix('projects/{project}')
+    ->name('projects.supervisions.')
+    ->group(function () {
+
+        Route::get(
+            'supervisions',
+            [ProjectSupervisionController::class, 'index']
+        )->name('index');
+
+        Route::get(
+            'supervisions/create',
+            [ProjectSupervisionController::class, 'create']
+        )->name('create');
+
+        Route::post(
+            'supervisions',
+            [ProjectSupervisionController::class, 'store']
+        )->name('store');
+
+        Route::get(
+            'supervisions/{supervision}/edit',
+            [ProjectSupervisionController::class, 'edit']
+        )->name('edit');
+
+        Route::put(
+            'supervisions/{supervision}',
+            [ProjectSupervisionController::class, 'update']
+        )->name('update');
+
+        Route::delete(
+            'supervisions/{supervision}',
+            [ProjectSupervisionController::class, 'destroy']
+        )->name('destroy');
+
+    });*/
+Route::prefix('projects/{project}')->group(function () {
+
+    Route::get('supervisions', [ProjectSupervisionController::class, 'index'])
+        ->name('projects.supervisions.index');
+
+    Route::get('supervisions/create', [ProjectSupervisionController::class, 'create'])
+        ->name('projects.supervisions.create');
+
+    Route::post('supervisions', [ProjectSupervisionController::class, 'store'])
+        ->name('projects.supervisions.store');
+
+    Route::get('supervisions/{id}/edit', [ProjectSupervisionController::class, 'edit'])
+        ->name('projects.supervisions.edit');
+
+    Route::patch('supervisions/{id}', [ProjectSupervisionController::class, 'update'])
+        ->name('projects.supervisions.update');
+
+
+    Route::delete('supervisions/{id}', [ProjectSupervisionController::class, 'destroy'])
+        ->name('projects.supervisions.destroy');
+
+
+
+});
 
 
 Route::get(
@@ -609,3 +674,5 @@ Route::resource('project-schedules', App\Http\Controllers\ProjectScheduleControl
 Route::resource('project-schedule-approvals', App\Http\Controllers\ProjectScheduleApprovalController::class);
 Route::resource('message-types', App\Http\Controllers\MessageTypeController::class);
 Route::resource('project-messages', App\Http\Controllers\ProjectMessageController::class);
+Route::resource('project-supervisions', App\Http\Controllers\ProjectSupervisionController::class);
+Route::resource('supervision-types', App\Http\Controllers\SupervisionTypeController::class);
