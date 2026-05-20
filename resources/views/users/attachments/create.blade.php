@@ -1018,7 +1018,7 @@ $lastBatchId = \App\Models\ProjectSchedule::where('project_id', $project->id)
         || auth()->id() == $model->id;
 @endphp
 
-@if(in_array(auth()->user()->role_id, [1,4,11,12,3]))
+@if(in_array(auth()->user()->role_id, [1,4,11,12,3,7]))
     {{-- Upload attachments --}}
     
     
