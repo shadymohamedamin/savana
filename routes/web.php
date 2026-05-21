@@ -149,7 +149,10 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-
+Route::post(
+    '/projects/{id}/messages/preview',
+    [ProjectMessageController::class, 'previewPdf']
+)->name('projects.messages.preview');
 
 
 /*Route::prefix('projects/{project}')

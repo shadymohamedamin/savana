@@ -467,6 +467,21 @@ $projectCode = $project->project_code ?? '-';
 
 $messageType = $message->messageType->name_ar ?? 'رسالة مشروع';
 
+
+
+$projectName = $project->projectName->name_ar ?? '-';
+
+$ownerName = $project->ownerUser->name ?? '-';
+
+$contractorName = $project->contractorUser->name ?? '-';
+
+$qasmiaNumber = $project->qasmia_number ?? '-';
+
+$licenseNumber =
+    optional(
+        $project->baladyaApprovals->sortByDesc('id')->first()
+    )->building_license_number ?? '-';
+
 $messageText = nl2br(e($message->message));
 
 $replyText = '';
@@ -705,6 +720,109 @@ if ($user->email) {
                 </td>
             </tr>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+    <td style="
+        padding:10px;
+        border:1px solid #ddd;
+        background:#faf3dd;
+        font-weight:bold;
+    ">
+        اسم المشروع
+    </td>
+
+    <td style="
+        padding:10px;
+        border:1px solid #ddd;
+    ">
+        '.$projectName.'
+    </td>
+</tr>
+
+<tr>
+    <td style="
+        padding:10px;
+        border:1px solid #ddd;
+        background:#faf3dd;
+        font-weight:bold;
+    ">
+        اسم المالك
+    </td>
+
+    <td style="
+        padding:10px;
+        border:1px solid #ddd;
+    ">
+        '.$ownerName.'
+    </td>
+</tr>
+
+<tr>
+    <td style="
+        padding:10px;
+        border:1px solid #ddd;
+        background:#faf3dd;
+        font-weight:bold;
+    ">
+        اسم المقاول
+    </td>
+
+    <td style="
+        padding:10px;
+        border:1px solid #ddd;
+    ">
+        '.$contractorName.'
+    </td>
+</tr>
+
+<tr>
+    <td style="
+        padding:10px;
+        border:1px solid #ddd;
+        background:#faf3dd;
+        font-weight:bold;
+    ">
+        رقم القسيمة
+    </td>
+
+    <td style="
+        padding:10px;
+        border:1px solid #ddd;
+    ">
+        '.$qasmiaNumber.'
+    </td>
+</tr>
+
+<tr>
+    <td style="
+        padding:10px;
+        border:1px solid #ddd;
+        background:#faf3dd;
+        font-weight:bold;
+    ">
+        رقم الرخصة
+    </td>
+
+    <td style="
+        padding:10px;
+        border:1px solid #ddd;
+    ">
+        '.$licenseNumber.'
+    </td>
+</tr>
+
         </table>
 
         '.$replyText.'
@@ -783,7 +901,94 @@ if ($user->email) {
 }
 
 
+public function previewPdf(Request $request, $id)
+{
+    $project = \App\Models\Project::findOrFail($id);
 
+    // رسالة مؤقتة للمعاينة فقط
+    $message = new \App\Models\ProjectMessage();
+
+    $message->message = $request->message;
+
+    $message->message_type_id = $request->message_type_id;
+
+    $message->sender_id = auth()->id();
+
+    $message->receiver_id = $request->receiver_id;
+
+    $message->cc_user_id = $request->cc_user_id;
+
+    $message->parent_id = $request->parent_id;
+
+    $message->created_at = now();
+
+    // تحميل العلاقات مؤقتاً
+    $message->setRelation(
+        'sender',
+        \App\Models\User::find(auth()->id())
+    );
+
+    $message->setRelation(
+        'receiver',
+        \App\Models\User::find($request->receiver_id)
+    );
+
+    $message->setRelation(
+        'ccUser',
+        $request->cc_user_id
+            ? \App\Models\User::find($request->cc_user_id)
+            : null
+    );
+
+    $message->setRelation(
+        'messageType',
+        \App\Models\MessageType::find($request->message_type_id)
+    );
+
+    // رفع الملف مؤقت للمعاينة
+    if ($request->hasFile('attachment')) {
+
+        $file = $request->file('attachment');
+
+        $tempName = 'preview_' . time() . '_' . $file->getClientOriginalName();
+
+        $file->move(public_path('Files/temp'), $tempName);
+
+        $message->attachment = 'temp/' . $tempName;
+    }
+
+    $html = view('pdf.contract_message', [
+        'project' => $project,
+        'message' => $message,
+    ])->render();
+
+    $mpdf = new \Mpdf\Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'default_font' => 'amiri',
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+        'margin_footer' => 5,
+        'margin_top' => 35
+    ]);
+
+    $mpdf->SetHTMLHeader('
+        <div style="text-align:center;">
+            <img src="'.public_path('images/tender_logo.jpeg').'"
+                 style="height:90px;width:60%;">
+        </div>
+    ');
+
+    $mpdf->WriteHTML($html);
+
+    return response(
+        $mpdf->Output('', 'S'),
+        200,
+        [
+            'Content-Type' => 'application/pdf'
+        ]
+    );
+}
 // <div style="text-align:center;margin-bottom:20px;">
 
 //             <div style="text-align:center;">

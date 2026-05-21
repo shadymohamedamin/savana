@@ -35,6 +35,24 @@ class ProjectSupervisionController extends AppBaseController
         ->latest()
         ->get();
 
+
+        $totalSupervisionsCount = \App\Models\ProjectSupervision::where(
+    'project_id',
+    $project->id
+)->count();
+
+$currentMonthSupervisionsCount = \App\Models\ProjectSupervision::where(
+    'project_id',
+    $project->id
+)
+->whereMonth('created_at', now()->month)
+->whereYear('created_at', now()->year)
+->count();
+
+$project->total_supervisions_count = $totalSupervisionsCount;
+
+$project->current_month_supervisions_count = $currentMonthSupervisionsCount;
+
         return view('project_supervisions.index', compact(
             'project',
             'supervisions'
@@ -49,6 +67,9 @@ public function create(\App\Models\Project $project)
     $stages = \App\Models\SupervisionType::pluck('name_ar', 'id');
 
     $users = \App\Models\User::pluck('name', 'id');
+
+
+
 
     return view(
         'project_supervisions.create',

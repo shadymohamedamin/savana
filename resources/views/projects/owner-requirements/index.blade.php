@@ -424,8 +424,11 @@ body{
                 المشروع: <strong>{{ $project->projectName?->name_ar }}</strong> |
                 المالك: <strong>{{ $project->ownerUser?->name ?? '—' }}</strong> |
                 رقم القسيمة: <strong>{{ $project->qasmia_number ?? '—' }}</strong> |
-                المنطقة: <strong>{{ $project->projectRegion?->name_ar ?? '—' }}</strong>
-                
+                المنطقة: <strong>{{ $project->projectRegion?->name_ar ?? '—' }}</strong> |
+
+                المساحة المعتمدة من البلدية: <strong>{{ $project->approved_area ?? '—' }}</strong> |
+                المساحة المعتمدة من الرخصة: <strong>{{ $project->approved_area_license ?? '—' }}</strong> |
+                مساحة السور بالمتر الطولي: <strong>{{ $project->linear_meter_area ?? '—' }}</strong>
             </small>
         </div>
 

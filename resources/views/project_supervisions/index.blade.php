@@ -23,23 +23,43 @@
      style="background-color:#f5f5dc;margin:40px;">
 
     {{-- Header --}}
-    <div class="card-header d-flex justify-content-between align-items-center"
-         style="background:#D4AF37;color:#2f3a1f;font-size:1.3rem;font-weight:600;">
+<div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2"
+     style="background:#D4AF37;color:#2f3a1f;font-size:1.3rem;font-weight:600;">
+
+    <div class="d-flex align-items-center gap-3 flex-wrap">
 
         <h4 class="mb-0">
             الاشراف الهندسي
         </h4>
 
-        <a href="{{ route('projects.supervisions.create', $project->id) }}"
-           class="btn btn-sm"
-           style="background:#2f3a1f;color:#d4af37;">
+        {{-- عدد الزيارات --}}
+        <div class="d-flex gap-2 flex-wrap">
 
-            <i class="fas fa-plus"></i>
-            إضافة إشراف
+            <span class="badge bg-dark p-2" style="font-size:14px;">
+                إجمالي الزيارات:
+                {{ $project->total_supervisions_count ?? 0 }}
+            </span>
 
-        </a>
+            <span class="badge bg-success p-2" style="font-size:14px;">
+                زيارات الشهر الحالي:
+                {{ $project->current_month_supervisions_count ?? 0 }}
+            </span>
+
+        </div>
 
     </div>
+
+    {{-- زر الإضافة --}}
+    <a href="{{ route('projects.supervisions.create', $project->id) }}"
+       class="btn btn-sm"
+       style="background:#2f3a1f;color:#d4af37;">
+
+        <i class="fas fa-plus"></i>
+        إضافة إشراف
+
+    </a>
+
+</div>
 
     {{-- Table --}}
     <div class="table-responsive p-3">

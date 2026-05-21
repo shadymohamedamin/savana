@@ -740,7 +740,7 @@ html{
                     <th style="background-color:#d4af37;">{{ __('Chosen Contractor') }}</th>
                     <th style="background-color:#d4af37;">{{ __('Case #') }}</th>
                     <th style="background-color:#d4af37;">{{ __(key: 'نوع الحالة') }}</th>
-                    <th style="background-color:#d4af37;">{{ __(key: 'عدد زيارات الاشراف') }}</th>
+                    <th style="background-color:#d4af37;">{{ __(key: 'عدد زيارات الاشراف الشهرية') }}</th>
                     <th style="background-color:#d4af37;">{{ __(key: 'قيمة العقد') }}</th>
                     <th style="background-color:#d4af37;">{{ __(key: 'تاريخ انتهاء العقد') }}</th>
                     <th style="background-color:#d4af37;">{{ __(key: 'المستلم من العقد') }}</th>
@@ -834,7 +834,12 @@ html{
                             <!-- {{ $lastApproval->statusType->name_ar ?? '—' }} -->
                              {{ $project->baladyaStatusType->name_ar ?? '—' }}
                         </td>
-                        <td style="background-color:#f5f5dc;">
+
+
+
+
+
+                        <!-- <td style="background-color:#f5f5dc;">
 
     <span class="badge bg-dark">
         الكلي:
@@ -848,7 +853,19 @@ html{
         {{ $project->current_month_supervisions_count ?? 0 }}
     </span>
 
-</td>
+
+
+
+</td> -->
+
+
+<td style="background-color:#f5f5dc;">{{ $project->current_month_supervisions_count ?? '—' }}</td> 
+
+
+
+
+
+
                         <td style="background-color:#f5f5dc;">
                             {{ $project->bank_contract_value ?? '—' }}
                             <!-- {{ $project->bank_contract_value ?? '—' }} -->

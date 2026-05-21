@@ -25,11 +25,11 @@ $user = auth()->user();
 
 
 
-        {!! Form::open([
-            'route' => ['projects.messages.store', $project->id],
-            'files' => true
-        ]) !!}
-
+{!! Form::open([
+    'route' => ['projects.messages.store', $project->id],
+    'files' => true,
+    'id' => 'messageForm'
+]) !!}
 
 
 
@@ -264,34 +264,30 @@ $user = auth()->user();
 
         </div>
 
-        {{-- Footer --}}
         <div class="card-footer d-flex justify-content-center gap-3">
 
-            {!! Form::submit('إرسال', [
-                'class' => 'btn btn-olive btn-sm',
-                'style' => 'background-color:#2f3a1f;color:#d4af37;font-weight:600;'
-            ]) !!}
+    {!! Form::submit('إرسال', [
+        'class' => 'btn btn-olive btn-sm',
+        'style' => 'background-color:#2f3a1f;color:#d4af37;font-weight:600;'
+    ]) !!}
 
+    {{-- معاينة --}}
+    <button type="button"
+            id="previewBtn"
+            class="btn btn-dark btn-sm">
 
+        👁 معاينة قبل الإرسال
 
+    </button>
 
-<!-- <a target="_blank"
+    <a href="{{ route('projects.messages.index', $project->id) }}"
+       class="btn btn-secondary btn-sm">
 
-   href="{{ route('projects.contract.message.pdf', [
-        'id' => $project->id,
-        'action' => 'preview'
-   ]) }}"
-   class="btn btn-dark px-4">
-    👁 معاينة
-</a> -->
+        رجوع
 
-            <a href="{{ route('projects.messages.index', $project->id) }}"
-               class="btn btn-secondary btn-sm">
-                رجوع
-            </a>
+    </a>
 
-        </div>
-
+</div>
         {!! Form::close() !!}
     </div>
 </div>
@@ -328,5 +324,39 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 });
+</script>
+
+
+
+
+
+
+
+<script>
+
+document.getElementById('previewBtn').addEventListener('click', function () {
+
+    let form = document.getElementById('messageForm');
+
+    let formData = new FormData(form);
+
+    fetch("{{ route('projects.messages.preview', $project->id) }}", {
+        method: "POST",
+        headers: {
+            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+        },
+        body: formData
+    })
+    .then(async response => {
+
+        const blob = await response.blob();
+
+        const fileURL = URL.createObjectURL(blob);
+
+        window.open(fileURL, '_blank');
+    });
+
+});
+
 </script>
 @endpush
