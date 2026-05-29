@@ -118,8 +118,10 @@
 @php
     $type = request('type');
     $isTender = request('mode') === 'tender';
+    $isDesigns== request('mode') === 'designs';
     $isCotractorFiles=request('mode') === 'contractor_files';
     $projectDocuments=request('mode') === 'project_documents';
+
     $mode=request('mode');
     
 @endphp
@@ -718,7 +720,7 @@
                 </div>  -->
 
                 {{-- عقد المالك والاستشاري --}}
-                @if(!$projectDocuments)
+                @if(!$projectDocuments&&!$isDesigns)
                     <div class="contract-box">
                         <span class="mb-1">{{ __('Owner And Consultant And Contractor Contract') }}</span>
                         <a target="_blank" href="{{ route('projects.contract.owner_consultant.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
@@ -876,7 +878,7 @@
 </div>
 @endif
 
-@if(in_array(auth()->user()->role_id, [1,4,11,12]))
+@if(in_array(auth()->user()->role_id, [1,4,11,12,3])) <!-- -->
     {{-- Upload attachments --}}
     <form action="{{ route('users.attachments.store', ['id' => $model->id, 'type' => $type]) }}"
       method="POST"

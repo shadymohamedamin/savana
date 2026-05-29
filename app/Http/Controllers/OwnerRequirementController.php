@@ -887,6 +887,10 @@ public function saveTender(Request $request, Project $project)
     
 
 
+
+
+    
+
     // حفظ البيانات في الـ pivot table لو في عناصر صالحة
     //if (!empty($syncData)) {
         //$project->ownerRequirementsTender()->sync($syncData);//syncWithoutDetaching($syncData);

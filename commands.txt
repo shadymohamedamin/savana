@@ -1,3 +1,18 @@
+ "start": "concurrently \"php artisan serve --host=0.0.0.0 --port=8000\" \"npm run dev\""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 add this to database
 //tender ==>(25-33-34-35)
 migrate

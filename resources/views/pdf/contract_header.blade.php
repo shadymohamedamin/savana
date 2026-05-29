@@ -82,11 +82,11 @@
         </tr>
         <tr>
             <td class="bold">الطرف الأول(المالك)</td>
-            <td colspan="2">{{ $project->ownerUser->name ?? 'المالك' }}</td>
+            <td colspan="2">{{ $project->ownerUser?->name ?? 'المالك' }}</td>
         </tr>
         <tr>
             <td class="bold">الطرف الثاني(المقاول)</td>
-            <td colspan="2">{{ $project->contractorUser->name ?? 'المقاول' }}</td>
+            <td colspan="2">{{ $project->contractorUser?->name ?? 'المقاول' }}</td>
         </tr>
         <tr>
             <td class="bold">الطرف الثالث (الاستشاري)</td>
@@ -102,11 +102,11 @@
         </tr>
         <tr>
             <td class="bold">وصف المشروع</td>
-            <td colspan="2"> {{ $project->projectName?->name_ae }}</td>
+            <td colspan="2"> {{ $project->projectName?->name_ar }}</td>
         </tr>
         <tr>
             <td class="bold">المنطقة</td>
-            <td colspan="2">{{ $project->projectRegion->name_ar ?? '—' }}</td>
+            <td colspan="2">{{ $project->projectRegion?->name_ar ?? '—' }}</td>
         </tr>
         <tr>
             <td class="bold">رقم القسيمة</td>
