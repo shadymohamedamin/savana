@@ -488,7 +488,196 @@ html{
 
 
 
+tbody td{
+ background:#fff;
+}
+.custom-table tbody td{
+    font-size:13.5px;
+    line-height:1.8;
+}
 
+
+.custom-header th{
+    position:sticky;
+    top:0;
+    z-index:5;
+}
+
+
+.project-row{
+   transition:.2s ease;
+}
+
+.project-row:hover{
+   transform:scale(1.003);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+    
+/* ===== TOP ACTION BAR ===== */
+
+.top-toolbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:25px;
+    padding:12px 18px;
+    background:#fff;
+    border:1px solid #ececec;
+    border-radius:14px;
+}
+
+/* ===== ACTION DROPDOWN ===== */
+
+.action-dropdown{
+    position:relative;
+}
+
+.action-btn{
+    width:42px;
+    height:42px;
+    border:none;
+    border-radius:12px;
+    background:#f5f3ee;
+    color:#6b5523;
+    font-size:18px;
+    transition:.2s;
+}
+
+.action-btn:hover{
+    background:#e8dfc7;
+}
+
+.action-menu{
+    position:absolute;
+    top:50px;
+    right:0;
+    min-width:220px;
+    background:#fff;
+    border-radius:14px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    border:1px solid #ececec;
+    overflow:hidden;
+    display:none;
+    z-index:999;
+}
+
+.action-menu.show{
+    display:block;
+}
+
+.action-menu a,
+.action-menu button{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    width:100%;
+    padding:12px 160px;
+    background:none;
+    border:none;
+    text-decoration:none;
+    color:#444;
+    font-size:14px;
+    transition:.2s;
+}
+
+.action-menu a:hover,
+.action-menu button:hover{
+    background:#f8f6f1;
+}
+
+/* ===== FILTER BOX ===== */
+
+.filter-panel{
+    display:none;
+    margin-bottom:20px;
+    padding:18px;
+    background:#fff;
+    border-radius:14px;
+    border:1px solid #ececec;
+}
+
+.filter-panel.show{
+    display:block;
+}
+
+/* ===== TABLE SPACE ===== */
+
+.table-wrapper{
+    margin-top:30px;
+}
+
+/* ===== CLEAN BUTTONS ===== */
+
+.btn{
+    border-radius:10px !important;
+}
+
+/* ===== LESS VISUAL NOISE ===== */
+
+.table th{
+    background:#f7f4ec !important;
+    border-color:#eee !important;
+}
+
+.table td{
+    border-color:#f3f3f3 !important;
+}
+
+/* ===== SMOOTH ===== */
+
+.card,
+.table,
+.btn,
+.action-btn{
+    transition:.2s ease;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.card-header{
+    padding:20px 24px !important;
+}
+
+.card-body{
+    padding:24px !important;
+}
+
+.table-wrapper{
+    margin-top:25px;
+    overflow:auto;
+}
+
+.filter-panel{
+    margin-bottom:20px;
+}
+.card{
+    background-color: var(--gov-bg) !important;
+    border: 2px solid var(--gov-border) !important;
+    border-radius: 14px !important;
+
+    overflow: visible !important;
+}
 
 </style>
 
@@ -498,7 +687,7 @@ html{
 
 <div class="pt-4 card shadow-sm rounded-4 m-0" style="background-color: #f5f5dc;">
 
-    {{-- Header --}}
+  
 
 
 
@@ -506,29 +695,92 @@ html{
 
 
 
-   <div class="card-header d-flex justify-content-between align-items-center"
+   <div class="card-header  justify-content-between align-items-center"
      style="background:#D4AF37; color:#2f3a1f; font-size:1.3rem; font-weight:600;">
     
 
 
 
-    <div>
+    <!-- <div>
         {{ __('Projects') }}
     </div>
 
-    <!-- User name in the center -->
+  
     <div class="mx-auto">
         {{ Auth::user()->name }}
     </div>
 
-    <!-- Empty div to balance flex -->
-    <div></div>
+  
+    <div></div> -->
 
 
+<div class="top-toolbar">
 
-        <!-- <h4 class="mx-auto">{{ __('Projects') }}</h4> -->
+    <div>
+        <div style="position:relative; min-width:260px;">
 
-        <div class="d-flex gap-2">
+    <i class="fas fa-search"
+       style="
+       position:absolute;
+       right:14px;
+       top:50%;
+       transform:translateY(-50%);
+       color:#999;
+       "></i>
+
+    <input type="text"
+           class="form-control"
+           placeholder="بحث سريع..."
+           style="
+           padding-right:40px;
+           border-radius:12px;
+           height:42px;
+           ">
+
+</div>
+    </div>
+
+    <div class="action-dropdown">
+
+        <button type="button" class="action-btn" id="actionToggle">
+            ⚙️
+        </button>
+
+        <div class="action-menu" id="actionMenu">
+
+            <a href="{{ route('projects.create') }}">
+    <i class="fas fa-plus"></i>
+    إضافة مشروع
+</a>
+
+<a href="{{ route('users.create') }}">
+    <i class="fas fa-user-plus"></i>
+    إضافة مستخدم
+</a>
+
+<a href="{{ route('projects.show', 1) }}">
+    <i class="fas fa-list"></i>
+    جدول المساحات
+</a>
+
+<button type="button"
+        onclick="exportTableToExcel('projects-table')">
+    <i class="fas fa-file-excel"></i>
+    تصدير Excel
+</button>
+
+            <button type="button" id="toggleFilter">
+                🔍 فلترة
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+</div>
+
+        <!-- <div class="d-flex gap-2">
 
 @if(in_array(Auth::user()->role_id, [1,4,11,12,7]))
             <button onclick="exportTableToExcel('projects-table')" 
@@ -561,7 +813,7 @@ html{
                 <i class="fas fa-plus"></i> {{ __('Create User') }}
             </a>
         </div>
-    </div>
+    </div> -->
 
 
 
@@ -632,6 +884,24 @@ html{
  -->
 
 
+
+
+
+
+
+
+
+
+
+
+<div class="card-body">
+
+<div class="filter-panel" id="filterPanel">
+
+    {{-- الفلاتر الحالية هنا --}}
+
+
+
 <div class="card filter-card shadow-sm mb-4 mt-0">
 
     {{-- <div class="filter-header">
@@ -696,7 +966,7 @@ html{
                         @endforeach
                     </select>
                 </div>
-<!-- col-12 mt-3 d-flex justify-content-end gap-2 -->
+
                 <div class="col-md-2 d-flex justify-content-end gap-2 " style="margin-top:3rem;height:2.6rem;">
 
                     <button type="submit" class="btn btn-apply">
@@ -715,9 +985,12 @@ html{
 
         </form>
     </div>
+</div> 
+
+
+
+
 </div>
-
-
 
 
 
@@ -727,6 +1000,13 @@ html{
 
         <!-- <table class="table table-hover align-middle rounded-4 custom-table"
                style="border:1px solid #D4AF37;"> -->
+
+<div class="table-wrapper">
+
+    {{-- table here --}}
+
+
+
         <table id="projects-table"
        class="table table-hover align-middle rounded-4 custom-table"
        style="border:1px solid #D4AF37;">
@@ -1044,6 +1324,8 @@ html{
             @endforeach  
             </tbody>
         </table>
+        </div>
+</div>
     </div>
 
     <div class="card-footer clearfix">
@@ -1132,4 +1414,35 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+</script>
+
+
+
+
+
+
+
+
+<script>
+
+const toggleBtn = document.getElementById('actionToggle');
+const menu = document.getElementById('actionMenu');
+
+toggleBtn?.addEventListener('click', () => {
+    menu.classList.toggle('show');
+});
+
+document.getElementById('toggleFilter')?.addEventListener('click', () => {
+    document.getElementById('filterPanel')
+        ?.classList.toggle('show');
+});
+
+window.addEventListener('click', function(e){
+
+    if(!e.target.closest('.action-dropdown')){
+        menu?.classList.remove('show');
+    }
+
+});
+
 </script>
