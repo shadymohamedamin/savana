@@ -32,7 +32,7 @@ class ProjectSupervisionController extends AppBaseController
             'supervisionType'
         ])
         ->where('project_id', $projectId)
-        ->latest()
+        ->orderBy('created_at')//->latest()
         ->get();
 
 
