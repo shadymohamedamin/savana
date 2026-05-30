@@ -208,7 +208,7 @@ class TenderController extends Controller
 
 public function contractors(Project $project)
 {
-    if (!in_array(auth()->user()->role_id, [1, 4, 11, 12])) {
+    if (!in_array(auth()->user()->role_id, [1, 4, 11, 12,7])) {
         return redirect()->back()->with('toast', [
             'type' => 'error',
             'message' => 'ليس لديك الصلاحيات الكافية'
@@ -224,7 +224,7 @@ public function contractors(Project $project)
         ->pluck('users.id')
         ->toArray();
 
-    foreach ($contractors as $contractor) {
+    /*foreach ($contractors as $contractor) {
 
     $projectUser = $project->users()
         ->where('users.id', $contractor->id)
@@ -246,7 +246,7 @@ public function contractors(Project $project)
         $contractor->vat                    = $pivot->vat ?? 0;
         $contractor->finalTotal             = $pivot->finalTotal ?? 0;
 
-        $contractor->tender_status = $pivot->status ?? 'not_started';
+        $contractor->tender_status = $pivot->tender_status;//$pivot->status ?? 'not_started';
 
     } else {
 
@@ -259,14 +259,105 @@ public function contractors(Project $project)
         $contractor->villaWithWall = 0;
         $contractor->vat = 0;
         $contractor->finalTotal = 0;
-        $contractor->tender_status = 'not_started';
+        $contractor->tender_status = 'draft';
     }
-}
+}*/
+
+
+
+
+
+
+
+
+
+
+
+$contractors = $contractors->map(function ($contractor) use ($project, $selected) {
+    $projectUser = $project->users()->where('users.id', $contractor->id)->first();
+    if ($projectUser) {
+        $pivot = $projectUser->pivot;
+        $contractor->project_status = $pivot->status ?? 'not_selected';
+        $contractor->structureElectro = $pivot->structureElectro ?? 0;
+        $contractor->structureWithFinishes = $pivot->structureWithFinishes ?? 0;
+        $contractor->footWithout = $pivot->footWithout ?? 0;
+        $contractor->footWith = $pivot->footWith ?? 0;
+        $contractor->boundaryWall = $pivot->boundaryWall ?? 0;
+        $contractor->villaWithWall = $pivot->villaWithWall ?? 0;
+        $contractor->vat = $pivot->vat ?? 0;
+        $contractor->finalTotal = $pivot->finalTotal ?? 0;
+        $contractor->tender_status = $pivot->tender_status ?? 'draft';
+    } else {
+        $contractor->project_status = 'not_selected';
+        $contractor->structureElectro = 0;
+        $contractor->structureWithFinishes = 0;
+        $contractor->footWithout = 0;
+        $contractor->footWith = 0;
+        $contractor->boundaryWall = 0;
+        $contractor->villaWithWall = 0;
+        $contractor->vat = 0;
+        $contractor->finalTotal = 0;
+        $contractor->tender_status = 'draft';
+    }
+    return $contractor;
+});
+
+
+
+
+
+
+
+
+ $awardedContractorId = $project->contractor_id;
+
+
+
+/*$contractors = $contractors->sortBy(function ($contractor) use ($awardedContractorId, $selected) {
+
+    // 1. المتعيّن أولاً
+    if ($contractor->id == $awardedContractorId) {
+        return 0;
+    }
+
+    // 2. المرشحين ثانياً
+    if (in_array($contractor->id, $selected)) {
+        return 1;
+    }
+
+    // 3. الباقي
+    return 2;
+})->values();*/
+
+$contractors = $contractors->sortBy(function ($contractor) use ($awardedContractorId, $selected) {
+
+    // 1️⃣ تحديد المجموعة
+    if ($contractor->id == $awardedContractorId) {
+        $group = 0;
+    } elseif (in_array($contractor->id, $selected)) {
+        $group = 1;
+    } else {
+        $group = 2;
+    }
+
+    // 2️⃣ المبلغ الصحيح
+    $amount = $contractor->finalTotal ?? 0;
+
+    // 3️⃣ الصفر في الآخر
+    $amount = ($amount == 0) ? PHP_INT_MAX : $amount;
+
+    return [$group, $amount];
+})->values();
+
+
+
+
+//dd($contractors);
 
     // أقل سعر
     $lowestPrice = $contractors->min('finalTotal');
 
-    $awardedContractorId = $project->contractor_id;
+   
 
     return view('projects.tender.contractors', compact(
         'project',
@@ -331,7 +422,7 @@ public function contractors(Project $project)
 */
 public function award(Project $project, $contractorId)
 {
-    if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
         return redirect()->back()->with('toast', [
             'type' => 'error',
             'message' => 'ليس لديك الصلاحيات الكافية'
@@ -382,7 +473,7 @@ public function award(Project $project, $contractorId)
 
     public function unaward(Project $project)
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'
@@ -485,7 +576,7 @@ public function award(Project $project, $contractorId)
 
         public function store(Request $request, Project $project)
         {
-            if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+            if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'

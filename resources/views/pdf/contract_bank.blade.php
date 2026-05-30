@@ -56,106 +56,20 @@
             height: 6rem;
             min-height: 6rem;
         }
+
+        
     </style>
 </head>
 
 <body>
 
-    <table>
-        <tr>
-            <td class="title" colspan="3" colspan="3" class="section-title">عقد الاتفاق</td>
-        </tr>
-        <tr>
-            <td colspan="3" class="center">
-                بإشرافنا نحن<br>
-                سافانا ديزاين للاستشارات الهندسية والتصميم الداخلي – رأس الخيمة<br>
-                مكتب 407 أبراج جلفار – رأس الخيمة<br>
-                525015080
-            </td>
-        </tr>
-    </table>
-
-    <table>
-        <tr>
-            <td colspan="3" class="section-title">تم الاتفاق بين كل من</td>
-        </tr>
-        <tr>
-            <td class="bold">الطرف الأول</td>
-            <td colspan="2">{{ $project->ownerUser->name ?? 'المالك' }}</td>
-        </tr>
-        <tr>
-            <td class="bold">الطرف الثاني</td>
-            <td colspan="2">{{ $project->contractorUser->name ?? 'المقاول' }}</td>
-        </tr>
-        <tr>
-            <td class="bold">الطرف الثالث (الاستشاري)</td>
-            <td colspan="2">سافانا ديزاين للاستشارات الهندسية</td>
-        </tr>
-    </table>
+    @include('pdf.contract_header', ['project' => $project,'isBank'=>true,'showContractor' => true,'title'=>' العقد الاساسي'])
 
 
-
-    <table>
-        <tr>
-            <td colspan="3" class="section-title">المشروع</td>
-        </tr>
-        <tr>
-            <td class="bold">وصف المشروع</td>
-            <td colspan="2"> {{ $project->projectName->name_ae }}</td>
-        </tr>
-        <tr>
-            <td class="bold">المنطقة</td>
-            <td colspan="2">{{ $project->projectRegion->name_ar ?? '—' }}</td>
-        </tr>
-        <tr>
-            <td class="bold">رقم القسيمة</td>
-            <td colspan="2">{{ $project->qasmia_number ?? '—' }}</td>
-        </tr>
-        <tr>
-            <td class="bold">سعر الفيلا مع السور (بدون الضريبة)</td>
-            <td colspan="2">{{ '800,000' }}</td>
-        </tr>
-        @php
-            use NumberToWords\NumberToWords;
-
-            $numberToWords = new NumberToWords();
-            $numberTransformer = $numberToWords->getNumberTransformer('ar');
-
-            $amount = 800000; // أو $project->budget
-            $amountInWords = $numberTransformer->toWords($amount);
-        @endphp
-
-        <tr>
-            <td colspan="3">
-                يقوم الطرف الثاني بتنفيذ وانشاء وانجاز وصيانة المشروع المذكور اعلاه لقاء مبلغ وقدره
-                <br><br>
-
-                {{ number_format($amount) }} درهم
-                <br>
-                ( {{ $amountInWords }} درهم )
-
-                <br><br>
-                و ذلك حسب المتفق عليه والمعتمد وفق للمناقصة التي جرت
-            </td>
-
-        </tr>
-
-    </table>
-
-
-    <table>
-        <tr>
-            <td class="bold center section-title">توقيع وختم المقاول</td>
-            <td class="bold center section-title">توقيع المالك</td>
-            <td class="bold center section-title">توقيع وختم الاستشاري</td>
-        </tr>
-        <tr>
-            <td class="signature"></td>
-            <td class="signature"></td>
-            <td class="signature"></td>
-        </tr>
-    </table>
-
+    
+<!-- <tr>
+            <td colspan="3" style="height:30px;"></td>
+        </tr> -->
 
 
 
@@ -178,7 +92,7 @@
 
 
 
-    <table style="width:100%; border-collapse:collapse; margin-top:90px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:30px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">1</td>
             <td style="width:80%; text-align:center; font-weight:bold;">
@@ -205,7 +119,7 @@
 
 
 
-    <table style="width:100%; border-collapse:collapse; ">
+    <table style="width:100%; border-collapse:collapse; margin-top:30px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;"></td>
             <td style="width:80%; text-align:center; font-weight:bold;">
@@ -227,7 +141,7 @@
 
 
 
-    <table style="width:100%; border-collapse:collapse; ">
+    <table style="width:100%; border-collapse:collapse; margin-top:30px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">2</td>
             <td style="width:80%; text-align:center; font-weight:bold;">
@@ -293,7 +207,7 @@
     </tr>
 </table> -->
 
-    <table style="width:100%; border-collapse:collapse; ">
+    <table style="width:100%; border-collapse:collapse; margin-top:30px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">3</td>
             <td class="section-title" style="width:80%; text-align:center; font-weight:bold;">
@@ -368,7 +282,7 @@
 
 
 
-    <table style="width:100%; border-collapse:collapse;">
+    <table style="width:100%; border-collapse:collapse;margin-top:30px;">
 
         <!-- البند 4 -->
         <tr class="section-title" style="margin-top: 10px;">
@@ -427,9 +341,14 @@
                 يجب على المقاول اخطار الاستشاري باليوم الذي يتم فيه انهاء الاعمال على ان يكون هذا الاخطار قبل حلول هذا اليوم باسبوع على الاقل ليتم اخطار المالك والمقاول بموجب الاستلام الابتدائي يتم بحضور المقاول او مهندسه. وفي حاله عدم حضوره يقوم الاستشاري بعمله في غيابه فاذا ثبت ان الاعمال في حاله تسمح باستلامها يتم تحرير محضرا باستلام الاعمال استلاما مبدئيا في ذات اليوم, اما اذا ثبت عكس ذلك فللاستشاري الحق في عمل محضر اثبات حاله, وفي جميع الاحوال تكون المحاضر التي يحررها الاستشاري حجة على المقاول ولو لم يحضر او يوقع على المحضر، لا يقوم الاستشاري باعادة المعاينة الا اذا اخطره المقاول بموعد انهاء الاعمال وقبل اسبوع من الحلول على الاقل وفي حال وجود ملاحظات على اعمال المشروع لا تمنع من الاستلاام الابتدائي يتم استلام المشروع ويعطى المقاول سبعه ايام لانهاء تلك الملاحظات وفي حال عدم انتهائه من هذه الملاحظات يعتبر محضر الاستلام الابتدائي لاغيا.
             </td>
         </tr>
+    
+
+        <tr>
+            <td colspan="3" style="height:150px;"></td>
+        </tr>
 
         <!-- البند 8 -->
-        <tr class="section-title">
+        <tr class="section-title" style="margin-top:30px;">
             <td style="width:10%; text-align:center; font-weight:bold;">8</td>
             <td style="width:80%; text-align:center; font-weight:bold;">
                 الاشراف الهندسي من قبل الاستشاري
@@ -522,6 +441,11 @@
             </td>
         </tr>
 
+
+        <tr>
+            <td colspan="3" style="height:30px;"></td>
+        </tr>
+
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">14</td>
             <td style="width:80%; text-align:center; font-weight:bold;">فسخ عقد الاستشاري</td>
@@ -585,7 +509,7 @@
 
 
 
-    <table style="width:100%; border-collapse:collapse; margin-top:90px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:10px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;"></td>
             <td style="width:80%; text-align:center; font-weight:bold;">
@@ -967,7 +891,7 @@
     </table>
 
     <!-- Clause 46 -->
-    <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:50px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">46</td>
             <td style="width:80%; text-align:center; font-weight:bold;">شهادة الإنجاز</td>
@@ -1181,7 +1105,7 @@
     </table>
 
     <!-- Clause 61 -->
-    <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:40px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">61</td>
             <td style="width:80%; text-align:center; font-weight:bold;">دقة التسعير وحساب الكميات</td>
@@ -1259,7 +1183,7 @@
         </tr>
         <tr>
             <td colspan="3" class="center">
-                المقاول هو المسؤول الوحيد عن هيكل المبنى، وضمان الهيكل لمدة 30 سنة.
+                المقاول هو المسؤول الوحيد عن هيكل المبنى، وضمان الهيكل لمدة 15 سنة.
             </td>
         </tr>
     </table>
@@ -1293,7 +1217,7 @@
     </table>
 
     <!-- Clause 69 -->
-    <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:50px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">69</td>
             <td style="width:80%; text-align:center; font-weight:bold;">التربة</td>
@@ -1405,7 +1329,7 @@
     </table>
 
     <!-- Clause 77 -->
-    <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:50px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">77</td>
             <td style="width:80%; text-align:center; font-weight:bold;">الإشراف الأسبوعي</td>
@@ -1436,8 +1360,6 @@
     <!-- Agreement Header -->
 
 
-<!-- Signatures -->
-
 <table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:50px;">
     <tr>
         <td class="bold center section-title" style="text-align:center; font-weight:bold;">
@@ -1461,9 +1383,6 @@
         </td>
     </tr>
 </table>
-
-
-
 
 
 

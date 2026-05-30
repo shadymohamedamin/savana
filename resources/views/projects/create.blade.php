@@ -203,7 +203,12 @@
 
 
 
-                
+                <div class="flex-grow-1" style="min-width:250px;max-width:250px;">
+                    {!! Form::label('container_contract_value', __('قيمة عقد الحاوية'))!!}
+                    {!! Form::number('container_contract_value', null, [
+                        'class' => 'form-control rounded',
+                    ]) !!}
+                </div>
 
                 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
                     {!! Form::label('budget', __('ميزانية المالك')) !!}
@@ -241,7 +246,7 @@
     <input type="date"
            name="contract_signed_at"
            class="form-control"
-           value="{{ old('contract_signed_at', optional($project->contract_signed_at)->format('Y-m-d')) }}">
+           value="{{ old('contract_signed_at', optional($project ?? null)->contract_signed_at?->format('Y-m-d')) }}">
 </div>
 
 
@@ -256,14 +261,7 @@
                name="project_image"
                class="form-control form-control-sm attachment-input mb-1">
 
-        {{-- الصورة الحالية --}}
-        @if($project->project_image)
-            <a href="{{ asset('Files/'.$project->project_image) }}"
-               target="_blank"
-               class="btn btn-sm btn-outline-primary w-100 mt-1 stored-file">
-                👁 عرض الصورة الحالية
-            </a>
-        @endif
+       
 
         {{-- preview --}}
         <a href="#"
@@ -585,7 +583,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+/*document.addEventListener('DOMContentLoaded', function () {
 
     function calculateArea() {
         const bank_contract_value = parseFloat(document.getElementById('bank_contract_value')?.value);
@@ -610,7 +608,55 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // مهم جدًا في edit
     calculateArea();
+});*/
+
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    function calculateArea() {
+        const bank_contract_value = parseFloat(document.getElementById('bank_contract_value')?.value) || 0;
+        const project_bank_support = parseFloat(document.getElementById('project_bank_support')?.value) || 0;
+        const financing_type = document.getElementById('financing_type')?.value;
+
+        let project_owner_support = 0;
+
+        if (financing_type === 'owner') {
+            // ✅ كل المبلغ على المالك
+            project_owner_support = bank_contract_value;
+
+        } else if (financing_type === 'bank') {
+            // ✅ كل المبلغ على البنك
+            project_owner_support = 0;
+
+        } else if (financing_type === 'bank_owner') {
+            // ✅ مشترك
+            project_owner_support = bank_contract_value - project_bank_support;
+        }
+
+        document.getElementById('project_owner_support').value = project_owner_support.toFixed(2);
+    }
+
+    document.getElementById('bank_contract_value')
+        ?.addEventListener('input', calculateArea);
+
+    document.getElementById('project_bank_support')
+        ?.addEventListener('input', calculateArea);
+
+    document.getElementById('financing_type')
+        ?.addEventListener('change', calculateArea);
+
+    // تشغيل عند تحميل الصفحة
+    calculateArea();
 });
+
+
+
 </script>
 
 <script>

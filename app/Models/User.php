@@ -131,6 +131,7 @@ class User extends Authenticatable implements AuditableContract
         'email_verified_at',
         'remember_token',
         'is_admin',
+        'signature',
 
 
         'responsible_name',
@@ -197,6 +198,7 @@ class User extends Authenticatable implements AuditableContract
         'remember_token' => 'nullable|string|max:100',
         'created_at' => 'nullable',
         'updated_at' => 'nullable',
+        
     ];
 
     // === Relationships ===
@@ -205,7 +207,10 @@ class User extends Authenticatable implements AuditableContract
     {
         return $this->belongsTo(Tblrole::class, 'RoleID');
     }*/
-
+    public function supervisions()
+    {
+        return $this->hasMany(ProjectSupervision::class);
+    }
     public function sexRelation()
     {
         return $this->belongsTo(Sex::class, 'sex'); // assumes Sex model

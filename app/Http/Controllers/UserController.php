@@ -27,7 +27,7 @@ class UserController extends AppBaseController
      */
     public function index(Request $request)
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
             return redirect()->back()->with('toast', [
                 'type' => 'error',
                 'message' => 'ليس لديك الصلاحيات الكافية'
@@ -92,7 +92,7 @@ class UserController extends AppBaseController
      */
     public function create(Request $request)
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
             return redirect()->back()->with('toast', [
                 'type' => 'error',
                 'message' => 'ليس لديك الصلاحيات الكافية'
@@ -122,7 +122,7 @@ class UserController extends AppBaseController
     public function store(CreateUserRequest $request)
     {
 
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
             return redirect()->back()->with('toast', [
                 'type' => 'error',
                 'message' => 'ليس لديك الصلاحيات الكافية'
@@ -165,6 +165,30 @@ class UserController extends AppBaseController
         } else {
             unset($input['password']);
         }
+
+
+
+
+        if ($request->filled('signature')) {
+    // جاي من canvas (base64)
+    $image = $request->signature;
+
+    $image = str_replace('data:image/png;base64,', '', $image);
+    $image = str_replace(' ', '+', $image);
+
+    $imageName = 'signatures/' . uniqid() . '.png';
+
+    \Storage::disk('public')->put($imageName, base64_decode($image));
+
+    $input['signature'] = $imageName;
+}
+
+// لو رفع ملف
+if ($request->hasFile('signature_file')) {
+    $path = $request->file('signature_file')->store('signatures', 'public');
+
+    $input['signature'] = $path;
+}
         // تشفير الباسورد
         //$input['password'] = bcrypt($input['password']);
 
@@ -218,7 +242,7 @@ class UserController extends AppBaseController
      */
     public function show($id)
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
             return redirect()->back()->with('toast', [
                 'type' => 'error',
                 'message' => 'ليس لديك الصلاحيات الكافية'
@@ -240,7 +264,7 @@ class UserController extends AppBaseController
      */
     public function edit($id)
 {
-    if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
         return redirect()->back()->with('toast', [
             'type' => 'error',
             'message' => 'ليس لديك الصلاحيات الكافية'
@@ -267,7 +291,7 @@ class UserController extends AppBaseController
      */
     public function update($id, UpdateUserRequest $request)
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
             return redirect()->back()->with('toast', [
                 'type' => 'error',
                 'message' => 'ليس لديك الصلاحيات الكافية'
@@ -310,6 +334,89 @@ class UserController extends AppBaseController
             unset($data['password']); // متحدثوش لو فاضي
         }
 
+
+
+        // ================== SIGNATURE ==================
+//dd($request->signature);
+// canvas base64
+/*if ($request->filled('signature')) {
+
+    $image = $request->signature;
+
+    $image = str_replace('data:image/png;base64,', '', $image);
+    $image = str_replace(' ', '+', $image);
+
+    $imageName = 'signatures/' . uniqid() . '.png';
+
+    \Storage::disk('public')->put($imageName, base64_decode($image));
+
+    $data['signature'] = $imageName;
+}
+
+// upload file
+if ($request->hasFile('signature_file')) {
+
+    $path = $request->file('signature_file')->store('signatures', 'public');
+
+    $data['signature'] = $path;
+}*/
+
+
+
+
+
+
+// ================== SIGNATURE ==================
+
+// من canvas (base64)
+if ($request->filled('signature')) {
+
+    $image = $request->signature;
+
+    $image = str_replace('data:image/png;base64,', '', $image);
+    $image = str_replace(' ', '+', $image);
+
+    $imageName = 'signatures/' . uniqid() . '.png';
+
+    // تأكد إن الفولدر موجود
+    $path = public_path('signatures');
+    if (!file_exists($path)) {
+        mkdir($path, 0755, true);
+    }
+
+    // حفظ الصورة في public
+    file_put_contents(public_path($imageName), base64_decode($image));
+
+    $data['signature'] = $imageName;
+}
+
+
+// من upload file
+if ($request->hasFile('signature_file')) {
+
+    $file = $request->file('signature_file');
+
+    $imageName = 'signatures/' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+    // تأكد إن الفولدر موجود
+    $path = public_path('signatures');
+    if (!file_exists($path)) {
+        mkdir($path, 0755, true);
+    }
+
+    // نقل الملف لـ public
+    $file->move(public_path('signatures'), basename($imageName));
+
+    $data['signature'] = $imageName;
+}
+
+
+
+
+
+
+
+
         //$user = $this->userRepository->update($data, $id);
         $user = $this->userRepository->update($data, $id);
 
@@ -335,7 +442,7 @@ class UserController extends AppBaseController
      */
     public function destroy($id)
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
             return redirect()->back()->with('toast', [
                 'type' => 'error',
                 'message' => 'ليس لديك الصلاحيات الكافية'

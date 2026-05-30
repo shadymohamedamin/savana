@@ -87,10 +87,10 @@
     <div class="card shadow-xl p-4 m-4" style="background-color: #f5f5dc;">
 
         {!! Form::model($project, [
-    'route' => ['projects.update', $project->id],
-    'method' => 'patch',
-    'files' => true
-]) !!}
+            'route' => ['projects.update', $project->id],
+            'method' => 'patch',
+            'files' => true
+        ]) !!}
 
 
 
@@ -511,8 +511,11 @@
 <div class="card-section">
 
 <div class="card-header" style="text-align: center;">
-<i class="fas fa-building me-1" ></i> معلومات المشروع
-</div>
+        <i class="fas fa-building me-1"></i> معلومات المشروع
+        <!-- <a href="{{ route('projects.table', $project->id) }}" class="btn btn-olive btn-sm" style="margin-left: 15px;">
+            انتقل إلى الجدول
+        </a> -->
+    </div>
 
 <div class="card-body">
 
@@ -597,38 +600,21 @@
 </div>
 
 
-<div class="form-item">
-    <div class="border rounded p-2 small bg-light attachment-box">
 
-        <input type="hidden" name="project_image_delete" value="0" class="delete-flag">
 
-        <input type="file"
-               name="project_image"
-               class="form-control form-control-sm attachment-input mb-1">
 
-        {{-- الصورة الحالية --}}
-        @if($project->project_image)
-            <a href="{{ asset('Files/'.$project->project_image) }}"
-               target="_blank"
-               class="btn btn-sm btn-outline-primary w-100 mt-1 stored-file">
-                👁 عرض الصورة الحالية
-            </a>
-        @endif
-
-        {{-- preview --}}
-        <a href="#"
-           target="_blank"
-           class="btn btn-sm btn-outline-success w-100 mt-1 preview-file d-none">
-            👁 معاينة
-        </a>
-
-        <button type="button"
-                class="btn btn-sm btn-outline-danger w-100 mt-1 remove-file">
-            🗑 حذف
-        </button>
-
-    </div>
+{{-- إضافة حقل صورة المشروع --}}
+<div class="form-group">
+    {!! Form::label('project_image', 'صورة المشروع') !!}
+    {!! Form::file('project_image', ['class' => 'form-control']) !!}
 </div>
+
+{{-- عرض صورة المشروع إذا كانت موجودة --}}
+@if($project->project_image)
+    <div class="form-group">
+        <img src="{{ asset('Files/' . $project->project_image) }}" alt="Project Image" class="img-fluid">
+    </div>
+@endif
 
 
 <div class="w-100">
@@ -699,15 +685,41 @@
 
 
 
+
+
+
+
+
 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
                     {!! Form::label('approved_area', __('المساحة المعتمدة من البلدية')) !!}
                     {!! Form::text('approved_area', null, ['class' => 'form-control rounded']) !!}
+                </div>
+
+<div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+                    {!! Form::label('approved_area_license', __('المساحة المعتمدة من الرخصة')) !!}
+                    {!! Form::text('approved_area_license', null, ['class' => 'form-control rounded']) !!}
                 </div>
 
                 <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
                     {!! Form::label('linear_meter_area', __('مساحة السور بالمتر الطولي')) !!}
                     {!! Form::text('linear_meter_area', null, ['class' => 'form-control rounded']) !!}
                 </div>
+
+
+
+<div class="form-item">
+                        {!! Form::label('consultant_id', __('Consultant')) !!}
+                        {!! Form::select(
+                            'consultant_id',
+                            $consultants,
+                            $consultantId ?? null,
+                            [
+                                'class' => 'form-control',
+                                'placeholder' => '-- اختر الاستشاري --'
+                            ]
+                        ) !!}
+                    </div>
+
 
 </div>
 </div>
@@ -835,6 +847,22 @@ value="{{ optional($project->contractor_contract_end_date)->format('Y-m-d') }}"/
 {!! Form::select('contractor_id',$contractors,null,['class'=>'form-control','placeholder'=>'-- اختياري --']) !!}
 </div>
 
+
+
+<div class="form-item">
+{!! Form::label('container_contract_value', __('قيمة عقد الحاوية')) !!}
+{!! Form::number('container_contract_value', null, ['class'=>'form-control']) !!}
+</div>
+
+
+
+<div class="form-item">
+{!! Form::label('advance_payment_value', __('  دفعة مقدمة من المالك')) !!}
+{!! Form::number('advance_payment_value', null, ['class'=>'form-control']) !!}
+</div>
+
+
+
 </div>
 </div>
 </div>
@@ -927,7 +955,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+/*document.addEventListener('DOMContentLoaded', function () {
 
     function calculateArea() {
         const bank_contract_value = parseFloat(document.getElementById('bank_contract_value')?.value);
@@ -951,6 +979,45 @@ document.addEventListener('DOMContentLoaded', function () {
         .addEventListener('input', calculateArea);
 
     // مهم جدًا في edit
+    calculateArea();
+});*/
+
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    function calculateArea() {
+        const bank_contract_value = parseFloat(document.getElementById('bank_contract_value')?.value) || 0;
+        const project_bank_support = parseFloat(document.getElementById('project_bank_support')?.value) || 0;
+        const financing_type = document.getElementById('financing_type')?.value;
+
+        let project_owner_support = 0;
+
+        if (financing_type === 'owner') {
+            // ✅ كل المبلغ على المالك
+            project_owner_support = bank_contract_value;
+
+        } else if (financing_type === 'bank') {
+            // ✅ كل المبلغ على البنك
+            project_owner_support = 0;
+
+        } else if (financing_type === 'bank_owner') {
+            // ✅ مشترك
+            project_owner_support = bank_contract_value - project_bank_support;
+        }
+
+        document.getElementById('project_owner_support').value = project_owner_support.toFixed(2);
+    }
+
+    document.getElementById('bank_contract_value')
+        ?.addEventListener('input', calculateArea);
+
+    document.getElementById('project_bank_support')
+        ?.addEventListener('input', calculateArea);
+
+    document.getElementById('financing_type')
+        ?.addEventListener('change', calculateArea);
+
+    // تشغيل عند تحميل الصفحة
     calculateArea();
 });
 </script>

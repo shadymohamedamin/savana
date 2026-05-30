@@ -34,13 +34,47 @@ th, td {
 }
 .center { text-align: center; }
 .bold { font-weight: bold; }
+
+
+
+
+<style>
+.spec-title {
+    background: #e3a67b;
+    color: #0b2c5f;
+    font-weight: bold;
+    text-align: center;
+    font-size: 18px;
+}
+
+.spec-table td {
+    background: #cfd8c3;
+    font-weight: bold;
+}
+
+.spec-table-2 td {
+    background: #e5d1c3;
+}
+
+.spec-table-3 td {
+    background: #cfd9e3;
+}
+</style>
+
+
+
+
+
+
+
+
 </style>
 </head>
 
 <body>
 
 {{-- ================= معلومات المشروع ================= --}}
-<table>
+<!-- <table>
 <tr>
     <td class="title" colspan="4">عقد أسعار التوريد</td>
 </tr>
@@ -59,7 +93,7 @@ th, td {
 
 <tr>
     <td class="bold" > التاريخ</td>
-    <td >{{ $project->contract_signed_at->format('d/m/Y')??'-' }}</td>
+    <td >{{ $project->contract_signed_at?->format('d/m/Y')??'-' }}</td>
         <td class="bold">الطرف الثاني</td>
         <td >{{ $project->contractorUser->name ?? 'المقاول' }}</td>
 </tr>
@@ -74,7 +108,19 @@ th, td {
 
 
 
-</table>
+</table> -->
+
+
+
+@include('pdf.contract_header', ['project' => $project,'isBank'=>false,'showContractor' => true,'title'=>'عقد اسعار التوريد'])
+
+
+
+
+
+
+
+
 
 {{-- ================= أسعار توريد التشطيبات ================= --}}
 <!-- @foreach($items as $category => $rows)
@@ -141,15 +187,23 @@ $sectionsTotals = [];
 @foreach($groups as $group)
 
 <table>
-<tr>
+<!-- <tr>
     <td class="group-title" colspan="6">
         {{ $group->name_ar }}
     </td>
-</tr>
+</tr> -->
 
-@php $groupTotal = 0; @endphp
+@php 
+    $groupTotal = 0;
+    $sectionIndex=0;
+@endphp
 
 @foreach($group->children as $section)
+@php 
+
+    $sectionIndex++;
+@endphp
+
 
 <tr>
     <td class="section-title" colspan="6">
@@ -202,12 +256,31 @@ $sectionsTotals[$section->id] = $sectionTotal;
 $groupTotal += $sectionTotal;
 @endphp
 
+
+
+
+
+
+
+
+
 @endforeach
 
 <tr class="total-row center">
     <td colspan="4">إجمالي {{ $group->name_ar }}</td>
     <td colspan="2">{{ number_format($groupTotal,2) }}</td>
 </tr>
+
+@if($sectionIndex == 7)
+<tr class="no-border">
+    <td colspan="3" style="height:120px; border: none; padding: 0;"></td>
+</tr>
+@endif
+
+
+
+
+
 
 </table>
 
@@ -297,9 +370,206 @@ $fieldLabels = [
 </table>
 @endif
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{{-- ================= المواصفات الثابتة ================= --}}
+
+
+
+<style>
+.spec-title {
+    background: #e3a67b;
+    color: #0b2c5f;
+    font-weight: bold;
+    text-align: center;
+    font-size: 18px;
+}
+
+.spec-table td {
+    background: #cfd8c3;
+    font-weight: bold;
+}
+
+.spec-table-2 td {
+    background: #e5d1c3;
+}
+
+.spec-table-3 td {
+    background: #cfd9e3;
+}
+
+.note-text {
+    border: 1px solid #000;
+    padding: 10px;
+    font-size: 13px;
+    line-height: 1.8;
+}
+</style>
+
+{{-- ================= مواد الهيكل ================= --}}
+<table class="spec-table">
+<tr>
+    <td colspan="3" class="spec-title">مواصفات مواد الهيكل</td>
+</tr>
+
+<tr>
+    <td>الحديد</td>
+    <td colspan="2">قطري</td>
+</tr>
+
+<tr>
+    <td>الخرسانة</td>
+    <td>الخليج</td>
+    <td>اوريميكس</td>
+</tr>
+
+<tr>
+    <td>الطابوق</td>
+    <td>راكنور</td>
+    <td>دبي</td>
+</tr>
+
+<tr>
+    <td>الاعمدة</td>
+    <td colspan="2">خرسانة ذاتية الدمج</td>
+</tr>
+
+<tr>
+    <td>الخشب</td>
+    <td colspan="2">من النوعية الجيدة إلى النوعية  الجديدة</td>
+</tr>
+</table>
+
+{{-- ================= المواد الصحية ================= --}}
+<table class="spec-table-2">
+<tr>
+    <td colspan="3" class="spec-title">مواصفات المواد الصحية</td>
+</tr>
+
+<tr>
+    <td>نوعية تمديدات تغذية المياه</td>
+    <td>اكواثرم</td>
+    <td>PIX PIBE</td>
+</tr>
+
+<tr>
+    <td>تركيب تحت الاسقف</td>
+    <td colspan="2"></td>
+</tr>
+
+<tr>
+    <td>نوعية بايبات الصرف الصحي</td>
+    <td colspan="2">اطلس</td>
+</tr>
+
+<tr>
+    <td>نوعية الخزان تحت الأرض</td>
+    <td colspan="2">من الياف الفايبر</td>
+</tr>
+
+<tr>
+    <td>نوعية الخزان  فوق الأرض</td>
+    <td colspan="2">من الياف الفايبر</td>
+</tr>
+
+<tr>
+    <td>نوعية السخان المركزي</td>
+    <td colspan="2">ARISTON إيطالي</td>
+</tr>
+
+<tr>
+    <td>نوعية مكاين الضغط</td>
+    <td colspan="2">اسباني/ ايطالي</td>
+</tr>
+</table>
+
+{{-- ================= المواد الكهربائية ================= --}}
+<table class="spec-table-3">
+<tr>
+    <td colspan="3" class="spec-title">مواصفات المواد الكهرباية</td>
+</tr>
+</table>
+
+<!-- {{-- ================= النص الطويل ================= --}}
+<div class="note-text">
+على المقاول تزويد الموقع بالكوادر الفنية والعمالة اللازمة لتنفيذ المشروع بالمستوى المطلوب مع مراعاة مايلي :<br>
+1 – جميع عناصر الكادر الفني والعمالة الفنية يجب أن يكونوا من المؤهلين ومن ذوي الخبرة والكفاءة كلاً حسب اختصاصه وحسب متطلبات العمل والتنفيذ ( من حيث العدد والتوزيع ).<br>
+2- يتم اعتماد الكوادر الفنية من قبل الاستشاري قبل مباشرتهم للعمل، ويجب أن تكون الكوادر الفنية من ذوي الخبرة بأعمال مماثلة.<br>
+3 – يحق للإستشاري الطلب من المقاول إبعاد/استبدال أي شخص مستخدم من قبله إذا رأى الاستشاري أن ذلك الشخص ليس بالمستوى المطلوب من حيث السلوك أو الخبرة لتنفيذ الأعمال.<br>
+4 – على المقاول تقديم جدول بأعداد العمالة العادية والفنية العاملة في الموقع بشكل أسبوعي.<br>
+5 – يشتمل الكادر الفني (المطلوب من المقاول توفيره كحد أدنى) على :<br>
+• مدير للمشروع.<br>
+• مهندس موقع ( Site Engineer )مسؤول عن تنفيذ المشروع للتعامل مع الاستشاري<br>
+• مراقب فني (Forman) لكل نوع من أنواع الأعمال.<br>
+• أي كوادر فنية أخرى يطلبها الاستشاري ويرى أنها لازمة لتنفيذ المشروع بالمستوى المطلوب.<br>
+• مقاول باطن اعمال الالكتروميكانيك يجب ان يكون معتمد من الاستشاري و الـ FEWA.
+.
+</div> -->
+
+<table class="spec-table-3">
+
+<tr>
+    <td>اللوحات و الصناديق</td>
+    <td colspan="2">شنايدر</td>
+</tr>
+
+<tr>
+    <td>مفاتيح الانارة</td>
+    <td>PANASONIC</td>
+    <td>مع تيوترال</td>
+</tr>
+
+<tr>
+    <td>نوع بايبات و اسلاك الكهرباء</td>
+    <td colspan="2">دوكاب</td>
+</tr>
+
+<tr>
+    <td>قواطع رييسية</td>
+    <td>DORMAN SWITSH</td>
+    <td>Abb</td>
+</tr>
+
+<tr>
+    <td>الازوليتر</td>
+    <td colspan="2">شنايدر</td>
+</tr>
+
+<tr>
+    <td>جي اي بوكس للماخذ ومفاتيح</td>
+    <td colspan="2">الفنار</td>
+</tr>
+
+</table>
+
+
+
+
+
+
+
+
+
+
 {{-- ================= التوقيعات ================= --}}
 
-<table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:50px;">
+<table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:20px;">
     <tr>
        <td class="bold center section-title" style="text-align:center; font-weight:bold;">
             توقيع وختم المقاول
@@ -318,7 +588,7 @@ $fieldLabels = [
         <td class="signature" style="height:80px; border-bottom:1px solid #000;"></td>
 
         <td class="signature" style="height:80px; border-bottom:1px solid #000; text-align:center;">
-           <img src="{{ public_path('images/signature.jpeg') }}" style="height:100px;">
+           <!-- <img src="{{ public_path('images/signature.jpeg') }}" style="height:100px;"> -->
         </td>
     </tr>
 </table>

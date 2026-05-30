@@ -63,6 +63,13 @@
 
 
   
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Alexandria:wght@100..900&display=swap" rel="stylesheet">
+
+
+
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 
 
@@ -100,13 +107,17 @@
         /* ===== OLIVE GOLD ANIMATED NAVBAR ===== */
 
 .olive-navbar {
-    background: linear-gradient(
+    /* background: linear-gradient(
         270deg,
         #1f2937,
         #2f3a1f,
         #3f4f2f,
         #2f3a1f
-    );
+    ); */
+
+
+    background-color: rgb(249 247 237);
+    color: rgb(146 114 42 / 1);
     background-size: 600% 600%;
     animation: oliveGradient 12s ease infinite;
     padding: 0.9rem 0;
@@ -135,7 +146,9 @@
 
 /* Links */
 .olive-navbar .nav-link {
-    color: #f3f4f6 !important;
+    /* color: #f3f4f6 !important;
+    background-color: rgb(249 247 237); */
+    color: rgb(146 114 42 / 1);
     font-weight: 600;
     margin: 0 6px;
     position: relative;
@@ -183,13 +196,18 @@
 }
 
 .olive-navbar .dropdown-item {
-    color: #f3f4f6;
+    /* color: #f3f4f6; */
+
+    background-color: rgb(249 247 237);
+    color: rgb(146 114 42 / 1);
     transition: all 0.3s ease;
 }
 
 .olive-navbar .dropdown-item:hover {
     background: linear-gradient(90deg, #f9e076, #d4af37);
     color: #1f2937;
+
+
 }
 
 /* Shadow glow */
@@ -343,6 +361,7 @@
 /* Date */
 .today-inline-date {
     color:#fff;
+    color: rgb(146 114 42 / 1);
     font-size: 21px;
 }
 
@@ -350,6 +369,7 @@
 .today-inline-time {
     /* color: #ffd700; */
     color:#fff;
+    color: rgb(146 114 42 / 1);
     font-size: 22px;
     font-weight: 700;
 }
@@ -582,7 +602,7 @@
 .project-actions-full{
     display:grid;
 
-    grid-template-columns: repeat(7, auto); /* 6 عناصر في الصف */
+    grid-template-columns: repeat(6, auto); /* 6 عناصر في الصف */
 
     justify-content:center; /* يجعلهم في المنتصف */
 
@@ -797,7 +817,8 @@
 
 
 body, html {
-    background-color: #f5f5dc !important;
+    /* background-color: #f5f5dc !important; */
+    background-color: #ffffff !important;
 }
 
 .container,
@@ -805,6 +826,746 @@ body, html {
 .main-content {
     background-color: transparent !important;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.project-user-card{
+
+    min-width:250px;
+
+    background:#fff;
+
+    border:1px solid #ececec;
+
+    border-radius:14px;
+
+    padding:16px;
+
+    display:flex;
+
+    justify-items:center;
+
+    align-items:center;
+
+    gap:14px;
+
+    cursor:pointer;
+
+    transition:all .25s ease;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.05);
+}
+
+.project-user-card:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:0 8px 20px rgba(0,0,0,.12);
+
+    border-color:#d4af37;
+}
+
+.project-user-card .icon{
+
+    width:52px;
+
+    height:52px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:20px;
+
+    color:#fff;
+}
+
+.owner-icon{
+
+    background:#2f3a1f;
+}
+
+.contractor-icon{
+
+    background:#b8860b;
+}
+
+.consultant-icon{
+
+    background:#4b6584;
+}
+
+
+
+
+body,
+html {
+    font-family: 'Alexandria', sans-serif !important;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================
+   GOV STYLE PROJECT CARDS
+========================= */
+
+.project-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 18px;
+    margin: 25px 50px 35px;
+}
+
+/* CARD */
+.project-card {
+    background-color: rgb(249 247 237);
+    border: 1.5px solid rgb(146 114 42 / 1);
+    border-radius: 14px;
+    padding: 28px 18px;
+    text-align: center;
+    text-decoration: none;
+    transition: 0.25s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,.04);
+}
+
+/* ICON */
+.project-card i {
+    font-size: 30px;
+    color: rgb(146 114 42 / 1);
+    margin-bottom: 14px;
+    display: block;
+    transition: .25s;
+}
+
+/* TEXT */
+.project-card span {
+    font-size: 17px;
+    font-weight: 700;
+    color: rgb(146 114 42 / 1);
+    transition: .25s;
+}
+
+/* HOVER */
+.project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(146,114,42,.12);
+    background-color: #fffdf7;
+}
+
+/* LIGHT EFFECT */
+.project-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(
+            120deg,
+            transparent,
+            rgba(255,255,255,.35),
+            transparent
+        );
+
+    opacity: 0;
+    transition: .4s;
+}
+
+.project-card:hover::before {
+    opacity: 1;
+    animation: shine 1s;
+}
+
+@keyframes shine {
+    from {
+        transform: translateX(-100%);
+    }
+
+    to {
+        transform: translateX(100%);
+    }
+}
+
+/* ACTIVE CARD */
+.project-card.active {
+    background-color: rgb(146 114 42 / 1);
+    border-color: rgb(146 114 42 / 1);
+}
+
+/* ACTIVE ICON + TEXT */
+.project-card.active i,
+.project-card.active span {
+    color: #fff;
+}
+
+/* =========================
+   USER CARDS
+========================= */
+
+.project-user-card {
+
+    min-width: 260px;
+
+    background-color: rgb(249 247 237);
+
+    border: 1.5px solid rgb(146 114 42 / 1);
+
+    border-radius: 14px;
+
+    padding: 16px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 14px;
+
+    cursor: pointer;
+
+    transition: all .25s ease;
+
+    box-shadow: 0 3px 10px rgba(0,0,0,.04);
+}
+
+.project-user-card:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow: 0 10px 20px rgba(146,114,42,.10);
+
+    background: #fffdf8;
+}
+
+/* ICON CIRCLE */
+.project-user-card .icon {
+
+    width: 54px;
+
+    height: 54px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    font-size: 20px;
+
+    background-color: rgb(146 114 42 / 1);
+
+    color: #fff;
+}
+
+/* TITLES */
+.project-user-card .small {
+
+    color: rgb(146 114 42 / .75) !important;
+
+    font-size: 13px;
+}
+
+/* NAMES */
+.project-user-card .fw-bold {
+
+    color: rgb(146 114 42 / 1);
+
+    font-size: 16px;
+}
+
+/* FONT */
+body,
+html {
+    font-family: 'Alexandria', sans-serif !important;
+}
+
+
+.gov-btn {
+    background-color: rgb(146 114 42 / 1);
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: 7px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: .25s ease;
+    border: none;
+}
+
+.gov-btn:hover {
+    background-color: rgb(120 92 32 / 1);
+    transform: translateY(-1px);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+.project-cards-grid{
+    grid-template-columns:repeat(auto-fit,minmax(120px,1fr));
+    gap:12px;
+}
+
+.project-card{
+    padding:14px 10px;
+}
+
+.project-card i{
+    font-size:18px;
+    margin-bottom:8px;
+}
+
+.project-card span{
+    font-size:13px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.project-card{
+    width:170px;
+    height:130px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================================
+   GOV UAE STYLE
+========================================= */
+
+:root{
+    --gov-gold: rgb(146 114 42 / 1);
+    --gov-bg: rgb(249 247 237);
+    --gov-hover: rgb(255 252 245);
+}
+
+/* FONT */
+body,
+html{
+    font-family: 'Alexandria', sans-serif !important;
+    background:#fff;
+}
+
+/* =========================================
+   PROJECT GRID
+========================================= */
+
+.project-cards-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:18px;
+
+    margin-top:25px;
+    margin-bottom:35px;
+
+    margin-right:50px;
+    margin-left:50px;
+}
+
+/* =========================================
+   PROJECT CARD
+========================================= */
+
+.project-card{
+
+    background-color:var(--gov-bg);
+
+    border:1.5px solid var(--gov-gold);
+
+    border-radius:16px;
+
+    padding:28px 18px;
+
+    text-align:center;
+
+    text-decoration:none;
+
+    transition:.25s ease;
+
+    position:relative;
+
+    overflow:hidden;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.04);
+}
+
+/* ICON */
+.project-card i{
+
+    font-size:30px;
+
+    color:var(--gov-gold);
+
+    margin-bottom:14px;
+
+    display:block;
+
+    transition:.25s ease;
+}
+
+/* TEXT */
+.project-card span{
+
+    font-size:17px;
+
+    font-weight:700;
+
+    color:var(--gov-gold);
+
+    transition:.25s ease;
+}
+
+/* HOVER */
+.project-card:hover{
+
+    transform:translateY(-4px);
+
+    background-color:var(--gov-hover);
+
+    box-shadow:0 12px 24px rgba(146,114,42,.10);
+}
+
+/* SHINE EFFECT */
+.project-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        linear-gradient(
+            120deg,
+            transparent,
+            rgba(255,255,255,.35),
+            transparent
+        );
+
+    opacity:0;
+
+    transition:.4s;
+}
+
+.project-card:hover::before{
+
+    opacity:1;
+
+    animation:shine 1s;
+}
+
+@keyframes shine{
+
+    from{
+        transform:translateX(-100%);
+    }
+
+    to{
+        transform:translateX(100%);
+    }
+}
+
+/* ACTIVE */
+.project-card.active{
+
+    background-color:var(--gov-gold);
+}
+
+/* ACTIVE ICON + TEXT */
+.project-card.active i,
+.project-card.active span{
+
+    color:#fff;
+}
+
+/* =========================================
+   USER CARDS
+========================================= */
+
+.project-user-card{
+
+    min-width:260px;
+
+    background-color:var(--gov-bg);
+
+    border:1.5px solid var(--gov-gold);
+
+    border-radius:16px;
+
+    padding:18px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:14px;
+
+    cursor:pointer;
+
+    transition:.25s ease;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.04);
+}
+
+/* HOVER */
+.project-user-card:hover{
+
+    transform:translateY(-4px);
+
+    background-color:var(--gov-hover);
+
+    box-shadow:0 12px 24px rgba(146,114,42,.10);
+}
+
+/* ICON CIRCLE */
+.project-user-card .icon{
+
+    width:56px;
+
+    height:56px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background-color:var(--gov-gold);
+
+    flex-shrink:0;
+}
+
+/* ICON */
+.project-user-card .icon i{
+
+    color:#fff;
+
+    font-size:22px;
+}
+
+/* SMALL TITLE */
+.project-user-card .small{
+
+    color:rgba(146,114,42,.70) !important;
+
+    font-size:13px;
+
+    margin-bottom:3px;
+}
+
+/* NAME */
+.project-user-card .fw-bold{
+
+    color:var(--gov-gold);
+
+    font-size:16px;
+
+    font-weight:700;
+}
+
+/* REMOVE OLD COLORS */
+.owner-icon,
+.contractor-icon,
+.consultant-icon{
+
+    background-color:var(--gov-gold) !important;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media(max-width:768px){
+
+    .project-cards-grid{
+
+        margin-right:15px;
+        margin-left:15px;
+
+        grid-template-columns:
+            repeat(auto-fit,minmax(150px,1fr));
+    }
+
+    .project-card{
+
+        padding:22px 14px;
+    }
+
+    .project-card span{
+
+        font-size:15px;
+    }
+
+    .project-user-card{
+
+        width:100%;
+        min-width:100%;
+    }
+}
+
+
+
+
+
+
+
+
 
     </style>
 
@@ -902,7 +1663,7 @@ body, html {
 
                                     {{-- Only for admins or researchers --}}
                                     {{-- @if(Auth::user()->role !== 'public_user')
-                                       @if(in_array(Auth::user()->role_id, [1,4,11,12]))
+                                       @if(in_array(Auth::user()->role_id, [1,4,11,12,7]))
                                         <li class="nav-item">
                                             <a style="font-size: 1.4rem;" class="nav-link" href="{{ url('/users') }}">{{ __('Users') }}</a>
                                         </li>
@@ -936,7 +1697,7 @@ body, html {
                                         </a>
                                     </li>
 
-                                    @if(in_array(Auth::user()->role_id, [1,4,11,12]))
+                                    @if(in_array(Auth::user()->role_id, [1,4,11,12,7]))
                                         <li class="nav-item text-center">
                                             <a style=" font-size: 1.4rem;" class="text-center nav-link" href="{{ url('/users') }}">{{ __('Users') }}</a>
                                         </li>
@@ -950,9 +1711,23 @@ body, html {
 
                                     <li class=" text-center nav-item">
                                         <a style="font-size: 1.4rem;" class="text-center nav-link" href="{{ url('/projects') }}">
-                                            {{ __('Projects') }}
+                                            {{ __('مشاريعنا') }}
                                         </a>
                                     </li>
+
+
+
+
+                                    @auth
+                                        @if(!in_array(Auth::user()->role_id, [1,4,11,12,7]))
+                                            <li class="nav-item mx-2">
+                                                <a class="nav-link" 
+                                                href="{{ route('users.attachments.create', ['id' => Auth::id(), 'type' => 'users']) }}">
+                                                    📁 مستنداتي
+                                                </a>
+                                            </li>
+                                        @endif
+                                    @endauth
 
 
                                     
@@ -1067,9 +1842,21 @@ body, html {
 
                                     🔔
 
-                                    @if((isset($expiringAttachments) && $expiringAttachments->count())||(isset($expiringProjects) && $expiringProjects->count()))
+                                    @if(
+                                        (isset($expiringAttachments) && $expiringAttachments->count())
+                                        ||
+                                        (isset($expiringProjects) && $expiringProjects->count())
+                                        ||
+                                        (isset($messageNotifications) && $messageNotifications->count())
+                                    )
                                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                                            {{ ($expiringAttachments->count() ?? 0) + ($expiringProjects->count() ?? 0) }}
+                                            {{
+    ($expiringAttachments->count() ?? 0)
+    +
+    ($expiringProjects->count() ?? 0)
+    +
+    ($messageNotifications->count() ?? 0)
+}}
                                         </span>
                                     @endif
 
@@ -1114,6 +1901,68 @@ body, html {
                                     
                                     
                                     
+
+
+<li><hr class="dropdown-divider"></li>
+
+<li class="dropdown-header fw-bold">
+    الرسائل
+</li>
+
+@forelse($messageNotifications as $notification)
+
+<li>
+
+    <a class="dropdown-item small"
+       
+
+       href="{{ route('projects.messages.create', $notification->project_id) }}?reply_to={{ $notification->id }}"
+       
+       
+       >
+
+        📩
+
+        <strong style="color:#d4af37;">
+            {{ $notification->sender->name ?? '-' }}
+        </strong>
+
+        <br>
+
+        <span style="color:#d4af37;">
+
+            {{ $notification->messageType->name_ar ?? 'رسالة' }}
+
+        </span>
+
+        <br>
+
+        <small class="text-mutedd" style="color:#d4af37;">
+
+            {{ $notification->created_at->diffForHumans() }}
+
+        </small>
+
+    </a>
+
+</li>
+
+@empty
+
+<li class="dropdown-item text-mutedd small" style="color:#d4af37;">
+    لا توجد رسائل جديدة
+</li>
+
+@endforelse
+
+
+
+
+
+
+
+
+
                                     <li class="dropdown-header fw-bold">
                                         {{ __('Expiring Documents') }}
                                     </li>
@@ -1123,13 +1972,13 @@ body, html {
                                             <a class="dropdown-item small"
                                             href="{{ url('/users/' . Auth::id() . '/attachments/create?type=users') }}">
                                                 📄 <strong>{{ $file->file_name }}</strong><br>
-                                                <span class="text-muted">
+                                                <span class="text-mutedd" style="color:#d4af37;">
                                                     {{ optional($file->expiration_date)->format('d M Y') }}
                                                 </span>
                                             </a>
                                         </li>
                                     @empty
-                                        <li class="dropdown-item text-muted small">
+                                        <li class="dropdown-item text-mutedd small" style="color:#d4af37;">
                                             {{ __('No expiring documents') }}
                                         </li>
                                     @endforelse
@@ -1209,196 +2058,353 @@ body, html {
 
 
 
-{{-- ✅ حط هنا كود لوحة المشروع --}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @if(isset($project))
-<div class="project-panel-full">
+<!-- <div class="project-cards-grid">
 
-    
-    <div class="project-panel-body-full">
+    @if(isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7]))
+        <a href="{{ route('projects.edit', $project->id) }}" class="project-card {{ Route::currentRouteName() == 'projects.edit' ? 'active' : '' }}">
+            <i class="fas fa-edit fa-2x"></i>
+            <span>تعديل المشروع</span>
+        </a>
+
+        <a href="{{ url('projects/'.$project->id.'/tender-contractors') }}" class="project-card {{ Route::currentRouteName() == 'projects.tender.contractors' ? 'active' : '' }}">
+            <i class="fas fa-users fa-2x"></i>
+            <span>المقاولين المرشحين</span>
+        </a>
+    @endif
+
+    @if((isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2])) || (isset($project) && $project->contractor_id == auth()->user()->id))
+        <a href="{{ route('projects.baladya-approvals.index', ['project' => $project->id]) }}" class="project-card {{ Route::currentRouteName() == 'projects.baladya-approvals.index' && !request('isDesignsApproved') ? 'active' : '' }}">
+            <i class="fas fa-check-circle fa-2x"></i>
+            <span>اعتمادات البلدية</span>
+        </a>
+
+        <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=tender') }}" class="project-card {{ request('mode') == 'tender' ? 'active' : '' }}">
+            <i class="fas fa-file-contract fa-2x"></i>
+            <span>المناقصة</span>
+        </a>
+
+        <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=contractor_files') }}" class="project-card {{ request('mode') == 'contractor_files' ? 'active' : '' }}">
+            <i class="fas fa-hard-hat fa-2x"></i>
+            <span>عقود المقاول</span>
+        </a>
+
+        <a href="{{ route('projects.schedules.batches', $project->id) }}" class="project-card {{ Route::currentRouteName() == 'projects.schedules.batches' ? 'active' : '' }}">
+            <i class="fas fa-calendar-alt fa-2x"></i>
+            <span>جداول الدفوعات</span>
+        </a>
+
+        <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=project_documents') }}" class="project-card {{ request('mode') == 'project_documents' ? 'active' : '' }}">
+            <i class="fas fa-folder-open fa-2x"></i>
+            <span>مستندات المشروع</span>
+        </a>
+
+        <a href="{{ url('projects/'.$project->id.'/baladya-approvals?isDesignsApproved=true') }}" class="project-card {{ request('isDesignsApproved') ? 'active' : '' }}">
+            <i class="fas fa-drafting-compass fa-2x"></i>
+            <span>المخططات المعتمدة</span>
+        </a>
+
+          <a href="{{ route('projects.messages.index', $project->id) }}" 
+        class="project-card {{ Route::currentRouteName() == 'projects.messages.index' ? 'active' : '' }}">
+            <i class="fas fa-envelope fa-2x"></i>
+            <span>الرسائل والتنبيهات</span>
+        </a> 
+    @endif
+
+    @if(isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2]))
+        <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}" class="project-card {{ request()->is('users/*/attachments/create') && !request('mode') ? 'active' : '' }}">
+            <i class="fas fa-file-signature fa-2x"></i>
+            <span>عقود الاستشاري</span>
+        </a>
+
+        <a href="{{ url('#') }}" class="project-card">
+            <i class="fas fa-cogs fa-2x"></i>
+            <span>الاشراف</span>
+        </a>
+
+        <a href="{{ url('#') }}" class="project-card">
+            <i class="fas fa-pencil-alt fa-2x"></i>
+            <span>التصميم</span>
+        </a>
+
+
 
         
+    @endif
 
-        <div class="project-actions-scroll">
-            <div class="project-actions-full">
-            @if(isset($project) && in_array(auth()->user()->role_id, [1,4,11,12]))
-                <a href="{{ route('users.index') }}" class="panel-btn-full">
-                    <i class="far fa-users"></i>
-                    المستخدمين
-                </a>
-            
-
-            <a href="{{ route('projects.edit', $project->id) }}"
-                class="panel-btn-full {{ Route::currentRouteName() == 'projects.edit' ? 'active' : '' }}">
-                    <i class="far fa-folder"></i>
-                    تعديل المشروع
-                </a>
-
-
-
-                <a href="{{ url('projects/'.$project->id.'/tender-contractors') }}"
-   class="panel-btn-full {{ request('mode') == 'tenderr' ? 'active' : '' }}">
-    <i class="fas fa-clipboard-list"></i>
-    المقاولين المرشحين
-</a>
-
-
-
-
-            @endif
-
-
-@if((isset($project) && in_array(auth()->user()->role_id, [1,4,11,12]))||(isset($project) && $project->contractor_id==auth()->user()->id))
-            
-            
-            <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}"
-                class="panel-btn-full {{ request()->is('users/*/attachments/create') && !request('mode') ? 'active' : '' }}">
-                    <i class="fas fa-clipboard-list"></i>
-                    عقود الاستشاري
-                </a>
-
-            
-
-<a href="{{ route('projects.baladya-approvals.index', ['project' => $project->id]) }}"
-   class="panel-btn-full {{ Route::currentRouteName() == 'projects.baladya-approvals.index' ? 'active' : '' }}">
-    <i class="fas fa-clipboard-list"></i>
-    اعتمادات البلدية
-</a>
-
-            <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=tender') }}"
-   class="panel-btn-full {{ request('mode') == 'tender' ? 'active' : '' }}">
-    <i class="fas fa-clipboard-list"></i>
-    المناقصة
-</a>
-
-
-
-
-            <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=contractor_files') }}"
-   class="panel-btn-full {{ request('mode') == 'contractor_files' ? 'active' : '' }}">
-    <i class="fas fa-clipboard-list"></i>
-    عقود المقاول
-</a>
-
-<a href="{{ route('projects.project-payments.index', ['project' => $project->id]) }}"
-   class="panel-btn-full {{ Route::currentRouteName() == 'projects.project-payments.index' ? 'active' : '' }}">
-    <i class="fas fa-clipboard-list"></i>
-    دفعات المشروع
-</a>
+</div> -->
 
 
 
 
 
-            <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=project_documents') }}"
-            class="panel-btn-full {{ request('mode') == 'project_documents' ? 'active' : '' }}">
-                <i class="fas fa-clipboard-list"></i>
-            مستندات المشروع
-            </a>
 
 
-            <a href="{{ url('#') }}" class="panel-btn-full">
-                <i class="fas fa-clipboard-list"></i>
-                المخططات المعتمدة
-            </a>
-
-            <a href="{{ url('#') }}" class="panel-btn-full">
-                <i class="fas fa-clipboard-list"></i>
-                الرسائل والتنبيهات
-            </a>
 
 
-            <a href="{{ route('projects.index') }}" class="panel-btn-full">
-                <i class="fas fa-clipboard-list"></i>
-                    العودة إلى المشاريع
-            </a>
+
+
+
+
+
+
+
+
+
+<!-- <div onclick="window.location.href='{{ url('users/' . optional($project->ownerUser)->id . '/edit') }}'" style="cursor:pointer;" class="owner-title">
+    <i class="fas fa-user-tie me-2"></i>
+     المالك : {{ optional($project->ownerUser)->name ?? '—' }}
+</div> -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@if(isset($project))
+<div class="project-cards-grid">
+
+    {{-- تعديل المشروع --}}
+    @if(isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7]))
+        <a href="{{ route('projects.edit', $project->id) }}"
+           class="project-card {{ Route::currentRouteName() == 'projects.edit' ? 'active' : '' }}">
+            <i class="fas fa-edit fa-2x"></i>
+            <span>تعديل المشروع</span>
+        </a>
+    @endif
+
+
+    {{-- مستندات المشروع --}}
+    @if((isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2])) || ($project->contractor_id == auth()->id()))
+        <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=project_documents') }}"
+           class="project-card {{ request('mode') == 'project_documents' ? 'active' : '' }}">
+            <i class="fas fa-folder-open fa-2x"></i>
+            <span>مستندات المشروع</span>
+        </a>
+    @endif
+
+
+    {{-- عقود الاستشاري --}}
+    @if(isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2]))
+        <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}"
+           class="project-card {{ request()->is('users/*/attachments/create') && !request('mode') ? 'active' : '' }}">
+            <i class="fas fa-file-signature fa-2x"></i>
+            <span>عقود الاستشاري</span>
+        </a>
+    @endif
+
+
+    {{-- التصميم --}}
+    @if(isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2]))
+        <a href="{{ url('#') }}" class="project-card">
+            <i class="fas fa-pencil-alt fa-2x"></i>
+            <span>التصميم</span>
+        </a>
+    @endif
+
+
+    {{-- اعتمادات البلدية --}}
+    @if((isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2])) || ($project->contractor_id == auth()->id()))
+        <a href="{{ route('projects.baladya-approvals.index', ['project' => $project->id]) }}"
+           class="project-card {{ Route::currentRouteName() == 'projects.baladya-approvals.index' && !request('isDesignsApproved') ? 'active' : '' }}">
+            <i class="fas fa-check-circle fa-2x"></i>
+            <span>اعتمادات البلدية</span>
+        </a>
+    @endif
+
+
+    {{-- المخططات المعتمدة --}}
+    @if((isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2])) || ($project->contractor_id == auth()->id()))
+        <a href="{{ url('projects/'.$project->id.'/baladya-approvals?isDesignsApproved=true') }}"
+           class="project-card {{ request('isDesignsApproved') ? 'active' : '' }}">
+            <i class="fas fa-drafting-compass fa-2x"></i>
+            <span>المخططات المعتمدة</span>
+        </a>
+    @endif
+
+
+    {{-- المناقصة --}}
+    @if((isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2])) || ($project->contractor_id == auth()->id()))
+        <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=tender') }}"
+           class="project-card {{ request('mode') == 'tender' ? 'active' : '' }}">
+            <i class="fas fa-file-contract fa-2x"></i>
+            <span>المناقصة</span>
+        </a>
+    @endif
+
+
+    {{-- عقود المقاول --}}
+    @if((isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2])) || ($project->contractor_id == auth()->id()))
+        <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=contractor_files') }}"
+           class="project-card {{ request('mode') == 'contractor_files' ? 'active' : '' }}">
+            <i class="fas fa-hard-hat fa-2x"></i>
+            <span>عقود المقاول</span>
+        </a>
+    @endif
+
+
+    {{-- جدول الدفعات --}}
+    @if((isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2])) || ($project->contractor_id == auth()->id()))
+        <a href="{{ route('projects.schedules.batches', $project->id) }}"
+           class="project-card {{ Route::currentRouteName() == 'projects.schedules.batches' ? 'active' : '' }}">
+            <i class="fas fa-calendar-alt fa-2x"></i>
+            <span>طلبات الدفعات</span>
+        </a>
+    @endif
+
+
+    {{-- الاشراف --}}
+    @if(isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2]))
+        <a href="{{ route('projects.supervisions.index', $project->id) }}"
+   class="project-card {{ Route::currentRouteName() == 'projects.supervisions.index' ? 'active' : '' }}">
+            <i class="fas fa-cogs fa-2x"></i>
+            <span>الاشراف</span>
+        </a>
+    @endif
+
+
+    {{-- الرسائل والتنبيهات --}}
+    @if((isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2])) || ($project->contractor_id == auth()->id()))
+        <a href="{{ route('projects.messages.index', $project->id) }}"
+           class="project-card {{ Route::currentRouteName() == 'projects.messages.index' ? 'active' : '' }}">
+            <i class="fas fa-envelope fa-2x"></i>
+            <span>الرسائل والتنبيهات</span>
+        </a>
+    @endif
+
+
+    {{-- الانجاز --}}
+    <a href="{{ url('#') }}" class="project-card">
+        <i class="fas fa-chart-line fa-2x"></i>
+        <span>الانجاز</span>
+    </a>
+
+</div>
 @endif
 
-@if(isset($project) && in_array(auth()->user()->role_id, [1,4,11,12]))
-            
-            <a href="{{ url('#') }}" class="panel-btn-full">
-                <i class="fas fa-clipboard-list"></i>
-                الاشراف
-            </a>
-            <a href="{{ url('#') }}" class="panel-btn-full">
-                <i class="fas fa-clipboard-list"></i>
-                التصميم
-            </a>
-@endif
 
+
+
+
+
+
+<div class="d-flex flex-wrap justify-content-center gap-3 mt-3">
+
+    {{-- المالك --}}
+    <div
+        onclick="window.location.href='{{ url('users/' . optional($project->ownerUser)->id . '/edit') }}'"
+        class="project-user-card">
+
+        <div class="icon owner-icon">
+            <i class="fas fa-user-tie"></i>
+        </div>
+
+        <div>
+            <div class="small text-muted">المالك</div>
+
+            <div class="fw-bold">
+                {{ optional($project->ownerUser)->name ?? '—' }}
             </div>
         </div>
 
     </div>
-    
 
+    {{-- المقاول --}}
+    <div
+        onclick="window.location.href='{{ url('users/' . optional($project->contractorUser)->id . '/edit') }}'"
+        class="project-user-card">
 
+        <div class="icon contractor-icon">
+            <i class="fas fa-hard-hat"></i>
+        </div>
 
-</div>
-{{-- 
-<div class="project-top-bar">
+        <div>
+            <div class="small text-muted">المقاول المعتمد</div>
 
-    <!-- زر اسم المالك -->
-    <div class="top-pill">
-        <i class="fas fa-user-tie me-2"></i>
-        {{ optional($project->ownerUser)->name ?? '—' }}
+            <div class="fw-bold">
+                {{ optional($project->contractorUser)->name ?? '—' }}
+            </div>
+        </div>
+
     </div>
 
-    <!-- زر عنوان الصفحة -->
-    <div class="top-pill center-pill">
-        <i class="fas fa-folder-open me-2"></i>
-        @php
-    $routeName = Route::currentRouteName();
+    {{-- الاستشاري --}}
+    <div
+        onclick="window.location.href='{{ url('users/' . optional($project->consultantUser)->id . '/edit') }}'"
+        class="project-user-card">
 
-    $titles = [
-        'projects.edit' => 'تعديل المشروع',
-        'users.index' => 'المستخدمين',
-        'projects.baladya-approvals.index' => 'اعتمادات البلدية',
-        'projects.project-payments.index' => 'دفعات المشروع',
-    ];
+        <div class="icon consultant-icon">
+            <i class="fas fa-drafting-compass"></i>
+        </div>
 
-    // صفحات المرفقات حسب mode
-    if(request()->is('users/*/attachments/create')) {
-        if(request('mode') === 'tender') {
-            $pageTitle = 'المناقصة';
-        } elseif(request('mode') === 'contractor_files') {
-            $pageTitle = 'عقود المقاول';
-        } else {
-            $pageTitle = 'عقود الاستشاري';
-        }
-    } else {
-        $pageTitle = $titles[$routeName] ?? 'لوحة المشروع';
-    }
-@endphp
-{{ $pageTitle }}
-        <!-- <div class="top-pill center-pill">
-            <i class="fas fa-folder-open me-2"></i>
-            
-        </div> -->
+        <div>
+            <div class="small text-muted">الاستشاري</div>
+
+            <div class="fw-bold">
+                {{ optional($project->consultantUser)->name ?? '—' }}
+            </div>
+        </div>
+
     </div>
 
-    <!-- زر العودة -->
-    <a href="{{ route('projects.index') }}" class="top-pill link-pill">
-        <i class="fas fa-arrow-left me-2"></i>
-        العودة إلى المشاريع
-    </a>
-
-</div> --}}
-
-
-
-<div class="owner-title">
-    <i class="fas fa-user-tie me-2"></i>
-     المالك : {{ optional($project->ownerUser)->name ?? '—' }}
 </div>
-
-
-
-
-
 
 
 @endif
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -1483,7 +2489,7 @@ body, html {
     }
 </script>
 
-<script>
+<!-- <script>
     document.querySelectorAll('a').forEach(link => {
         link.addEventListener('click', function (e) {
             if (
@@ -1505,7 +2511,48 @@ body, html {
             });
         });
     });
+</script> -->
+
+
+
+
+
+
+
+
+
+<script>
+document.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', function () {
+        if (
+            this.getAttribute('href') &&
+            !this.getAttribute('href').startsWith('#') &&
+            !this.hasAttribute('target')
+        ) {
+            showLoader();
+        }
+    });
+});
+
+document.querySelectorAll('form').forEach(form => {
+    form.addEventListener('submit', function () {
+        showLoader();
+    });
+});
+
+// 🔥 الحل للمشكلة بتاعتك
+window.addEventListener('pageshow', function (event) {
+    if (event.persisted) {
+        hideLoader();
+    }
+});
+
+window.addEventListener('popstate', function () {
+    hideLoader();
+});
 </script>
+
+
 
 
 <script>

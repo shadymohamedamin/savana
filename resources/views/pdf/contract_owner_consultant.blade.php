@@ -7,19 +7,19 @@
             font-family: 'amiri', serif;
             direction: rtl;
             text-align: right;
-            font-size: 15px;
+            font-size: 14px;
             line-height: 1.9;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         td, th {
             border: 1px solid #000;
-            padding: 8px;
+            padding: 4px;
             vertical-align: top;
         }
 
@@ -54,7 +54,7 @@
          .signature-table {
         width: 100%;
         border-collapse: collapse;
-        margin-top: 20px;
+        margin-top: 0px;
     }
 
     .signature-table td {
@@ -62,18 +62,18 @@
         text-align: center;
         vertical-align: middle;
         padding: 10px;
-        font-size: 14px;
+        font-size: 12px;
     }
 
     .signature-header {
         background-color: #e9e2c7;
         font-weight: bold;
-        font-size: 16px;
+        font-size: 14px;
     }
 
     .signature-space {
-        min-height: 20px;
-        height: 20px;
+        min-height: 15px;
+        height: 15px;
     }
     </style>
 </head>
@@ -92,11 +92,98 @@ $startDate = Carbon::parse($project->start_date);
 // اسم اليوم بالعربي
 $dayName = $startDate->translatedFormat('l');
 
-// التاريخ بشكل منسق بالعربي
+// التاريخ بشكل منسق بالعربي    <!-- @include('pdf.contract_header', ['project' => $project,'isBank'=>false,'showContractor' => false,'title'=>' عقد اتفاق بين المالك و الاستشاري']) -->
+
 $dateFormatted = $startDate->translatedFormat('d/m/Y'); // مثال: 07/01/2026
 @endphp
 
 
+
+
+
+
+
+
+
+
+
+
+<table>
+        <tr>
+            <td class="title" colspan="4" class="section-title">{{' عقد اتفاق بين المالك و الاستشاري'}}</td>
+        </tr>
+
+
+        
+        <!-- <tr>
+            <td colspan="3" class="center">
+                بإشرافنا نحن<br>
+                سافانا ديزاين للاستشارات الهندسية والتصميم الداخلي – رأس الخيمة<br>
+                مكتب 407 أبراج جلفار – رأس الخيمة<br>
+                525015080
+            </td>
+        </tr> -->
+
+
+
+        
+ 
+
+
+
+
+
+    <tr>
+        <td class="bold">وصف المشروع</td>
+        <td>{{ $project->projectName?->name_ar }}</td>
+
+        <td class="bold">المنطقة</td>
+        <td>{{ $project->projectRegion?->name_ar ?? '—' }}</td>
+    </tr>
+
+    <tr>
+        <td class="bold">رقم القسيمة</td>
+        <td>{{ $project->qasmia_number ?? '—' }}</td>
+
+        <td class="bold">تاريخ العقد</td>
+        <td>{{ $project->contract_signed_at?->format('Y-m-d') ?? '-' }}</td>
+    </tr>
+
+    <!-- <tr>
+        <td class="bold">قيمة المشروع</td>
+        <td>
+            {{
+                $project->bank_contract_value
+            }}
+        </td> -->
+
+        <!-- <td class="bold">تاريخ الدفعة</td>
+        <td>
+            {{ !empty($approvalCreatedAt) ? $approvalCreatedAt->format('Y-m-d') : '-' }}
+        </td> -->
+    <!-- </tr> -->
+
+</table>
+
+
+<table>
+        <tr>
+            <td colspan="3" class="section-title">تم الاتفاق بين كل من</td>
+        </tr>
+        <tr>
+            <td class="bold">الطرف الأول(المالك)</td>
+            <td colspan="2">{{ $project->ownerUser?->name ?? 'المالك' }}</td>
+        </tr>
+        <tr>
+            <td class="bold">الطرف الثاني (الاستشاري)</td>
+            <td colspan="2">سافانا ديزاين للاستشارات الهندسية</td>
+        </tr>
+    </table>
+
+
+
+
+<!-- 
 <table style="width:100%; border-collapse: collapse;">
     <tr>
         <td class="title" colspan="3" style="text-align:center; font-weight:bold; font-size:22px;">
@@ -134,7 +221,7 @@ $dateFormatted = $startDate->translatedFormat('d/m/Y'); // مثال: 07/01/2026
             ويمثلها المدير / المهندس <strong>أيمن بن حمادي</strong>.
         </td>
     </tr>
-</table>
+</table> -->
 
 <table>
     <tr><td class="section-title" colspan="3">بنود الاتفاق</td></tr>
@@ -151,11 +238,12 @@ $dateFormatted = $startDate->translatedFormat('d/m/Y'); // مثال: 07/01/2026
 
     <tr><td colspan="3">6 - أي مبالغ مدفوعة في أي مرحلة من مراحل تصميم المشروع والإشراف عليه، تكون نظيرًا للأفكار والجهد والوقت والخدمة المقدمة من قبل الطرف الثاني، ولا يحق للطرف الأول المطالبة باسترجاع تلك المبالغ.</td></tr>
 
-    <tr><td colspan="3">7 - يستحق الطرف الثاني نسبة من القيمة الإجمالية لعقد المقاولة، يدفعها مقاول المشروع أو الطرف الأول.</td></tr>
+    <tr><td colspan="3">7 -  يستحق الطرف الثاني نسبة من القيمة الإجمالية لعقد المقاولة، يدفعها مقاول المشروع أو الطرف الأول. في حال سحب المشروع قبل تنفيذ</td></tr>
 
-    <tr><td colspan="3">8 - يلتزم الطرف الأول بدفع مبلغ {{ $project->supervision_fee ?? 0 }} درهم مقابل إشراف الطرف الثاني على تنفيذ المشروع، وتدفع كمبلغ مقطوع على دفعات شهرية، غير شامل الضريبة، من بداية التنفيذ وحتى الانتهاء.</td></tr>
+    <!-- <tr><td colspan="3">8 - يلتزم الطرف الأول بدفع مبلغ {{ $project->supervision_fee ?? 0 }} درهم مقابل إشراف الطرف الثاني على تنفيذ المشروع، وتدفع كمبلغ مقطوع على دفعات شهرية، غير شامل الضريبة، من بداية التنفيذ وحتى الانتهاء.</td></tr> -->
+    <tr><td colspan="3">8 - يلتزم الطرف الأول بدفع مبلغ {{ $project->supervision_fee ?? 0 }} درهم ( غير شامل الضريبة) مقابل إشراف الطرف الثاني على تنفيذ المشروع، وتدفع كمبلغ مقطوع او على دفعات شهرية من بداية التنفيذ وحتى الانتهاء، وذلك بغض النظر عن استمرار أو توقف العمل في الموقع</td></tr>
 
-    <tr><td colspan="3">9 - يلتزم الطرف الثاني بأن تكون الزيارات الإشرافية بمعدل أربع زيارات شهريًا، وفي حال توقف الأشغال لمدة ثلاثة أشهر أو أكثر لا يحق للطرف الثاني المطالبة بمبلغ الإشراف.</td></tr>
+    <tr><td colspan="3">9 - يلتزم الطرف الثاني بزيارات إشرافية بمعدل أربع (4) شهريًا، قابلة للزيادة أو النقصان حسب احتياجات المشروع</td></tr>
 
     <tr><td colspan="3">10 - إذا وجد أي عائق من عوائق الأرض (دفان – كابل كهرباء – تعديل تحت المنسوب) فإن الطرف الأول يتحمل تسوية الموضوع.</td></tr>
 
@@ -165,11 +253,21 @@ $dateFormatted = $startDate->translatedFormat('d/m/Y'); // مثال: 07/01/2026
 
     <tr><td colspan="3">13 - يحق للطرف الثاني (الاستشاري) نشر صور وفيديوهات المشروع.</td></tr>
 
-    <tr><td colspan="3">14 - يحق للطرف الأول تغيير الاستشاري أثناء التنفيذ فقط، وفي حال الإنهاء قبل التنفيذ يلتزم بدفع المستحقات الخاصة بأعمال التصميم.</td></tr>
+    <tr>
+    <td colspan="3">
+        14 -  يحق للطرف الأول تغيير الطرف الثاني (الاستشاري) أثناء تنفيذ مشروع البناء، وليس قبل ذلك بأي حال من الأحوال ،و في حال الطرف الاول قرر عدم مواصلة المشروع قبل 
+مرحلة التنفيذ يلتزم بدفع باقي المبالغ المستحقة و يكون المبلغ المدفوع في البند 2 نظير اعمال التصاميم المبدئية فقط مع الاحتفاظ بحقوق التصميم.
+    </td>
+
+<!-- <tr><td colspan="3">15 - زيارات إشرافية بمعدل أربع (4) شهريًا، قابلة للزيادة أو النقصان حسب احتياجات المشروع والموقع ومتطلبات المقاول.</td></tr>
+<tr><td colspan="3">16 - عند توقف العمل بالموقع، لا تُستحق رسوم الإشراف إلا في حال وجود أعمال مكتبية أو تنسيقية تُعد بديلاً عن الإشراف.</td></tr> -->
+
+    
+</tr>
 </table>
+    
 
-
-<table style="width:100%; border-collapse:collapse; margin-top:20px; margin-bottom:50px;">
+<table style="width:100%; border-collapse:collapse; margin-top:0px; margin-bottom:50px;">
     <tr>
         
         <td class="bold center section-title" style="text-align:center; font-weight:bold;">

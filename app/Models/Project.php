@@ -53,6 +53,8 @@ class Project extends Model
         'financing_type',
         'contract_signed_at',
         'project_image',
+        'container_contract_value',
+        'approved_area_license',
 
 
 
@@ -60,7 +62,8 @@ class Project extends Model
         'approved_area',
         'linear_meter_area',
         'project_bank_support',
-        'project_owner_support'
+        'project_owner_support',
+        'advance_payment_value'
         
         
     ];
@@ -77,6 +80,7 @@ class Project extends Model
         'end_date'      => 'date',
         'contractor_contract_end_date' => 'date',
         'contract_signed_at' => 'date',
+        'container_contract_value' => 'integer',
     ];
 
     /**
@@ -124,6 +128,9 @@ class Project extends Model
             ->withPivot('role_id')
             ->withTimestamps();
     }*/
+
+
+            
 public function users()
 {
     return $this->belongsToMany(User::class, 'project_users')
@@ -138,10 +145,32 @@ public function users()
             'boundaryWall',
             'villaWithWall',
             'vat',
-            'finalTotal'
+            'finalTotal',
+            'tender_status'
         ])
         ->withTimestamps();
 }
+
+
+
+
+
+/*public function supervisions()
+{
+    return $this->hasMany(ProjectSupervision::class);
+}*/
+
+public function supervisions()
+{
+    return $this->hasMany(\App\Models\ProjectSupervision::class, 'project_id');
+}
+
+
+public function schedules()
+{
+    return $this->hasMany(\App\Models\ProjectSchedule::class);
+}
+
 
 
 
@@ -302,7 +331,11 @@ public function ownerRequirementsTenderTotal()
 }
 
 
-
+public function latestApproval()
+{
+    return $this->hasOne(\App\Models\BaladyaApproval::class)
+                ->latestOfMany();
+}
 
 
 

@@ -1,6 +1,80 @@
 @extends('layouts.app')
 
 @section('content')
+
+
+
+
+
+
+
+
+
+<style>
+/* container */
+.contract-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); /* إنشاء شبكة مرنة للكروت */
+    gap: 16px;
+    background: #f5f5dc;
+    padding: 15px;
+}
+
+/* box */
+.contract-box{
+    background: white;
+    border: 1px solid #e5e5e5;
+    border-radius: 10px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 170px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    transition: 0.2s;
+}
+
+.contract-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+/* title */
+.contract-box span {
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+/* buttons */
+.contract-box .btn {
+    width: 100%;
+}
+
+/* button styles */
+.btn-olive {
+    background-color: #d4af37; /* اللون الزيتوني */
+    border: 1px solid #2f3a1f;
+    color: #2f3a1f;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+}
+
+.btn-olive:hover {
+    background-color: #3e4a29;
+    border-color: #d4af37;
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 18px rgba(212, 175, 55, 0.35);
+}
+
+</style>
+
+
+@if(!request('isDesignsApproved'))
+
 <section class="content-header">
     <div class="container-fluid">
         <h3>{{ __('Edit') }} {{ __('Baladya Approval') }}</h3>
@@ -257,6 +331,16 @@
                class="btn btn-secondary btn-sm">{{ __('Back') }}</a>
         </div> -->
 
+
+
+
+
+
+
+
+
+
+
         <div class="card-footer d-flex justify-content-center gap-3">
             {!! Form::submit(__('حفظ'), [
                 'class' => 'btn btn-olive btn-sm',
@@ -265,6 +349,51 @@
             <a href="{{ route('projects.baladya-approvals.index', $projectId) }}?owner_id={{ request('owner_id') }}"
                class="btn btn-secondary btn-sm">{{ __('List') }}</a>
         </div>
+
+
+@endif
+
+
+@if(request('isDesignsApproved'))
+<div class="card shadow-sm rounded-4 mt-4" style="background-color:#f5f5dc;margin:40px;padding:0px;">
+    <div class="card-header" style="background:#D4AF37;color:#2f3a1f;font-size:1.3rem;font-weight:600;">
+        <h4 class="card-title mb-0">{{ __('الملفات المعتمدة') }}</h4>
+    </div>
+    <div class="card-body contract-grid" style="background-color: #f5f5dc;">
+        @php
+            $files = [
+                'مخطط صرف صحي' => $baladyaApproval->approved_file,
+                'رخصة البناء' => $baladyaApproval->building_license_file,
+                'مخطط معماري' => $baladyaApproval->architect_file,
+                'مخطط انشائي' => $baladyaApproval->civil_file,
+                'مخطط كهربا' => $baladyaApproval->electrical_file,
+                'مخطط ماي' => $baladyaApproval->water_file,
+                'مخطط اتصالات' => $baladyaApproval->etisalat_file,
+            ];
+        @endphp
+
+        @foreach($files as $name => $file)
+            @if($file)
+                <div class="contract-box">
+                    <span class="mb-1">{{ $name }}</span>
+                    <a target="_blank" href="{{ asset('Files/' . $file) }}" class="btn btn-outline-primary btn-sm mb-1">
+                        👁 معاينة
+                    </a>
+                    <a href="{{ asset('Files/' . $file) }}" class="btn btn-success btn-sm mb-1">
+                        ⬇ تعديل
+                    </a>
+                    <a target="_blank" href="{{ asset('Files/' . $file) }}" class="btn btn-warning btn-sm">
+                        🖨 طباعة
+                    </a>
+                </div>
+            @endif
+        @endforeach
+    </div>
+</div>
+
+@endif
+
+
 
 
         {!! Form::close() !!}

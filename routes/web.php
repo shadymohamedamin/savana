@@ -25,6 +25,11 @@ use App\Http\Controllers\ProjectPaymentController;
 use App\Http\Controllers\BaladyaStatusTypeController;
 use App\Http\Controllers\OwnerRequirementController;
 use App\Http\Controllers\ProjectOwnerRequirementController;
+use App\Http\Controllers\ProjectScheduleController;
+use App\Http\Controllers\ProjectMessageController;
+use App\Models\Project;            // ✅ أهم سطر
+use App\Models\ProjectSchedule;   // ✅
+use App\Http\Controllers\ProjectSupervisionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -39,7 +44,8 @@ use App\Http\Controllers\ProjectOwnerRequirementController;
 
 /*Route::get('/user-with-primary/{uae_id}', function ($uae_id) {
     $user = App\Models\User::with('primaryData')->where('uae_id', $uae_id)->first();
-
+lkdsnv /lasdkvlb a/lsdkh laksdcy /l;smdcu 
+.lkadcy lkmcdyslk asdlckny asdcklnyasdc lknlkabsdcy WL/EKUBZC KJBCVI ASDKJBT ZSDLKVBU .KJBVY ASDJBCY ASDC.,KCUY  ASD.KJBCY ASDCKLJBY WElO SDV MHVZXCVU AW/.,NSVY ZC,.MNVERU SDF/.,NXCVU ZC/.,NUSDFV ASDKJY ZCVLKNYASDBOP  DFV/KLNU FLKBASDY LKDNCY .KJBCY SDC/LKY sdkly 
     if (!$user) {
         return response()->json(['error' => 'User not found'], 404);
     }
@@ -51,11 +57,14 @@ use App\Http\Controllers\ProjectOwnerRequirementController;
 });*/
 
 //home
-/*Route::get('/', function () {
-    return redirect(Auth::check() ? '/projects' : '/login');
-});*/
-Route::get('/', function () {
-    return redirect()->route('projects.index');
+// Route::get('/', function () {
+//     return redirect(Auth::check() ? '/home' : '/login');
+// });
+// Route::get('/', function () {
+//     return redirect()->route('projects.index');
+// });
+ Route::get('/', function () {
+     return redirect('/home');
 });
 Route::get('/two-factor-challenge', [AuthenticatedSessionController::class, 'showTwoFactorChallengeForm']);
 
@@ -137,6 +146,137 @@ Route::middleware(['auth', 'checkRole:co-admin,admin'])->group(function () {
     //Route::resource('primary_datas', App\Http\Controllers\PrimaryDataController::class);
 });
 Route::middleware(['auth'])->group(function () {
+
+
+
+Route::post(
+    '/projects/{id}/messages/preview',
+    [ProjectMessageController::class, 'previewPdf']
+)->name('projects.messages.preview');
+
+
+/*Route::prefix('projects/{project}')
+    ->name('projects.supervisions.')
+    ->group(function () {
+
+        Route::get(
+            'supervisions',
+            [ProjectSupervisionController::class, 'index']
+        )->name('index');
+
+        Route::get(
+            'supervisions/create',
+            [ProjectSupervisionController::class, 'create']
+        )->name('create');
+
+        Route::post(
+            'supervisions',
+            [ProjectSupervisionController::class, 'store']
+        )->name('store');
+
+        Route::get(
+            'supervisions/{supervision}/edit',
+            [ProjectSupervisionController::class, 'edit']
+        )->name('edit');
+
+        Route::put(
+            'supervisions/{supervision}',
+            [ProjectSupervisionController::class, 'update']
+        )->name('update');
+
+        Route::delete(
+            'supervisions/{supervision}',
+            [ProjectSupervisionController::class, 'destroy']
+        )->name('destroy');
+
+    });*/
+Route::prefix('projects/{project}')->group(function () {
+
+    Route::get('supervisions', [ProjectSupervisionController::class, 'index'])
+        ->name('projects.supervisions.index');
+
+    Route::get('supervisions/create', [ProjectSupervisionController::class, 'create'])
+        ->name('projects.supervisions.create');
+
+    Route::post('supervisions', [ProjectSupervisionController::class, 'store'])
+        ->name('projects.supervisions.store');
+
+    Route::get('supervisions/{id}/edit', [ProjectSupervisionController::class, 'edit'])
+        ->name('projects.supervisions.edit');
+
+    Route::patch('supervisions/{id}', [ProjectSupervisionController::class, 'update'])
+        ->name('projects.supervisions.update');
+
+
+    Route::delete('supervisions/{id}', [ProjectSupervisionController::class, 'destroy'])
+        ->name('projects.supervisions.destroy');
+
+
+
+});
+
+
+Route::get(
+    '/projects/{project}/messages/{message}/show',
+    [ProjectMessageController::class, 'show']
+)->name('projects.messages.show');
+
+
+Route::delete('projects/messages/{id}', [ProjectMessageController::class, 'destroy'])
+    ->name('projects.messages.destroy');
+
+Route::prefix('projects/{project}/messages')->group(function () {
+
+    Route::get('/', [ProjectMessageController::class, 'index'])->name('projects.messages.index');
+
+    Route::get('/create', [ProjectMessageController::class, 'create'])->name('projects.messages.create');
+
+    Route::post('/', [ProjectMessageController::class, 'store'])->name('projects.messages.store');
+
+});
+
+
+
+
+
+
+
+
+
+Route::get('projects/{project}/table', [ProjectController::class, 'showTable'])->name('projects.table');
+
+
+Route::delete('/projects/{project}/schedule/batch/{batch}', 
+    [ProjectScheduleController::class, 'deleteBatch']
+)->name('projects.schedule.deleteBatch');
+
+
+Route::post('/projects/schedule/approve', [ProjectScheduleController::class, 'approve']);
+
+
+
+
+Route::get('/projects/{project}/schedules-batches', [ProjectScheduleController::class, 'batches'])
+    ->name('projects.schedules.batches');
+
+Route::get('/projects/{project}/schedule/new-batch', [ProjectScheduleController::class, 'createNewBatch'])
+    ->name('projects.schedule.newBatch');
+
+
+
+Route::get('/projects/{id}/schedule-pdf', [ProjectController::class, 'projectSchedulePdf'])
+    ->name('projects.schedule.pdf');
+
+Route::get('/projects/{project}/schedule', [ProjectScheduleController::class, 'index'])
+    ->name('projects.schedule');
+
+Route::post('/projects/{project}/schedule', [ProjectScheduleController::class, 'store'])
+    ->name('projects.schedule.store');
+
+
+
+
+
 
 Route::post(
     '/projects/{project}/tender/{contractor}/award',
@@ -264,6 +404,14 @@ Route::get(
 Route::get('/projects/{id}/contract-owner-requirements', 
     [App\Http\Controllers\ProjectController::class, 'ownerRequirementContractPdf']
 )->name('projects.contract.owner-requirements.pdf');
+
+
+
+Route::get(
+    '/projects/{id}/contract-message',
+    [App\Http\Controllers\ProjectController::class, 'messageContractPdf']
+)->name('projects.contract.message.pdf');
+
 
 
 
@@ -525,3 +673,9 @@ Route::get('/reset-password/{token}', function ($token) {
 
 
 Route::resource('owner-requirment-tender-totals', App\Http\Controllers\OwnerRequirmentTenderTotalController::class);
+Route::resource('project-schedules', App\Http\Controllers\ProjectScheduleController::class);
+Route::resource('project-schedule-approvals', App\Http\Controllers\ProjectScheduleApprovalController::class);
+Route::resource('message-types', App\Http\Controllers\MessageTypeController::class);
+Route::resource('project-messages', App\Http\Controllers\ProjectMessageController::class);
+Route::resource('project-supervisions', App\Http\Controllers\ProjectSupervisionController::class);
+Route::resource('supervision-types', App\Http\Controllers\SupervisionTypeController::class);

@@ -424,14 +424,17 @@ body{
                 المشروع: <strong>{{ $project->projectName?->name_ar }}</strong> |
                 المالك: <strong>{{ $project->ownerUser?->name ?? '—' }}</strong> |
                 رقم القسيمة: <strong>{{ $project->qasmia_number ?? '—' }}</strong> |
-                المنطقة: <strong>{{ $project->projectRegion?->name_ar ?? '—' }}</strong>
-                
+                المنطقة: <strong>{{ $project->projectRegion?->name_ar ?? '—' }}</strong> |
+
+                المساحة المعتمدة من البلدية: <strong>{{ $project->approved_area ?? '—' }}</strong> |
+                المساحة المعتمدة من الرخصة: <strong>{{ $project->approved_area_license ?? '—' }}</strong> |
+                مساحة السور بالمتر الطولي: <strong>{{ $project->linear_meter_area ?? '—' }}</strong>
             </small>
         </div>
 
         
         <div class=" d-flex justify-content-between align-items-center gap-2">
-            @if (in_array(auth()->user()->role_id, [1,4,11,12]))
+            @if (in_array(auth()->user()->role_id, [1,4,11,12,7]))
             <a href="{{ route('projects.tender.contractors', $project->id) }}"
                 class="btn btn-olive px-4 btn-sm"
                 style="background:#d4af37;color:#2f3a1f;font-weight:700;font-size:1rem;">
@@ -1162,7 +1165,7 @@ $groupIndex=0;
 </tr>
 
 <tr>
-<td colspan="2">سعر الفيلا مع السور</td>
+<td colspan="2">سعر الفيلا مع السور مع الواجهات </td>
 <td id="villaWithWallCard">0.00</td>
 </tr>
 
@@ -1222,7 +1225,7 @@ $groupIndex=0;
 </tr>
 
 <tr>
-    <td colspan="2" style="font-weight: 700;font-size:1.4rem;">سعر الفيلا مع السور</td>
+    <td colspan="2" style="font-weight: 700;font-size:1.4rem;">سعر الفيلا مع السور مع الواجهات </td>
     <td id="villaWithWall" style="font-weight: 700;font-size:1.4rem;">0.00</td>
 </tr>
 
@@ -1474,7 +1477,7 @@ function calculateAll() {
     let structureElectro = (groupsTotals[0] || 0) + (groupsTotals[1] || 0);
     let structureWithFinishes = structureElectro + (groupsTotals[2] || 0);
     let boundaryWall = groupsTotals[groupsTotals.length - 1] || 0;
-    let villaWithWall = structureWithFinishes + boundaryWall;
+    let villaWithWall = structureWithFinishes + boundaryWall + groupsTotals[3];
     let vat = villaWithWall * 0.05;
     let finalTotal = villaWithWall + vat;
 
@@ -1733,7 +1736,9 @@ document.querySelector('.main-save-btn').addEventListener('click', function(e){
 
 
 
-
+@php
+    $contractor1 = \App\Models\User::find(request('contractor'));
+@endphp
 
 
 @foreach($groups as $group)
@@ -1779,10 +1784,10 @@ document.querySelector('.main-save-btn').addEventListener('click', function(e){
                             
                             <td style="font-weight: 700;font-size:1.2rem;">{{ $item->unit }}</td>
                             <td>
-                                <input type="number" name="requirements[{{ $item->id }}][quantity]" value="{{ $qty }}"  class="form-control qty" />
+                                <input type="number" name="requirements[{{ $item->id }}][quantity]" value="{{ $qty }}"  class="form-control qty" {{ $contractor1 ? '' : 'readonly' }}/>
                             </td>
                             <td>
-                                <input type="number" name="requirements[{{ $item->id }}][unit_price]" value="{{ $price }}"  class="form-control price" />
+                                <input type="number" name="requirements[{{ $item->id }}][unit_price]" value="{{ $price }}"  class="form-control price"  {{ $contractor1 ? 'readonly' : '' }}/>
                             </td>
                             <td style="font-weight: 700;font-size:1.2rem;" class="total">{{ number_format($total, 2) }}</td>
                             <td>

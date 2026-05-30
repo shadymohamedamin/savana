@@ -118,7 +118,7 @@
 @php
     $type = request('type');
     $isTender = request('mode') === 'tender';
-    $isDesigns== request('mode') === 'designs';
+    $isDesigns= request('mode') === 'designs';
     $isCotractorFiles=request('mode') === 'contractor_files';
     $projectDocuments=request('mode') === 'project_documents';
 
@@ -135,7 +135,7 @@
     <!-- <h3>{{ __('Manage Attachments for') }}: {{ $model->name }}</h3> -->
 
 
-@if (in_array(auth()->user()->role_id, [1,4,11,12]))
+@if (in_array(auth()->user()->role_id, [1,4,11,12,7]))
     <div></div>
     <!-- <h3>
         {{ $isEdit ? __('Edit Attachments for') : __('Manage Attachments for') }}
@@ -195,8 +195,22 @@
     <div class="card-header    d-flex justify-content-between align-items-center" style="background:#d4af37">
         <span style="font-weight: 700;">{{ __('معاينة وطباعة المستندات ') }}</span>
   
+        @if($isCotractorFiles&&in_array(Auth::user()->role_id, [1,4,11,12,7]))
 
-        @if($isTender&&in_array(Auth::user()->role_id, [1,4,11,12]))
+
+        <div class="flex justify-start" style="gap: 1rem;">
+            <a href="{{ route('projects.schedule.newBatch', $project->id) }}"
+            class="btn btn-olive px-4 btn-sm"
+                    style="background:#d4af37;color:#2f3a1f;font-weight:700;font-size:1rem;">
+                <i class="fas fa-plus"></i> طلب دفعة 
+            </a>
+            <a href="{{ route('projects.schedules.batches', $project->id) }}"
+                class="btn btn-olive px-4 btn-sm"  
+                style="background:#d4af37;color:#2f3a1f;font-weight: 700; margin-right: 1rem;">
+                    <i class="fas fa-users"></i>  جداول الدفوعات 
+            </a>
+        </div>
+        @elseif($isTender&&in_array(Auth::user()->role_id, [1,4,11,12,7]))
         <div class="flex justify-start" style="gap: 1rem;">
             
             <a href="{{ route('projects.tender.contractors', $model->id) }}"
@@ -217,7 +231,7 @@
                     <i class="fas fa-file-signature"></i> حساب الكميات
             </a> --}}
         </div>
-        @elseif(!$isCotractorFiles&&!$projectDocuments&&$type='projects'&&in_array(Auth::user()->role_id, [1,4,11,12]))
+        @elseif(!$isCotractorFiles&&!$projectDocuments&&$type='projects'&&in_array(Auth::user()->role_id, [1,4,11,12,7]))
         <a href="{{ route('projects.owner-requirements.index', ['project' => $model->id]) }}" class="btn btn-olive px-4 btn-sm"
                 style="background:#d4af37;color:#2f3a1f; font-weight: 700;margin-right: 1rem;">
                 <i class="fas fa-clipboard-list"></i>
@@ -295,7 +309,9 @@
     'id' => $model->id, 
     'action' => 'preview',
     'context'=>'pricing',
-    'contractor'=>$model->contractor_id
+    'contractor' => auth()->user()->role_id == 3 
+    ? auth()->id() 
+    : ($model->contractor_id ?? null)
 ]) }}" class="btn btn-outline-primary btn-sm mb-1">
     👁 {{ __('Preview') }}
 </a>
@@ -303,7 +319,9 @@
 <a href="{{ route('projects.contract.pricing.pdf', [
     'id' => $model->id, 
     'action' => 'download',
-    'contractor'=>$model->contractor_id
+    'contractor' => auth()->user()->role_id == 3 
+    ? auth()->id() 
+    : ($model->contractor_id ?? null)
 ]) }}" class="btn btn-success btn-sm mb-1">
     ⬇ {{ __('Download') }}
 </a>
@@ -311,12 +329,64 @@
 <a target="_blank" href="{{ route('projects.contract.pricing.pdf', [
     'id' => $model->id, 
     'action' => 'print',
-    'contractor'=>$model->contractor_id
+    'contractor' => auth()->user()->role_id == 3 
+    ? auth()->id() 
+    : ($model->contractor_id ?? null)
 ]) }}" class="btn btn-warning btn-sm">
     🖨 {{ __('Print') }}
 </a>
 
             </div>
+
+
+
+
+
+
+
+
+@php
+$lastBatchId = \App\Models\ProjectSchedule::where('project_id', $project->id)
+    ->max('batch_id') ?? 1;
+@endphp
+
+<div class="contract-box">
+    <span class="mb-1">📊 جدول مراحل المشروع</span>
+
+
+
+    <a href="{{ route('projects.schedule', ['project' => $project->id, 'batch_id' => $lastBatchId]) }}"
+                class="btn btn-warning btn-sm mb-1 edit-btn">
+                ✏️ {{ __('تعديل') }}
+                </a>
+
+
+
+
+    <a target="_blank"
+       href="{{ route('projects.schedule.pdf', [
+        'id' => $project->id,
+        'batch_id' => $lastBatchId,
+        'action' => 'preview'
+   ]) }}"
+       class="btn btn-outline-primary btn-sm mb-1">
+        👁 معاينة
+    </a>
+
+    <a href="{{ route('projects.schedule.pdf', [
+        'id' => $project->id,
+        'batch_id' => $lastBatchId,
+        'action' => 'download'
+   ]) }}"
+       class="btn btn-success btn-sm mb-1">
+        ⬇ تحميل
+    </a>
+
+ 
+</div>
+
+
+
 
 
             <div class="contract-box">
@@ -332,7 +402,9 @@
     'id' => $model->id, 
     'action' => 'preview',
     'context'=>'tender',
-    'contractor'=>$model->contractor_id
+    'contractor' => auth()->user()->role_id == 3 
+    ? auth()->id() 
+    : ($model->contractor_id ?? null)
 ]) }}" class="btn btn-outline-primary btn-sm mb-1">
     👁 {{ __('Preview') }}
 </a>
@@ -340,7 +412,9 @@
 <a href="{{ route('projects.contract.tender.pdf', [
     'id' => $model->id, 
     'action' => 'download',
-    'contractor'=>$model->contractor_id
+    'contractor' => auth()->user()->role_id == 3 
+    ? auth()->id() 
+    : ($model->contractor_id ?? null)
 ]) }}" class="btn btn-success btn-sm mb-1">
     ⬇ {{ __('Download') }}
 </a>
@@ -348,7 +422,9 @@
 <a target="_blank" href="{{ route('projects.contract.tender.pdf', [
     'id' => $model->id, 
     'action' => 'print',
-    'contractor'=>$model->contractor_id
+    'contractor' => auth()->user()->role_id == 3 
+    ? auth()->id() 
+    : ($model->contractor_id ?? null)
 ]) }}" class="btn btn-warning btn-sm">
     🖨 {{ __('Print') }}
 </a>
@@ -365,6 +441,23 @@
                     🖨 {{ __('Print') }}
                 </a> -->
                 @elseif(Auth::user()->role_id==3)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 <a href="{{ route('projects.owner-requirements.index', [
                         'project'=>$model->id,
                         'context'=>'tender',
@@ -374,17 +467,29 @@
                 ✏️ {{ __('تعديل') }}
                 </a>
 
-                 <a target="_blank" href="{{ route('projects.contract.tender.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
+                 <a target="_blank" 
+
+                    href="{{ route('projects.contract.tender.pdf', [
+                        $model->id,
+                        'action' => 'preview',
+                        'contractor' => auth()->user()->role_id == 3 
+    ? auth()->id() 
+    : ($model->contractor_id ?? null)
+                    ]) }}"
+                    
+                    class="btn btn-outline-primary btn-sm mb-1">
                     👁 {{ __('معاينة') }}
                 </a>
 
-                <a href="{{ route('projects.contract.tender.pdf', ['id' => $model->id, 'action' => 'download']) }}" class="btn btn-success btn-sm mb-1">
+                <a href="{{ route('projects.contract.tender.pdf', ['id' => $model->id, 'action' => 'download','contractor' => auth()->user()->role_id == 3 
+    ? auth()->id() 
+    : ($model->contractor_id ?? null)]) }}" class="btn btn-success btn-sm mb-1">
                     🖨 {{ __('تحميل') }}
                 </a>
                 @endif
             </div>
-<!-- !in_array(auth()->user()->role_id, [1,4,11,12]) && -->
-            @if($isTender) 
+<!-- !in_array(auth()->user()->role_id, [1,4,11,12,7]) && -->
+            @if($isTender||$isDesigns) 
                 @foreach($rows as $row)
                     @php
                         $typeId = $row['type_id'];
@@ -597,7 +702,7 @@
 
         
             <div class="contract-box">
-            <span class="mb-1">{{ __('Site Delivery Contract') }}</span>
+            <span class="mb-1">{{ __('وثيقة تسليم الموقع') }}</span>
 
             <a target="_blank" href="{{ route('projects.contract.site_delivery.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">
                 👁 {{ __('Preview') }}
@@ -700,6 +805,31 @@
                                 @endif
                     </div>
                 @endforeach
+
+
+
+
+
+                <div class="contract-box">
+    <span class="mb-1">📊 جدول مراحل المشروع</span>
+
+    <a target="_blank"
+       href="{{ route('projects.schedule.pdf', ['id' => $project->id, 'action' => 'preview']) }}"
+       class="btn btn-outline-primary btn-sm mb-1">
+        👁 معاينة
+    </a>
+
+    <a href="{{ route('projects.schedule.pdf', ['id' => $project->id, 'action' => 'download']) }}"
+       class="btn btn-success btn-sm mb-1">
+        ⬇ تحميل
+    </a>
+
+    <a target="_blank"
+       href="{{ route('projects.schedule.pdf', ['id' => $project->id, 'action' => 'print']) }}"
+       class="btn btn-warning btn-sm">
+        🖨 طباعة
+    </a>
+</div>
 
 
 
@@ -842,7 +972,11 @@
 
 
 
-@if(in_array(auth()->user()->role_id, [3]))
+@if(
+    auth()->user()->role_id == 3 &&
+    request('type') == 'projects' &&
+    request('mode') == 'tender'
+)
 <div style="border:2px solid #0d6efd; background:#f8fbff; padding:20px; border-radius:10px; margin-bottom:20px;">
     
     <h3 style="margin-bottom:15px; color:#0d6efd; text-align: center;">
@@ -852,7 +986,7 @@
     <ol style="line-height:1.9; padding-right:20px; font-size:17px;">
         
         <li>
-            حرصًا من مكتب سافانا على التطوير المستمر وتحسين جودة خدماته، فقد تم اعتماد نظام المناقصات عبر السيستم الداخلي للمكتب، وذلك بهدف تنظيم العمل وتسهيل إجراءات الاطلاع والتسعير.
+            حرصًا من مكتب سافانا على التطوير المستمر وتحسين جودة خدماته، فقد تم اعتماد نظام المناقصات عبر النظام الداخلي للمكتب، وذلك بهدف تنظيم العمل وتسهيل إجراءات الاطلاع والتسعير.
         </li>
 
         <li>
@@ -878,11 +1012,25 @@
 </div>
 @endif
 
-@if(in_array(auth()->user()->role_id, [1,4,11,12,3])) <!-- -->
+
+
+@php
+    $canUpload = in_array(auth()->user()->role_id, [1,4,11,12,7]) 
+        || auth()->id() == $model->id;
+@endphp
+
+@if(in_array(auth()->user()->role_id, [1,4,11,12,3,7]))
     {{-- Upload attachments --}}
-    <form action="{{ route('users.attachments.store', ['id' => $model->id, 'type' => $type]) }}"
+    
+    
+    @if($canUpload)
+    <form class="opacity: {{ $canUpload ? 1 : 0 }}" action="{{ route('users.attachments.store', ['id' => $model->id, 'type' => $type]) }}"
+          method="POST"
+          enctype="multipart/form-data">
+@endif
+    <!-- <form action="{{ route('users.attachments.store', ['id' => $model->id, 'type' => $type]) }}"
       method="POST"
-      enctype="multipart/form-data">
+      enctype="multipart/form-data"> -->
 
     
 
@@ -900,7 +1048,7 @@
         </div> -->
 
 
-        <div class="card mb-4" style="background:#d4af37">
+       <div class="card mb-4" style="background:#d4af37; opacity: {{ $canUpload ? 1 : 0 }}">
             <div class="card-header    d-flex justify-content-between align-items-center" style="background:#d4af37">
                 <span>{{ __('Upload Attachments') }}</span>
                 <button type="button" id="addAttachment" class="btn btn-olive px-4 btn-sm" style="font-weight: 700;">
@@ -1020,7 +1168,7 @@
         </div> -->
 
 
-        <div class="buttons_container text-center mt-4 d-flex justify-content-center gap-3">
+        <div class="opacity: {{ $canUpload ? 1 : 0 }}  buttons_container text-center mt-4 d-flex justify-content-center gap-3">
 
             {{-- Save --}}
 <button type="submit"

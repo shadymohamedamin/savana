@@ -63,11 +63,13 @@
 
 <body>
 
-    @include('pdf.contract_header', ['project' => $project,'showContractor' => true])
+    @include('pdf.contract_header', ['project' => $project,'isBank'=>false,'showContractor' => true,'title'=>' العقد الاساسي'])
 
 
     
-
+<!-- <tr>
+            <td colspan="3" style="height:30px;"></td>
+        </tr> -->
 
 
 
@@ -90,7 +92,7 @@
 
 
 
-    <table style="width:100%; border-collapse:collapse; margin-top:90px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:30px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">1</td>
             <td style="width:80%; text-align:center; font-weight:bold;">
@@ -117,13 +119,13 @@
 
 
 
-    <table style="width:100%; border-collapse:collapse; ">
+    <table style="width:100%; border-collapse:collapse; margin-top:30px;">
         <tr class="section-title">
-            <td style="width:10%; text-align:center; font-weight:bold;"></td>
+            <td style="width:10%; text-align:center; font-weight:bold;">1</td>
             <td style="width:80%; text-align:center; font-weight:bold;">
                 إصدار التعليمات, الرسوم
             </td>
-            <td style="width:10%; text-align:center; font-weight:bold;"></td>
+            <td style="width:10%; text-align:center; font-weight:bold;">1</td>
         </tr>
         <tr>
             <td colspan="3" class="center">
@@ -139,7 +141,7 @@
 
 
 
-    <table style="width:100%; border-collapse:collapse; ">
+    <table style="width:100%; border-collapse:collapse; margin-top:30px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">2</td>
             <td style="width:80%; text-align:center; font-weight:bold;">
@@ -205,7 +207,7 @@
     </tr>
 </table> -->
 
-    <table style="width:100%; border-collapse:collapse; ">
+    <table style="width:100%; border-collapse:collapse; margin-top:30px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">3</td>
             <td class="section-title" style="width:80%; text-align:center; font-weight:bold;">
@@ -280,7 +282,7 @@
 
 
 
-    <table style="width:100%; border-collapse:collapse;">
+    <table style="width:100%; border-collapse:collapse;margin-top:50px;">
 
         <!-- البند 4 -->
         <tr class="section-title" style="margin-top: 10px;">
@@ -339,9 +341,14 @@
                 يجب على المقاول اخطار الاستشاري باليوم الذي يتم فيه انهاء الاعمال على ان يكون هذا الاخطار قبل حلول هذا اليوم باسبوع على الاقل ليتم اخطار المالك والمقاول بموجب الاستلام الابتدائي يتم بحضور المقاول او مهندسه. وفي حاله عدم حضوره يقوم الاستشاري بعمله في غيابه فاذا ثبت ان الاعمال في حاله تسمح باستلامها يتم تحرير محضرا باستلام الاعمال استلاما مبدئيا في ذات اليوم, اما اذا ثبت عكس ذلك فللاستشاري الحق في عمل محضر اثبات حاله, وفي جميع الاحوال تكون المحاضر التي يحررها الاستشاري حجة على المقاول ولو لم يحضر او يوقع على المحضر، لا يقوم الاستشاري باعادة المعاينة الا اذا اخطره المقاول بموعد انهاء الاعمال وقبل اسبوع من الحلول على الاقل وفي حال وجود ملاحظات على اعمال المشروع لا تمنع من الاستلاام الابتدائي يتم استلام المشروع ويعطى المقاول سبعه ايام لانهاء تلك الملاحظات وفي حال عدم انتهائه من هذه الملاحظات يعتبر محضر الاستلام الابتدائي لاغيا.
             </td>
         </tr>
+    
+
+        <tr>
+            <td colspan="3" style="height:0px;"></td>
+        </tr>
 
         <!-- البند 8 -->
-        <tr class="section-title">
+        <tr class="section-title" style="margin-top:0px;">
             <td style="width:10%; text-align:center; font-weight:bold;">8</td>
             <td style="width:80%; text-align:center; font-weight:bold;">
                 الاشراف الهندسي من قبل الاستشاري
@@ -349,7 +356,7 @@
             <td style="width:10%; text-align:center; font-weight:bold;">8</td>
         </tr>
         <tr>
-            <td colspan="3" style="text-align:right; padding:10px;">
+            <td colspan="3" style="text-align:right; padding:0px;">
                 يتم دفع رسوم شهرية مقابل الاشراف (700) درهم بدون الضريبة وذلك يتضمن الزيارات الاسبوعية والمتابعة بشكل عام في حال تجاوزت مدة انتهاء المشروع على المدة المتفق عليها , يتم دفع رسوم الاشراف من قبل الطرف المتسبب في التأخير ( المالك او المقاول ) في حال كان الطرفين متسببين في التأخير ف يتم دفع الرسوم المتبقية لأشراف مناصفة بين المالك والمقاول.<br><br>
 
                 يحق للإستشاري إيقاف المقاول عن العمل في حالة عدم التقيد بتعليمات الإستشاري ويسري هذا على المقاولين الذين يحضرهم المقاول الرئيسي أو المالك.<br><br>
@@ -360,7 +367,7 @@
 
                 في حال طلب المالك إيقاف الاشراف خلال مدة التنفيذ دون مبرر فانه من حق الاستشاري تحصيل اتعابه كاملة حسب ما هو مذكور في هذا العقد قبل اخلاء الطرف وانهاء مهمة الاستشاري وبشرط الا يترتب على هذا الطلب اي ضرر على الطرف الثاني.<br><br>
 
-                الاستشاري غير ملزم بالاشراف على أي أعمال خارج التصميم المعماري والإنشائي (التكيف الديكور - المسابح -المصاعد- الحديقة).
+               الاستشاري غير ملزم بالاشراف على أي أعمال خارج التصميم المعماري والإنشائي او أي بند غير موجود بحساب الكميات (التكيف الديكور - المسابح -المصاعد- الحديقة) كما ان الاستشاري غير ملزم بحساب كميات بنود التشطيبات.
             </td>
         </tr>
 
@@ -434,6 +441,11 @@
             </td>
         </tr>
 
+
+        <tr>
+            <td colspan="3" style="height:30px;"></td>
+        </tr>
+
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">14</td>
             <td style="width:80%; text-align:center; font-weight:bold;">فسخ عقد الاستشاري</td>
@@ -497,17 +509,17 @@
 
 
 
-    <table style="width:100%; border-collapse:collapse; margin-top:90px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:10px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;"></td>
             <td style="width:80%; text-align:center; font-weight:bold;">
-                تقرير شهري
+                تقرير يومية 
             </td>
             <td style="width:10%; text-align:center; font-weight:bold;"></td>
         </tr>
         <tr>
             <td colspan="3" class="center">
-                الطرف الثاني ملزم بتقديم تقرير شهري كتابي عن سير الاعمال في الموقع ويتم تغريمه درهم500 بحالة عدم الالتزام يدفعها للمالك او متابعة و تقرير يومي عن طريق مجموعة الواتساب الخاصة بالمشروع. </td>
+               الطرف الثاني ملزم بتقديم تقارير يومية  عن سير الاعمال في الموقع مكتوبة ومصورة صور و فيديوهات عن طريق الواتساب او  النظام الداخلي للمكتب واذا لم يلتزم المقاول وبعد التنبيه 3مرات  سيقوم الاستشاري بالتصوير و التوثيق الشبه يومي مقابل مبلغ 1000 درهم شهريا يدفعه المقاول للاسشاري </td>
         </tr>
     </table>
 
@@ -629,7 +641,7 @@
         </tr>
         <tr>
             <td colspan="3" class="center">
-                مدة المشروع {{$project->duration}} شهر من تاريخ أمر المباشرة أو من تاريخ إصدار شهادة منسوب الحفر.
+                مدة المشروع {{$project->bank_contract_duration}} شهر من تاريخ أمر المباشرة أو من تاريخ إصدار شهادة منسوب الحفر.
             </td>
         </tr>
     </table>
@@ -721,7 +733,7 @@
     </table>
 
     <!-- Clause 34 -->
-    <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:50px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">34</td>
             <td style="width:80%; text-align:center; font-weight:bold;">الزيادة في الأسعار</td>
@@ -729,7 +741,7 @@
         </tr>
         <tr>
             <td colspan="3" class="center">
-                في حالة زيادة أسعار المواد بعد التعاقد بزيادة تتخطى قيمة 10% من السعر المتعاقد عليه، يحق للمقاول التقدم بطلب لاسترداد فرق السعر بشرط أن يكون معدل سير الأعمال طبقاً للمواعيد المتفق عليها في الجدول الزمني وخلال مدة التعاقد. وفي حالة كان المقاول هو السبب في تأخير سير الأعمال إن كانت الزيادة المذكورة ناتجة عن التأخر في العمل، يتحمل المقاول كافة تكاليف هذا التأخير من حيث زيادة أسعار المواد.
+               في حالة زيادة أسعار المواد بعد التعاقد بزيادة تتخطى قيمة 10 % من السعر المتعاقد عليه يحق للمقاول التقدم بطلب لاسترداد فرق السعر وذلك بشرط أن يكون معدل سير الأعمال طبقاً للمواعيد المتفق عليها في الجدول الزمني وخلال مدة التعاقد وفي حالة كان المقاول هو السبب في تأخير سير الأعمال ان كانت الزيادة المذكورة ناتجة عن التأخر في العمل يتحمل المقاول كافة تكاليف هذا التأخير من حيث زيادة أسعار المواد و يتم تقديم جميع الاثباتات ويلتزم الطرفان بالطريقة المتبعة من الاستشاري في احتساب الفرق سوي بالزبادة او بالنقصان وفي حال العكس نزلت الاسعار يتم احتساب النقص في المواد الاولية و تسترجع لصالح المالك و اي دفعة دفعها المالك للمقاول مقابل تنفيذ بنود معينة لا تحسب فيها زيادة الاسعار  ويلتزم المقاول بتقديم جدول اسعار المواد الاساسية.
             </td>
         </tr>
     </table>
@@ -879,7 +891,7 @@
     </table>
 
     <!-- Clause 46 -->
-    <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:50px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">46</td>
             <td style="width:80%; text-align:center; font-weight:bold;">شهادة الإنجاز</td>
@@ -1079,7 +1091,7 @@
 
 
     <!-- Clause 60 -->
-    <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:70px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">60</td>
             <td style="width:80%; text-align:center; font-weight:bold;">سحب بنود</td>
@@ -1093,7 +1105,7 @@
     </table>
 
     <!-- Clause 61 -->
-    <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:40px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">61</td>
             <td style="width:80%; text-align:center; font-weight:bold;">دقة التسعير وحساب الكميات</td>
@@ -1171,7 +1183,7 @@
         </tr>
         <tr>
             <td colspan="3" class="center">
-                المقاول هو المسؤول الوحيد عن هيكل المبنى، وضمان الهيكل لمدة 30 سنة.
+                المقاول هو المسؤول الوحيد عن هيكل المبنى، وضمان الهيكل لمدة 15 سنة.
             </td>
         </tr>
     </table>
@@ -1191,7 +1203,7 @@
     </table>
 
     <!-- Clause 68 -->
-    <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:70px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">68</td>
             <td style="width:80%; text-align:center; font-weight:bold;">التدقيق من قبل الاستشاري</td>
@@ -1205,7 +1217,7 @@
     </table>
 
     <!-- Clause 69 -->
-    <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:50px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">69</td>
             <td style="width:80%; text-align:center; font-weight:bold;">التربة</td>
@@ -1317,7 +1329,7 @@
     </table>
 
     <!-- Clause 77 -->
-    <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+    <table style="width:100%; border-collapse:collapse; margin-top:50px;">
         <tr class="section-title">
             <td style="width:10%; text-align:center; font-weight:bold;">77</td>
             <td style="width:80%; text-align:center; font-weight:bold;">الإشراف الأسبوعي</td>
@@ -1344,6 +1356,22 @@
         </tr>
     </table>
 
+
+    <!-- Clause 79 -->
+    <table style="width:100%; border-collapse:collapse; margin-top:20px;">
+        <tr class="section-title">
+            <td style="width:10%; text-align:center; font-weight:bold;">79</td>
+            <td style="width:80%; text-align:center; font-weight:bold;"> الزامية التعامل بالنظام الداخلي للمكتب</td>
+            <td style="width:10%; text-align:center; font-weight:bold;">79</td>
+        </tr>
+        <tr>
+            <td colspan="3" class="center">
+               يلتزم المقاول بالتعامل مع النظام الداخلي للمكنب في كل ما يخص المشروع ويعتبر كل ما هو بالنظام رسمي
+            </td>
+        </tr>
+    </table>
+
+
     <!-- Clause 79 -->
     <!-- Agreement Header -->
 
@@ -1367,7 +1395,7 @@
         <td class="signature" style="height:80px; border-bottom:1px solid #000;"></td>
 
         <td class="signature" style="height:80px; border-bottom:1px solid #000; text-align:center;">
-           <img src="{{ public_path('images/signature.jpeg') }}" style="height:100px;">
+           <!-- <img src="{{ public_path('images/signature.jpeg') }}" style="height:100px;"> -->
         </td>
     </tr>
 </table>

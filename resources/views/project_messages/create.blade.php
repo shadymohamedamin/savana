@@ -1,0 +1,362 @@
+@extends('layouts.app')
+
+@section('content')
+
+<section class="content-header">
+    <div class="container-fluid d-flex justify-content-center">
+        <h3>إنشاء رسالة جديدة</h3>
+    </div>
+</section>
+
+@php
+$user = auth()->user();
+@endphp
+
+
+<div class="content px-3">
+
+    @include('adminlte-templates::common.errors')
+
+    <div class="card shadow-xl p-4 m-4" style="background-color:#f5f5dc;">
+
+
+
+
+
+
+
+{!! Form::open([
+    'route' => ['projects.messages.store', $project->id],
+    'files' => true,
+    'id' => 'messageForm'
+]) !!}
+
+
+
+
+
+        @if(isset($replyTo))
+<div class="card mb-3 border-left border-primary p-3" style="background:#eef2ff">
+
+    <h5 class="mb-2">📩 الرد على رسالة</h5>
+
+    <p><strong>الموضوع:</strong> {{ $replyTo->messageType->name_ar ?? '-' }}</p>
+
+    <p><strong>رقم الرسالة:</strong> {{ $replyTo->id ?? '-' }}</p>
+
+    <p><strong>الرسالة:</strong><br>
+        {{ $replyTo->message }}
+    </p>
+
+
+    <p><strong>من:</strong> {{ $replyTo->sender->name ?? '-' }}</p>
+
+    <p><strong>إلى:</strong> {{ $replyTo->receiver->name ?? '-' }}</p>
+
+    <p><strong>CC:</strong> {{ $replyTo->ccUser->name ?? '-' }}</p>
+
+    @if($replyTo->attachment)
+        <a href="{{ asset('Files/'.$replyTo->attachment) }}" target="_blank">
+            📎 فتح المرفق
+        </a>
+    @endif
+
+</div>
+@endif
+            @if(isset($replyTo))
+            <!-- <div class="alert alert-info">
+                <strong>رد على رسالة:</strong>
+                <br>
+                {{ \Illuminate\Support\Str::limit($replyTo->message, 100) }}
+            </div> -->
+
+                <!-- <input type="hidden" name="parent_id" value="{{ $replyTo->id }}">
+                {{-- نوع الرسالة الأصلي --}}
+                <input type="hidden" name="message_type_id" value="{{ $replyTo->message_type_id }}"> -->
+
+                {{-- المرسل إليه الأصلي --}}
+                <!-- <input type="hidden" name="receiver_id" value="{{ $replyTo->sender_id }}"> -->
+
+                @if(isset($replyTo))
+
+                    <input type="hidden" name="parent_id" value="{{ $replyTo->id }}">
+
+                    <input type="hidden"
+                        name="message_type_id"
+                        value="{{ $replyTo->message_type_id }}">
+
+                @endif
+            @endif
+
+
+
+
+
+        <input type="hidden" name="project_id" value="{{ $project->id }}">
+        <input type="hidden" name="sender_id" value="{{ auth()->id() }}">
+
+        <div class="card-body d-flex flex-wrap gap-3">
+            @if(!isset($replyTo))
+            {{-- نوع الرسالة --}}
+            <div style="min-width:250px;max-width:250px;">
+                {!! Form::label('message_type_id', 'نوع الرسالة') !!}
+                {!! Form::select('message_type_id', $types, null, [
+                    'class' => 'form-control',
+                    'placeholder' => '-- اختر --',
+                    'required'
+                ]) !!}
+            </div>
+
+
+
+
+            {{-- المرسل إليه --}}
+            <!-- <div style="min-width:250px;max-width:250px;">
+                {!! Form::label('receiver_id', 'إلى') !!}
+                {!! Form::select('receiver_id', $users, null, [
+                    'class' => 'form-control',
+                    'placeholder' => '-- اختر --',
+                    'required'
+                ]) !!}
+            </div>
+            @endif -->
+
+
+
+@if($user->id == $project->consultant_id)
+<div style="min-width:250px;max-width:250px;">
+    {!! Form::label('receiver_id','إلى') !!}
+    {!! Form::select('receiver_id', [
+        $project->owner_id => 'المالك',
+        $project->contractor_id => 'المقاول'
+    ], null, ['class'=>'form-control','required']) !!}
+</div>
+@endif
+
+
+@if($user->id == $project->contractor_id)
+
+    <input type="hidden" name="receiver_id" value="{{ $project->consultant_id }}">
+
+    <div class="form-control bg-light" style="min-width:250px;max-width:250px;">
+        إلى: الاستشاري
+    </div>
+
+@endif
+
+
+@if($user->id == $project->owner_id)
+
+    <input type="hidden" name="receiver_id" value="{{ $project->contractor_id }}">
+
+    <div class="form-control bg-light" style="min-width:250px;max-width:250px;">
+        إلى: المقاول
+    </div>
+
+@endif
+
+
+
+
+
+
+
+
+
+
+
+
+
+            {{-- CC (اختياري) --}}
+            <!-- <div style="min-width:250px;max-width:250px;">
+                {!! Form::label('cc_user_id', 'CC (اختياري)') !!}
+                {!! Form::select('cc_user_id', $users, null, [
+                    'class' => 'form-control',
+                    'placeholder' => '-- بدون'
+                ]) !!}
+            </div> -->
+
+
+
+
+
+
+
+@if($user->id == $project->consultant_id)
+<div style="min-width:250px;max-width:250px;">
+    {!! Form::label('cc_user_id','CC') !!}
+    {!! Form::select('cc_user_id', [
+        $project->owner_id => 'المالك',
+        $project->contractor_id => 'المقاول'
+    ], null, ['class'=>'form-control','placeholder'=>'اختياري']) !!}
+</div>
+@endif
+
+
+@if($user->id == $project->contractor_id)
+<div style="min-width:250px;max-width:250px;">
+    {!! Form::label('cc_user_id','CC') !!}
+    {!! Form::select('cc_user_id', [
+        $project->owner_id => 'المالك'
+    ], null, ['class'=>'form-control','placeholder'=>'اختياري']) !!}
+</div>
+@endif
+
+
+@if($user->id == $project->owner_id)
+
+    <input type="hidden" name="cc_user_id" value="{{ $project->consultant_id }}">
+
+    <div class="form-control bg-light" style="min-width:250px;max-width:250px;">
+        CC: الاستشاري
+    </div>
+
+@endif
+
+
+
+
+
+
+
+            <!-- {{-- عنوان --}}
+            <div style="min-width:250px;max-width:250px;">
+                {!! Form::label('subject', 'عنوان الرسالة') !!}
+                {!! Form::text('subject', null, [
+                    'class' => 'form-control'
+                ]) !!}
+            </div> -->
+
+
+
+            {{-- مرفق واحد --}}
+            <div class="col-md-3">
+                <div class="border rounded p-2 small bg-light attachment-box">
+
+                    <input type="file" name="attachment" class="form-control form-control-sm attachment-input mb-1">
+
+                    <div class="text-truncate selected-file-name d-none"></div>
+
+                    <a href="#" target="_blank"
+                       class="btn btn-sm btn-outline-success w-100 mt-1 preview-file d-none">
+                        👁 Preview
+                    </a>
+
+                    <button type="button"
+                            class="btn btn-sm btn-outline-danger w-100 mt-1 remove-file">
+                        🗑 Remove
+                    </button>
+
+                </div>
+            </div>
+
+            {{-- الرسالة --}}
+            <div style="min-width:100%;">
+                {!! Form::label('message', 'نص الرسالة') !!}
+                {!! Form::textarea('message', null, [
+                    'class' => 'form-control',
+                    'rows' => 5,
+                    'required'
+                ]) !!}
+            </div>
+
+            
+
+        </div>
+
+        <div class="card-footer d-flex justify-content-center gap-3">
+
+    {!! Form::submit('إرسال', [
+        'class' => 'btn btn-olive btn-sm',
+        'style' => 'background-color:#2f3a1f;color:#d4af37;font-weight:600;'
+    ]) !!}
+
+    {{-- معاينة --}}
+    <button type="button"
+            id="previewBtn"
+            class="btn btn-dark btn-sm">
+
+        👁 معاينة قبل الإرسال
+
+    </button>
+
+    <a href="{{ route('projects.messages.index', $project->id) }}"
+       class="btn btn-secondary btn-sm">
+
+        رجوع
+
+    </a>
+
+</div>
+        {!! Form::close() !!}
+    </div>
+</div>
+
+@endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const input = document.querySelector('.attachment-input');
+    const box = document.querySelector('.attachment-box');
+
+    input.addEventListener('change', function () {
+        const fileName = box.querySelector('.selected-file-name');
+        const preview = box.querySelector('.preview-file');
+
+        if (!this.files.length) return;
+
+        const file = this.files[0];
+
+        fileName.textContent = file.name;
+        fileName.classList.remove('d-none');
+
+        preview.href = URL.createObjectURL(file);
+        preview.classList.remove('d-none');
+    });
+
+    document.querySelector('.remove-file').addEventListener('click', function () {
+        input.value = '';
+
+        box.querySelectorAll('.preview-file,.selected-file-name')
+            .forEach(el => el.classList.add('d-none'));
+    });
+
+});
+</script>
+
+
+
+
+
+
+
+<script>
+
+document.getElementById('previewBtn').addEventListener('click', function () {
+
+    let form = document.getElementById('messageForm');
+
+    let formData = new FormData(form);
+
+    fetch("{{ route('projects.messages.preview', $project->id) }}", {
+        method: "POST",
+        headers: {
+            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+        },
+        body: formData
+    })
+    .then(async response => {
+
+        const blob = await response.blob();
+
+        const fileURL = URL.createObjectURL(blob);
+
+        window.open(fileURL, '_blank');
+    });
+
+});
+
+</script>
+@endpush

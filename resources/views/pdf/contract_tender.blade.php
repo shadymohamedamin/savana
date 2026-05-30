@@ -158,7 +158,9 @@ $footWithFinishes    = $approvedArea > 0 ? $structureWithFinishes / $approvedAre
 
 $boundaryWall = end($groupsValues);
 
-$totalVillaWithWall = $structureWithFinishes + $boundaryWall;
+$totalVillaWithWall = $structureWithFinishes + $boundaryWall + $groupsValues[3];
+
+
 
 $vat = $totalVillaWithWall * 0.05;
 
@@ -173,10 +175,12 @@ $finalTotal = $totalVillaWithWall + $vat;
 
 
 
+@include('pdf.contract_header', ['project' => $project,'isBank'=>false,'isTender' => true,'showContractor' => true,'title'=>'عقد حساب الكميات'])
+
 
 
 {{-- ================= معلومات المشروع ================= --}}
-<table>
+<!-- <table>
 <tr>
     <td class="title" colspan="4">حساب الكميات</td>
 </tr>
@@ -201,7 +205,7 @@ $finalTotal = $totalVillaWithWall + $vat;
 </tr>
 
 
-</table>
+</table> -->
 
 
 
@@ -222,7 +226,7 @@ $finalTotal = $totalVillaWithWall + $vat;
 </tr>
 <tr>
     <td class="bold" style="width: 12rem;"> التاريخ</td>
-    <td>{{ $project->contract_signed_at->format('d/m/Y')??'-' }}</td>
+    <td>{{ $project->contract_signed_at?->format('d/m/Y')??'-' }}</td>
     <td class="bold" style="width: 12rem;">رقم الهاتف</td>
     <td>{{ $project->contractorUser?->mobile }}</td>
 </tr>
@@ -284,7 +288,7 @@ $finalTotal = $totalVillaWithWall + $vat;
 </tr>
 
 <tr class="center">
-<td class="bold">سعر الفيلا مع السور</td>
+<td class="bold">سعر الفيلا مع السور مع الواجهات    </td>
 <td>Total Villa Price</td>
 <td colspan="2" style="font-size: 18px;font-weight: bold;">AED {{ number_format($totalVillaWithWall,2) }}</td>
 </tr>
@@ -344,9 +348,9 @@ $color = $groupColors[$loop->index % count($groupColors)];
 @endif
 
 
-<!-- @if($loop->index==1)
-<div style="height:60px; ">.</div>
-@endif -->
+@if($loop->index==3)
+<div style="height:90px; ">.</div>
+@endif 
 <table >
 
 <tr >
@@ -509,17 +513,25 @@ $sectionLetterIndex2=0;
 
 @endphp
 
-@foreach($groups as $group)
+<!--@foreach($groups as $group)
 @php
 $color = $groupColors[$loop->index % count($groupColors)];
+
+$groupTotal = 0;
+$sectionCount = count($group->children);
+
+foreach ($group->children as $section) {
+    $groupTotal += $sectionsTotals[$section->id] ?? 0;
+}
+
 @endphp
 <tr>
-    <td class="group-title" colspan="5" style="background:{{ $color['group'] }}">
+    <td class="group-title" colspan="6" style="background:{{ $color['group'] }}">
         {{ $group->name_ar }}
     </td>
 </tr>
 
-@foreach($group->children as $section)
+@foreach($group->children as $index => $section)
 
 <tr class="center">
     <td style="background:{{ $color['section'] }}">{{ $section->name_ar }}</td>
@@ -531,7 +543,61 @@ $color = $groupColors[$loop->index % count($groupColors)];
 
 @endforeach
 
+@endforeach -->
+
+
+
+
+
+@foreach($groups as $group)
+
+@php
+$color = $groupColors[$loop->index % count($groupColors)];
+
+$groupTotal = 0;
+$sectionCount = count($group->children);
+
+foreach ($group->children as $section) {
+    $groupTotal += $sectionsTotals[$section->id] ?? 0;
+}
+@endphp
+
+<tr>
+    <td class="group-title" colspan="7" style="background:{{ $color['group'] }}">
+        {{ $group->name_ar }}
+    </td>
+</tr>
+
+@foreach($group->children as $index => $section)
+
+<tr class="center">
+
+    <td style="background:{{ $color['section'] }}">
+        {{ $section->name_ar }}
+    </td>
+
+    <td style="background:{{ $color['section'] }}">
+        {{ chr(65 + $sectionLetterIndex2++) }}
+    </td>
+
+    <td style="background:{{ $color['section'] }}; font-weight:bold;">
+        AED {{ number_format($sectionsTotals[$section->id] ?? 0, 2) }}
+    </td>
+
+    @if($index == 0)
+        <td rowspan="{{ $sectionCount }}"
+            style="background:#ffe8a1; font-weight:bold; vertical-align: middle; text-align:center;">
+            AED {{ number_format($groupTotal, 2) }}
+        </td>
+    @endif
+
+</tr>
+
 @endforeach
+
+@endforeach
+
+
 
 <tr class="total-row grand-total center">
 <td colspan="3" class="total-row center">
@@ -579,7 +645,7 @@ $footWithFinishes    = $approvedArea > 0 ? $structureWithFinishes / $approvedAre
 $boundaryWall = end($groupsValues);
 
 // الفيلا مع السور
-$totalVillaWithWall = $structureWithFinishes + $boundaryWall;
+$totalVillaWithWall = $structureWithFinishes + $boundaryWall +$groupsValues[3];
 
 // الضريبة (قسمة على 21)
 $vat = $totalVillaWithWall * 0.05;
@@ -629,7 +695,7 @@ $finalTotal = $totalVillaWithWall + $vat;
 </tr>
 
 <tr class="center">
-    <td class="bold">سعر الفيلا مع السور</td>
+    <td class="bold">  سعر الفيلا مع السور مع الواجهات  </td>
     <td>Total Villa Price</td>
     <td colspan="2" style="font-size: 18px;font-weight: bold;">AED {{ number_format($totalVillaWithWall,2) }}</td>
 </tr>
@@ -895,7 +961,7 @@ Total pices for works out of contract if client want to add
         <td class="signature" style="height:80px; border-bottom:1px solid #000;"></td>
 
         <td class="signature" style="height:80px; border-bottom:1px solid #000; text-align:center;">
-           <img src="{{ public_path('images/signature.jpeg') }}" style="height:140px;">
+           <!-- <img src="{{ public_path('images/signature.jpeg') }}" style="height:140px;"> -->
         </td>
     </tr>
 </table>

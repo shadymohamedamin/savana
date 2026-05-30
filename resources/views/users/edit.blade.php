@@ -15,7 +15,7 @@
     @include('adminlte-templates::common.errors')
 
     <div class="card shadow-xl p-4 m-4" style="background-color: #f5f5dc;">
-        {!! Form::model($user, ['route' => ['users.update', $user->id], 'method' => 'patch']) !!}
+        {!! Form::model($user, ['route' => ['users.update', $user->id], 'method' => 'patch','files' => true,'id' => 'user-form']) !!}
 
         <div class="card-body">
             <div class="d-flex flex-wrap align-items-center gap-3">
@@ -204,6 +204,60 @@
                     <label>{{ __('Active') }}</label>
                 </div>
 
+
+
+
+
+                <!-- <div class="mt-3">
+
+    <label>Signature</label>
+
+    
+    @if($user->signature)
+        <div class="mb-2">
+            <img src="{{ asset($user->signature) }}"
+                 style="max-height:100px; border:1px solid #ccc;">
+        </div>
+    @endif
+
+    
+    <canvas id="signature-pad" width="400" height="150"
+            style="border:1px solid #ccc; display:block;"></canvas>
+
+  
+    <div class="mt-2 d-flex gap-2">
+        <button type="button" id="clear-signature" class="btn btn-sm btn-danger">
+            مسح
+        </button>
+
+        @if($user->signature)
+        <button type="button" id="delete-signature" class="btn btn-sm btn-warning">
+            حذف التوقيع الحالي
+        </button>
+        @endif
+    </div>
+
+   
+    <input type="hidden" name="signature" id="signature-input">
+    <input type="hidden" name="remove_signature" id="remove-signature">
+
+    <hr>
+
+   
+    <input type="file" name="signature_file" id="signature-file" accept="image/*" class="form-control">
+
+   
+    <img id="signature-preview"
+         style="margin-top:10px; max-height:100px; display:none;" />
+
+</div>  -->
+
+
+
+
+
+
+
             </div>
         </div>
 
@@ -250,6 +304,75 @@
 }
 </style>
 @endpush
+
+
+
+
+
+
+
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/signature_pad@4.0.0/dist/signature_pad.umd.min.js"></script>
+
+<script>
+let signaturePad;
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const canvas = document.getElementById("signature-pad");
+
+    if (!canvas) return;
+
+    signaturePad = new SignaturePad(canvas);
+
+    // زر المسح
+    document.getElementById('clear-signature').addEventListener('click', function () {
+        signaturePad.clear();
+    });
+document.getElementById('user-form').addEventListener('submit', function () {
+
+    if (signaturePad && !signaturePad.isEmpty()) {
+        document.getElementById('signature-input').value =
+            signaturePad.toDataURL();
+    }
+
+});
+    // عند رفع صورة
+    document.getElementById('signature-file').addEventListener('change', function (e) {
+        const file = e.target.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function (e) {
+                const preview = document.getElementById('signature-preview');
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // قبل الإرسال
+    document.querySelector('form').addEventListener('submit', function () {
+
+        if (!signaturePad.isEmpty()) {
+            document.getElementById('signature-input').value =
+                signaturePad.toDataURL(); // base64
+        }
+
+    });
+
+});
+</script>
+@endpush
+
+
+
+
+
 
 @push('scripts')
 @if (session('success'))

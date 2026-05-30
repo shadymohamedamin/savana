@@ -79,8 +79,19 @@
 </head>
 <body>
 
+
+
+
+@include('pdf.contract_header', ['project' => $project,'isBank'=>false,'showContractor' => false,'title'=>'عقد متطلبات المالك'])
+
+
+
+
+
+
+
 {{-- ================= معلومات المشروع ================= --}}
-<table>
+<!-- <table>
     <tr>
         <td class="title" colspan="4">معلومات المشروع</td>
     </tr>
@@ -121,7 +132,7 @@
         <td colspan="4">{{ $project->contract_signed_at?->format('Y/m/d')??'-' }}</td>
         
     </tr>
-</table>
+</table> -->
 
 {{-- ================= متطلبات المالك ================= --}}
 <table>

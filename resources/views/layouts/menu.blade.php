@@ -201,3 +201,45 @@
         <p>Owner Requirment Tender Totals</p>
     </a>
 </li>
+
+<li class="nav-item">
+    <a href="{{ route('projectSchedules.index') }}" class="nav-link {{ Request::is('projectSchedules*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Project Schedules</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('projectScheduleApprovals.index') }}" class="nav-link {{ Request::is('projectScheduleApprovals*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Project Schedule Approvals</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('messageTypes.index') }}" class="nav-link {{ Request::is('messageTypes*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Message Types</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('projectMessages.index') }}" class="nav-link {{ Request::is('projectMessages*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Project Messages</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('projectSupervisions.index') }}" class="nav-link {{ Request::is('projectSupervisions*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Project Supervisions</p>
+    </a>
+</li>
+
+<li class="nav-item">
+    <a href="{{ route('supervisionTypes.index') }}" class="nav-link {{ Request::is('supervisionTypes*') ? 'active' : '' }}">
+        <i class="nav-icon fas fa-home"></i>
+        <p>Supervision Types</p>
+    </a>
+</li>

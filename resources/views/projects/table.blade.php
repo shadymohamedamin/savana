@@ -1,5 +1,5 @@
 <style>
-    .table-bordered > :not(caption) > * > * {
+    /* .table-bordered > :not(caption) > * > * {
         border: 1px solid #d4af37;
     }
     thead th {
@@ -10,7 +10,7 @@
     tbody tr:hover {
         background-color: #efe8c8 !important;
     }
-/* ===== TABLE DESIGN ===== */
+
 
 .custom-table {
     border: 2px solid #000;
@@ -22,27 +22,28 @@
     border: 1px solid #000 !important;
 }
 
-/* Header darker */
+
 .custom-header {
-    /* background: linear-gradient(90deg, #b8922e, #d4af37); */
+  
     background: #d4af37;
+
     color: #1f2937;
     font-weight: 700;
 }
 
 .custom-header th {
-    /* linear-gradient(90deg, #b8922e, #d4af37); */
+   
     background: #d4af37;
     border: 1px solid #000 !important;
     text-align: center;
 }
 
-/* Body color */
+
 .custom-table tbody tr {
     background-color: #f5f5dc;
 }
 
-/* Hover effect */
+
 .custom-table tbody tr:hover {
     background-color: #ece2b6;
 }
@@ -56,7 +57,7 @@
 
 
 
-/* ===== GOVERNMENT FILTER DESIGN ===== */
+
 
 .filter-card {
     border: 1px solid #000;
@@ -87,7 +88,7 @@
     box-shadow: none;
 }
 
-/* Buttons */
+
 
 .btn-apply {
     background-color: #2f3a1f;
@@ -137,7 +138,357 @@
     color:#2f3a1f;
     margin-bottom:4px;
     display:block;
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* =========================
+   COLORS
+========================= */
+
+:root{
+    --gov-primary: rgb(146 114 42 / 1);
+    --gov-bg: rgb(249 247 237);
+    --gov-hover: rgb(239 232 200);
+    --gov-text: rgb(146 114 42 / 1);
+    --gov-border: rgb(146 114 42 / 1);
 }
+
+/* =========================
+   GENERAL
+========================= */
+
+body,
+html{
+    font-family:'Alexandria', sans-serif !important;
+    background:#fff;
+}
+
+/* =========================
+   MAIN CARD
+========================= */
+
+.card{
+    background-color: var(--gov-bg) !important;
+    border: 2px solid var(--gov-border) !important;
+    border-radius: 14px !important;
+    overflow: hidden;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.card-header{
+    background-color: var(--gov-bg) !important;
+    border-bottom: 2px solid var(--gov-border) !important;
+    color: var(--gov-text) !important;
+    font-weight: 800;
+}
+
+/* =========================
+   BUTTONS
+========================= */
+
+.btn-olive,
+.btn-apply,
+.btn-reset,
+.btn-success{
+    background-color: var(--gov-primary) !important;
+    border: 1px solid var(--gov-primary) !important;
+    color: #fff !important;
+    font-weight: 700;
+    transition: .25s ease;
+}
+
+.btn-olive:hover,
+.btn-apply:hover,
+.btn-reset:hover,
+.btn-success:hover{
+    opacity:.92;
+    transform:translateY(-1px);
+}
+
+/* =========================
+   FILTER CARD
+========================= */
+
+.filter-card{
+    background-color: var(--gov-bg) !important;
+    border: 2px solid var(--gov-border) !important;
+    border-radius: 12px;
+}
+
+.filter-body{
+    background-color: var(--gov-bg);
+}
+
+/* =========================
+   INPUTS
+========================= */
+
+.filter-input{
+    border: 1px solid var(--gov-border);
+    background: #fff;
+    color: var(--gov-text);
+    border-radius: 8px;
+    height: 44px;
+    font-weight: 600;
+}
+
+.filter-input:focus{
+    border-color: var(--gov-primary);
+    box-shadow: 0 0 0 0.1rem rgba(146,114,42,.15);
+}
+
+/* =========================
+   LABELS
+========================= */
+
+.form-label,
+.form-item label,
+.card-section label{
+    color: var(--gov-text);
+    font-weight: 800;
+}
+
+/* =========================
+   TABLE
+========================= */
+
+.custom-table{
+    border-collapse: collapse !important;
+    border: 2px solid var(--gov-border) !important;
+    overflow: hidden;
+}
+
+/* HEADER */
+.custom-header{
+    background-color: var(--gov-bg) !important;
+}
+
+.custom-header th{
+    background-color: var(--gov-bg) !important;
+    color: var(--gov-text) !important;
+    border: 1px solid var(--gov-border) !important;
+    font-weight: 800;
+    text-align: center;
+    padding: 16px 10px;
+    white-space: nowrap;
+}
+
+/* BODY */
+
+.custom-table tbody tr{
+    background-color: #fff !important;
+    transition: .2s ease;
+}
+
+.custom-table tbody td{
+    border: 1px solid rgba(146,114,42,.25) !important;
+    color: var(--gov-text);
+    font-weight: 600;
+    padding: 14px 10px;
+    vertical-align: middle;
+}
+
+/* HOVER */
+
+.custom-table tbody tr:hover{
+    background-color: var(--gov-hover) !important;
+}
+
+/* TABLE WRAPPER */
+
+.table-responsive{
+    background-color: var(--gov-bg) !important;
+    border-top: 1px solid rgba(146,114,42,.15);
+}
+
+/* =========================
+   PROJECT CARDS
+========================= */
+
+.project-cards-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+    gap:20px;
+    margin:25px 50px 35px;
+}
+
+.project-card{
+    background-color: var(--gov-bg);
+    border: 2px solid var(--gov-border);
+    border-radius: 16px;
+    padding: 26px 18px;
+    text-align:center;
+    text-decoration:none;
+    transition:.25s ease;
+    position:relative;
+    overflow:hidden;
+    box-shadow:0 4px 14px rgba(0,0,0,.04);
+}
+
+.project-card i{
+    color: var(--gov-primary);
+    font-size:32px;
+    margin-bottom:14px;
+}
+
+.project-card span{
+    color: var(--gov-text);
+    font-size:17px;
+    font-weight:800;
+}
+
+.project-card:hover{
+    background-color: var(--gov-hover);
+    transform:translateY(-4px);
+    box-shadow:0 10px 24px rgba(146,114,42,.12);
+}
+
+/* ACTIVE */
+
+.project-card.active{
+    background-color: var(--gov-primary);
+}
+
+.project-card.active span,
+.project-card.active i{
+    color:#fff;
+}
+
+/* =========================
+   USER CARDS
+========================= */
+
+.project-user-card{
+    min-width:250px;
+    background-color: var(--gov-bg);
+    border:2px solid var(--gov-border);
+    border-radius:14px;
+    padding:16px;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    cursor:pointer;
+    transition:.25s ease;
+}
+
+.project-user-card:hover{
+    transform:translateY(-3px);
+    background-color: var(--gov-hover);
+    box-shadow:0 8px 20px rgba(146,114,42,.08);
+}
+
+.project-user-card .icon{
+    width:52px;
+    height:52px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:20px;
+    background-color: var(--gov-primary);
+    color:#fff;
+}
+
+/* =========================
+   PAGINATION
+========================= */
+
+.page-link{
+    color: var(--gov-primary);
+    border-color: rgba(146,114,42,.3);
+}
+
+.page-item.active .page-link{
+    background-color: var(--gov-primary);
+    border-color: var(--gov-primary);
+}
+
+/* =========================
+   BADGES
+========================= */
+
+.badge{
+    border-radius: 8px;
+    padding: 8px 10px;
+    font-weight: 700;
+}
+
+/* =========================
+   ANIMATION
+========================= */
+
+.card,
+.project-card,
+.project-user-card{
+    animation:fadeInUp .45s ease;
+}
+
+@keyframes fadeInUp{
+    from{
+        opacity:0;
+        transform:translateY(12px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:768px){
+
+    .project-cards-grid{
+        margin:20px 15px;
+    }
+
+    .custom-header th{
+        font-size:13px;
+    }
+
+    .custom-table tbody td{
+        font-size:13px;
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
 
 </style>
 
@@ -155,19 +506,43 @@
 
 
 
-    <div class="card-header  d-flex justify-content-between align-items-center"
-         style="background:#D4AF37;color:#2f3a1f;font-size:1.3rem;font-weight:600;">
+   <div class="card-header d-flex justify-content-between align-items-center"
+     style="background:#D4AF37; color:#2f3a1f; font-size:1.3rem; font-weight:600;">
+    
 
 
 
+    <div>
+        {{ __('Projects') }}
+    </div>
+
+    <!-- User name in the center -->
+    <div class="mx-auto">
+        {{ Auth::user()->name }}
+    </div>
+
+    <!-- Empty div to balance flex -->
+    <div></div>
 
 
 
-
-
-        <h4 class="mx-auto">{{ __('Projects') }}</h4>
+        <!-- <h4 class="mx-auto">{{ __('Projects') }}</h4> -->
 
         <div class="d-flex gap-2">
+
+@if(in_array(Auth::user()->role_id, [1,4,11,12,7]))
+            <button onclick="exportTableToExcel('projects-table')" 
+                    class="btn btn-success btn-sm">
+                <i class="fas fa-file-excel"></i> تصدير Excel
+            </button>
+            <a href="{{ route('projects.show', 1) }}"
+               class="btn btn-olive btn-sm"
+               style="background:#2f3a1f;color:#d4af37;">
+                <i class="fas fa-list"></i> {{ __('جدول المساحات') }}
+            </a>
+
+@endif
+
             <a href="{{ route('projects.index') }}"
                class="btn btn-olive btn-sm"
                style="background:#2f3a1f;color:#d4af37;">
@@ -269,7 +644,7 @@
 
             <div class="row g-3">
 
-                <div class="col-md-2">
+                <div class="col-md-1">
                     <label class="form-label">{{ __('كود المشروع') }}</label>
                     <input type="text" name="project_code"
                            class="form-control filter-input"
@@ -290,6 +665,15 @@
                            style="text-font:bold;"
                            value="{{ request('owner_name') }}">
                 </div>
+
+                <div class="col-md-1">
+                    <label class="form-label">{{ __('رقم الحالة') }}</label>
+                    <input type="text" name="case_id_number"
+                           class="form-control filter-input bold-input"
+                           style="text-font:bold;"
+                           value="{{ request('case_id_number') }}">
+                </div>
+
 
                 <div class="col-md-2">
                     <label class="form-label">{{ __('رقم الهاتف') }}</label>
@@ -341,19 +725,22 @@
         <!-- <table class="table table-hover align-middle rounded-4"
                style="border:1px solid #D4AF37;"> -->
 
-        <table class="table table-hover align-middle rounded-4 custom-table"
-               style="border:1px solid #D4AF37;">
+        <!-- <table class="table table-hover align-middle rounded-4 custom-table"
+               style="border:1px solid #D4AF37;"> -->
+        <table id="projects-table"
+       class="table table-hover align-middle rounded-4 custom-table"
+       style="border:1px solid #D4AF37;">
            <thead class="custom-header" style="background-color:#d4af37;color:#2f3a1f;">
 
             <tr class="project-roww"style="background-color:#d4af37; cursor:pointer;">
-                @if(in_array(auth()->user()->role_id, [1,4,11,12]))
+                @if(in_array(auth()->user()->role_id, [1,4,11,12,7,2]))
                     <th style="background-color:#d4af37;">{{ __('Code') }}</th>
                     <th style="background-color:#d4af37;">{{ __('Owner') }}</th>
                     <th style="background-color:#d4af37;">{{ __('رقم القسيمة') }}</th>
                     <th style="background-color:#d4af37;">{{ __('Chosen Contractor') }}</th>
                     <th style="background-color:#d4af37;">{{ __('Case #') }}</th>
                     <th style="background-color:#d4af37;">{{ __(key: 'نوع الحالة') }}</th>
-                    <th style="background-color:#d4af37;">{{ __(key: 'عدد زيارات الاشراف') }}</th>
+                    <th style="background-color:#d4af37;">{{ __(key: 'عدد زيارات الاشراف الشهرية') }}</th>
                     <th style="background-color:#d4af37;">{{ __(key: 'قيمة العقد') }}</th>
                     <th style="background-color:#d4af37;">{{ __(key: 'تاريخ انتهاء العقد') }}</th>
                     <th style="background-color:#d4af37;">{{ __(key: 'المستلم من العقد') }}</th>
@@ -367,7 +754,7 @@
                     <th style="background-color:#d4af37;">سعر الفوت بدون تشطيبات</th>
                     <th style="background-color:#d4af37;">سعر الفوت مع تشطيبات</th>
                     <th style="background-color:#d4af37;">سعر السور</th>
-                    <th style="background-color:#d4af37;">سعر الفيلا مع السور</th>
+                    <th style="background-color:#d4af37;">  سعر الفيلا مع السور مع الواجهات </th>
                     <th style="background-color:#d4af37;">الضريبة 5%</th>
                     <th style="background-color:#d4af37;">السعر النهائي شامل الضريبة</th>
                 @endif
@@ -393,7 +780,7 @@
                 @php
                     $owner = $project->users->firstWhere('pivot.role_id', 1);
                     $contractor = $project->users->firstWhere('pivot.role_id', 3);
-                    $targetUrl = in_array(auth()->user()->role_id, [1,4,11,12])
+                    $targetUrl = in_array(auth()->user()->role_id, [1,4,11,12,7])
                         ? route('projects.edit', $project->id)
                         : url('users/'.$project->id.'/attachments/create?type=projects&mode=tender');
                 @endphp
@@ -405,7 +792,7 @@
 
 
 
-                @if(in_array(auth()->user()->role_id, [1,4,11,12]))
+                @if(in_array(auth()->user()->role_id, [1,4,11,12,7,2]))
                 
                     
                     <td style="background-color:#f5f5dc;">{{ $project->project_code }}</td>
@@ -433,7 +820,11 @@
                     
                     
                     @php
-                        $lastApproval = $project->baladyaApprovals->first();
+                        $lastApproval2 = $project->baladyaApprovals->first();
+                        $lastApproval = $project->baladyaApprovals
+                            ->sortByDesc('id') // أو created_at
+                            ->first();
+                            //dd($lastApproval);
                         $daysDiff = $lastApproval && $lastApproval->opened_at && $lastApproval->approved_at
                                     ? $lastApproval->approved_at->diffInDays($lastApproval->opened_at)
                                     : null;
@@ -443,9 +834,38 @@
                             <!-- {{ $lastApproval->statusType->name_ar ?? '—' }} -->
                              {{ $project->baladyaStatusType->name_ar ?? '—' }}
                         </td>
-                        <td style="background-color:#f5f5dc;">
-                            {{ $project->supervision_visits_count ?? '—' }}
-                        </td>
+
+
+
+
+
+                        <!-- <td style="background-color:#f5f5dc;">
+
+    <span class="badge bg-dark">
+        الكلي:
+        {{ $project->total_supervisions_count ?? 0 }}
+    </span>
+
+    <br><br>
+
+    <span class="badge bg-success">
+        الشهر الحالي:
+        {{ $project->current_month_supervisions_count ?? 0 }}
+    </span>
+
+
+
+
+</td> -->
+
+
+<td style="background-color:#f5f5dc;">{{ $project->current_month_supervisions_count ?? '—' }}</td> 
+
+
+
+
+
+
                         <td style="background-color:#f5f5dc;">
                             {{ $project->bank_contract_value ?? '—' }}
                             <!-- {{ $project->bank_contract_value ?? '—' }} -->
@@ -485,7 +905,7 @@
                             {{ number_format($project->paid_with_vat ?? 0, 0) }}
                         </td>
                         <td style="background-color:#f5f5dc;">
-                            {{ $lastApproval->building_license_number ?? '—' }}
+                            {{ $lastApproval->building_license_number ?? '-' }}
                         </td>
 
 
@@ -587,9 +1007,15 @@
                             $targetUrl = in_array(auth()->user()->role_id, [1,4,11,12])
                                 ? route('projects.edit', $project->id)
                                 : url('users/'.$project->id.'/attachments/create?type=projects&mode=tender');
+                            //$contractor = $project->users->first(function ($user) {
+                            //    return in_array($user->pivot->role_id, [3, 8]);
+                            //});
+
                             $contractor = $project->users->first(function ($user) {
-                                return in_array($user->pivot->role_id, [3, 8]);
+                                return $user->id == auth()->id()
+                                    && in_array($user->pivot->role_id, [3, 8]);
                             });
+
                         @endphp
 
               
@@ -626,6 +1052,51 @@
         </div>
     </div>
 </div>
+
+
+
+
+
+
+
+<script>
+function exportTableToExcel(tableID, filename = 'projects') {
+    let table = document.getElementById(tableID).cloneNode(true);
+
+    // حذف أي عناصر مش عايزها (اختياري)
+    table.querySelectorAll('a, button').forEach(el => el.remove());
+
+    let html = `
+    <html xmlns:o="urn:schemas-microsoft-com:office:office"
+          xmlns:x="urn:schemas-microsoft-com:office:excel"
+          xmlns="http://www.w3.org/TR/REC-html40">
+    <head>
+        <meta charset="UTF-8">
+    </head>
+    <body>
+        ${table.outerHTML}
+    </body>
+    </html>`;
+
+    let blob = new Blob(['\ufeff', html], {
+        type: 'application/vnd.ms-excel'
+    });
+
+    let url = URL.createObjectURL(blob);
+
+    let link = document.createElement("a");
+    link.href = url;
+    link.download = filename + '.xls';
+    document.body.appendChild(link);
+    link.click();
+
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+}
+</script>
+
+
+
 
 
 <script>

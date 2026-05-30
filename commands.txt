@@ -1,14 +1,22 @@
- "start": "concurrently \"php artisan serve --host=0.0.0.0 --port=8000\" \"npm run dev\""
+ALTER TABLE project_owner_requirements
+ADD UNIQUE unique_tender (
+    project_id,
+    owner_requirement_id,
+    context,
+    tender_user_id
+);
 
 
+INSERT INTO message_types (name_ar, name_en, created_at, updated_at) VALUES
 
-
-
-
-
-
-
-
+('رسالة تأخير', 'Delay Message', NOW(), NOW()),
+('رسالة سوء تنفيذ', 'Bad Execution Message', NOW(), NOW()),
+('رسالة سبب توقف الاشغال', 'Work توقف Reason Message', NOW(), NOW()),
+('رسالة تنبيه قبل البدء باتخاذ اجراءات السلامة', 'Safety Warning Before Start', NOW(), NOW()),
+('رسالة تركيب الكاميرا بالموقع', 'Camera Installation Message', NOW(), NOW()),
+('رسالة تنظيف الموقع', 'Site Cleaning Message', NOW(), NOW()),
+('رسالة للمالك بتوفير مواد التشطيبات', 'Finishing Materials Request', NOW(), NOW()),
+('رسالة للمالك بتأخر دفعة المقاول', 'Contractor Payment Delay Notice', NOW(), NOW());
 
 
 
@@ -29,7 +37,7 @@ ssh alkeemgr@173.254.29.237
 
 
 
-if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'
@@ -164,7 +172,19 @@ php -S 0.0.0.0:8000 -t public
 php artisan serve --host=0.0.0.0 --port=8000
 
 
+remove==>resources-controllers-views-models-data
 
+git remote remove origin
+
+git remote set-url origin https://github.com/shadymohamedamin/savana.git
+
+git fetch origin
+
+composer install
+php artisan key:generate
+
+npm i
+npm run start
 
 
 to install new one /

@@ -67,8 +67,56 @@ class AppServiceProvider extends ServiceProvider
             ->orderBy('contractor_contract_end_date')
             ->get();
 
-        $view->with(compact('expiringProjects', 'expiringAttachments'));
-        });
+        
+        
+        
+       
+
+
+
+
+
+
+        $messageNotifications = \App\Models\ProjectMessage::with([
+            'sender',
+            'project',
+            'messageType'
+        ])
+
+        ->where(function ($q) {
+            $q->where('receiver_id', Auth::id())
+            ->orWhere('cc_user_id', Auth::id());
+        })
+        ->where('sender_id', '!=', Auth::id())
+        ->where(function ($q) {
+
+            $q->whereNull('readed')
+            ->orWhere('readed', 0);
+
+        })
+        ->latest()
+        ->take(10)
+        ->get();
+
+
+
+
+
+
+
+
+
+$view->with(compact(
+    'expiringProjects',
+    'expiringAttachments',
+    'messageNotifications'
+));
+
+
+
+
+
+         });
 
                 //if (env('APP_ENV') !== 'local') {
                 //    URL::forceScheme('https');

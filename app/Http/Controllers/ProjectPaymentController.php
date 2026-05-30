@@ -78,7 +78,7 @@ class ProjectPaymentController extends AppBaseController
 
     public function index(Project $project)
     {
-        if (false){//!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (false){//!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'
@@ -99,7 +99,7 @@ class ProjectPaymentController extends AppBaseController
      */
     public function create($projectId)
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'
@@ -117,7 +117,7 @@ class ProjectPaymentController extends AppBaseController
      */
     public function store(Request $request, $projectId)
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'
@@ -188,7 +188,7 @@ class ProjectPaymentController extends AppBaseController
      */
     public function show($id)
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'
@@ -210,7 +210,7 @@ class ProjectPaymentController extends AppBaseController
      */
     public function edit(Project $project, $id)
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'
@@ -301,7 +301,7 @@ class ProjectPaymentController extends AppBaseController
 
 public function update($id, UpdateProjectPaymentRequest $request)
 {
-    if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'
@@ -342,15 +342,36 @@ public function update($id, UpdateProjectPaymentRequest $request)
     $projectPayment->save();
     //dd($projectPayment);
     Flash::success('Project Payment updated successfully.');
+    if ($request->filled('batch_id')) {
 
-    return redirect()->route('projects.project-payments.index', [
+        return redirect()->route('projects.schedules.batches', [
+            'project' => $projectPayment->project_id,
+            'batch_id' => $request->batch_id
+        ])->with([
+            'toast' => [
+                'type' => 'success',
+                'message' => __('تم حفظ الدفعة بنجاح')
+            ]
+        ]);
+    }
+
+return redirect()->route('projects.project-payments.index', [
+    'project' => $projectPayment->project_id
+])->with([
+    'toast' => [
+        'type' => 'success',
+        'message' => __('تم حفظ الدفعة بنجاح')
+    ]
+]);
+
+    /*return redirect()->route('projects.project-payments.index', [
         'project' => $projectPayment->project_id
     ])->with([
         'toast' => [
             'type' => 'success',
             'message' => __('تم حفظ الدفعة بنجاح')
         ]
-    ]);
+    ]);*/
 }
 
 
@@ -404,7 +425,7 @@ public function update($id, UpdateProjectPaymentRequest $request)
 
     public function destroy($project, $id)
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'

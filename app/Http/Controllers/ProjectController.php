@@ -33,8 +33,8 @@ class ProjectController extends AppBaseController
         'contractor',
         'baladyaApprovals' => fn($q) => $q->latest()->take(1),
     ]);*///vat_amount
-$allowedRoles = [1,4,11,12];
-    $query = \App\Models\Project::query()
+$allowedRoles = [1,4,11,12,7];
+    /*$query = \App\Models\Project::query()
         ->with([
             'status',
             'ownerUser',
@@ -48,7 +48,49 @@ $allowedRoles = [1,4,11,12];
                     \DB::raw('COALESCE(SUM(total_amount ),0)')
                 );
             }
-        ], 'id');
+        ], 'id');*/
+
+
+
+
+
+$query = \App\Models\Project::query()
+    ->with([
+        'status',
+        'ownerUser',
+        'contractor',
+        'users',
+        'baladyaApprovals' => fn($q) => $q->latest()->take(1),
+    ])
+
+    // إجمالي زيارات الإشراف
+    ->withCount([
+        'supervisions as total_supervisions_count'
+    ])
+
+    // زيارات الشهر الحالي
+    ->withCount([
+        'supervisions as current_month_supervisions_count' => function ($q) {
+
+            $q->whereBetween('created_at', [
+                now()->startOfMonth(),
+                now()->endOfMonth()
+            ]);
+
+        }
+    ])
+
+    ->withSum([
+        'payments as paid_with_vat' => function ($q) {
+
+            $q->select(
+                \DB::raw('COALESCE(SUM(total_amount),0)')
+            );
+
+        }
+    ], 'id');
+
+
 
 
 
@@ -104,6 +146,21 @@ $allowedRoles = [1,4,11,12];
 
 
 
+
+    
+
+
+    if ($request->filled('case_id_number')) {
+        $query->where('case_id_number', 'like', '%' . $request->case_id_number . '%');
+    }
+
+
+
+
+    
+
+
+
     /*if (!in_array(auth()->user()->role_id, $allowedRoles)) {
 
         $query->whereHas('projectUsers', function ($q) {
@@ -116,20 +173,28 @@ $allowedRoles = [1,4,11,12];
 
         if (!in_array(auth()->user()->role_id, $allowedRoles)) {
 
-    $query->whereHas('projectUsers', function ($q) {
-        $q->where('user_id', auth()->id())
-          ->whereIn('role_id', [3, 8])
-          ->where('context', 'tender');
-    })
-    ->with(['users' => function ($q) {
-        $q->wherePivotIn('role_id', [3, 8])
-          ->wherePivot('context', 'tender');
-    }])
-    ->select('projects.*')
-    ->distinct();
-}
+
+
+        if ($user->role_id == 2) {
+
+            $query->where('owner_id', $user->id);
+
+        } else {
+            $query->whereHas('projectUsers', function ($q) {
+                $q->where('user_id', auth()->id())
+                ->whereIn('role_id', [3, 8])
+                ->where('context', 'tender');
+            })
+            ->with(['users' => function ($q) {
+                $q->wherePivotIn('role_id', [3, 8])
+                ->wherePivot('context', 'tender');
+            }])
+            ->select('projects.*')
+            ->distinct();
+        }
+    }
     $projects = $query->orderByDesc('created_at')->paginate(15);
-    
+    //dd($projects);
 
 /*if (!in_array(auth()->user()->role_id, $allowedRoles)) {
 
@@ -299,29 +364,42 @@ public function contractPdf(Request $request, $id)
     ]);
     $mpdf->SetHTMLHeader('
         <div style="text-align:center; margin-bottom:0.5rem;">
-            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
+            <img src="'.public_path('images/tender_logo.png').'" style="height:100px;width:70%;">
         </div>
-    ');
+    ');//<img src="{{ public_path('images/signature.jpeg') }}" style="height:150px;">
     $mpdf->SetHTMLFooter('
+        
         <div style="text-align:center; font-size:12px; margin-top:1rem;">
             صفحة {PAGENO} من {nbpg}
         </div>
     ');
 
+
+    //<div style=" text-align:left; padding-bottom:0rem;padding-left:2.5rem;">
+    //        <img src="'.public_path('images/signature.jpeg').'" style="height:100px;">
+    //    </div>
+
     $mpdf->WriteHTML($html);
 
     $action = $request->get('action', 'preview');
 
+
+$ownerName = $project?->ownerUser?->name ?? 'مالك_غير_محدد';  // إذا كان الاسم غير موجود، يتم استخدام 'مالك_غير_محدد'
+
+// اسم الملف مع اسم المالك
+$fileName = "العقد_الاساسي_" . $ownerName . ".pdf";
+
+
     if ($action === 'download') {
-        return $mpdf->Output("contract_{$project->id}.pdf", 'D');
+        return $mpdf->Output($fileName, 'D');
     }
 
     if ($action === 'print') {
-        return $mpdf->Output("contract_{$project->id}.pdf", 'I'); // Browser print
+        return $mpdf->Output($fileName, 'I'); // Browser print
     }
 
     // Default = preview
-    return $mpdf->Output("contract_{$project->id}.pdf", 'I');
+    return $mpdf->Output($fileName, 'I');
 }
 
 
@@ -354,16 +432,25 @@ public function takleefContractPdf(Request $request, $id)
     $mpdf->WriteHTML($html);
 
     $action = $request->get('action', 'preview');
+//takleef_contract_{$project->id}
+//$project->ownerUser->name_ar
+
+// الحصول على اسم المالك
+$ownerName = $project?->ownerUser?->name ?? 'مالك_غير_محدد';  // إذا كان الاسم غير موجود، يتم استخدام 'مالك_غير_محدد'
+
+// اسم الملف مع اسم المالك
+$fileName = "خطاب_التكليف_" . $ownerName . ".pdf";
+
 
     if ($action === 'download') {
-        return $mpdf->Output("takleef_contract_{$project->id}.pdf", 'D');
+        return $mpdf->Output($fileName, 'D');
     }
 
     if ($action === 'print') {
-        return $mpdf->Output("takleef_contract_{$project->id}.pdf", 'I');
+        return $mpdf->Output($fileName, 'I');
     }
 
-    return $mpdf->Output("takleef_contract_{$project->id}.pdf", 'I');
+    return $mpdf->Output($fileName, 'I');
 }
 
 
@@ -397,15 +484,25 @@ public function contractOwnerConsultantPdf(Request $request, $id)
 
     $action = $request->get('action', 'preview');
 
+
+
+// الحصول على اسم المالك
+$ownerName = $project?->ownerUser?->name ?? 'مالك_غير_محدد';  // إذا كان الاسم غير موجود، يتم استخدام 'مالك_غير_محدد'
+
+// اسم الملف مع اسم المالك
+$fileName = "عقد_الاتفاق_بين_المالك_والاستشاري_" . $ownerName . ".pdf";
+
+
+
     if ($action === 'download') {
-        return $mpdf->Output("contract_owner_consultant_{$project->id}.pdf", 'D');
+        return $mpdf->Output($fileName, 'D');
     }
 
     if ($action === 'print') {
-        return $mpdf->Output("contract_owner_consultant_{$project->id}.pdf", 'I'); // Browser print
+        return $mpdf->Output($fileName, 'I'); // Browser print
     }
 
-    return $mpdf->Output("contract_owner_consultant_{$project->id}.pdf", 'I');
+    return $mpdf->Output($fileName, 'I');
 }
 
 
@@ -441,7 +538,7 @@ public function contractSpecificationsPdf(Request $request, $id)
     ]);
     $mpdf->SetHTMLHeader('
         <div style="text-align:center; margin-bottom:0.5rem;">
-            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
+            <img src="'.public_path('images/tender_logo.png').'" style="height:100px;width:70%;">
         </div>
     ');
     $mpdf->SetHTMLFooter('
@@ -453,18 +550,481 @@ public function contractSpecificationsPdf(Request $request, $id)
     $mpdf->WriteHTML($html);
 
     $action = $request->get('action', 'preview');
-    $fileName = "contract_specifications_{$project->id}.pdf";
+    
+    
+    
+$ownerName = $project?->ownerUser?->name ?? 'مالك_غير_محدد';  // إذا كان الاسم غير موجود، يتم استخدام 'مالك_غير_محدد'
+$fileName = "عقد_المواصفات_الفنية_" . $ownerName . ".pdf";
+
 
     if ($action === 'download') {
         return $mpdf->Output($fileName, 'D');
     }
 
     if ($action === 'print') {
-        return $mpdf->Output($fileName, 'I');
+        return $mpdf->Output($fileName, 'I'); // Browser print
+    }
+
+    // Default = preview
+    return $mpdf->Output($fileName, 'I');
+}
+
+
+
+
+/*public function projectSchedulePdf(Request $request, $id)
+{
+    $project = \App\Models\Project::with([
+        'ownerUser',
+        'contractorUser',
+        'projectName',
+        'projectRegion'
+    ])->findOrFail($id);
+
+    $schedules = \App\Models\ProjectSchedule::where('project_id', $id)->get();
+
+    $html = view('pdf.project-schedule', compact('project', 'schedules'))->render();
+
+    $mpdf = new \Mpdf\Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'default_font' => 'amiri',
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+        'margin_top' => 35,
+        'margin_footer' => 5,
+    ]);
+
+    $mpdf->SetHTMLHeader('
+        <div style="text-align:center;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:90px;width:70%;">
+        </div>
+    ');
+
+    $mpdf->SetHTMLFooter('
+        <div style="text-align:center;font-size:12px;">
+            صفحة {PAGENO} من {nbpg}
+        </div>
+    ');
+
+    $mpdf->WriteHTML($html);
+
+    $fileName = "project_schedule_{$project->id}.pdf";
+    $action = $request->get('action', 'preview');
+
+    if ($action === 'download') {
+        return $mpdf->Output($fileName, 'D');
+    }
+
+    return $mpdf->Output($fileName, 'I');
+}*/
+
+
+/*public function projectSchedulePdf(Request $request, $id)
+{
+    $project = \App\Models\Project::with([
+        'ownerUser',
+        'contractorUser',
+        'projectName',
+        'projectRegion'
+    ])->findOrFail($id);
+    
+    $batchId = $request->get('batch_id');
+    // ✅ نجيب آخر batch
+    
+    $lastBatchId = \App\Models\ProjectSchedule::where('project_id', $id)
+        ->max('batch_id');
+    if(!$batchId)$batchId=$lastBatchId;
+
+    // ✅ نجيب بياناته فقط
+    $schedules = \App\Models\ProjectSchedule::where('project_id', $id)
+        ->where('batch_id', $batchId)//$lastBatchId)
+        ->orderBy('item_no')
+        ->get();
+
+// لو مش موجود → استخدم آخر batch (fallback)
+if (!$batchId) {
+    $batchId = \App\Models\ProjectSchedule::where('project_id', $id)
+        ->max('batch_id');
+}
+
+
+
+
+
+    $approval = \App\Models\ProjectScheduleApproval::where('project_id', $id)
+    ->where('batch_id', $batchId)
+    ->first();
+
+
+
+
+
+
+
+//dd($batchId);
+$projectScheduleApproval = \App\Models\ProjectScheduleApproval::where('project_id', $id)
+    ->where('batch_id', $batchId)
+    ->first();
+$showSignature = false; 
+if ($projectScheduleApproval) {
+    if ($projectScheduleApproval->contractor_approved || 
+        $projectScheduleApproval->owner_approved || 
+        $projectScheduleApproval->consultant_approved) {
+        $showSignature = true; 
+    }
+}
+
+
+
+    $approvalCreatedAt = $approval->created_at ?? null;
+    //dd($approvalCreatedAt->format('yy-mm-dd'));
+
+
+
+
+$contractorApproved = $approval ? $approval->contractor_approved : false;
+    $ownerApproved = $approval ? $approval->owner_approved : false;
+    $consultantApproved = $approval ? $approval->consultant_approved : false;
+
+
+
+
+    $html = view('pdf.project-schedule', compact('batchId','contractorApproved','ownerApproved','consultantApproved','projectScheduleApproval','showSignature','approval','project', 'schedules','approvalCreatedAt'))->render();
+
+    $mpdf = new \Mpdf\Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'default_font' => 'amiri',
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+        'margin_top' => 35,
+        'margin_footer' => 5,
+    ]);
+
+    $mpdf->SetHTMLHeader('
+        <div style="text-align:center;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:90px;width:70%;">
+        </div>
+    ');
+
+    $mpdf->SetHTMLFooter('
+        <div style="text-align:center;font-size:12px;">
+            صفحة {PAGENO} من {nbpg}
+        </div>
+    ');
+
+    $mpdf->WriteHTML($html);
+
+    $fileName = "project_schedule_{$project->id}_batch_{$lastBatchId}.pdf";
+    $action = $request->get('action', 'preview');
+
+    if ($action === 'download') {
+        return $mpdf->Output($fileName, 'D');
+    }
+
+    return $mpdf->Output($fileName, 'I');
+}*/
+
+
+
+
+
+
+
+
+public function projectSchedulePdf(Request $request, $id)
+{
+    $project = \App\Models\Project::with([
+        'ownerUser',
+        'contractorUser',
+        'projectName',
+        'projectRegion'
+    ])->findOrFail($id);
+    
+    $batchId = $request->get('batch_id');
+    
+    // ✅ نجيب آخر batch
+    $lastBatchId = \App\Models\ProjectSchedule::where('project_id', $id)
+        ->max('batch_id');
+    if(!$batchId) $batchId = $lastBatchId;
+
+    // ✅ نجيب بياناته فقط
+    $schedules = \App\Models\ProjectSchedule::where('project_id', $id)
+        ->where('batch_id', $batchId)
+        ->orderBy('item_no')
+        ->get();
+
+    // لو مش موجود → استخدم آخر batch (fallback)
+    if (!$batchId) {
+        $batchId = \App\Models\ProjectSchedule::where('project_id', $id)
+            ->max('batch_id');
+    }
+
+    // Get approval data
+    $approval = \App\Models\ProjectScheduleApproval::where('project_id', $id)
+        ->where('batch_id', $batchId)
+        ->first();
+
+    $projectScheduleApproval = \App\Models\ProjectScheduleApproval::where('project_id', $id)
+        ->where('batch_id', $batchId)
+        ->first();
+    $showSignature = false;
+    if ($projectScheduleApproval) {
+        if ($projectScheduleApproval->contractor_approved || 
+            $projectScheduleApproval->owner_approved || 
+            $projectScheduleApproval->consultant_approved) {
+            $showSignature = true;
+        }
+    }
+
+    // Initialize previousAmounts and cumulative
+    $previousAmounts = [];
+    $cumulative = 0;
+
+    // Calculate the total increase (batchIncrease) and previousAmount for each row in the batch
+    $batchIncrease = 0;
+
+    foreach ($schedules as $schedule) {
+        $prev = $previousAmounts[$schedule->item_no] ?? 0;
+
+        // Calculate the difference (real increase) for this item
+        $diff = ($schedule->amount ?? 0) - $prev;
+
+        if ($diff < 0) $diff = 0;
+
+        $batchIncrease += $diff;
+
+        $previousAmounts[$schedule->item_no] = $schedule->amount ?? 0;
+    }
+
+    // Calculate the previous amount (before this batch)
+    $previousAmount = $cumulative;
+
+    // Update cumulative with the batch increase
+    $cumulative += $batchIncrease;
+
+    // Get the remaining amount for the project owner
+    $projectValue = $project->project_owner_support ?? 0;
+    $remaining = $projectValue - $cumulative;
+
+    $approvalCreatedAt = $approval->created_at ?? null;
+
+    // Prepare data for the view (pdf)
+    $contractorApproved = $approval ? $approval->contractor_approved : false;
+    $ownerApproved = $approval ? $approval->owner_approved : false;
+    $consultantApproved = $approval ? $approval->consultant_approved : false;
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+$previousAmounts = [];
+$cumulative = 0;
+
+$allBatches = \App\Models\ProjectSchedule::where('project_id', $id)
+    ->whereNotNull('batch_id')
+    ->select('batch_id')
+    ->distinct()
+    ->orderBy('batch_id', 'asc')
+    ->get();
+
+$previousAmount = 0;
+$batchIncrease = 0;
+$cumulativee=0;
+
+foreach ($allBatches as $batch) {
+
+    $rows = \App\Models\ProjectSchedule::where('project_id', $id)
+        ->where('batch_id', $batch->batch_id)
+        ->orderBy('item_no')
+        ->get();
+
+    $currentBatchIncrease = 0;
+
+    foreach ($rows as $row) {
+
+        $prev = $previousAmounts[$row->item_no] ?? 0;
+
+        $diff = ($row->amount ?? 0) - $prev;
+        if ($diff < 0) $diff = 0;
+
+        $currentBatchIncrease += $diff;
+
+        $previousAmounts[$row->item_no] = $row->amount ?? 0;
+    }
+
+    if ($batch->batch_id == $batchId) {
+        $previousAmount = $cumulative;   // 👈 ما سبق
+        $batchIncrease = $currentBatchIncrease;
+        $cumulative += $currentBatchIncrease; // 👈 الإجمالي بعد الدفعة
+        break;
+    }
+
+    $cumulative += $currentBatchIncrease;
+
+    
+}
+
+
+$cumulativee=$cumulative-$previousAmount;
+
+
+
+
+
+    $generalNote = optional($schedules->first())->notes;
+    // Render the HTML view for the PDF
+    $html = view('pdf.project-schedule', compact(
+        'generalNote','batchId', 'contractorApproved', 'ownerApproved', 'consultantApproved',
+        'projectScheduleApproval', 'showSignature', 'approval', 'project',
+        'schedules', 'approvalCreatedAt', 'previousAmount', 'cumulative','cumulativee', 'remaining', 'batchIncrease'
+    ))->render();
+
+
+    $mpdf = new \Mpdf\Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'default_font' => 'amiri',
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+        'margin_top' => 35,
+        'margin_footer' => 5,
+    ]);
+
+    $mpdf->SetHTMLHeader('
+        <div style="text-align:center;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:90px;width:70%;">
+        </div>
+    ');
+
+    $mpdf->SetHTMLFooter('
+        <div style="text-align:center;font-size:12px;">
+            صفحة {PAGENO} من {nbpg}
+        </div>
+    ');
+
+    $mpdf->WriteHTML($html);
+
+    $fileName = "project_schedule_{$project->id}_batch_{$lastBatchId}.pdf";
+    $action = $request->get('action', 'preview');
+
+    if ($action === 'download') {
+        return $mpdf->Output($fileName, 'D');
     }
 
     return $mpdf->Output($fileName, 'I');
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*public function projectSchedulePdf(Request $request, $id)
+{
+    $project = \App\Models\Project::with([
+        'ownerUser',
+        'contractorUser',
+        'projectName',
+        'projectRegion'
+    ])->findOrFail($id);
+
+    // Get the latest batch ID
+    $lastBatchId = \App\Models\ProjectSchedule::where('project_id', $id)
+        ->max('batch_id');
+
+    // Get schedules for the latest batch
+    $schedules = \App\Models\ProjectSchedule::where('project_id', $id)
+        ->where('batch_id', $lastBatchId)
+        ->orderBy('item_no')
+        ->get();
+
+    // Get batch ID from the request, or use the latest batch as fallback
+    $batchId = $request->get('batch_id');
+    if (!$batchId) {
+        $batchId = \App\Models\ProjectSchedule::where('project_id', $id)
+            ->max('batch_id');
+    }
+
+    // Get the approval data for the given batch
+    $approval = \App\Models\ProjectScheduleApproval::where('project_id', $id)
+        ->where('batch_id', $batchId)
+        ->first();
+
+    // Check if the approval statuses for contractor, owner, or consultant are true
+    $contractorApproved = $approval ? $approval->contractor_approved : false;
+    $ownerApproved = $approval ? $approval->owner_approved : false;
+    $consultantApproved = $approval ? $approval->consultant_approved : false;
+
+    // Set $showSignature to true if any of the approvals are true
+    $showSignature = $contractorApproved || $ownerApproved || $consultantApproved;
+
+    // Prepare the approval created date
+    $approvalCreatedAt = $approval ? $approval->created_at : null;
+
+    // Pass all necessary data to the view
+    $html = view('pdf.project-schedule', compact(
+        'project', 'schedules', 'approval', 
+        'contractorApproved', 'ownerApproved', 'consultantApproved',
+        'showSignature', 'approvalCreatedAt'
+    ))->render();
+
+    // Create the PDF using mPDF
+    $mpdf = new \Mpdf\Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'default_font' => 'amiri',
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+        'margin_top' => 35,
+        'margin_footer' => 5,
+    ]);
+
+    $mpdf->SetHTMLHeader('
+        <div style="text-align:center;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:90px;width:70%;">
+        </div>
+    ');
+
+    $mpdf->SetHTMLFooter('
+        <div style="text-align:center;font-size:12px;">
+            صفحة {PAGENO} من {nbpg}
+        </div>
+    ');
+
+    $mpdf->WriteHTML($html);
+
+    // Set the file name
+    $fileName = "project_schedule_{$project->id}_batch_{$lastBatchId}.pdf";
+    $action = $request->get('action', 'preview');
+
+    // Return the PDF file either for download or preview
+    if ($action === 'download') {
+        return $mpdf->Output($fileName, 'D');
+    }
+
+    return $mpdf->Output($fileName, 'I');
+}*/
+
 
 
 public function hawyaContractPdf(Request $request, $id)
@@ -497,15 +1057,21 @@ public function hawyaContractPdf(Request $request, $id)
 
     $action = $request->get('action', 'preview');
 
+        
+$ownerName = $project?->ownerUser?->name ?? 'مالك_غير_محدد';  // إذا كان الاسم غير موجود، يتم استخدام 'مالك_غير_محدد'
+$fileName = "عقد_الحاوية_" . $ownerName . ".pdf";
+
+
     if ($action === 'download') {
-        return $mpdf->Output("contract_hawya_{$project->id}.pdf", 'D');
+        return $mpdf->Output($fileName, 'D');
     }
 
     if ($action === 'print') {
-        return $mpdf->Output("contract_hawya_{$project->id}.pdf", 'I');
+        return $mpdf->Output($fileName, 'I'); // Browser print
     }
 
-    return $mpdf->Output("contract_hawya_{$project->id}.pdf", 'I');
+    // Default = preview
+    return $mpdf->Output($fileName, 'I');
 }
 
 
@@ -525,21 +1091,38 @@ public function siteDeliveryContractPdf(Request $request, $id)
         'default_font' => 'amiri',
         'autoScriptToLang' => true,
         'autoLangToFont' => true,
+        'margin_footer' => 5,
+        'margin_top' => 35
     ]);
-
+ $mpdf->SetHTMLHeader('
+        <div style="text-align:center; margin-bottom:0.5rem;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
+        </div>
+    ');
+    $mpdf->SetHTMLFooter('
+        <div style="text-align:center; font-size:12px; margin-top:1rem;">
+            صفحة {PAGENO} من {nbpg}
+        </div>
+    ');
     $mpdf->WriteHTML($html);
 
     $action = $request->get('action', 'preview');
 
+        
+$ownerName = $project?->ownerUser?->name ?? 'مالك_غير_محدد';  // إذا كان الاسم غير موجود، يتم استخدام 'مالك_غير_محدد'
+$fileName = "عقد_تسليم_الموقع_" . $ownerName . ".pdf";
+
+
     if ($action === 'download') {
-        return $mpdf->Output("site_delivery_contract_{$project->id}.pdf", 'D');
+        return $mpdf->Output($fileName, 'D');
     }
 
     if ($action === 'print') {
-        return $mpdf->Output("site_delivery_contract_{$project->id}.pdf", 'I');
+        return $mpdf->Output($fileName, 'I'); // Browser print
     }
 
-    return $mpdf->Output("site_delivery_contract_{$project->id}.pdf", 'I');
+    // Default = preview
+    return $mpdf->Output($fileName, 'I');
 }
 
 
@@ -555,21 +1138,38 @@ public function bankContractPdf(Request $request, $id)
         'default_font' => 'amiri',
         'autoScriptToLang' => true,
         'autoLangToFont' => true,
+        'margin_footer' => 5,
+        'margin_top' => 35
     ]);
-
+ $mpdf->SetHTMLHeader('
+        <div style="text-align:center; margin-bottom:0.5rem;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
+        </div>
+    ');
+    $mpdf->SetHTMLFooter('
+        <div style="text-align:center; font-size:12px; margin-top:1rem;">
+            صفحة {PAGENO} من {nbpg}
+        </div>
+    ');
     $mpdf->WriteHTML($html);
 
     $action = $request->get('action', 'preview');
 
+        
+$ownerName = $project?->ownerUser?->name ?? 'مالك_غير_محدد';  // إذا كان الاسم غير موجود، يتم استخدام 'مالك_غير_محدد'
+$fileName = "عقد_البنك_" . $ownerName . ".pdf";
+
+
     if ($action === 'download') {
-        return $mpdf->Output("bank_contract_{$project->id}.pdf", 'D');
+        return $mpdf->Output($fileName, 'D');
     }
 
     if ($action === 'print') {
-        return $mpdf->Output("bank_contract_{$project->id}.pdf", 'I');
+        return $mpdf->Output($fileName, 'I'); // Browser print
     }
 
-    return $mpdf->Output("bank_contract_{$project->id}.pdf", 'I');
+    // Default = preview
+    return $mpdf->Output($fileName, 'I');
 }
 
 
@@ -616,11 +1216,33 @@ public function ownerRequirementContractPdf(Request $request, $id)
 
     $action = $request->get('action', 'preview');
 
-    return match ($action) {
+
+
+
+    
+$ownerName = $project?->ownerUser?->name ?? 'مالك_غير_محدد';  // إذا كان الاسم غير موجود، يتم استخدام 'مالك_غير_محدد'
+$fileName = "عقد_احتياجات_المالك_" . $ownerName . ".pdf";
+
+
+    if ($action === 'download') {
+        return $mpdf->Output($fileName, 'D');
+    }
+
+    if ($action === 'print') {
+        return $mpdf->Output($fileName, 'I'); // Browser print
+    }
+
+    // Default = preview
+    return $mpdf->Output($fileName, 'I');
+
+
+
+
+    /*return match ($action) {
         'download' => $mpdf->Output("owner_requirements_contract_{$project->id}.pdf", 'D'),
         'print'    => $mpdf->Output("owner_requirements_contract_{$project->id}.pdf", 'I'),
         default    => $mpdf->Output("owner_requirements_contract_{$project->id}.pdf", 'I'),
-    };
+    };*/
 }
 
 
@@ -628,7 +1250,7 @@ public function ownerRequirementContractPdf(Request $request, $id)
 public function pricingContractPdf(Request $request, $id)
 {
     $project = \App\Models\Project::findOrFail($id);
-
+    $contractorId = $request->get('contractor');
     /*$items = \App\Models\OwnerRequirement::where('floor', 'pricing')
         ->with(['projectOwnerRequirements' => function ($q) use ($project) {
             $q->where('project_id', $project->id)
@@ -654,9 +1276,12 @@ public function pricingContractPdf(Request $request, $id)
     $groups = \App\Models\OwnerRequirement::where('floor', 'tender')
         ->where('type', 'group')->where('name_en', 'Supply Finishings')
         ->with([
-            'children.children.projectOwnerRequirements' => function ($q) use ($project) {
+            'children.children.projectOwnerRequirements' => function ($q) use ($project,$contractorId) {
                 $q->where('project_id', $project->id)
                   ->where('context', 'tender');
+                if ($contractorId) {
+                    $q->where('tender_user_id', $contractorId);
+                }
             }
         ])
         ->get();
@@ -686,7 +1311,7 @@ public function pricingContractPdf(Request $request, $id)
     ]);
     $mpdf->SetHTMLHeader('
         <div style="text-align:center; margin-bottom:0.5rem;">
-            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
+            <img src="'.public_path('images/tender_logo.png').'" style="height:100px;width:70%;">
         </div>
     ');
     $mpdf->SetHTMLFooter('
@@ -701,11 +1326,21 @@ public function pricingContractPdf(Request $request, $id)
 
     $action = $request->get('action', 'preview');
 
-    return match ($action) {
-        'download' => $mpdf->Output("contract_pricing_{$project->id}.pdf", 'D'),
-        'print'    => $mpdf->Output("contract_pricing_{$project->id}.pdf", 'I'),
-        default    => $mpdf->Output("contract_pricing_{$project->id}.pdf", 'I'),
-    };
+        
+$ownerName = $project?->ownerUser?->name ?? 'مالك_غير_محدد';  // إذا كان الاسم غير موجود، يتم استخدام 'مالك_غير_محدد'
+$fileName = "عقد_اسعار_التوريد_" . $ownerName . ".pdf";
+
+
+    if ($action === 'download') {
+        return $mpdf->Output($fileName, 'D');
+    }
+
+    if ($action === 'print') {
+        return $mpdf->Output($fileName, 'I'); // Browser print
+    }
+
+    // Default = preview
+    return $mpdf->Output($fileName, 'I');
 }
 
 
@@ -802,7 +1437,7 @@ public function tenderContractPdf(Request $request, $id)
     ]);
     $mpdf->SetHTMLHeader('
         <div style="text-align:center; margin-bottom:0.5rem;">
-            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
+            <img src="'.public_path('images/tender_logo.png').'" style="height:100px;width:70%;">
         </div>
     ');
     $mpdf->SetHTMLFooter('
@@ -815,11 +1450,21 @@ public function tenderContractPdf(Request $request, $id)
 
     $action = $request->get('action', 'preview');
 
-    return match ($action) {
-        'download' => $mpdf->Output("contract_tender_{$project->id}.pdf", 'D'),
-        'print'    => $mpdf->Output("contract_tender_{$project->id}.pdf", 'I'),
-        default    => $mpdf->Output("contract_tender_{$project->id}.pdf", 'I'),
-    };
+        
+$ownerName = $project?->ownerUser?->name ?? 'مالك_غير_محدد';  // إذا كان الاسم غير موجود، يتم استخدام 'مالك_غير_محدد'
+$fileName = "عقد_حساب_الكميات_" . $ownerName . ".pdf";
+
+
+    if ($action === 'download') {
+        return $mpdf->Output($fileName, 'D');
+    }
+
+    if ($action === 'print') {
+        return $mpdf->Output($fileName, 'I'); // Browser print
+    }
+
+    // Default = preview
+    return $mpdf->Output($fileName, 'I');
 }
 
 /*public function pricingContractPdf(Request $request, $id)
@@ -882,21 +1527,38 @@ public function bankTableContractPdf(Request $request, $id)
         'default_font' => 'amiri',
         'autoScriptToLang' => true,
         'autoLangToFont' => true,
+        'margin_footer' => 5,
+        'margin_top' => 35
     ]);
-
+    $mpdf->SetHTMLHeader('
+        <div style="text-align:center; margin-bottom:0.5rem;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
+        </div>
+    ');
+    $mpdf->SetHTMLFooter('
+        <div style="text-align:center; font-size:12px; margin-top:1rem;">
+            صفحة {PAGENO} من {nbpg}
+        </div>
+    ');
     $mpdf->WriteHTML($html);
 
     $action = $request->get('action', 'preview');
 
+        
+$ownerName = $project?->ownerUser?->name ?? 'مالك_غير_محدد';  // إذا كان الاسم غير موجود، يتم استخدام 'مالك_غير_محدد'
+$fileName = "عقد_البنك_" . $ownerName . ".pdf";
+
+
     if ($action === 'download') {
-        return $mpdf->Output("bank_table_contract_{$project->id}.pdf", 'D');
+        return $mpdf->Output($fileName, 'D');
     }
 
     if ($action === 'print') {
-        return $mpdf->Output("bank_table_contract_{$project->id}.pdf", 'I');
+        return $mpdf->Output($fileName, 'I'); // Browser print
     }
 
-    return $mpdf->Output("bank_table_contract_{$project->id}.pdf", 'I');
+    // Default = preview
+    return $mpdf->Output($fileName, 'I');
 }
 
 
@@ -904,9 +1566,49 @@ public function bankTableContractPdf(Request $request, $id)
 
 
 
+
+
+public function messageContractPdf(Request $request, $id)
+{
+    $project = \App\Models\Project::findOrFail($id);
+
+    $message = \App\Models\ProjectMessage::with([
+        'sender','receiver','ccUser','messageType'
+    ])->findOrFail($request->message_id);
+
+    $html = view('pdf.contract_message', [
+        'project' => $project,
+        'message' => $message,
+    ])->render();
+
+    $mpdf = new \Mpdf\Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'default_font' => 'amiri',
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+        'margin_footer' => 5,
+        'margin_top' => 35
+    ]);
+
+    $mpdf->SetHTMLHeader('
+        <div style="text-align:center;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:90px;width:60%;">
+        </div>
+    ');
+
+    $mpdf->WriteHTML($html);
+
+    return $mpdf->Output('message.pdf', 'I');
+}
+
+
+
+
+
     public function store(CreateProjectRequest $request)
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'
@@ -975,31 +1677,45 @@ public function bankTableContractPdf(Request $request, $id)
     /**
      * Display the specified Project.
      */
-    public function show($id)
+          public function show($projectId)
+
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
-    return redirect()->back()->with('toast', [
-        'type' => 'error',
-        'message' => 'ليس لديك الصلاحيات الكافية'
-    ]);
-}
-        $project = $this->projectRepository->find($id);
-
-        if (empty($project)) {
-            Flash::error('Project not found');
-
-            return redirect(route('projects.index'));
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
+            return redirect()->back()->with('toast', [
+                'type' => 'error',
+                'message' => 'ليس لديك الصلاحيات الكافية'
+            ]);
         }
 
-        return view('projects.show')->with('project', $project);
-    }
+    // العثور على المشروع بواسطة المعرف
+    //$project = \App\Models\Project::findOrFail($projectId);
+    
+    // حساب المساحات الإجمالية لكل مالك
+
+/*$ownersData = \App\Models\Project::selectRaw('owner_id, SUM(approved_area_license) as total_area')
+    ->whereNotNull('owner_id')
+    ->groupBy('owner_id')
+    ->with('ownerUser')
+    ->get();*/
+
+
+    $ownersData = \App\Models\Project::selectRaw('owner_id, SUM(approved_area_license) as total_area')
+    ->whereNotNull('owner_id')
+    ->groupBy('owner_id')
+    ->havingRaw('SUM(approved_area_license) > 0')
+    ->with('ownerUser')
+    ->get();
+
+    // إرسال البيانات إلى العرض
+    return view('projects.show', compact('ownersData'));
+}
 
     /**
      * Show the form for editing the specified Project.
      */
     public function edit($id)
 {
-    if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'
@@ -1071,9 +1787,9 @@ public function bankTableContractPdf(Request $request, $id)
     }*/
 
 
-public function update($id, UpdateProjectRequest $request)
+/*public function update($id, UpdateProjectRequest $request)
 {
-    if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+    if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'
@@ -1147,8 +1863,112 @@ public function update($id, UpdateProjectRequest $request)
             'type'    => 'success',
             'message' => __('Project updated successfully.')
         ]);
-}
+}*/
+public function update($id, UpdateProjectRequest $request)
+{
+    if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
+        return redirect()->back()->with('toast', [
+            'type' => 'error',
+            'message' => 'ليس لديك الصلاحيات الكافية'
+        ]);
+    }
 
+    $project = $this->projectRepository->find($id);
+
+    if (empty($project)) {
+        return redirect()->back()
+            ->with('toast', [
+                'type' => 'error',
+                'message' => __('Project not found.')
+            ]);
+    }
+//dd($project->project_image);
+    // التحقق من رفع الصورة وحفظها
+    /*if ($request->hasFile('project_image')) {
+        // حذف الصورة السابقة إن كانت موجودة
+        if ($project->project_image && file_exists(public_path('Files/'.$project->project_image))) {
+            unlink(public_path('Files/'.$project->project_image)); // حذف الصورة القديمة
+        }
+
+        // رفع الصورة الجديدة
+        $image = $request->file('project_image');
+        $imageName = time().'_'.$image->getClientOriginalName();
+        $image->move(public_path('Files'), $imageName); // حفظ الصورة في مجلد Files
+
+        // تخزين المسار الجديد للصورة في قاعدة البيانات
+        $project->project_image = 'Files/'.$imageName;
+        $project->save();
+    }*/
+
+
+if ($request->hasFile('approved_file') && $request->file('approved_file')->isValid()) {
+    $file = $request->file('approved_file');
+
+    // تأكد من أن الملف تم تحميله بنجاح
+    $filename = $baladyaApproval->id . '_baladya_' . time() . '_' . $file->getClientOriginalName();
+
+    // حفظ الملف في public/Files
+    $file->move(public_path('Files'), $filename);
+
+    // تحقق إذا كان الملف موجود في المجلد
+    $path = public_path('Files') . '/' . $filename;
+    if (file_exists($path)) {
+        // تخزين اسم الملف في قاعدة البيانات
+
+        dd($fileName);
+        $input['approved_file'] = $filename;
+    } else {
+        // إذا كان الملف لم يتم حفظه، قم بإرجاع خطأ أو رسالة مناسبة
+        return redirect()->back()->with('toast', [
+            'type' => 'error',
+            'message' => 'لم يتم حفظ الملف بشكل صحيح',
+        ]);
+    }
+}
+    // تحديث بيانات المشروع
+    $this->projectRepository->update($request->all(), $id);
+
+    // ==============================
+    // تحديث المستخدمين المرتبطين
+    // ==============================
+    $roles = [
+        'owner_id'      => 2,
+        'contractor_id' => 3,
+        'consultant_id' => 7,
+    ];
+
+    foreach ($roles as $field => $roleId) {
+        if ($request->filled($field)) {
+            \App\Models\ProjectUser::updateOrCreate(
+                [
+                    'project_id' => $project->id,
+                    'user_id'    => $request->$field,
+                ],
+                [
+                    'role_id' => $roleId,
+                ]
+            );
+        }
+    }
+
+    // لو عايز يروح للمرفقات بعد التحديث
+    if ($request->action === 'save_attachments') {
+        return redirect()->route('users.attachments.create', [
+                'id'   => $project->id,
+                'type' => 'projects'
+            ])->with('toast', [
+                'type'    => 'success',
+                'message' => __('Project updated successfully. You can now upload attachments.')
+            ]);
+    }
+
+    return redirect()
+        ->back()
+        ->with('toast', [
+            'type'    => 'success',
+            'message' => __('Project updated successfully.')
+        ]);
+}
 
 
     /**
@@ -1158,7 +1978,7 @@ public function update($id, UpdateProjectRequest $request)
      */
     public function destroy($id)
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'

@@ -27,6 +27,32 @@
                     اختيار المقاولين المرشحين للمناقصة
                 </h4>
 
+
+               
+
+        <div class="text-center px-2 py-1"
+             style="background:#fff;border-radius:8px;min-width:140px;">
+            <div style="font-size:12px;color:#555;">
+                المساحة المعتمدة من البلدية
+            </div>
+            <div style="font-weight:bold;">
+                {{ $project->approved_area ?? '-' }}
+            </div>
+        </div>
+
+        <div class="text-center px-2 py-1"
+             style="background:#fff;border-radius:8px;min-width:140px;">
+            <div style="font-size:12px;color:#555;">
+                مساحة السور بالمتر الطولي
+            </div>
+            <div style="font-weight:bold;">
+                {{ $project->linear_meter_area ?? '-' }}
+            </div>
+        </div>
+
+
+
+
                 <div class="d-flex gap-2">
 
                 
@@ -62,7 +88,7 @@
                             <th>سعر الفوت بدون تشطيبات </th>
                             <th> سعر الفوت مع تشطيبات</th>
                             <th>سعر السور</th>
-                            <th>الفيلا مع السور</th>
+                            <th> سعر الفيلا مع السور مع الواجهات  </th>
                             <th>الضريبة</th>
                             <th>الإجمالي النهائي</th>
 
@@ -132,22 +158,20 @@
 
 
                             <td>
-                                @if($contractor->tender_status == 'draft')
-                                    <span class="badge bg-info">مسودة</span>
-
-                                @elseif($contractor->tender_status == 'submitted')
-                                    <span class="badge bg-primary">مرسل</span>
-
-                                @elseif($contractor->tender_status == 'approved')
-                                    <span class="badge bg-success">معتمد</span>
-
-                                @elseif($contractor->tender_status == 'rejected')
-                                    <span class="badge bg-danger">مرفوض</span>
-
-                                @else
-                                    <span class="badge bg-secondary">لم يبدأ</span>
-                                @endif
-                            </td>
+    @switch($contractor->tender_status)
+        @case('draft')
+            <span class="badge bg-info">لم يبدأ</span>
+        @break
+        @case('submitted')
+            <span class="badge bg-primary">لم يكتمل</span>
+        @break
+        @case('approved')
+            <span class="badge bg-success">اكتمل</span>
+        @break
+        @default
+            <span class="badge bg-secondary">لم يبدأ</span>
+    @endswitch
+</td>
 
 
 
@@ -228,6 +252,32 @@
 
                                     @if(in_array($contractor->project_status,$allowed))
                                     
+
+                                        <li>
+                                            <a class="dropdown-item"
+                                               href="{{ route('projects.owner-requirements.index', [
+                                                    'project'=>$project->id,
+                                                    'context'=>'pricing',
+                                                    'contractor'=>$contractor->id
+                                                ]) }}">
+                                                <i class="fas fa-calculator me-1"></i>
+                                                 اسعار التوريد
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a class="dropdown-item" target="_blank"
+                                        href="{{ route('projects.contract.pricing.pdf', [
+                                                'id' => $project->id,
+                                                'contractor' => $contractor->id,
+                                                'action' => 'preview'
+                                        ]) }}">
+                                                <i class="fas fa-calculator me-1"></i>
+                                                👁 معاينة  اسعار التوريد
+                                            </a>
+                                        </li>
+
+
                                         <li>
                                             <a class="dropdown-item"
                                                href="{{ route('projects.owner-requirements.index', [
@@ -248,7 +298,7 @@
                                                 'action' => 'preview'
                                         ]) }}">
                                                 <i class="fas fa-calculator me-1"></i>
-                                                👁 معاينة العقد
+                                                👁 معاينة حساب الكميات
                                             </a>
                                         </li>
                                     @endif

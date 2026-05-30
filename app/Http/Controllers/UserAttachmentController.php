@@ -152,6 +152,7 @@ public function create(Request $request, $id)
     $type = $request->query('type', 'users'); // default users
     $mode = $request->query('mode');
     $isTender = $mode === 'tender';
+    $isDesigns= $mode === 'designs';
     
     $isContractorFiles=$mode === 'contractor_files';
     $projectDocuments=$mode === 'project_documents';
@@ -181,6 +182,7 @@ public function create(Request $request, $id)
 
 
     if($projectDocuments) {
+        
         $defaultTypes=[2,10,12,13,14,15,16,17];
     }
 
@@ -204,6 +206,7 @@ public function create(Request $request, $id)
         $type === 'users' &&
         $model->id === $currentUser->id
     ) {
+        
         $defaultTypes = array_unique(array_merge($defaultTypes, $adminExtraTypes));
         $isAdminFiles=true;
     }
@@ -222,22 +225,28 @@ public function create(Request $request, $id)
    
 
     // لو المستخدم مقاول أو بيشوف ملفات مقاول
-    if ($isContractorUser || $isContractorModel) {
-        $defaultTypes = $contractorTypes;//array_unique(array_merge($baseUserTypes, $contractorTypes));
+    if (($isContractorUser&&!$projectDocuments) || ($isContractorModel&&!$projectDocuments)) {
+        
+        $defaultTypes = array_unique(array_merge($baseUserTypes, $contractorTypes));//$contractorTypes;//
     }
 
 
     if ($isTender) {
 
         // tender ==>(25-33-34-35)
-        $defaultTypes = [40,50,51,41,2,14,13,55,56,57,58];//[25, 33, 34, 35];
+        $defaultTypes = [40,50,51,41,2,14,13,55,56,57,15];//[25, 33, 34, 35];
     }
 
-
+    if ($isDesigns) {
+//50 ==== 59
+        // tender ==>(25-33-34-35)
+        $defaultTypes = [40,50,51,41,55,56,57,59];//[25, 33, 34, 35];
+    }
 
     if ($isContractorFiles) {
 
         // tender ==>(25-33-34-35)
+        
         $defaultTypes = [25, 33, 34, 35,36,37,38,39];
     }
 
@@ -326,12 +335,12 @@ public function store(Request $request, $id)
     $type = $request->query('type', 'users');
     //dd($isContractorFiles);
     if($type==1)$type='projects';
-    if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
-    return redirect()->back()->with('toast', [
-        'type' => 'error',
-        'message' => 'ليس لديك الصلاحيات الكافية'
-    ]);
-}
+    if (!in_array(auth()->user()->role_id, [1,4,11,12,3,7])) {//
+        return redirect()->back()->with('toast', [
+            'type' => 'error',
+            'message' => 'ليس لديك الصلاحيات الكافية'
+        ]);
+    }
     //
     
     $isTender = $request->query('mode') === 'tender';

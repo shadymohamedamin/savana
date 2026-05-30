@@ -75,6 +75,13 @@
             min-height: 20px;
             height: 20px;
         }
+
+        .section-title {
+            background-color: #e9e2c7;
+            font-weight: bold;
+            text-align: center;
+            font-size: 22px;
+        }
     </style>
 </head>
 <body>
@@ -95,7 +102,7 @@ $dayName = $startDate->translatedFormat('l');
 $dateFormatted = $startDate->translatedFormat('d/m/Y'); // مثال: 07/01/2026
 @endphp
 <!-- عنوان العقد -->
-<table>
+<!-- <table>
     <tr>
         <td class="title" colspan="3">{{ __('Hawya Contract') /* ar.json: "عقد الحاوية" */ }}</td>
     </tr>
@@ -108,7 +115,7 @@ $dateFormatted = $startDate->translatedFormat('d/m/Y'); // مثال: 07/01/2026
 </table>
 
 
-<!-- بيانات المشروع -->
+
 <table>
     <tr>
         <td colspan="2" class="section-header" style="padding:15px;">
@@ -151,7 +158,7 @@ $dateFormatted = $startDate->translatedFormat('d/m/Y'); // مثال: 07/01/2026
 </table>
 
 
-<!-- بيانات الأطراف -->
+
 <table>
     <tr>
         <td colspan="2" class="section-header" style="padding:15px;">
@@ -183,13 +190,14 @@ $dateFormatted = $startDate->translatedFormat('d/m/Y'); // مثال: 07/01/2026
             هاتف: 2273478/07 – متحرك: 0525015080
         </td>
     </tr>
-</table>
+</table> -->
+@include('pdf.contract_header', ['isHawya'=>true,'project' => $project,'isBank'=>false,'showContractor' => true,'title'=>'عقد الحاوية'])
 
+<!-- 
 
-<!-- نص التعاقد -->
 <table>
     <tr>
-        <td class="section-header" style="padding:15px;">
+        <td class="section-title" style="padding:15px;">
             نص التعاقد
         </td>
     </tr>
@@ -230,7 +238,7 @@ $dateFormatted = $startDate->translatedFormat('d/m/Y'); // مثال: 07/01/2026
            <img src="{{ public_path('images/signature.jpeg') }}" style="height:100px;">
         </td>
     </tr>
-</table>
+</table> -->
 
 
 

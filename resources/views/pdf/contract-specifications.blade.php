@@ -50,21 +50,75 @@
             text-align: center;
             vertical-align: bottom;
         }
+
+
+
+
+
+
+
+
+/* ===== ألوان الجداول ===== */
+.table-structure {
+    background-color: #cfd8c3;
+}
+
+.table-sanitary {
+    background-color: #e6d2c3;
+}
+
+.table-electric {
+    background-color: #c9d6e3;
+}
+
+/* ===== عنوان السيكشن ===== */
+.section-header {
+    background-color: #e6a87c;
+    color: #0b3d91;
+    font-weight: bold;
+    font-size: 18px;
+    text-align: center;
+}
+
+/* ===== جدول عام ===== */
+.spec-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+    table-layout: fixed;
+}
+
+.spec-table td {
+    border: 1px solid #000;
+    padding: 6px;
+    text-align: center;
+    font-size: 13px;
+}
+
+/* عمود العنوان */
+.spec-label {
+    font-weight: bold;
+    width: 30%;
+}
+
+/* عمود القيم */
+.spec-value {
+    width: 70%;
+}
+
+
+
     </style>
 </head>
 <body>
 
-<!-- العنوان -->
-<table>
-    <tr>
-        <td class="title">
-            المواصفات الفنية والشروط العامة
-        </td>
-    </tr>
-</table>
 
-<!-- بيانات المشروع -->
-<table>
+
+
+@include('pdf.contract_header', ['project' => $project,'isBank'=>false,'showContractor' => true,'title'=>'عقد المواصفات الفنية'])
+
+
+<!-- <table>
     <tr>
         <td class="bold">اسم المقاول</td>
         <td>{{ $project->contractorUser?->name }}</td>
@@ -75,7 +129,7 @@
     </tr>
     <tr>
         <td class="bold">عائدة للمالك</td>
-        <td>{{$project->ownerUser->name}}</td>
+        <td>{{$project->ownerUser?->name}}</td>
     </tr>
 
     <tr>
@@ -94,13 +148,13 @@
     </tr>
     <tr>
         <td class="bold">المنطقة</td>
-        <td>{{ $project->projectRegion->name_ar ?? '—' }}</td>
+        <td>{{ $project->projectRegion?->name_ar ?? '—' }}</td>
     </tr>
     <tr>
-        <td class="bold" > التاريخ</td>
-        <td>{{ $project->contract_signed_at->format('d/m/Y')??'-' }}</td>
+        <td class="bold" > تاريخ توقيع العقد</td>
+        <td>{{ $project->contract_signed_at?->format('d/m/Y')??'-' }}</td>
     </tr>
-</table>
+</table> --> 
 
 <!-- فهرس -->
 <table>
@@ -462,7 +516,7 @@
         <td class="signature" style="height:80px; border-bottom:1px solid #000;"></td>
 
         <td class="signature" style="height:80px; border-bottom:1px solid #000; text-align:center;">
-           <img src="{{ public_path('images/signature.jpeg') }}" style="height:100px;">
+           <!-- <img src="{{ public_path('images/signature.jpeg') }}" style="height:100px;"> -->
         </td>
     </tr>
 </table>

@@ -71,6 +71,11 @@
                 ]) !!}
             </div>
 
+            @php
+                $batch_id = request('batch_id');
+    
+            @endphp
+                <input type="hidden" name="batch_id" value="{{ $batch_id }}">
             {{-- Total --}}
             <div style="min-width:250px;max-width:250px;">
                 {!! Form::label('total_amount', __('إجمالي الدفعة (شامل الضريبة)')) !!}
@@ -115,66 +120,95 @@
             </div>
 
             {{-- Attachment 1 --}}
-            <div class="col-md-3">
-                <div class="border rounded p-2 small bg-light attachment-box">
-                    <input type="hidden" name="attachments[1][delete]" value="0" class="delete-flag">
-                    <input type="file" name="attachments[1][file]"
-                           class="form-control form-control-sm attachment-input mb-1">
+            {{-- 📄 ملف الدفعة --}}
+<div class="col-md-3">
+    <label class="fw-bold mb-1">الدفعة</label>
 
-                    <div class="text-truncate selected-file-name d-none"></div>
+    <div class="border rounded p-2 small bg-light attachment-box">
+        <input type="hidden" name="attachments[1][delete]" value="0" class="delete-flag">
 
-                    @if($projectPayment->attachment)
-                        <a href="{{ asset('Files/'.$projectPayment->attachment) }}"
-                           target="_blank"
-                           class="btn btn-sm btn-outline-primary w-100 mt-1 stored-file">
-                            👁 View File
-                        </a>
-                    @endif
+        <input type="file"
+               name="attachments[1][file]"
+               class="form-control form-control-sm attachment-input mb-1">
 
-                    <a href="#" target="_blank"
-                       class="btn btn-sm btn-outline-success w-100 mt-1 preview-file d-none">
-                        👁 Preview
-                    </a>
+        <div class="text-truncate selected-file-name d-none"></div>
 
-                    <button type="button"
-                            class="btn btn-sm btn-outline-danger w-100 mt-1 remove-file">
-                        🗑 Remove
-                    </button>
-                </div>
-            </div>
+        @if($projectPayment->attachment)
+            <a href="{{ asset('Files/'.$projectPayment->attachment) }}"
+               target="_blank"
+               class="btn btn-sm btn-outline-primary w-100 mt-1 stored-file">
+                👁 معاينة الدفعة
+            </a>
+        @endif
+
+        <a href="#"
+           target="_blank"
+           class="btn btn-sm btn-outline-success w-100 mt-1 preview-file d-none">
+            👁 Preview
+        </a>
+
+        <button type="button"
+                class="btn btn-sm btn-outline-danger w-100 mt-1 remove-file">
+            🗑 Remove
+        </button>
+    </div>
+</div>
 
             {{-- Attachment 2 & 3 --}}
-            @for($i = 2; $i <= 3; $i++)
-            <div class="col-md-3">
-                <div class="border rounded p-2 small bg-light attachment-box">
-                    <input type="hidden" name="attachments[{{ $i }}][delete]" value="0" class="delete-flag">
-                    <input type="file" name="attachments[{{ $i }}][file]"
-                           class="form-control form-control-sm attachment-input mb-1">
+            @php
+    $attachments = [
+        2 => 'الفاتورة',
+        3 => 'الإيصال'
+    ];
+@endphp
 
-                    <div class="text-truncate selected-file-name d-none"></div>
+@foreach($attachments as $i => $title)
 
-                    @php $file = $projectPayment->{'attachment_'.$i}; @endphp
-                    @if($file)
-                        <a href="{{ asset('Files/'.$file) }}"
-                           target="_blank"
-                           class="btn btn-sm btn-outline-primary w-100 mt-1 stored-file">
-                            👁 View File
-                        </a>
-                    @endif
+<div class="col-md-3">
 
-                    <a href="#" target="_blank"
-                       class="btn btn-sm btn-outline-success w-100 mt-1 preview-file d-none">
-                        👁 Preview
-                    </a>
+    <label class="fw-bold mb-1">{{ $title }}</label>
 
-                    <button type="button"
-                            class="btn btn-sm btn-outline-danger w-100 mt-1 remove-file">
-                        🗑 Remove
-                    </button>
-                </div>
-            </div>
-            @endfor
+    <div class="border rounded p-2 small bg-light attachment-box">
 
+        <input type="hidden"
+               name="attachments[{{ $i }}][delete]"
+               value="0"
+               class="delete-flag">
+
+        <input type="file"
+               name="attachments[{{ $i }}][file]"
+               class="form-control form-control-sm attachment-input mb-1">
+
+        <div class="text-truncate selected-file-name d-none"></div>
+
+        @php
+            $file = $projectPayment->{'attachment_'.$i};
+        @endphp
+
+        @if($file)
+            <a href="{{ asset('Files/'.$file) }}"
+               target="_blank"
+               class="btn btn-sm btn-outline-primary w-100 mt-1 stored-file">
+                👁 معاينة {{ $title }}
+            </a>
+        @endif
+
+        <a href="#"
+           target="_blank"
+           class="btn btn-sm btn-outline-success w-100 mt-1 preview-file d-none">
+            👁 Preview
+        </a>
+
+        <button type="button"
+                class="btn btn-sm btn-outline-danger w-100 mt-1 remove-file">
+            🗑 Remove
+        </button>
+
+    </div>
+
+</div>
+
+@endforeach
         </div>
 
         <div class="card-footer d-flex justify-content-center gap-3">
