@@ -1,163 +1,477 @@
+
+
+
+
+
+
+
+
+
+<style>
+:root{
+    --gov-primary:#6F5A24;
+    --gov-secondary:#F8F4E8;
+    --gov-border:#C8B27A;
+    --gov-text:#4B3F1F;
+    --gov-bg:#F8F4E8;
+    --gov-hover:#EFE8C8;
+}
+
+.card{
+    background:#F8F4E8 !important;
+    border:2px solid #C8B27A !important;
+    border-radius:14px !important;
+}
+
+.gov-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    padding:20px;
+    margin-bottom:25px;
+    background:#F8F4E8;
+    border:2px solid #C8B27A;
+    border-radius:14px;
+}
+
+.gov-header-icon{
+    width:60px;
+    height:60px;
+    border-radius:12px;
+    background:#6F5A24;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+}
+
+.gov-header-title{
+    font-size:24px;
+    font-weight:800;
+    color:#6F5A24;
+}
+
+.gov-header-subtitle{
+    color:#8A7745;
+}
+
+.gov-header-stats{
+    display:flex;
+    gap:15px;
+}
+
+.gov-stat{
+    min-width:120px;
+    text-align:center;
+    background:#fff;
+    border:1px solid #D8C187;
+    border-radius:10px;
+    padding:10px;
+}
+
+.gov-stat span{
+    display:block;
+    font-size:22px;
+    font-weight:800;
+    color:#6F5A24;
+}
+
+.top-toolbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.action-btn{
+    width:42px;
+    height:42px;
+    border:none;
+    border-radius:12px;
+    background:#f5f3ee;
+}
+
+.action-menu{
+    display:none;
+    position:absolute;
+    min-width:220px;
+    background:#fff;
+    border-radius:14px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    z-index:9999;
+}
+
+.action-menu.show{
+    display:block;
+}
+
+.filter-panel{
+    display:none;
+}
+
+.filter-panel.show{
+    display:block;
+}
+
+.filter-input{
+    border:1px solid #C8B27A;
+    border-radius:8px;
+    height:44px;
+}
+
+.btn-apply,
+.btn-reset,
+.btn-olive{
+    background:#6F5A24 !important;
+    border-color:#6F5A24 !important;
+    color:#fff !important;
+}
+
+.custom-table{
+    border:2px solid #C8B27A !important;
+}
+
+.custom-header th{
+    background:#6F5A24 !important;
+    color:#fff !important;
+    border:1px solid #C8B27A !important;
+    font-weight:800;
+}
+
+.custom-table tbody td{
+    background:#fff !important;
+    border:1px solid rgba(146,114,42,.20) !important;
+}
+
+.custom-table tbody tr:hover{
+    background:#EFE8C8 !important;
+}
+
+.project-row{
+    cursor:pointer;
+    transition:.2s;
+}
+
+.project-row:hover{
+    transform:scale(1.002);
+}
+
+
+
+
+
+
+
+
+
+.action-dropdown{
+    position:relative;
+}
+
+.action-btn{
+    width:44px;
+    height:44px;
+    border:none;
+    border-radius:12px;
+    background:#f5f3ee;
+    color:#6F5A24;
+    font-size:18px;
+    transition:.2s;
+}
+
+.action-btn:hover{
+    background:#e8dfc7;
+}
+
+.action-menu{
+    position:absolute;
+    top:55px;
+    left:0;
+
+    min-width:240px;
+
+    background:#fff;
+
+    border:1px solid #E5D7AE;
+    border-radius:14px;
+
+    box-shadow:0 12px 30px rgba(0,0,0,.12);
+
+    overflow:hidden;
+
+    z-index:99999;
+
+    display:none;
+}
+
+.action-menu.show{
+    display:block;
+}
+
+.action-menu a,
+.action-menu button{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:10px;
+
+    padding:14px 16px;
+
+    border:none;
+    background:none;
+
+    text-decoration:none;
+
+    color:#4B3F1F;
+    font-weight:600;
+
+    transition:.2s;
+}
+
+.action-menu a:hover,
+.action-menu button:hover{
+    background:#F8F4E8;
+}
+
+
+
+
+
+
+
+
+
+/* .card{
+    margin-top:150px !important;
+} */
+
+</style>
+
+
+
+
 <!-- <canvas id="signature-pad"></canvas> -->
 <!-- <canvas id="signature-pad" width="400" height="150" style="border:1px solid #ccc;"></canvas> -->
-<div class="card shadow-sm rounded-4 m-0" style="background-color: #f5f5dc;">
+<div class="card shadow-sm rounded-4 m-0"
+     style="background-color:#f5f5dc; margin-top:50px;">
 
     {{-- Header --}}
-    <div class="card-header d-flex justify-content-between align-items-center"
-     style="background:#D4AF37;color:#2f3a1f;font-size:1.3rem;font-weight:600;">
-        <h4 class="card-title mb-0">{{ __('Users') }}</h4>
+    <<div class="gov-header">
 
-        <div class="d-flex gap-2">
-            <a href="{{ route('users.index') }}" class="btn btn-olive btn-sm" style="background:#2f3a1f;color:#d4af37;font-weight:600;">
-                <i class="fas fa-list"></i> {{ __('List') }}
-            </a>
-            <a href="{{ route('users.create') }}" class="btn btn-olive btn-sm" style="background:#2f3a1f;color:#d4af37;font-weight:600;">
-                <i class="fas fa-plus"></i> {{ __('Create') }}
-            </a>
+    <div class="gov-header-icon">
+        <i class="fas fa-users"></i>
+    </div>
+
+    <div>
+        <div class="gov-header-title">
+            إدارة المستخدمين
+        </div>
+
+        <div class="gov-header-subtitle">
+            إدارة المستخدمين والصلاحيات والأدوار
         </div>
     </div>
 
-    {{-- Filter Toggle --}}
-    <div class="card-body border-bottom" style="background-color: #f5f5dc;">
-        <button class="btn btn-outline-secondary btn-sm mb-3"
-                data-bs-toggle="collapse"
-                data-bs-target="#filterBox">
-            <i class="fas fa-filter"></i> {{ __('Filter') }}
-        </button>
+    <div class="gov-header-stats">
 
-        {{-- Filter Box --}}
-        <div id="filterBox" class="collaps">
+        <div class="gov-stat">
+            <span>{{ $users->total() }}</span>
+            <small>إجمالي المستخدمين</small>
+        </div>
+
+        <div class="gov-stat">
+            <span>{{ $users->where('Active',1)->count() }}</span>
+            <small>مستخدم نشط</small>
+        </div>
+
+    </div>
+
+</div>
+
+    <div class="card-header">
+
+    <div class="top-toolbar">
+
+        <form method="GET"
+              action="{{ route('users.index') }}"
+              style="margin:0;">
+
+            <div style="position:relative; min-width:260px;">
+
+                <i class="fas fa-search"
+                   style="
+                   position:absolute;
+                   right:14px;
+                   top:50%;
+                   transform:translateY(-50%);
+                   color:#999;
+                   z-index:2;">
+                </i>
+
+                <input type="text"
+                       name="name"
+                       value="{{ request('name') }}"
+                       class="form-control"
+                       placeholder="بحث سريع..."
+                       style="
+                       padding-right:40px;
+                       padding-left:40px;
+                       border-radius:12px;
+                       height:42px;"
+                       oninput="
+                       clearTimeout(window.searchTimer);
+                       window.searchTimer=setTimeout(()=>{
+                            this.form.submit();
+                       },500)">
+
+                <a href="{{ route('users.index') }}"
+                   style="
+                   position:absolute;
+                   left:12px;
+                   top:50%;
+                   transform:translateY(-50%);
+                   text-decoration:none;
+                   color:#999;">
+                   ✖
+                </a>
+
+            </div>
+
+        </form>
+
+        <div class="action-dropdown">
+
+            <button type="button"
+                    class="action-btn"
+                    id="actionToggle">
+                ⚙️
+            </button>
+
+            <div class="action-menu" id="actionMenu">
+
+                <a href="{{ route('users.create') }}">
+                    <i class="fas fa-user-plus"></i>
+                    إضافة مستخدم
+                </a>
+
+                <button type="button" id="toggleFilter">
+                    🔍 فلترة
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="filter-panel" id="filterPanel">
+
+    <div class="card filter-card shadow-sm mb-4 mt-0">
+
+        <div class="card-body filter-body">
+
             <form method="GET" action="{{ route('users.index') }}">
-                <div class="row g-2">
 
-                    <div class="col-md">
-                        <input type="text" name="name" class="form-control rounded-3"
-                               placeholder="{{ __('Name') }}"
+                <div class="row g-3">
+
+                    <div class="col-md-3">
+                        <label class="form-label">الاسم</label>
+
+                        <input type="text"
+                               name="name"
+                               class="form-control filter-input"
                                value="{{ request('name') }}">
                     </div>
 
-                    <!-- <div class="col-md">
-                        <input type="text" name="email" class="form-control rounded-3"
-                               placeholder="{{ __('Email') }}"
-                               value="{{ request('email') }}">
-                    </div> -->
+                    <div class="col-md-3">
+                        <label class="form-label">رقم الهاتف</label>
 
-                    <div class="col-md">
-                        <input type="text" name="mobile" class="form-control rounded-3"
-                               placeholder="{{ __('Mobile') }}"
+                        <input type="text"
+                               name="mobile"
+                               class="form-control filter-input"
                                value="{{ request('mobile') }}">
                     </div>
 
-                    <div class="col-md">
-                        <select name="role_id" class="form-select rounded-3">
-                            <option value="">{{ __('Role') }}</option>
+                    <div class="col-md-3">
+                        <label class="form-label">الدور</label>
+
+                        <select name="role_id"
+                                class="form-control filter-input">
+
+                            <option value="">اختر الدور</option>
+
                             @foreach($roles as $id => $role)
-                                <option value="{{ $id }}" {{ request('role_id')==$id ? 'selected' : '' }}>
+
+                                <option value="{{ $id }}"
+                                    {{ request('role_id')==$id ? 'selected' : '' }}>
+
                                     {{ $role }}
+
                                 </option>
+
                             @endforeach
+
                         </select>
                     </div>
 
+                    <div class="col-md-3 d-flex gap-2 align-items-end">
 
-                    <!-- <div class="col-md">
-                        <input type="text" name="uae_id" class="form-control rounded-3"
-                               placeholder="{{ __('ID Number') }}"
-                               value="{{ request('uae_id') }}">
-                    </div>
-
-                    {{-- Male Filter --}}
-                    <div class="col-md">
-                        <select name="male" class="form-select rounded-3">
-                            <option value="">{{ __('Gender') }}</option>
-                            <option value="1" {{ request('male')=='1'?'selected':'' }}>
-                                {{ __('Male') }}
-                            </option>
-                            <option value="0" {{ request('male')=='0'?'selected':'' }}>
-                                {{ __('Female') }}
-                            </option>
-                        </select>
-                    </div>
-
-                    {{-- Active --}}
-                    <div class="col-md">
-                        <select name="active" class="form-select rounded-3">
-                            <option value="">{{ __('Active') }}</option>
-                            <option value="1" {{ request('active')=='1'?'selected':'' }}>
-                                {{ __('Yes') }}
-                            </option>
-                            <option value="0" {{ request('active')=='0'?'selected':'' }}>
-                                {{ __('No') }}
-                            </option>
-                        </select>
-                    </div>-->
-
-                    {{-- Role --}}
-                    <!-- <div class="col-md">
-                        <select name="role" class="form-select rounded-3">
-                            <option value="">{{ __('Role') }}</option>
-                            <option value="user" {{ request('role')=='user'?'selected':'' }}>
-                                {{ __('User') }}
-                            </option>
-                            <option value="manager" {{ request('role')=='manager'?'selected':'' }}>
-                                {{ __('Manager') }}
-                            </option>
-                            <option value="admin" {{ request('role')=='admin'?'selected':'' }}>
-                                {{ __('Admin') }}
-                            </option>
-                        </select>
-                    </div> -->
-
-                    {{-- Is Admin --}}
-                    <!--<div class="col-md">
-                        <select name="is_admin" class="form-select rounded-3">
-                            <option value="">{{ __('Is Admin') }}</option>
-                            <option value="1" {{ request('is_admin')=='1'?'selected':'' }}>
-                                {{ __('Yes') }}
-                            </option>
-                            <option value="0" {{ request('is_admin')=='0'?'selected':'' }}>
-                                {{ __('No') }}
-                            </option>
-                        </select>
-                    </div> -->
-
-                    {{-- Buttons --}}
-                    <div class="col-md-2 d-grid">
-                        <button class="btn btn-olive" style="background-color: #2f3a1f;border: 1px solid #2f3a1f;color: #d4af37;">
-                            <i class="fas fa-check me-1"></i> {{ __('Apply') }}
+                        <button class="btn btn-apply">
+                            <i class="fas fa-search"></i>
+                            بحث
                         </button>
-                    </div>
-                    <div class="col-md-2 d-grid">
-                        <a href="{{ route('users.index') }}" class="btn btn-secondary rounded-3">
-                            <i class="fas fa-sync-alt me-1"></i> {{ __('Reset') }}
+
+                        <a href="{{ route('users.index') }}"
+                           class="btn btn-reset">
+
+                            <i class="fas fa-redo"></i>
+
+                            إعادة ضبط
+
                         </a>
+
                     </div>
 
                 </div>
+
             </form>
+
         </div>
+
     </div>
+
+</div>
+
+
+
+
+
 
     {{-- Table --}}
     <div class="table-responsive p-3" style="background-color: #f5f5dc;">
         <table class="table table-hover align-middle text-nowrap rounded-4 overflow-auto"
-               style="border:1px solid #D4AF37">
+               style="border:1px solid #f5f5dc;">
 
-            <thead style="background:#D4AF37;color:#000">
-            <tr  style="background-color: #f5f5dc;">
-                <th style="background-color: #f5f5dc;">#</th>
-                <th  style="background-color: #f5f5dc;">{{ __('Name') }}</th>
-                <th style="background-color: #f5f5dc;">{{ __('Email') }}</th>
-                <th style="background-color: #f5f5dc;">{{ __('Mobile') }}</th>
-                <th style="background-color: #f5f5dc;">{{ __('ID Number') }}</th>
-                <th style="background-color: #f5f5dc;">{{ __('رقم الرخصة') }}</th>
-                <!-- <th style="background-color: #f5f5dc;">{{ __('Gender') }}</th> -->
-                <!-- <th style="background-color: #f5f5dc;">{{ __('Active') }}</th> -->
-                <th style="background-color: #f5f5dc;">{{ __('Role') }}</th>
-                <!-- <th style="background-color: #f5f5dc;">{{ __('Admin') }}</th>       $loop->iteration -->
-                <th style="background-color: #f5f5dc;">{{ __('Actions') }}</th>
-            </tr>
-            </thead>
+            <thead class="custom-header">
+
+                <tr>
+
+                    <th>#</th>
+                    <th>الاسم</th>
+                    <th>البريد</th>
+                    <th>الجوال</th>
+                    <th>رقم الهوية</th>
+                    <th>رقم الرخصة</th>
+                    <th>الدور</th>
+                    <th>الإجراءات</th>
+
+                </tr>
+
+                </thead>
 
             <tbody style="background-color: #f5f5dc;">
             @foreach($users as $user)
@@ -204,7 +518,7 @@
 
                         <div class="dropdown" style="background-color: #f5f5dc;">
                             <button class="btn btn-sm btn-olive dropdown-toggle rounded-3"
-                                    style="background-color: #2f3a1f;border: 1px solid #2f3a1f;color: #d4af37;"
+                                    style="background-color: #2f3a1f;border: 1px solid #2f3a1f;color: #f5f5dc;"
                                     type="button" data-bs-toggle="dropdown">
                                 <i class="fas fa-cog"></i>
                             </button>
@@ -357,4 +671,29 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+</script>
+
+
+<script>
+
+const toggleBtn = document.getElementById('actionToggle');
+const menu = document.getElementById('actionMenu');
+
+toggleBtn?.addEventListener('click', () => {
+    menu.classList.toggle('show');
+});
+
+document.getElementById('toggleFilter')?.addEventListener('click', () => {
+    document.getElementById('filterPanel')
+        ?.classList.toggle('show');
+});
+
+window.addEventListener('click', function(e){
+
+    if(!e.target.closest('.action-dropdown')){
+        menu?.classList.remove('show');
+    }
+
+});
+
 </script>

@@ -110,7 +110,7 @@ $dateFormatted = $today->translatedFormat('d/m/Y');
 
 </table> -->
 
-@include('pdf.contract_header', ['project' => $project,'isBank'=>false,'showContractor' => true,'title'=>'عقد   كميات البنك'])
+@include('pdf.contract_header', ['project' => $project,'isBank'=>true,'showContractor' => true,'title'=>'جدول   كميات المشروع'])
 
 
 
@@ -281,7 +281,7 @@ $dateFormatted = $today->translatedFormat('d/m/Y');
 
 
 
-<table style="width:100%; border-collapse:collapse; margin-top:90px; margin-bottom:50px;">
+<table style="width:100%; border-collapse:collapse; margin-top:0px; margin-bottom:50px;">
     <tr>
         <td class="bold center section-title" style="text-align:center; font-weight:bold;">
             توقيع وختم المقاول
@@ -313,7 +313,7 @@ $dateFormatted = $today->translatedFormat('d/m/Y');
 
 
 
-<p style="margin-top:15px;">تاريخ: {{ $dateFormatted }}</p>
+{{-- <p style="margin-top:15px;">تاريخ: {{ $dateFormatted }}</p> --}}
 
 </body>
 </html>

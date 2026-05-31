@@ -193,6 +193,34 @@ $query = \App\Models\Project::query()
             ->distinct();
         }
     }
+
+
+
+
+
+if ($request->filled('search')) {
+
+    $search = trim($request->search);
+
+    $query->where(function ($q) use ($search) {
+
+        $q->where('project_code', 'like', "%{$search}%")
+          ->orWhere('qasmia_number', 'like', "%{$search}%")
+          ->orWhere('case_id_number', 'like', "%{$search}%")
+
+          ->orWhereHas('ownerUser', function ($q2) use ($search) {
+              $q2->where('name', 'like', "%{$search}%");
+          })
+
+          ->orWhereHas('contractorUser', function ($q2) use ($search) {
+              $q2->where('name', 'like', "%{$search}%");
+          });
+    });
+}
+
+
+
+
     $projects = $query->orderByDesc('created_at')->paginate(15);
     //dd($projects);
 
@@ -208,11 +236,13 @@ $query = \App\Models\Project::query()
     $toast = session('toast', null);
     $contractors = \App\Models\User::where('role_id', 3)->get();
 
-
+$activeProjects = \App\Models\Project::whereHas('status', function ($q) {
+    $q->where('name', 'active');
+})->count();
 
     
 
-    return view('projects.index', compact('projects', 'toast','contractors'));
+    return view('projects.index', compact('projects', 'toast','contractors','activeProjects'));
 }
 
 

@@ -174,7 +174,12 @@
     --gov-text: rgb(146 114 42 / 1);
     --gov-border: rgb(146 114 42 / 1);
 }
-
+:root{
+    --gov-primary:#6F5A24;      /* ذهبي غامق */
+    --gov-secondary:#F8F4E8;   /* خلفية حكومية فاتحة */
+    --gov-border:#C8B27A;      /* حدود */
+    --gov-text:#4B3F1F;        /* نص */
+}
 /* =========================
    GENERAL
 ========================= */
@@ -194,6 +199,8 @@ html{
     border: 2px solid var(--gov-border) !important;
     border-radius: 14px !important;
     overflow: hidden;
+    margin:50px;
+    margin-top:100px;
 }
 
 /* =========================
@@ -562,7 +569,7 @@ tbody td{
 .action-menu{
     position:absolute;
     top:50px;
-    right:0;
+    right:-180px;
     min-width:220px;
     background:#fff;
     border-radius:14px;
@@ -583,13 +590,14 @@ tbody td{
     align-items:center;
     gap:10px;
     width:100%;
-    padding:12px 160px;
+    padding:12px 16px;
     background:none;
     border:none;
     text-decoration:none;
     color:#444;
     font-size:14px;
     transition:.2s;
+    text-align:right;
 }
 
 .action-menu a:hover,
@@ -678,6 +686,143 @@ tbody td{
 
     overflow: visible !important;
 }
+.action-dropdown{
+    position:relative;
+}
+
+.action-menu{
+    position:absolute;
+    top:50px;
+
+    left:auto;
+    min-width:220px;
+}
+.action-menu a,
+.action-menu button{
+    justify-content:flex-start;
+    direction:rtl;
+}
+.action-menu{
+    position:absolute;
+    top:50px;
+
+   
+
+    min-width:220px;
+    background:#fff;
+    border-radius:14px;
+    z-index:9999;
+}
+
+
+
+
+
+
+.project-card::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:5px;
+    background:#6F5A24;
+}
+.btn-olive,
+.btn-success,
+.btn-apply,
+.btn-reset{
+    background:#6F5A24 !important;
+    border-color:#6F5A24 !important;
+}
+.project-expired{
+    border-right:4px solid #B54D4D;
+}
+.gov-page-title{
+    font-size:22px;
+    font-weight:800;
+    color:#6F5A24;
+    border-bottom:0px solid #D8C187;
+    padding-bottom:12px;
+    margin-bottom:20px;
+    text-align: center;
+}
+
+
+
+
+.gov-header{
+    display:flex;
+    align-items:center;
+    gap:18px;
+
+    padding:20px 24px;
+    margin-bottom:25px;
+
+    background:#F8F4E8;
+    border:2px solid #C8B27A;
+    border-radius:14px;
+
+    box-shadow:0 3px 10px rgba(0,0,0,.04);
+}
+
+.gov-header-icon{
+    width:60px;
+    height:60px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:12px;
+
+    background:#6F5A24;
+    color:#fff;
+    font-size:24px;
+}
+
+.gov-header-title{
+    font-size:24px;
+    font-weight:800;
+    color:#6F5A24;
+}
+
+.gov-header-subtitle{
+    font-size:13px;
+    color:#8A7745;
+    margin-top:0px;
+}
+.gov-header{
+    justify-content:space-between;
+}
+
+.gov-header-stats{
+    display:flex;
+    gap:15px;
+}
+
+.gov-stat{
+    min-width:120px;
+    text-align:center;
+
+    background:#fff;
+    border:1px solid #D8C187;
+    border-radius:10px;
+
+    padding:10px;
+}
+
+.gov-stat span{
+    display:block;
+    font-size:22px;
+    font-weight:800;
+    color:#6F5A24;
+}
+
+.gov-stat small{
+    color:#8A7745;
+}
+
 
 </style>
 
@@ -685,18 +830,46 @@ tbody td{
 
 
 
-<div class="pt-4 card shadow-sm rounded-4 m-0" style="background-color: #f5f5dc;">
+<div class="pt-4 card shadow-sm rounded-4 m-0" style="background-color: #f5f5dc; margin-top:50px;">
 
   
 
 
+<div class="gov-header">
+    <div class="gov-header-icon">
+        <i class="fas fa-building"></i>
+    </div>
 
+    <div>
+        <div class="gov-header-title">
+            إدارة المشاريع
+        </div>
+
+        <div class="gov-header-subtitle">
+            متابعة المشاريع والمقاولين والحالات
+        </div>
+    </div>
+
+    <div class="gov-header-stats">
+
+    <div class="gov-stat">
+        <span>{{ $projects->total() }}</span>
+        <small>إجمالي المشاريع</small>
+    </div>
+
+    <div class="gov-stat">
+        <span>{{ $activeProjects }}</span>
+        <small>مشاريع نشطة</small>
+    </div>
+
+</div>
+</div>
     
 
 
 
    <div class="card-header  justify-content-between align-items-center"
-     style="background:#D4AF37; color:#2f3a1f; font-size:1.3rem; font-weight:600;">
+     style="background:#D4AF37; color:#2f3a1f; font-size:1.3rem; font-weight:600; " >
     
 
 
@@ -716,7 +889,7 @@ tbody td{
 
 <div class="top-toolbar">
 
-    <div>
+    {{-- <div>
         <div style="position:relative; min-width:260px;">
 
     <i class="fas fa-search"
@@ -731,14 +904,71 @@ tbody td{
     <input type="text"
            class="form-control"
            placeholder="بحث سريع..."
+           name="search"
+           value="{{ request('search') }}"
            style="
            padding-right:40px;
            border-radius:12px;
            height:42px;
            ">
 
+
+
 </div>
-    </div>
+    </div> --}}
+
+
+
+<form method="GET"
+      action="{{ route('projects.index') }}"
+      style="margin:0;">
+
+    <div style="position:relative; min-width:260px;">
+
+    <i class="fas fa-search"
+       style="
+       position:absolute;
+       right:14px;
+       top:50%;
+       transform:translateY(-50%);
+       color:#999;
+       z-index:2;">
+    </i>
+
+    <input type="text"
+           name="search"
+           value="{{ request('search') }}"
+           class="form-control"
+           placeholder="بحث سريع..."
+           style="
+           padding-right:40px;
+           padding-left:40px;
+           border-radius:12px;
+           height:42px;
+           "
+           oninput="clearTimeout(window.searchTimer);
+            window.searchTimer=setTimeout(()=>{
+                this.form.submit();
+            },500)"
+           onkeydown="if(event.key==='Enter'){ this.form.submit(); }">
+
+    <a href="{{ route('projects.index') }}"
+       style="
+       position:absolute;
+       left:12px;
+       top:50%;
+       transform:translateY(-50%);
+       text-decoration:none;
+       color:#999;
+       font-size:16px;
+       z-index:2;">
+       ✖
+    </a>
+
+</div>
+
+</form>
+
 
     <div class="action-dropdown">
 
@@ -1012,31 +1242,54 @@ tbody td{
        style="border:1px solid #D4AF37;">
            <thead class="custom-header" style="background-color:#d4af37;color:#2f3a1f;">
 
-            <tr class="project-roww"style="background-color:#d4af37; cursor:pointer;">
+            <tr class="project-roww"style="background:#6F5A24 !important;
+    color:#fff !important;">
                 @if(in_array(auth()->user()->role_id, [1,4,11,12,7,2]))
-                    <th style="background-color:#d4af37;">{{ __('Code') }}</th>
-                    <th style="background-color:#d4af37;">{{ __('Owner') }}</th>
-                    <th style="background-color:#d4af37;">{{ __('رقم القسيمة') }}</th>
-                    <th style="background-color:#d4af37;">{{ __('Chosen Contractor') }}</th>
-                    <th style="background-color:#d4af37;">{{ __('Case #') }}</th>
-                    <th style="background-color:#d4af37;">{{ __(key: 'نوع الحالة') }}</th>
-                    <th style="background-color:#d4af37;">{{ __(key: 'عدد زيارات الاشراف الشهرية') }}</th>
-                    <th style="background-color:#d4af37;">{{ __(key: 'قيمة العقد') }}</th>
-                    <th style="background-color:#d4af37;">{{ __(key: 'تاريخ انتهاء العقد') }}</th>
-                    <th style="background-color:#d4af37;">{{ __(key: 'المستلم من العقد') }}</th>
-                    <th style="background-color:#d4af37;">{{ __(key: 'رقم الرخصة') }}</th>
-                    <th style="background-color:#d4af37;">{{ __(key: 'مرحلة المشروع') }}</th>
+                    <th style="background:#6F5A24 !important;
+    color:#fff !important;">{{ __('Code') }}</th>
+                    <th style="background:#6F5A24 !important;
+    color:#fff !important;">{{ __('Owner') }}</th>
+                    <th style="background:#6F5A24 !important;
+    color:#fff !important;">{{ __('رقم القسيمة') }}</th>
+                    <th style="background:#6F5A24 !important;
+    color:#fff !important;">{{ __('Chosen Contractor') }}</th>
+                    <th style="background:#6F5A24 !important;
+    color:#fff !important;">{{ __('Case #') }}</th>
+                    <th style="background:#6F5A24 !important;
+    color:#fff !important;">{{ __(key: 'نوع الحالة') }}</th>
+                    <th style="background:#6F5A24 !important;
+    color:#fff !important;">{{ __(key: '  الزيارات الشهرية ') }}</th>
+                    <th style="background:#6F5A24 !important;
+    color:#fff !important;">{{ __(key: 'قيمة العقد') }}</th>
+                    <th style="background:#6F5A24 !important;
+    color:#fff !important;">{{ __(key: 'تاريخ انتهاء العقد') }}</th>
+                    <th style="background:#6F5A24 !important;
+    color:#fff !important;">{{ __(key: 'المستلم من العقد') }}</th>
+                    <th style="background:#6F5A24 !important;
+    color:#fff !important;">{{ __(key: 'رقم الرخصة') }}</th>
+                    <th style="background:#6F5A24 !important;
+    color:#fff !important;">{{ __(key: 'مرحلة المشروع') }}</th>
                 @else 
-                    <th style="background-color:#d4af37;">{{ __(key: ' كود المشروع') }}</th>
-                    <th style="background-color:#d4af37;">{{ __(key: 'اسم المالك') }}</th>
-                    <th style="background-color:#d4af37;">سعر الهيكل مع الكتروميكانيكال</th>
-                    <th style="background-color:#d4af37;">سعر الهيكل مع الكتروميكانيكال مع التشطيبات</th>
-                    <th style="background-color:#d4af37;">سعر الفوت بدون تشطيبات</th>
-                    <th style="background-color:#d4af37;">سعر الفوت مع تشطيبات</th>
-                    <th style="background-color:#d4af37;">سعر السور</th>
-                    <th style="background-color:#d4af37;">  سعر الفيلا مع السور مع الواجهات </th>
-                    <th style="background-color:#d4af37;">الضريبة 5%</th>
-                    <th style="background-color:#d4af37;">السعر النهائي شامل الضريبة</th>
+                    <th style="background:#6F5A24 !important;
+    color:#fff !important;">{{ __(key: ' كود المشروع') }}</th>
+                    <th style="background:#6F5A24 !important;
+    color:#fff !important;">{{ __(key: 'اسم المالك') }}</th>
+                    <th style="background:#6F5A24 !important;
+    color:#fff !important;">سعر الهيكل مع الكتروميكانيكال</th>
+                    <th style="background:#6F5A24 !important;
+    color:#fff !important;">سعر الهيكل مع الكتروميكانيكال مع التشطيبات</th>
+                    <th style="background:#6F5A24 !important;
+    color:#fff !important;">سعر الفوت بدون تشطيبات</th>
+                    <th style="background:#6F5A24 !important;
+    color:#fff !important;">سعر الفوت مع تشطيبات</th>
+                    <th style="background:#6F5A24 !important;
+    color:#fff !important;">سعر السور</th>
+                    <th style="background:#6F5A24 !important;
+    color:#fff !important;">  سعر الفيلا مع السور مع الواجهات </th>
+                    <th style="background:#6F5A24 !important;
+    color:#fff !important;">الضريبة 5%</th>
+                    <th style="background:#6F5A24 !important;
+    color:#fff !important;">السعر النهائي شامل الضريبة</th>
                 @endif
                 <!-- <th style="background-color:#d4af37;">{{ __(key: 'مدة المعاملة') }}</th> -->
                 <!-- <th style="background-color:#d4af37;">{{ __('Building #') }}</th> -->
@@ -1139,7 +1392,7 @@ tbody td{
 </td> -->
 
 
-<td style="background-color:#f5f5dc;">{{ $project->current_month_supervisions_count ?? '—' }}</td> 
+<td style="background-color:#f5f5dc; ">{{ $project->current_month_supervisions_count ?? '—' }}</td> 
 
 
 
@@ -1161,12 +1414,15 @@ tbody td{
                             $bgColor = '#f5f5dc';
 
                             if($endDate){
-                                if(now()->gt($endDate)){
-                                    $bgColor = '#e91e0c'; // أحمر
-                                } elseif(now()->diffInDays($endDate, false) <= 30){
-                                    $bgColor = '#ffe5b4'; // برتقالي
-                                }
-                                else $bgColor = '#f5f5dc';
+                                 if(now()->gt($endDate)){
+    $bgColor = '#E8D1D1';   // أحمر هادئ
+}
+elseif(now()->diffInDays($endDate,false)<=30){
+    $bgColor = '#F4E8C8';   // تنبيه ذهبي
+}
+else{
+    $bgColor = '#f5f5dc';
+}
                             }
                             
                         @endphp
@@ -1236,19 +1492,19 @@ tbody td{
                     </td> -->
 @php
     $stageColors = [
-        1 => 'rgba(13, 110, 253, 0.5)',   // Design - أزرق شفاف
-        2 => 'rgba(253, 126, 20, 0.5)',   // Baladia - برتقالي شفاف
-        3 => 'rgba(111, 66, 193, 0.5)',   // Supervision - بنفسجي شفاف
-        4 => 'rgba(255, 193, 7, 0.5)',    // Tender - أصفر شفاف
-        5 => 'rgba(25, 135, 84, 0.5)',    // Completed - أخضر شفاف
-    ];
+    1 => '#F7F1DE',
+    2 => '#EFE4C0',
+    3 => '#E4D4A0',
+    4 => '#D8C187',
+    5 => '#C8AA5A',
+];
 @endphp
 
 <td style="
     text-align:center;
     vertical-align:middle;
     font-weight:600;
-    color: #fff;
+    color:#4B3F1F;
     background-color: {{ $project->stage ? ($stageColors[$project->stage->id] ?? 'rgba(108, 117, 125,0.5)') : 'rgba(108, 117, 125,0.5)' }};
     backdrop-filter: blur(6px);
     border-radius:6px;

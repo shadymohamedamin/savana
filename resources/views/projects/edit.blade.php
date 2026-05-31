@@ -4,6 +4,26 @@
 
 {{-- 🔹 Olive + Gold Button Style --}}
 <style>
+
+
+body{
+    background:#F8F4E8;
+}
+
+.content{
+    animation: pageFade .6s ease;
+}
+
+@keyframes pageFade{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
     .btn-olive {
         background-color: #2f3a1f;
         border: 1px solid #2f3a1f;
@@ -69,6 +89,258 @@
 
 
 
+
+
+
+
+
+
+.card-section{
+    opacity:0;
+    transform:translateY(30px);
+
+    animation: sectionShow .8s forwards;
+}
+
+.card-section:nth-child(1){
+    animation-delay:.1s;
+}
+
+.card-section:nth-child(2){
+    animation-delay:.3s;
+}
+
+.card-section:nth-child(3){
+    animation-delay:.5s;
+}
+
+.card-section:nth-child(4){
+    animation-delay:.7s;
+}
+
+@keyframes sectionShow{
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+.form-control{
+    border:1px solid #D8C187 !important;
+    border-radius:10px !important;
+
+    transition:.25s;
+}
+
+.form-control:focus{
+
+    border-color:#6F5A24 !important;
+
+    box-shadow:
+    0 0 0 4px rgba(111,90,36,.15) !important;
+}
+.card-section{
+    transition:.3s;
+}
+
+.card-section:hover{
+    transform:translateY(-3px);
+
+    box-shadow:
+    0 12px 35px rgba(111,90,36,.12);
+}
+.card-section .card-header{
+
+    background:linear-gradient(
+        135deg,
+        #6F5A24,
+        #8C7331
+    );
+
+    color:white;
+
+    font-size:18px;
+
+    letter-spacing:.3px;
+
+    padding:14px 20px;
+
+    border-radius:10px 10px 0 0;
+}
+.btn-olive{
+
+    transition:.25s;
+
+    position:relative;
+
+    overflow:hidden;
+}
+
+.btn-olive:hover{
+
+    transform:translateY(-3px);
+
+    box-shadow:
+    0 10px 25px rgba(111,90,36,.25);
+}
+.card.shadow-xl{
+
+    animation:
+    floatingCard 6s ease-in-out infinite;
+}
+
+@keyframes floatingCard{
+
+    0%{
+        transform:translateY(0);
+    }
+
+    50%{
+        transform:translateY(-10px);
+    }
+
+    100%{
+        transform:translateY(0);
+    }
+}
+.btn-olive{
+    background:linear-gradient(
+        135deg,
+        #6F5A24,
+        #8C7331
+    ) !important;
+
+    border:none !important;
+
+    color:#fff !important;
+
+    font-weight:700;
+
+    border-radius:10px;
+
+    padding:10px 18px;
+
+    transition:.3s;
+}
+
+.btn-olive:hover{
+
+    transform:translateY(-2px);
+
+    box-shadow:
+    0 10px 25px rgba(111,90,36,.25);
+
+    color:#fff !important;
+}
+
+.btn-secondary{
+
+    border-radius:10px;
+
+    font-weight:700;
+}
+.project-footer{
+    display:flex;
+    justify-content:center;
+    gap:12px;
+
+    background:#F8F4E8;
+
+    border-top:1px solid #D8C187;
+
+    padding:20px;
+}
+.gov-stat span{
+    display:block;
+    font-size:18px;
+    font-weight:800;
+    color:#6F5A24;
+
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+}
+.card.shadow-xl{
+    position:relative;
+    overflow:hidden;
+}
+
+.card.shadow-xl::before{
+
+    content:"";
+
+    position:absolute;
+
+    top:0;
+    left:0;
+    right:0;
+
+    height:5px;
+
+    background:linear-gradient(
+        90deg,
+        #6F5A24,
+        #D4AF37,
+        #6F5A24
+    );
+}
+
+.gov-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    padding:20px;
+    margin:40px;
+    margin-bottom:25px;
+    background:#F8F4E8;
+    border:2px solid #C8B27A;
+    border-radius:14px;
+}
+
+.gov-header-icon{
+    width:60px;
+    height:60px;
+    border-radius:12px;
+    background:#6F5A24;
+    color:#fff;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:24px;
+}
+
+.gov-header-title{
+    font-size:24px;
+    font-weight:800;
+    color:#6F5A24;
+}
+
+.gov-header-subtitle{
+    color:#8A7745;
+}
+
+.gov-header-stats{
+    display:flex;
+    gap:15px;
+}
+
+.gov-stat{
+    min-width:120px;
+    text-align:center;
+    background:#fff;
+    border:1px solid #D8C187;
+    border-radius:10px;
+    padding:10px;
+}
+
+.gov-stat span{
+    display:block;
+    font-size:22px;
+    font-weight:800;
+    color:#6F5A24;
+}
+
+
 </style>
 
 <section class="content-header">
@@ -80,6 +352,45 @@
         </div>
     </div>
 </section>
+
+
+
+
+
+
+<div class="gov-header">
+
+    <div class="gov-header-icon">
+        <i class="fas fa-building"></i>
+    </div>
+
+    <div>
+        <div class="gov-header-title">
+            إدارة المشاريع
+        </div>
+
+        <div class="gov-header-subtitle">
+            إدارة بيانات المشروع والعقود والتمويل والمراحل التنفيذية
+        </div>
+    </div>
+
+    <div class="gov-header-stats">
+
+        <div class="gov-stat">
+            <span>{{ $project->id }}</span>
+            <small>رقم المشروع</small>
+        </div>
+
+        <div class="gov-stat">
+            <span>
+                {{ optional($project->status)->name }}
+            </span>
+            <small>الحالة</small>
+        </div>
+
+    </div>
+
+</div>
 
 <div class="content px-3">
     @include('adminlte-templates::common.errors')
@@ -875,23 +1186,28 @@ value="{{ optional($project->contractor_contract_end_date)->format('Y-m-d') }}"/
 
 
         {{-- FOOTER --}}
-        <div class="card-footer d-flex justify-content-center gap-3">
+        <div class="card-footer project-footer">
 
-            <button type="submit" class="btn btn-olive btn-sm">
-                💾 {{ __('حفظ') }}
-            </button>
+    <button type="submit" class="btn btn-olive">
+        <i class="fas fa-save"></i>
+        حفظ البيانات
+    </button>
 
-            {{-- 🔹 Edit / Upload Attachments    href="{{ url('users/'.$user->id.'/attachments/create?type=projects') }}" --}}
-            <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}"
-               class="btn btn-olive btn-sm">
-                📎 {{ __('Edit Files') }}
-            </a>
+    <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}"
+       class="btn btn-olive">
 
-            <a href="{{ route('projects.index') }}" class="btn btn-secondary btn-sm">
-                <i class="fas fa-list"></i> {{ __('List') }}
-            </a>
+        <i class="fas fa-paperclip"></i>
+        المرفقات
+    </a>
 
-        </div>
+    <a href="{{ route('projects.index') }}"
+       class="btn btn-secondary">
+
+        <i class="fas fa-list"></i>
+        المشاريع
+    </a>
+
+</div>
 
         {!! Form::close() !!}
     </div>
