@@ -7,6 +7,30 @@ ADD UNIQUE unique_tender (
 );
 
 
+https://sh00544.bluehost.com:2083/cpsess6489828905/frontend/jupiter/domains/index.html#/manage?domain=savanadesign.info
+
+domains==>savana==>manage
+public_html/savana/public
+
+
+savana/public/index.php
+RewriteEngine On
+RewriteRule ^ - [R=404,L]
+
+
+
+
+email with lice
+who edit this
+access-test account
+ssh -i C:\Users\shadi\.ssh\id_ed25519 hsoxkamy@50.6.108.100
+git merge --abort
+git fetch origin
+git reset --hard origin/dev
+
+
+
+
 INSERT INTO message_types (name_ar, name_en, created_at, updated_at) VALUES
 
 ('رسالة تأخير', 'Delay Message', NOW(), NOW()),
