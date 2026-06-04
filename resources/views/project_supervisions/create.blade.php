@@ -96,6 +96,95 @@
 
             </div>
 
+
+
+
+            {{-- المرفق --}}
+            <div class="col-md-3">
+
+                <div class="border rounded p-2 small bg-light attachment-box">
+
+                    <input type="file"
+                           name="attachment1"
+                           class="form-control form-control-sm attachment-input mb-1">
+
+                    <div class="text-truncate selected-file-name d-none"></div>
+
+                    <a href="#"
+                       target="_blank"
+                       class="btn btn-sm btn-outline-success w-100 mt-1 preview-file d-none">
+
+                        👁 Preview
+                    </a>
+
+                    <button type="button"
+                            class="btn btn-sm btn-outline-danger w-100 mt-1 remove-file">
+
+                        🗑 Remove
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            {{-- المرفق --}}
+            <div class="col-md-3">
+
+                <div class="border rounded p-2 small bg-light attachment-box">
+
+                    <input type="file"
+                           name="attachment2"
+                           class="form-control form-control-sm attachment-input mb-1">
+
+                    <div class="text-truncate selected-file-name d-none"></div>
+
+                    <a href="#"
+                       target="_blank"
+                       class="btn btn-sm btn-outline-success w-100 mt-1 preview-file d-none">
+
+                        👁 Preview
+                    </a>
+
+                    <button type="button"
+                            class="btn btn-sm btn-outline-danger w-100 mt-1 remove-file">
+
+                        🗑 Remove
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            {{-- المرفق --}}
+            <div class="col-md-3">
+
+                <div class="border rounded p-2 small bg-light attachment-box">
+
+                    <input type="file"
+                           name="attachment3"
+                           class="form-control form-control-sm attachment-input mb-1">
+
+                    <div class="text-truncate selected-file-name d-none"></div>
+
+                    <a href="#"
+                       target="_blank"
+                       class="btn btn-sm btn-outline-success w-100 mt-1 preview-file d-none">
+
+                        👁 Preview
+                    </a>
+
+                    <button type="button"
+                            class="btn btn-sm btn-outline-danger w-100 mt-1 remove-file">
+
+                        🗑 Remove
+                    </button>
+
+                </div>
+
+            </div>
+
             {{-- الملاحظة --}}
             <div style="min-width:100%;">
 

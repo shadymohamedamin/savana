@@ -13,7 +13,10 @@ class ProjectSupervision extends Model
         'user_id',
         'supervision_type_id',
         'note',
-        'attachment'
+        'attachment',
+        'attachment1',
+        'attachment2',
+        'attachment3'
     ];
 
     protected $casts = [

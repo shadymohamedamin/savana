@@ -102,6 +102,35 @@ public function create(\App\Models\Project $project)
 
         $file->move(public_path('Files'), $fileName);
     }
+    $fileName1 = null;
+
+    if ($request->hasFile('attachment1')) {
+
+        $file = $request->file('attachment1');
+
+        $fileName1 = time().'_'.$file->getClientOriginalName();
+
+        $file->move(public_path('Files'), $fileName1);
+    }
+
+$fileName2 = null;
+    if ($request->hasFile('attachment2')) {
+
+        $file = $request->file('attachment2');
+
+        $fileName2 = time().'_'.$file->getClientOriginalName();
+
+        $file->move(public_path('Files'), $fileName2);
+    }
+$fileName3 = null;
+    if ($request->hasFile('attachment3')) {
+
+        $file = $request->file('attachment3');
+
+        $fileName3 = time().'_'.$file->getClientOriginalName();
+
+        $file->move(public_path('Files'), $fileName3);
+    }
 
     \App\Models\ProjectSupervision::create([
         'project_id' => $projectId,
@@ -110,6 +139,10 @@ public function create(\App\Models\Project $project)
         'note' => $request->note,
         //'edit_type' => $request->edit_type,
         'attachment' => $fileName,
+        'attachment1' => $fileName1,
+        'attachment2' => $fileName2,
+        'attachment3' => $fileName3,
+        
     ]);
 
     return redirect()
