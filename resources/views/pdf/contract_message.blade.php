@@ -86,7 +86,7 @@ td, th {
 
 <body>
 
-<!-- ================= HEADER ================= -->
+<!-- ================= HEADER =================    !$message->sender->name ??    -->
 <table>
 
 
@@ -120,7 +120,7 @@ td, th {
 
     <tr>
         <td class="bold">من</td>
-        <td>{{ $message->sender->name ?? '-' }}</td>
+        <td>{{ 'سافانا ديزاين' }}</td>
 
         <td class="bold">إلى</td>
         <td>{{ $message->receiver->name ?? '-' }}</td>
@@ -172,9 +172,10 @@ td, th {
 
 <!-- ================= MESSAGE ================= -->
 <div class="note-box">
-    <strong>نص الرسالة:</strong>
-    <br><br>
-    {{ $message->message }}
+    {{-- <strong>نص الرسالة:</strong> --}}
+    {{-- <br><br> --}}
+    {{-- {{ $message->message }} --}}
+    {!! $message->message !!}
 </div>
 
 <!-- ================= ATTACHMENT ================= -->

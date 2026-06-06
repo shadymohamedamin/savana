@@ -81,34 +81,7 @@ $dayName = $today->translatedFormat('l');
 $dateFormatted = $today->translatedFormat('d/m/Y');
 @endphp
 
-<!-- <table style="width:100%; border-collapse: collapse;">
-    <tr>
-        <td class="title" colspan="9" style="text-align:center; font-weight:bold; font-size:20px;">
-            قائمة الكميات
-        </td>
-    </tr>
-    <tr colspan="9">
-        
 
-
-                <td class="bold" > التاريخ</td>
-                <td >{{ $project->contract_signed_at->format('d/m/Y')??'-' }}</td>
-
-            </tr>
-            <tr>
-
-                <td class="bold">الطرف الثاني</td>
-                <td >{{ $project->contractorUser->name ?? 'المقاول' }}</td>
-            </tr>
-
-
-            <tr>
-                <td class="bold">  (الاستشاري)</td>
-                <td >سافانا ديزاين للاستشارات الهندسية</td>
-            </tr>
-
-
-</table> -->
 
 @include('pdf.contract_header', ['project' => $project,'isBank'=>true,'showContractor' => true,'title'=>'جدول   كميات المشروع'])
 

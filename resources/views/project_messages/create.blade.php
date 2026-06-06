@@ -336,7 +336,37 @@ document.addEventListener('DOMContentLoaded', function () {
 
 <script>
 
+/*document.getElementById('previewBtn').addEventListener('click', function () {
+
+    let form = document.getElementById('messageForm');
+
+    let formData = new FormData(form);
+
+    fetch("{{ route('projects.messages.preview', $project->id) }}", {
+        method: "POST",
+        headers: {
+            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+        },
+        body: formData
+    })
+    .then(async response => {
+
+        const blob = await response.blob();
+
+        const fileURL = URL.createObjectURL(blob);
+
+        window.open(fileURL, '_blank');
+    });
+
+});*/
+
+
 document.getElementById('previewBtn').addEventListener('click', function () {
+
+    // مهم جداً
+    for (let instance in CKEDITOR.instances) {
+        CKEDITOR.instances[instance].updateElement();
+    }
 
     let form = document.getElementById('messageForm');
 
@@ -359,6 +389,8 @@ document.getElementById('previewBtn').addEventListener('click', function () {
     });
 
 });
+
+
 
 </script>
 
@@ -385,7 +417,19 @@ document.getElementById('previewBtn').addEventListener('click', function () {
 
 <script>
 
-const messageTemplates = {
+
+
+
+const messageTemplates = { 1: ` <div style="direction:rtl;text-align:right;line-height:2;font-family:'Tahoma';font-size:15px;"> <div style="text-align:center;margin-bottom:25px;"> <span style="background:#1f2937;color:white;padding:10px 25px;border-radius:8px;font-size:18px;font-weight:bold;display:inline-block;"> إشعار بخصوص تأخر صرف دفعة المقاول </span> </div> <p> السادة/ <span style="font-weight:bold;color:#b45309;">[اسم المالك]</span> المحترمين، </p> <p>السلام عليكم ورحمة الله وبركاته،،،</p> <p> بالإشارة إلى مشروع <span style="font-weight:bold;color:#1d4ed8;">[اسم المشروع]</span> ، نود إفادتكم بأنه قد لوحظ وجود <span style="font-weight:bold;color:#dc2626;">تأخر في صرف الدفعة المالية المستحقة للمقاول</span> ، والتي كان من المقرر اعتمادها وصرفها بتاريخ <span style="font-weight:bold;">[تاريخ الاستحقاق]</span>. </p> <p> ونظراً لأن استمرار تأخر صرف المستحقات المالية قد ينعكس بشكل مباشر على سير الأعمال بالموقع وعلى التزام المقاول بالبرنامج الزمني المعتمد للمشروع، فإننا نأمل منكم التكرم بسرعة اتخاذ الإجراءات اللازمة لاعتماد وصرف الدفعة المستحقة في أقرب وقت ممكن. </p> <div style="background:#fef3c7;border-right:5px solid #f59e0b;padding:15px;margin:20px 0;border-radius:8px;"> <strong> نؤكد حرص جميع الأطراف على استكمال المشروع وفق الجدول الزمني المحدد وتفادي أي تأخير قد ينتج عن توقف الأعمال أو ضعف التوريد والعمالة. </strong> </div> <p>شاكرين لكم حسن تعاونكم الدائم،،،</p> <p style="margin-top:30px;"> وتفضلوا بقبول فائق الاحترام والتقدير. </p> </div> `, 2: ` <div style="direction:rtl;text-align:right;line-height:2;font-family:'Tahoma';font-size:15px;"> <div style="text-align:center;margin-bottom:25px;"> <span style="background:#065f46;color:white;padding:10px 25px;border-radius:8px;font-size:18px;font-weight:bold;display:inline-block;"> التذكير بضرورة الالتزام بإجراءات السلامة </span> </div> <p> السادة/ <span style="font-weight:bold;color:#065f46;">[اسم المقاول]</span> المحترمين، </p> <p>السلام عليكم ورحمة الله وبركاته،،،</p> <p> نود تذكيركم بضرورة الالتزام الكامل بجميع متطلبات وإجراءات السلامة والصحة المهنية المعتمدة بمشروع <span style="font-weight:bold;color:#1d4ed8;">[اسم المشروع]</span> قبل البدء بتنفيذ أي أعمال داخل الموقع. </p> <div style="background:#ecfdf5;padding:15px;border-radius:8px;border-right:5px solid #10b981;"> <strong>يشمل ذلك:</strong> <ul style="margin-top:10px;"> <li>استخراج تصاريح العمل المطلوبة.</li> <li>توفير معدات الوقاية الشخصية.</li> <li>اعتماد تقييم المخاطر وخطط السلامة.</li> <li>التأكد من جاهزية المعدات والأدوات.</li> <li>الالتزام بتعليمات الأمن والسلامة.</li> </ul> </div> <p> كما نؤكد على عدم مباشرة أي أعمال قبل استيفاء جميع اشتراطات السلامة والحصول على الموافقات اللازمة حفاظاً على سلامة العاملين والموقع. </p> <p> يرجى إبلاغ جميع فرق العمل بالموقع بما ورد أعلاه والتقيد التام به. </p> <p style="margin-top:30px;"> وتفضلوا بقبول فائق الاحترام والتقدير. </p> </div> `, 3: ` <div style="direction:rtl;text-align:right;line-height:2;font-family:'Tahoma';font-size:15px;"> <div style="text-align:center;margin-bottom:25px;"> <span style="background:#7c3aed;color:white;padding:10px 25px;border-radius:8px;font-size:18px;font-weight:bold;display:inline-block;"> طلب تمديد مدة تنفيذ المشروع </span> </div> <p> السادة/ <span style="font-weight:bold;color:#7c3aed;">[اسم المالك]</span> المحترمين، </p> <p>السلام عليكم ورحمة الله وبركاته،،،</p> <p> بالإشارة إلى عقد تنفيذ مشروع <span style="font-weight:bold;color:#1d4ed8;">[اسم المشروع]</span> ، نتقدم نحن/ <span style="font-weight:bold;color:#b45309;">[اسم المقاول]</span> بطلب تمديد مدة تنفيذ المشروع لمدة <span style="font-weight:bold;color:#dc2626;">[مدة التمديد]</span>. </p> <div style="background:#f3e8ff;padding:15px;border-radius:8px;border-right:5px solid #7c3aed;"> <p> تاريخ انتهاء العقد الحالي: <strong>[تاريخ انتهاء العقد]</strong> </p> <p> تاريخ الانتهاء الجديد: <strong>[تاريخ الانتهاء الجديد]</strong> </p> </div> <p> ويأتي هذا الطلب نظراً للظروف والمعوقات التي أثرت على سير الأعمال خلال الفترة السابقة. </p> <p> كما نؤكد التزامنا بتحمل كافة الالتزامات والغرامات – إن وجدت – وفقاً لشروط العقد. </p> <p style="margin-top:30px;"> وتفضلوا بقبول فائق الاحترام والتقدير. </p> </div> `, 4: ` <div style="direction:rtl;text-align:right;line-height:2;font-family:'Tahoma';font-size:15px;"> <div style="text-align:center;margin-bottom:25px;"> <span style="background:#991b1b;color:white;padding:10px 25px;border-radius:8px;font-size:18px;font-weight:bold;display:inline-block;"> تنبيه بضرورة الحصول على اعتماد الاستشاري </span> </div> <p> السادة/ <span style="font-weight:bold;color:#991b1b;">[اسم المقاول]</span> المحترمين، </p> <p>السلام عليكم ورحمة الله وبركاته،،،</p> <p> نفيدكم بضرورة عدم البدء بأي أعمال جديدة أو الانتقال لأي مرحلة تنفيذية بمشروع <strong>[اسم المشروع]</strong> قبل الحصول على الاعتماد الخطي من الاستشاري. </p> <div style="background:#fef2f2;padding:15px;border-radius:8px;border-right:5px solid #dc2626;"> <strong>أي أعمال يتم تنفيذها دون اعتماد تعتبر مسؤولية المقاول بالكامل وتشمل:</strong> <ul style="margin-top:10px;"> <li>أعمال الإزالة.</li> <li>إعادة التنفيذ.</li> <li>التعديلات الفنية.</li> <li>التأخير الناتج عن الأعمال غير المعتمدة.</li> </ul> </div> <p style="margin-top:30px;"> وتفضلوا بقبول فائق الاحترام والتقدير. </p> </div> `, 5: ` <div style="direction:rtl;text-align:right;line-height:2;font-family:'Tahoma';font-size:15px;"> <div style="text-align:center;margin-bottom:25px;"> <span style="background:#0f172a;color:white;padding:10px 25px;border-radius:8px;font-size:18px;font-weight:bold;display:inline-block;"> تركيب وتشغيل كاميرات المراقبة بالموقع </span> </div> <p> السادة/ <strong style="color:#0f172a;">[اسم المقاول]</strong> المحترمين، </p> <p>السلام عليكم ورحمة الله وبركاته،،،</p> <p> نؤكد على ضرورة الإسراع في تركيب وتشغيل كاميرات المراقبة بمشروع <strong>[اسم المشروع]</strong> وفقاً لتعليمات الإشراف ومتطلبات الأمن والسلامة. </p> <div style="background:#eff6ff;padding:15px;border-radius:8px;border-right:5px solid #2563eb;"> <strong>ويهدف ذلك إلى:</strong> <ul style="margin-top:10px;"> <li>متابعة سير الأعمال.</li> <li>توثيق مراحل التنفيذ.</li> <li>المحافظة على أمن الموقع.</li> <li>تقليل المخاطر التشغيلية.</li> </ul> </div> <p style="margin-top:30px;"> وتفضلوا بقبول فائق الاحترام والتقدير. </p> </div> `, 6: ` <div style="direction:rtl;text-align:right;line-height:2;font-family:'Tahoma';font-size:15px;"> <div style="text-align:center;margin-bottom:25px;"> <span style="background:#374151;color:white;padding:10px 25px;border-radius:8px;font-size:18px;font-weight:bold;display:inline-block;"> تنظيف موقع المشروع </span> </div> <p> السادة/ <strong>[اسم المقاول]</strong> المحترمين، </p> <p>السلام عليكم ورحمة الله وبركاته،،،</p> <p> نود التنبيه إلى ضرورة الالتزام بتنظيف موقع مشروع <strong>[اسم المشروع]</strong> بشكل مستمر ورفع المخلفات أولاً بأول. </p> <div style="background:#f3f4f6;padding:15px;border-radius:8px;border-right:5px solid #6b7280;"> <ul> <li>إزالة المخلفات بشكل دوري.</li> <li>تنظيم المواد بالموقع.</li> <li>عدم تراكم النفايات.</li> <li>الحفاظ على سلامة الممرات.</li> </ul> </div> <p style="margin-top:30px;"> وتفضلوا بقبول فائق الاحترام والتقدير. </p> </div> `, 7: ` <div style="direction:rtl;text-align:right;line-height:2;font-family:'Tahoma';font-size:15px;"> <div style="text-align:center;margin-bottom:25px;"> <span style="background:#92400e;color:white;padding:10px 25px;border-radius:8px;font-size:18px;font-weight:bold;display:inline-block;"> طلب توفير مواد التشطيبات </span> </div> <p> السادة/ <strong>[اسم المالك]</strong> المحترمين، </p> <p>السلام عليكم ورحمة الله وبركاته،،،</p> <p> بالإشارة إلى سير أعمال مشروع <strong>[اسم المشروع]</strong> ، نود إفادتكم بضرورة توفير مواد التشطيبات الخاصة بالمشروع. </p> <div style="background:#fffbeb;padding:15px;border-radius:8px;border-right:5px solid #f59e0b;"> <strong>المواد المطلوبة:</strong> <ul style="margin-top:10px;"> <li>البلاط.</li> <li>الدهانات.</li> <li>الأبواب.</li> <li>الأسقف المستعارة.</li> <li>الأدوات الصحية.</li> </ul> </div> <p> كما نؤكد أن أي تأخير في توفير المواد قد يؤثر على الجدول الزمني للمشروع. </p> <p style="margin-top:30px;"> وتفضلوا بقبول فائق الاحترام والتقدير. </p> </div> `, 8: ` <div style="direction:rtl;text-align:right;line-height:2;font-family:'Tahoma';font-size:15px;"> <div style="text-align:center;margin-bottom:25px;"> <span style="background:#b91c1c;color:white;padding:10px 25px;border-radius:8px;font-size:18px;font-weight:bold;display:inline-block;"> إشعار بسوء تنفيذ الأعمال </span> </div> <p> السادة/ <strong>[اسم المقاول]</strong> المحترمين، </p> <p>السلام عليكم ورحمة الله وبركاته،،،</p> <p> بعد المعاينة الميدانية بمشروع <strong>[اسم المشروع]</strong> ، فقد لوحظ وجود عدد من الملاحظات المتعلقة بسوء التنفيذ وعدم مطابقة بعض الأعمال للمواصفات الفنية. </p> <div style="background:#fef2f2;padding:15px;border-radius:8px;border-right:5px solid #ef4444;"> <strong>الملاحظات:</strong> <ul style="margin-top:10px;"> <li>[الملاحظة الأولى]</li> <li>[الملاحظة الثانية]</li> <li>[الملاحظة الثالثة]</li> </ul> </div> <p> يرجى معالجة الملاحظات خلال مدة <strong>[عدد الأيام]</strong> من تاريخ هذا الإشعار. </p> <p style="margin-top:30px;"> وتفضلوا بقبول فائق الاحترام والتقدير. </p> </div> `, 9: ` <div style="direction:rtl;text-align:right;line-height:2;font-family:'Tahoma';font-size:15px;"> <div style="text-align:center;margin-bottom:25px;"> <span style="background:#1e3a8a;color:white;padding:10px 25px;border-radius:8px;font-size:18px;font-weight:bold;display:inline-block;"> إشعار تأخير في تنفيذ الأعمال </span> </div> <p> السادة/ <strong>[اسم المقاول]</strong> المحترمين، </p> <p>السلام عليكم ورحمة الله وبركاته،،،</p> <p> لوحظ وجود تأخير في تنفيذ الأعمال الخاصة بمشروع <strong>[اسم المشروع]</strong> مقارنةً بالبرنامج الزمني المعتمد. </p> <div style="background:#eff6ff;padding:15px;border-radius:8px;border-right:5px solid #2563eb;"> <strong>يرجى تزويدنا بخطة عمل تتضمن:</strong> <ul style="margin-top:10px;"> <li>أسباب التأخير.</li> <li>البنود المتأثرة.</li> <li>الإجراءات التصحيحية.</li> <li>خطة تدارك التأخير.</li> </ul> </div> <p> وذلك خلال مدة <strong>[عدد الأيام]</strong> أيام من تاريخ الإشعار. </p> <p style="margin-top:30px;"> وتفضلوا بقبول فائق الاحترام والتقدير. </p> </div> `, 10: ` <div style="direction:rtl;text-align:right;line-height:2;font-family:'Tahoma';font-size:15px;"> <div style="text-align:center;margin-bottom:25px;"> <span style="background:#78350f;color:white;padding:10px 25px;border-radius:8px;font-size:18px;font-weight:bold;display:inline-block;"> إشعار بطلب زيادة أسعار </span> </div> <p> السادة/ <strong>[اسم المالك]</strong> المحترمين، </p> <p>السلام عليكم ورحمة الله وبركاته،،،</p> <p> نفيدكم بأن المقاول/ <strong>[اسم المقاول]</strong> تقدم بطلب زيادة أسعار لبعض بنود الأعمال الخاصة بمشروع <strong>[اسم المشروع]</strong>. </p> <div style="background:#fffbeb;padding:15px;border-radius:8px;border-right:5px solid #d97706;"> <strong>المرفقات:</strong> <ul style="margin-top:10px;"> <li>طلب المقاول.</li> <li>المستندات الداعمة.</li> <li>تقرير الاستشاري.</li> </ul> </div> <p> وقد تمت مراجعة الطلب واعتماده من قبل الاستشاري وفقاً للتوصيات الفنية والتعاقدية. </p> <p style="margin-top:30px;"> وتفضلوا بقبول فائق الاحترام والتقدير. </p> </div> `, 11: ` <div style="direction:rtl;text-align:right;line-height:2;font-family:'Tahoma';font-size:15px;"> <div style="text-align:center;margin-bottom:25px;"> <span style="background:#7f1d1d;color:white;padding:10px 25px;border-radius:8px;font-size:18px;font-weight:bold;display:inline-block;"> إنذار بضرورة الالتزام بتعليمات الاستشاري </span> </div> <p> السادة/ <strong>[اسم المقاول]</strong> المحترمين، </p> <p>السلام عليكم ورحمة الله وبركاته،،،</p> <p> نود لفت عنايتكم إلى ضرورة الالتزام التام بجميع تعليمات وتوجيهات الاستشاري الخاصة بمشروع <strong>[اسم المشروع]</strong>. </p> <div style="background:#fef2f2;padding:15px;border-radius:8px;border-right:5px solid #dc2626;"> <strong>أي مخالفة ستترتب عليها:</strong> <ul style="margin-top:10px;"> <li>إزالة الأعمال المخالفة.</li> <li>إعادة التنفيذ.</li> <li>تحميل المقاول كافة التكاليف.</li> <li>اتخاذ الإجراءات التعاقدية اللازمة.</li> </ul> </div> <p> لذا يرجى اعتبار هذا الكتاب إنذاراً رسمياً ونهائياً بضرورة التقيد الكامل والفوري بالتعليمات المعتمدة. </p> <p style="margin-top:30px;"> وتفضلوا بقبول فائق الاحترام والتقدير. </p> </div> ` };
+
+
+
+
+
+
+
+
+/*const messageTemplates = {
 
     1: `الموضوع : إشعار بخصوص تأخر صرف دفعة المقاول
 
@@ -563,20 +607,30 @@ const messageTemplates = {
 لذا يرجى اعتبار هذا الكتاب إنذاراً رسمياً ونهائياً بضرورة التقيد الكامل والفوري بتعليمات الاستشاري وجميع المخططات والمواصفات المعتمدة، وتلافي تكرار أي مخالفات مستقبلاً، بما يضمن حسن سير العمل وجودة التنفيذ وتجنب اتخاذ أي إجراءات تعاقدية وفقاً لأحكام العقد وشروطه.
 
 وتفضلوا بقبول فائق الاحترام والتقدير`
-};
+};*/
 
 document.getElementById('message_type_id').addEventListener('change', function () {
 
     let typeId = this.value;
 
     if(messageTemplates[typeId]) {
-        document.getElementById('message').value = messageTemplates[typeId];
+        CKEDITOR.instances.message.setData(messageTemplates[typeId]);
+        //document.getElementById('message').value = messageTemplates[typeId];
     }
 
 });
 
 </script>
 
+<script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
 
+<script>
+    CKEDITOR.replace('message', {
+    height: 500,
+    contentsLangDirection: 'rtl',
+    filebrowserUploadUrl: "{{ route('ckeditor.upload') }}",
+    filebrowserUploadMethod: 'form'
+});
+</script>
 
 @endpush

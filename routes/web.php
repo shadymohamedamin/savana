@@ -27,6 +27,7 @@ use App\Http\Controllers\OwnerRequirementController;
 use App\Http\Controllers\ProjectOwnerRequirementController;
 use App\Http\Controllers\ProjectScheduleController;
 use App\Http\Controllers\ProjectMessageController;
+use App\Http\Controllers\CKEditorController;
 use App\Models\Project;            // ✅ أهم سطر
 use App\Models\ProjectSchedule;   // ✅
 use App\Http\Controllers\ProjectSupervisionController;
@@ -146,6 +147,10 @@ Route::middleware(['auth', 'checkRole:co-admin,admin'])->group(function () {
     //Route::resource('primary_datas', App\Http\Controllers\PrimaryDataController::class);
 });
 Route::middleware(['auth'])->group(function () {
+
+
+Route::post('/ckeditor/upload', [CKEditorController::class, 'upload'])
+    ->name('ckeditor.upload');
 
 
 
