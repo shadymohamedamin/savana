@@ -40,6 +40,7 @@ td, th {
     border: 1.5px solid #000;
     padding: 5px;
     margin-top: 5px;
+    height:500px;
 }
 
 /* صورة */
@@ -142,8 +143,11 @@ td, th {
 
         <!-- <td class="bold">تاريخ العقد</td>
         <td>{{ $project->contract_signed_at?->format('Y-m-d') ?? '-' }}</td> -->
-        <td class="bold">رقم الرسالة</td>
-        <td>{{ $message->id ?? '-' }}</td>
+        {{-- <td class="bold">رقم الرسالة</td>
+        <td>{{ $message->id ?? '-' }}</td> --}}
+
+        <td class="bold"> تاريخ انتهاء الموقع</td>
+        <td >{{ $project->contractor_contract_end_date?->format('Y-m-d') ?? '-' }}   </td>
 
     </tr>
 
