@@ -28,6 +28,7 @@ class UserAttachmentController extends Controller
             return match ($type) {
                 'users'    => \App\Models\User::class,
                 'projects' => \App\Models\Project::class,
+                //'supervisions'  => \App\Models\ProjectSupervision::class,
                 //'tender' => \App\Models\ProjectTender::class,
                 default    => abort(404)
             };
