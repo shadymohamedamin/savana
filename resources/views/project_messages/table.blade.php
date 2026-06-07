@@ -21,7 +21,7 @@
                     <td>{{ $projectMessage->receiver_id }}</td>
                     <td>{{ $projectMessage->cc_user_id }}</td>
                     <td>{{ $projectMessage->message_type_id }}</td>
-                    <td>{{ $projectMessage->message }}</td>
+                    <td>{!! $projectMessage->message !!}</td>
                     <td>{{ $projectMessage->attachment }}</td>
                     <td  style="width: 120px">
                         {!! Form::open(['route' => ['projectMessages.destroy', $projectMessage->id], 'method' => 'delete']) !!}

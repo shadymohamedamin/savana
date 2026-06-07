@@ -119,10 +119,10 @@ td, th {
     </tr>
 
     <tr>
-        <td class="bold">من</td>
+        <td class="bold">المرسل</td>
         <td>{{ 'سافانا ديزاين' }}</td>
 
-        <td class="bold">إلى</td>
+        <td class="bold">المرسل اليه</td>
         <td>{{ $message->receiver->name ?? '-' }}</td>
     </tr>
 
@@ -191,7 +191,7 @@ td, th {
 @endif
 
 <!-- ================= SIGNATURE ================= -->
-<table class="signature-table" style="margin-top:20px;">
+{{-- <table class="signature-table" style="margin-top:20px;">
     <tr>
         <td class="title">توقيع الاستشاري</td>
     </tr>
@@ -201,7 +201,38 @@ td, th {
             <img src="{{ public_path('images/signature.jpeg') }}" style="height:80px;">
         </td>
     </tr>
+</table> --}}
+
+
+
+
+
+
+
+<table style="width:100%; border-collapse:collapse; margin-top:0px; margin-bottom:50px;">
+    <tr>
+        <td class="bold center section-title" style="text-align:center; font-weight:bold;">
+            توقيع وختم المقاول
+        </td>
+        <td class="bold center section-title" style="text-align:center; font-weight:bold;">
+            توقيع المالك
+        </td>
+        <td class="bold center section-title" style="text-align:center; font-weight:bold;">
+            توقيع وختم الاستشاري
+        </td>
+    </tr>
+
+    <tr>
+        <td class="signature" style="height:80px; border-bottom:1px solid #000;"></td>
+
+        <td class="signature" style="height:80px; border-bottom:1px solid #000;"></td>
+
+        <td class="signature" style="height:80px; border-bottom:1px solid #000; text-align:center;">
+           <img src="{{ public_path('images/signature.jpeg') }}" style="height:100px;">
+        </td>
+    </tr>
 </table>
+
 
 </body>
 </html>

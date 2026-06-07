@@ -256,7 +256,7 @@ $user = auth()->user();
                 {!! Form::label('message', 'نص الرسالة') !!}
                 {!! Form::textarea('message', null, [
                     'class' => 'form-control',
-                    'rows' => 5,
+                    'rows' => 15,
                     'required',
                     'id' => 'message',
                 ]) !!}

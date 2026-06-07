@@ -45,7 +45,7 @@ $user = auth()->user();
     <p><strong>رقم الرسالة:</strong> {{ $replyTo->id ?? '-' }}</p>
 
     <p><strong>الرسالة:</strong><br>
-        {{ $replyTo->message }}
+        {!! $replyTo->message !!}
     </p>
 
 
@@ -622,15 +622,17 @@ document.getElementById('message_type_id').addEventListener('change', function (
 
 </script>
 
-{{-- <script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
+<script src="https://cdn.ckeditor.com/4.22.1/full/ckeditor.js"></script>
 
 <script>
     CKEDITOR.replace('message', {
     height: 500,
     contentsLangDirection: 'rtl',
     filebrowserUploadUrl: "{{ route('ckeditor.upload') }}",
-    filebrowserUploadMethod: 'form'
+    filebrowserUploadMethod: 'form',
+    extraPlugins: 'uploadimage,image2,pastefromword',
+    removePlugins: 'easyimage,cloudservices',
 });
-</script> --}}
+</script>
 
 @endpush
