@@ -21,7 +21,15 @@
                     <td>{{ $projectMessage->receiver_id }}</td>
                     <td>{{ $projectMessage->cc_user_id }}</td>
                     <td>{{ $projectMessage->message_type_id }}</td>
-                    <td>{!! $projectMessage->message !!}</td>
+<td style="max-width:300px; white-space:normal; word-break:break-word;">
+
+    <div dir="rtl" style="text-align:right;">
+
+        {{ \Illuminate\Support\Str::limit(html_entity_decode(strip_tags($projectMessage->message)), 150) }}
+
+    </div>
+
+</td>
                     <td>{{ $projectMessage->attachment }}</td>
                     <td  style="width: 120px">
                         {!! Form::open(['route' => ['projectMessages.destroy', $projectMessage->id], 'method' => 'delete']) !!}
