@@ -95,7 +95,7 @@
 
     <div dir="rtl" style="text-align:right;">
 
-        {{ \Illuminate\Support\Str::limit(html_entity_decode(strip_tags($projectMessage->message)), 150) }}
+        {{ \Illuminate\Support\Str::limit(html_entity_decode(strip_tags($msg->message)), 150) }}
 
     </div>
 
