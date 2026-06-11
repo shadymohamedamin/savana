@@ -209,7 +209,31 @@
         </div>
 
         {{-- Footer --}}
+
+
         <div class="card-footer d-flex justify-content-center gap-3">
+
+    <button type="submit"
+            name="action"
+            value="save"
+            class="btn btn-olive btn-sm">
+        💾 حفظ
+    </button>
+
+    <button type="submit"
+            name="action"
+            value="save_attachments"
+            class="btn btn-olive btn-sm">
+        📎 حفظ ورفع المرفقات
+    </button>
+
+    <a href="{{ route('projects.supervisions.index',$project->id) }}"
+       class="btn btn-secondary btn-sm">
+        رجوع
+    </a>
+
+</div>
+        {{-- <div class="card-footer d-flex justify-content-center gap-3">
 
             {!! Form::submit(
                 'حفظ الاشراف',
@@ -229,7 +253,7 @@
                 رجوع
             </a>
 
-        </div>
+        </div> --}}
 
         {!! Form::close() !!}
 

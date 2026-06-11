@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Attachment;
+use App\Models\ProjectSupervision;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
@@ -28,7 +29,7 @@ class UserAttachmentController extends Controller
             return match ($type) {
                 'users'    => \App\Models\User::class,
                 'projects' => \App\Models\Project::class,
-                //'supervisions'  => \App\Models\ProjectSupervision::class,
+                'supervisions' => \App\Models\ProjectSupervision::class,
                 //'tender' => \App\Models\ProjectTender::class,
                 default    => abort(404)
             };
@@ -250,6 +251,13 @@ public function create(Request $request, $id)
         
         $defaultTypes = [25, 33, 34, 35,36,37,38,39];
     }
+
+
+    if ($type === 'supervisions') {
+
+    $defaultTypes = [60];
+
+}
 
 
 

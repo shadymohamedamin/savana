@@ -36,6 +36,9 @@ class ProjectSupervisionController extends AppBaseController
         ->get();
 
 
+
+
+
         $totalSupervisionsCount = \App\Models\ProjectSupervision::where(
     'project_id',
     $project->id
@@ -55,7 +58,8 @@ $project->current_month_supervisions_count = $currentMonthSupervisionsCount;
 
         return view('project_supervisions.index', compact(
             'project',
-            'supervisions'
+            'supervisions',
+            
         ));
     }
 
@@ -84,7 +88,7 @@ public function create(\App\Models\Project $project)
     /**
      * Store a newly created ProjectSupervision in storage.
      */
-    public function store(Request $request, $projectId)
+    /*public function store(Request $request, $projectId)
 {
     $request->validate([
         'supervision_type_id' => 'required',
@@ -148,7 +152,109 @@ $fileName3 = null;
     return redirect()
         ->route('projects.supervisions.index', $projectId)
         ->with('success', 'تم إضافة الإشراف بنجاح');
+}*/
+
+
+
+
+
+
+
+
+
+public function store(Request $request, $projectId)
+{
+    $request->validate([
+        'supervision_type_id' => 'required',
+        'note' => 'required',
+        'attachments.*' => 'nullable|file|max:10240'
+    ]);
+
+    $supervision = \App\Models\ProjectSupervision::create([
+
+        'project_id' => $projectId,
+        'supervision_type_id' => $request->supervision_type_id,
+        'user_id' => auth()->id(),
+        'note' => $request->note,
+
+    ]);
+
+    if ($request->action === 'save_attachments') {
+
+    /*return redirect()->route(
+        'attachments.create',
+        [
+            'id'   => $supervision->id,
+            'type' => 'supervisions'
+        ]
+    );*/
+
+    return redirect()->route('users.attachments.create', [
+                'id'   => $supervision->id,
+                'type' => 'supervisions',
+                'projectId' =>$projectId
+                //'mode' => 'supervisions'
+            ])->with('toast', [
+                'type'    => 'success',
+                'message' => __('Project updated successfully. You can now upload attachments.')
+            ]);
 }
+
+    // رفع المرفقات
+    if ($request->hasFile('attachments')) {
+
+        foreach ($request->file('attachments') as $file) {
+
+            $filename =
+                $supervision->id .
+                '_supervision_' .
+                time() .
+                '_' .
+                uniqid() .
+                '.' .
+                $file->getClientOriginalExtension();
+
+            $path = public_path('Files');
+
+            if (!file_exists($path)) {
+                mkdir($path, 0755, true);
+            }
+
+            $file->move($path, $filename);
+
+            \App\Models\Attachment::create([
+
+                'attachable_id'   => $supervision->id,
+
+                'attachable_type' =>
+                    \App\Models\ProjectSupervision::class,
+
+                // نوع مرفق خاص بالإشراف
+                'attachment_type_id' => 60,
+
+                'file_name' => $file->getClientOriginalName(),
+
+                'file_type' =>
+                    $file->getClientOriginalExtension(),
+
+                'AttPath' =>
+                    '\\\\svr\\RAKcMainApp$\\Files\\' . $filename,
+
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+        }
+    }
+
+    return redirect()
+        ->route('projects.supervisions.index', $projectId)
+        ->with('success', 'تم إضافة الإشراف بنجاح');
+}
+
+
+
+
+
     /**
      * Display the specified ProjectSupervision.
      */

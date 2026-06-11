@@ -482,8 +482,8 @@ $licenseNumber =
         $project->baladyaApprovals->sortByDesc('id')->first()
     )->building_license_number ?? '-';
 
-$messageText = nl2br(e($message->message));
-
+//$messageText = nl2br(e($message->message));
+$messageText = $message->message;
 $replyText = '';
 
 if ($message->parent_id) {

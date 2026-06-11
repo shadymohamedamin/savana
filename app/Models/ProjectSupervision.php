@@ -48,4 +48,15 @@ class ProjectSupervision extends Model
     {
         return $this->belongsTo(\App\Models\User::class, 'user_id');
     }
+
+
+
+    public function attachments()
+    {
+        return $this->morphMany(
+            \App\Models\Attachment::class,
+            'attachable'
+        );
+    }
+
 }
