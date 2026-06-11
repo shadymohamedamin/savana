@@ -629,8 +629,22 @@ document.getElementById('message_type_id').addEventListener('change', function (
     height: 500,
     contentsLangDirection: 'rtl',
     filebrowserUploadMethod: 'form',
+    //toolbar: false,
+     // Remove the "Source" button from the toolbar
+     //removeButtons: 'Source',
 
 });
+
+
+
+/*CKEDITOR.replace('message', {
+    height: 500,
+    contentsLangDirection: 'rtl',
+    filebrowserUploadMethod: 'form',
+    removePlugins: 'elementspath',
+    resize_enabled: false,
+    toolbar: []
+});*/
 </script>
 
 @endpush

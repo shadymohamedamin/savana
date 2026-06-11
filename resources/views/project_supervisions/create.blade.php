@@ -68,7 +68,7 @@
 
             </div>
 
-            {{-- المرفق --}}
+            {{-- 
             <div class="col-md-3">
 
                 <div class="border rounded p-2 small bg-light attachment-box">
@@ -99,7 +99,7 @@
 
 
 
-            {{-- المرفق --}}
+      
             <div class="col-md-3">
 
                 <div class="border rounded p-2 small bg-light attachment-box">
@@ -128,7 +128,7 @@
             </div>
 
 
-            {{-- المرفق --}}
+       
             <div class="col-md-3">
 
                 <div class="border rounded p-2 small bg-light attachment-box">
@@ -157,8 +157,8 @@
             </div>
 
 
-            {{-- المرفق --}}
-            <div class="col-md-3">
+       
+             <div class="col-md-3">
 
                 <div class="border rounded p-2 small bg-light attachment-box">
 
@@ -183,7 +183,184 @@
 
                 </div>
 
-            </div>
+            </div> --}}
+
+
+
+
+
+
+
+            <div class="col-md-3">
+
+    <div class="border rounded p-2 small bg-light attachment-box">
+
+        <input type="file"
+               name="attachment"
+               class="form-control form-control-sm attachment-input mb-1">
+
+        <div class="text-truncate selected-file-name d-none"></div>
+
+        <a href="#"
+           target="_blank"
+           class="btn btn-sm btn-outline-success w-100 mt-1 preview-file d-none">
+
+            👁 Preview
+        </a>
+
+        <button type="button"
+                class="btn btn-sm btn-outline-danger w-100 mt-1 remove-file">
+
+            🗑 Remove
+        </button>
+
+        <hr>
+
+        {!! Form::label('attachment_note', 'ملاحظة المرفق') !!}
+
+        {!! Form::textarea(
+            'attachment_note',
+            null,
+            [
+                'class' => 'form-control form-control-sm',
+                'rows' => 3,
+                'placeholder' => 'اكتب ملاحظة خاصة بهذا المرفق'
+            ]
+        ) !!}
+
+    </div>
+
+</div>
+
+
+
+
+<div class="col-md-3">
+
+    <div class="border rounded p-2 small bg-light attachment-box">
+
+        <input type="file"
+               name="attachment1"
+               class="form-control form-control-sm attachment-input mb-1">
+
+        <div class="text-truncate selected-file-name d-none"></div>
+
+        <a href="#"
+           target="_blank"
+           class="btn btn-sm btn-outline-success w-100 mt-1 preview-file d-none">
+
+            👁 Preview
+        </a>
+
+        <button type="button"
+                class="btn btn-sm btn-outline-danger w-100 mt-1 remove-file">
+
+            🗑 Remove
+        </button>
+
+        <hr>
+
+        {!! Form::label('attachment_note1', 'ملاحظة المرفق') !!}
+
+        {!! Form::textarea(
+            'attachment_note1',
+            null,
+            [
+                'class' => 'form-control form-control-sm',
+                'rows' => 3,
+                'placeholder' => 'اكتب ملاحظة خاصة بهذا المرفق'
+            ]
+        ) !!}
+
+    </div>
+
+</div>
+  
+
+
+<div class="col-md-3">
+
+    <div class="border rounded p-2 small bg-light attachment-box">
+
+        <input type="file"
+               name="attachment2"
+               class="form-control form-control-sm attachment-input mb-1">
+
+        <div class="text-truncate selected-file-name d-none"></div>
+
+        <a href="#"
+           target="_blank"
+           class="btn btn-sm btn-outline-success w-100 mt-1 preview-file d-none">
+
+            👁 Preview
+        </a>
+
+        <button type="button"
+                class="btn btn-sm btn-outline-danger w-100 mt-1 remove-file">
+
+            🗑 Remove
+        </button>
+
+        <hr>
+
+        {!! Form::label('attachment_note2', 'ملاحظة المرفق') !!}
+
+        {!! Form::textarea(
+            'attachment_note2',
+            null,
+            [
+                'class' => 'form-control form-control-sm',
+                'rows' => 3,
+                'placeholder' => 'اكتب ملاحظة خاصة بهذا المرفق'
+            ]
+        ) !!}
+
+    </div>
+
+</div>
+
+
+<div class="col-md-3">
+
+    <div class="border rounded p-2 small bg-light attachment-box">
+
+        <input type="file"
+               name="attachment3"
+               class="form-control form-control-sm attachment-input mb-1">
+
+        <div class="text-truncate selected-file-name d-none"></div>
+
+        <a href="#"
+           target="_blank"
+           class="btn btn-sm btn-outline-success w-100 mt-1 preview-file d-none">
+
+            👁 Preview
+        </a>
+
+        <button type="button"
+                class="btn btn-sm btn-outline-danger w-100 mt-1 remove-file">
+
+            🗑 Remove
+        </button>
+
+        <hr>
+
+        {!! Form::label('attachment_note3', 'ملاحظة المرفق') !!}
+
+        {!! Form::textarea(
+            'attachment_note3',
+            null,
+            [
+                'class' => 'form-control form-control-sm',
+                'rows' => 3,
+                'placeholder' => 'اكتب ملاحظة خاصة بهذا المرفق'
+            ]
+        ) !!}
+
+    </div>
+
+</div>
+
 
             {{-- الملاحظة --}}
             <div style="min-width:100%;">
@@ -211,7 +388,7 @@
         {{-- Footer --}}
 
 
-        <div class="card-footer d-flex justify-content-center gap-3">
+        {{-- <div class="card-footer d-flex justify-content-center gap-3">
 
     <button type="submit"
             name="action"
@@ -232,8 +409,8 @@
         رجوع
     </a>
 
-</div>
-        {{-- <div class="card-footer d-flex justify-content-center gap-3">
+</div> --}}
+        <div class="card-footer d-flex justify-content-center gap-3">
 
             {!! Form::submit(
                 'حفظ الاشراف',
@@ -253,7 +430,7 @@
                 رجوع
             </a>
 
-        </div> --}}
+        </div> 
 
         {!! Form::close() !!}
 
