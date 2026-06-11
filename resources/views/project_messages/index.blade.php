@@ -91,7 +91,15 @@
                         <td>{{ $msg->receiver->name ?? '-' }}</td>
                         <td>{{ $msg->ccUser->name ?? '-' }}</td>
                         <td>{{ $msg->messageType->name_ar ?? '-' }}</td>
-                        <td>{{ \Illuminate\Support\Str::limit($msg->message, 40) }}</td>
+                        <td style="max-width:300px; white-space:normal; word-break:break-word;">
+
+    <div dir="rtl" style="text-align:right;">
+
+        {{ \Illuminate\Support\Str::limit(html_entity_decode(strip_tags($projectMessage->message)), 150) }}
+
+    </div>
+
+</td>
 
                         <td>
                             @if($msg->attachment)
