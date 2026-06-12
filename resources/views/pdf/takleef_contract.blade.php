@@ -68,42 +68,6 @@
 
 <body>
 
-<!-- <table>
-    <tr>
-        <td class="section-title">الموضوع: تكليف</td>
-    </tr>
-</table>
-
-<table>
-    <tr>
-        <td>
-             التاريخ: {{ $project->contract_signed_at?->format('Y/m/d') }}
-            
-        </td>
-    </tr>
-
-    <tr>
-        <td>
-            يسرنا الموقع ادناه 
-            <strong>{{ $project->ownerUser->name ?? 'المالك' }}</strong>
-            بصفتي مالك المشروع على القسيمة رقم 
-            <strong>{{ $project->qasmia_number ?? '—' }}</strong>
-            منطقة 
-            <strong>{{ $project->projectRegion?->name_ar ?? '-' }}</strong>
-            وهو عبارة عن 
-            <strong>{{ $project->projectName?->name_ar }}</strong>
-            تكليف مكتب 
-            <strong>سافانا ديزاين</strong>
-            للاستشارات الهندسية بأعمال التصميم والاشراف حتى استخراج شهادة الإنجاز وارساء المناقصة على المقاول.
-        </td>
-    </tr>
-</table> -->
-
-
-
-
-
-<!-- @include('pdf.contract_header', ['project' => $project,'isBank'=>false,'showContractor' => false,'title'=>'عقد خطاب التكليف']) -->
 
 
 <table>
@@ -147,19 +111,6 @@
         <td>{{ $project->contract_signed_at?->format('Y-m-d') ?? '-' }}</td>
     </tr>
 
-    <!-- <tr>
-        <td class="bold">قيمة المشروع</td>
-        <td>
-            {{
-                $project->bank_contract_value
-            }}
-        </td> -->
-
-        <!-- <td class="bold">تاريخ الدفعة</td>
-        <td>
-            {{ !empty($approvalCreatedAt) ? $approvalCreatedAt->format('Y-m-d') : '-' }}
-        </td> -->
-    <!-- </tr> -->
 
 </table>
 

@@ -436,6 +436,7 @@ $fileName = "العقد_الاساسي_" . $ownerName . ".pdf";
 public function takleefContractPdf(Request $request, $id)
 {
     $project = \App\Models\Project::with(['ownerUser'])->findOrFail($id);
+//dd($project->toArray());
 
     $html = view('pdf.takleef_contract', compact('project'))->render();
 
@@ -458,7 +459,7 @@ public function takleefContractPdf(Request $request, $id)
             صفحة {PAGENO} من {nbpg}
         </div>
     ');
-
+//dd($html);
     $mpdf->WriteHTML($html);
 
     $action = $request->get('action', 'preview');
