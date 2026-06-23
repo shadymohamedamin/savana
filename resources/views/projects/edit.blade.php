@@ -341,6 +341,470 @@ body{
 }
 
 
+
+
+
+
+
+
+
+
+.gov-field{
+    position: relative;
+    min-width:250px;
+    max-width:250px;
+    margin-top:20px;
+}
+
+.gov-field label{
+    position:absolute;
+    top:-11px;
+    right:14px;
+    background:#fff;
+    padding:0 10px;
+    font-size:13px;
+    font-weight:700;
+    color:#0f4c81; /* أغمق من البوردر */
+    z-index:2;
+    letter-spacing:.3px;
+}
+
+.gov-field .form-control{
+    height:52px;
+    border:2px solid #7da3c7;
+    border-radius:8px;
+    background:#fff;
+    font-size:14px;
+    font-weight:600;
+    transition:.25s;
+    box-shadow:none;
+}
+
+.gov-field .form-control:focus{
+    border-color:#0f4c81;
+    box-shadow:0 0 0 3px rgba(15,76,129,.12);
+}
+
+
+
+
+
+/* .form-item{
+    position: relative;
+    min-width:250px;
+    max-width:250px;
+    margin-top:15px;
+}
+
+.form-item .form-control{
+    height: 52px;
+    border: 2px solid #d1d5db;
+    border-radius: 10px;
+    background: #fff;
+    padding: 12px 15px;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: none;
+    transition: all .2s ease;
+}
+
+.form-item .form-control:focus{
+    border-color: #9ca3af;
+    box-shadow: 0 0 0 3px rgba(156,163,175,.15);
+}
+
+.form-item label{
+    position: absolute;
+    top: -11px;
+    right: 12px;
+    z-index: 2;
+    background: #fff;
+    padding: 0 8px;
+    
+    color: #4b5563; /* نفس روح البوردر لكن أغمق */
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .3px;
+    margin: 0;
+}
+
+
+.form-item .form-control{
+    border: 1.5px solid #cbd5e1;
+}
+
+.form-item label{
+    color: #6F5A24;
+    font-weight: 800;
+} */
+
+
+
+
+.form-row-custom{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:15px;
+}
+
+.form-row-custom label{
+    min-width:120px;
+    margin:0;
+    font-weight:700;
+    color:#6F5A24;
+    white-space:nowrap;
+}
+
+.form-row-custom .form-control{
+    flex:1;
+    height:42px;
+    border:1px solid #ced4da;
+    border-radius:6px;
+}
+
+.form-row-custom{
+    display:grid;
+    grid-template-columns: 130px 250px;
+    align-items:center;
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.form-row-custom label{
+    text-align:right;
+    font-weight:700;
+    color:#6F5A24;
+    margin:0;
+}
+
+
+
+
+.form-row-custom{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:flex-end;
+    gap:20px;
+}
+
+/* .form-item{
+    min-width:250px;
+    max-width:250px;
+    position:relative;
+    padding-inline-end:20px;
+}
+
+.form-item:not(:last-child)::after{
+    content:'';
+    position:absolute;
+    top:10%;
+    left:-10px;
+    height:80%;
+    width:1px;
+    background:#d1d5db;
+}
+
+.form-item label{
+    font-weight:700;
+    color:#374151;
+    margin-bottom:8px;
+    display:block;
+}
+
+
+.form-item:not(:last-child)::after{
+    content:'';
+    position:absolute;
+    left:-17px;
+    top:50%;
+    transform:translateY(-50%);
+    width:2px;
+    height:35px;
+    background:currentColor;
+    opacity:.5;
+} */
+
+
+
+
+
+
+
+
+
+.form-grid{
+    display:grid;
+    grid-template-columns: repeat(2, minmax(420px, 1fr));
+    gap:35px 60px; /* رأسي - أفقي */
+    width:100%;
+}
+
+.form-row-custom,
+.form-item{
+    width:100%;
+    max-width:none !important;
+    min-width:unset !important;
+}
+
+.form-row-custom{
+    display:flex;
+    align-items:center;
+    gap:18px;
+}
+
+.form-row-custom label{
+    min-width:140px;
+    font-weight:700;
+    color:#6F5A24;
+    margin:0;
+    white-space:nowrap;
+}
+
+.form-row-custom .form-control{
+    flex:1;
+    height:46px;
+}
+
+/* موبايل */
+@media(max-width:992px){
+    .form-grid{
+        grid-template-columns:1fr;
+        gap:20px;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(350px,1fr));
+    gap:28px 40px;
+    margin-top:20px;
+}
+
+.form-item{
+    display:flex;
+    flex-direction:column;
+}
+
+.form-label-custom{
+    margin-bottom:8px;
+    font-size:14px;
+    font-weight:700;
+    color:#374151;
+    letter-spacing:.2px;
+}
+
+.custom-input{
+    height:48px;
+    border:1px solid #d1d5db;
+    border-radius:8px;
+    background:#fff;
+    box-shadow:none;
+    transition:.2s;
+}
+
+.custom-input:focus{
+    border-color:#6b7280;
+    box-shadow:0 0 0 3px rgba(107,114,128,.12);
+}
+
+.form-item:not(:last-child){
+    position:relative;
+}
+
+.card-section{
+    background:#fff;
+    padding:24px;
+    border:1px solid #e5e7eb;
+    border-radius:12px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.form-row-custom{
+    display:flex;
+    flex-wrap:wrap;
+    gap:32px 40px; /* مسافة كبيرة بين العناصر */
+    align-items:flex-start;
+}
+
+.form-item{
+    flex:1 1 calc(50% - 20px);
+    min-width:320px;
+}
+
+.form-item label{
+    display:block;
+    margin-bottom:8px;
+    font-size:13px;
+    font-weight:700;
+    color:#8A7745;
+    letter-spacing:.2px;
+}
+
+.form-item .form-control{
+    height:46px;
+    border:none;
+    border-radius:8px;
+    background:#fff;
+    padding:0 14px;
+    font-size:14px;
+    color:#111827;
+    box-shadow:
+        0 1px 2px rgba(0,0,0,.04),
+        0 0 0 1px #e5e7eb;
+    transition:.2s;
+}
+
+.form-item .form-control:focus{
+    outline:none;
+    box-shadow:
+        0 1px 2px rgba(0,0,0,.05),
+        0 0 0 2px rgba(107,114,128,.15);
+}
+.card-section{
+    background:#f8fafc;
+    padding:24px;
+    border-radius:12px;
+}
+
+
+
+
+
+
+
+
+
+
+
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,minmax(200px,1fr));
+    gap:28px 250px;
+}
+
+.form-item{
+    display:flex;
+    flex-direction:column;
+}
+
+.form-item label{
+    display:block;
+    margin-bottom:8px;
+    font-size:13px;
+    font-weight:700;
+    color:#6F5A24;
+}
+
+.form-item .form-control{
+    height:48px;
+    border:1px solid #d8c187;
+    border-radius:10px;
+    background:#fff;
+    padding:0 14px;
+    box-shadow:none;
+}
+
+.form-item .form-control:focus{
+    border-color:#8C7331;
+    box-shadow:0 0 0 4px rgba(111,90,36,.12);
+}
+.card-section{
+    background:#fff;
+    border:none;
+    border-radius:14px;
+    overflow:hidden;
+
+    box-shadow:
+    0 4px 12px rgba(0,0,0,.05);
+
+    transition:.25s;
+}
+
+.card-section:hover{
+    transform:translateY(-2px);
+
+    box-shadow:
+    0 12px 28px rgba(0,0,0,.08);
+}
+.card-header{
+    background:linear-gradient(
+        135deg,
+        #fff3d8,
+        #fff3d8
+    ) !important;
+
+    color:#6F5A24 !important;
+
+    font-size:17px;
+    font-weight:700;
+
+    text-align:center;
+
+    padding:15px;
+}
+.card-section + .card-section{
+    margin-top:25px;
+}
+select.form-control{
+    cursor:pointer;
+}
+.form-item label::before{
+    /* content:"▌"; */
+    color:#D4AF37;
+    margin-left:6px;
+}
+.card-body{
+    background:#FCFBF7;
+}
+
+
+
+
+.card-body{
+    background:#FCFBF7;
+}
+
+
 </style>
 
 <section class="content-header">
@@ -409,414 +873,16 @@ body{
 
 @include('projects.partials.project-actions', ['project' => $project])
 
-        <!-- <div class="card shadow-sm mb-4" style="background-color:#f5f5dc;">
+      
 
 
-    <div class="card-header fw-bold" style="background:#2f3a1f;color:#d4af37;">
-        <i class="fas fa-cogs me-1"></i> {{ __('إدارة المشروع') }}
-    </div>
 
-    <div class="card-body p-2">
-        <div class="list-group list-group-flush">
 
-            <a href="{{ route('projects.edit', $project->id) }}"
-               class="list-group-item list-group-item-action">
-                <i class="far fa-edit me-2"></i> {{ __('Edit Project') }}
-            </a>
 
-            <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects') }}"
-               class="list-group-item list-group-item-action">
-                <i class="fas fa-folder-open me-2"></i> {{ __('عقود الاستشاري') }}
-            </a>
 
-            @if($project->owner_id)
-                <a href="{{ route('users.edit', $project->owner_id) }}"
-                   class="list-group-item list-group-item-action">
-                    <i class="fas fa-user me-2"></i> {{ __('Edit Owner') }}
-                </a>
-            @else
-                <div class="list-group-item text-muted">
-                    <i class="fas fa-user-slash me-2"></i> {{ __('No Owner') }}
-                </div>
-            @endif
 
-            @if($project->contractor_id)
-                <a href="{{ route('users.edit', $project->contractor_id) }}"
-                   class="list-group-item list-group-item-action">
-                    <i class="fas fa-hard-hat me-2"></i> {{ __('Edit Contractor') }}
-                </a>
-            @else
-                <div class="list-group-item text-muted">
-                    <i class="fas fa-user-clock me-2"></i> {{ __('Not Chosen Yet') }}
-                </div>
-            @endif
 
-            <div class="list-group-item fw-bold text-muted mt-2">
-                {{ __('مراحل المشروع') }}
-            </div>
 
-            <a href="{{ route('projects.owner-requirements.index', ['project' => $project->id]) }}"
-               class="list-group-item list-group-item-action">
-                <i class="fas fa-file-signature me-2"></i> {{ __('احتياجات المالك') }}
-            </a>
-
-            <a href="{{ route('projects.baladya-approvals.index', ['project' => $project->id]) }}"
-               class="list-group-item list-group-item-action">
-                <i class="fas fa-file-signature me-2"></i> {{ __('اعتمادات البلدية') }}
-            </a>
-
-            <a href="{{ route('projects.project-payments.index', ['project' => $project->id]) }}"
-               class="list-group-item list-group-item-action">
-                <i class="fas fa-money-check-alt me-2"></i> {{ __('دفعات المشروع') }}
-            </a>
-
-            
-
-        </div>
-    </div>
-</div> -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <!-- <div class="card-body">
-            <div class="d-flex flex-wrap gap-3">
-
- 
-
-                {{-- Project Name --}}
-                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
-                    {!! Form::label('project_name_id', __('ProjectName')) !!}
-                    {!! Form::select(
-                        'project_name_id',
-                        $projectNames,
-                        null,
-                        [
-                            'class' => 'form-control rounded',
-                            'placeholder' => __('-- اختر اسم المشروع --'),
-                            'required'
-                        ]
-                    ) !!}
-                </div>
-
-
-                {{-- Status --}}
-                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;max-width: 250px;background-color: #f5f5dc;">
-                    {!! Form::label('status_id', __('Status')) !!}
-                    {!! Form::select('status_id', $statuses, null, [
-                        'class' => 'form-control rounded',
-                        'placeholder' => '-- اختر الحالة --',
-                        'required'
-                    ]) !!}
-                </div>
-
-                {{-- Case --}}
-                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;max-width: 250px;">
-                    {!! Form::label('case_id_number', __('Case #')) !!}
-                    {!! Form::text('case_id_number', null, ['class' => 'form-control rounded']) !!}
-                </div>
-
-                {{-- Building --}}
-                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;max-width: 250px;">
-                    {!! Form::label('building_number', __('Building #')) !!}
-                    {!! Form::text('building_number', null, ['class' => 'form-control rounded']) !!}
-                </div>
-
-                    <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;max-width: 250px;">
-                        {!! Form::label('building_number2', __('Building #2')) !!}
-                        {!! Form::text('building_number2', null, ['class' => 'form-control rounded']) !!}
-                    </div>
-                    <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;max-width: 250px;">
-                        {!! Form::label('building_number3', __('Building #3')) !!}
-                        {!! Form::text('building_number3', null, ['class' => 'form-control rounded']) !!}
-                    </div>
-
-                {{-- Fence --}}
-                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;max-width: 250px;">
-                    {!! Form::label('fence_number', __('Fence #')) !!}
-                    {!! Form::text('fence_number', null, ['class' => 'form-control rounded']) !!}
-                </div>
-
-                {{-- Fees --}}
-                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
-                    {!! Form::label('design_fee', __('رسوم التصميم')) !!}
-                    {!! Form::text('design_fee', null, ['class' => 'form-control rounded']) !!}
-                </div>
-
-                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
-                    {!! Form::label('supervision_fee', __('رسوم الإشراف')) !!}
-                    {!! Form::text('supervision_fee', null, ['class' => 'form-control rounded']) !!}
-                </div>
-
-    
-
-
-                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
-                    {!! Form::label('bank_contract_value', __('قيمة العقد بالضريبة')) !!}
-                    {!! Form::number('bank_contract_value', null, [
-                        'class' => 'form-control rounded',
-                        'min' => 0,
-                    ]) !!}
-                </div>
-
-
-                
-
-
-                <div class="flex-grow-1" style="min-width:250px; max-width:250px;">
-                    {!! Form::label('financing_type', __('تمويل المشروع')) !!}
-                    {!! Form::select('financing_type', 
-                        [
-                            'bank' => __('بنك'),
-                            'owner' => __('مالك'),
-                            'bank_owner' => __('بنك ومالك')
-                        ],
-                        $project->financing_type ?? old('financing_type'), 
-                        ['class' => 'form-control rounded', 'required' => true]
-                    ) !!}
-                </div>
-
-
-
-                <div class="flex-grow-1" style="min-width:250px;max-width:250px;">
-                    {!! Form::label('project_bank_support', __('تمويل البنك '))!!}
-                    {!! Form::number('project_bank_support', null, [
-                        'class' => 'form-control rounded',
-                        'min' => 800000,
-                    ]) !!}
-                </div>
-
-                <div class="flex-grow-1" style="min-width:250px;max-width:250px;">
-                    {!! Form::label('project_owner_support', __('تمويل المالك '))!!}
-                    {!! Form::number('project_owner_support', null, [
-                        'class' => 'form-control rounded',
-                        'id' => 'project_owner_support',
-                        'readonly' => true
-                    ]) !!}
-                </div>
-
-
-
-
-
-
-
-
-
-
-  <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
-    {!! Form::label('budget', __('ميزانية المالك')) !!}
-    {!! Form::text('budget', null, [
-        'class' => 'form-control rounded',
-        'id' => 'budget'
-    ]) !!}
-</div>
-
-
-                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
-    {!! Form::label('foot_price', __('سعر الفوت')) !!}
-    {!! Form::text('foot_price', null, [
-        'class' => 'form-control rounded',
-        'id' => 'foot_price'
-    ]) !!}
-</div>
-
-
-
-<div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
-    {!! Form::label('area', __('المساحة')) !!}
-    {!! Form::text('area', null, [
-        'class' => 'form-control rounded',
-        'id' => 'area',
-        'readonly' => true
-    ]) !!}
-</div>
-
-
-
-
-
-
-
-
-
-
-
-                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
-                    {!! Form::label('approved_area', __('المساحة المعتمدة من البلدية')) !!}
-                    {!! Form::text('approved_area', null, ['class' => 'form-control rounded']) !!}
-                </div>
-
-                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
-                    {!! Form::label('linear_meter_area', __('مساحة السور بالمتر الطولي')) !!}
-                    {!! Form::text('linear_meter_area', null, ['class' => 'form-control rounded']) !!}
-                </div>
-
-
-
-
-
-                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
-                    {!! Form::label('qasmia_number', __('رقم القسيمة')) !!}
-                    {!! Form::text('qasmia_number', null, ['class' => 'form-control rounded']) !!}
-                </div>
-
-
-
-
-
-
-
-                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
-                    {!! Form::label('duration', __('مدة عقد البنك')) !!}
-                    {!! Form::text('duration', null, ['class' => 'form-control rounded']) !!}
-                </div>
-
-                {{-- Dates --}}
-                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
-                    {!! Form::label('start_date', __('Start Date')) !!}
-                    {!! Form::date(
-                        'start_date',
-                        optional($project->start_date)->format('Y-m-d'),
-                        ['class' => 'form-control rounded']
-                    ) !!}
-                </div>
-
-
-
-
-
-                
-
-
-
-                {{-- End Date --}}
-                <div class="flex-grow-1" style="min-width:250px;max-width:250px;">
-                    {!! Form::label('end_date', __('End Date')) !!}
-                    {!! Form::date(
-                        'end_date',
-                        optional($project->end_date)->format('Y-m-d'),
-                        ['class' => 'form-control rounded', 'id' => 'end_date']
-                    ) !!}
-                </div>
-
-                {{-- Contract Duration --}}
-                <div class="flex-grow-1" style="min-width:250px;max-width:250px;">
-                    {!! Form::label('bank_contract_duration', __('مدة العقد الاساسي (بالأشهر)')) !!}
-                    {!! Form::number(
-                        'bank_contract_duration',
-                        $project->bank_contract_duration,
-                        ['class' => 'form-control rounded', 'min' => 1, 'id' => 'bank_contract_duration']
-                    ) !!}
-                </div>
-
-                {{-- Contractor Contract End Date (Display) --}}
-                <div class="flex-grow-1" style="min-width:250px;max-width:250px;">
-                    {!! Form::label('contractor_contract_end_date_display', __('تاريخ انتهاء عقد المقاول')) !!}
-                    <input type="date"
-                        id="contractor_contract_end_date_display"
-                        class="form-control rounded"
-                        value="{{ optional($project->contractor_contract_end_date)->format('Y-m-d') }}"
-                        readonly>
-                </div>
-
-                {{-- Hidden --}}
-                <input type="hidden"
-                    name="contractor_contract_end_date"
-                    id="contractor_contract_end_date"
-                    value="{{ optional($project->contractor_contract_end_date)->format('Y-m-d') }}"/>
-
-
-
-                {{-- Stage --}}
-                <div class="flex-grow-1"
-                    style="min-width: 250px;max-width: 250px;background-color: #f5f5dc;">
-
-                    {!! Form::label('stage_id', __('Project Stage')) !!}
-
-                    {!! Form::select('stage_id', $stages, null, [
-                        'class' => 'form-control rounded',
-                        'placeholder' => __('-- اختر المرحلة --'),
-                        'required'
-                    ]) !!}
-                </div>
-
-
-
-                {{-- City --}}
-                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;background-color: #f5f5dc;">
-                    {!! Form::label('city_id', __('City')) !!}
-                    {!! Form::select('city_id', $regions, null, [
-                        'class' => 'form-control rounded',
-                        'placeholder' => '-- اختر الامارة --'
-                    ]) !!}
-                </div>
-
-
-                {{-- Project Region --}}
-                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
-                    {!! Form::label('project_region_id', __('المنطقة')) !!}
-                    {!! Form::select(
-                        'project_region_id',
-                        $projectRegions,
-                        null,
-                        [
-                            'class' => 'form-control rounded',
-                            'placeholder' => __('-- اختر  المنطقة --'),
-                            
-                        ]
-                    ) !!}
-                </div>
-
-                {{-- Owner / Contractor / Consultant --}}
-                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;background-color: #f5f5dc;">
-                    {!! Form::label('owner_id', __('Owner')) !!}
-                    {!! Form::select('owner_id', $owners, null, ['class'=>'form-control','placeholder'=>'-- اختياري --']) !!}
-                </div>
-
-                <div class="d-flex align-items-end gap-2 flex-grow-1" style="min-width: 250px;max-width: 250px;background-color: #f5f5dc;">
-                    
-                    <div style="width: 200px;">
-                        {!! Form::label('contractor_id', __('Contractor')) !!}
-                        {!! Form::select('contractor_id', $contractors, null, ['class'=>'form-control','placeholder'=>'-- اختياري --']) !!}
-                    </div>
-                
-                    
-                        <a href="{{ route('users.create', [
-                                'role_id' => 3,//'owner_id' => request('owner_id')
-                            ]) }}"
-                        class="btn btn-success mb-1"
-                        title="Add New Contractor">
-                            <i class="fas fa-plus"></i>
-                        </a>
-
-                    
-                
-                
-                
-                </div>
-
-
-
-                
-
-                {{-- Description --}}
-                <div class="w-100">
-                    {!! Form::label('description', __('Description')) !!}
-                    {!! Form::textarea('description', null, ['class'=>'form-control rounded','rows'=>3]) !!}
-                </div>
-
-            </div>
-        </div> -->
 
 
 <div class="card-section">
@@ -832,7 +898,7 @@ body{
 
 <div class="form-grid">
 
-<div class="form-item">
+<div class="form-ite form-item">
 {!! Form::label('project_name_id', __('ProjectName')) !!}
 {!! Form::select('project_name_id',$projectNames,null,['class'=>'form-control','placeholder'=>'-- اختر اسم المشروع --']) !!}
 </div>
@@ -842,7 +908,7 @@ body{
 
 
 {{-- Status --}}
-<div class="flex-grow-1" style="min-width: 250px;max-width: 250px;max-width: 250px;">
+<div class="form-item" style="min-width: 250px;max-width: 250px;max-width: 250px;">
     {!! Form::label('status_id', __('Status')) !!}
     {!! Form::select('status_id', $statuses, null, [
         'class' => 'form-control rounded',
@@ -852,7 +918,7 @@ body{
 </div>
 
 {{-- Stage --}}
-                <div class="flex-grow-1"
+                <div class="form-item"
                     style="min-width: 250px;max-width: 250px;">
 
                     {!! Form::label('stage_id', __('Project Stage')) !!}
@@ -915,17 +981,17 @@ body{
 
 
 {{-- إضافة حقل صورة المشروع --}}
-<div class="form-group">
+{{-- <div class="form-group">
     {!! Form::label('project_image', 'صورة المشروع') !!}
     {!! Form::file('project_image', ['class' => 'form-control']) !!}
-</div>
+</div> --}}
 
 {{-- عرض صورة المشروع إذا كانت موجودة --}}
-@if($project->project_image)
+{{-- @if($project->project_image)
     <div class="form-group">
         <img src="{{ asset('Files/' . $project->project_image) }}" alt="Project Image" class="img-fluid">
     </div>
-@endif
+@endif --}}
 
 
 <div class="w-100">
@@ -1018,7 +1084,7 @@ body{
 
 
 
-<div class="form-item">
+<div class="form-row-custom">
                         {!! Form::label('consultant_id', __('Consultant')) !!}
                         {!! Form::select(
                             'consultant_id',
@@ -1047,12 +1113,12 @@ body{
 
 <div class="form-grid">
 
-<div class="form-item">
+<div class="form-row-custom">
 {!! Form::label('bank_contract_value', __('قيمة العقد بالضريبة')) !!}
 {!! Form::number('bank_contract_value', null, ['class'=>'form-control','min'=>0]) !!}
 </div>
 
-<div class="form-item">
+<div class="form-row-custom">
 {!! Form::label('duration', __('مدة عقد البنك')) !!}
 {!! Form::text('duration', null, ['class'=>'form-control']) !!}
 </div>
@@ -1072,17 +1138,17 @@ body{
                     ) !!}
                 </div>
 
-<div class="form-item">
+<div class="form-row-custom">
 {!! Form::label('project_bank_support', __('تمويل البنك')) !!}
 {!! Form::number('project_bank_support', null, ['class'=>'form-control']) !!}
 </div>
 
-<div class="form-item">
+<div class="form-row-custom">
 {!! Form::label('project_owner_support', __('تمويل المالك')) !!}
 {!! Form::number('project_owner_support', null, ['class'=>'form-control','readonly'=>true]) !!}
 </div>
 
-<div class="form-item">
+<div class="form-row-custom">
 {!! Form::label('end_date', __('تاريخ تسليم الموقع')) !!}
 {!! Form::date('end_date',optional($project->end_date)->format('Y-m-d'),['class'=>'form-control','id'=>'end_date']) !!}
 </div>
@@ -1095,7 +1161,7 @@ body{
 
 
 
-<div class="form-item">
+<div class="form-row-custom">
 {!! Form::label('bank_contract_duration', __('مدة العقد الاساسي (بالأشهر)') )!!}
 {!! Form::number('bank_contract_duration',$project->bank_contract_duration,['class'=>'form-control','id'=>'bank_contract_duration']) !!}
 </div>
@@ -1128,7 +1194,7 @@ body{
 
 
 
-<div class="form-item">
+<div class="form-row-custom">
     <label class="form-label">تاريخ توقيع العقود</label>
     <input type="date"
            name="contract_signed_at"
@@ -1138,7 +1204,7 @@ body{
 
 
 
-{{-- <div class="form-item">
+{{-- <div class="form-row-custom">
 {!! Form::label('contractor_contract_end_date_display', __('تاريخ انتهاء عقد المقاول')) !!}
 <input type="date" id="contractor_contract_end_date_display" class="form-control"
 value="{{ optional($project->contractor_contract_end_date)->format('Y-m-d') }}" readonly>
@@ -1153,21 +1219,21 @@ name="contractor_contract_end_date"
 id="contractor_contract_end_date"
 value="{{ optional($project->contractor_contract_end_date)->format('Y-m-d') }}"/> --}}
 
-<div class="form-item">
+<div class="form-row-custom">
 {!! Form::label('contractor_id', __('Contractor')) !!}
 {!! Form::select('contractor_id',$contractors,null,['class'=>'form-control','placeholder'=>'-- اختياري --']) !!}
 </div>
 
 
 
-<div class="form-item">
+<div class="form-row-custom">
 {!! Form::label('container_contract_value', __('قيمة عقد الحاوية')) !!}
 {!! Form::number('container_contract_value', null, ['class'=>'form-control']) !!}
 </div>
 
 
 
-<div class="form-item">
+<div class="form-row-custom">
 {!! Form::label('advance_payment_value', __('  دفعة مقدمة من المالك')) !!}
 {!! Form::number('advance_payment_value', null, ['class'=>'form-control']) !!}
 </div>

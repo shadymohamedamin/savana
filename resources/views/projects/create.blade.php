@@ -333,7 +333,16 @@
                 </div>
 
 
-
+                {{-- Extension Days --}}
+                <div class="flex-grow-1" style="min-width:250px;max-width:250px;">
+                    {!! Form::label('extension_days', __('تمديد المدة (بالأيام)')) !!}
+                    <input type="number"
+                        id="extension_days"
+                        name="extension_days"
+                        class="form-control"
+                        min="0"
+                        value="{{ old('extension_days', $project->extension_days ?? 0) }}">
+                </div>
 
                 {{-- Contractor Contract End Date (Display) --}}
                 <div class="flex-grow-1" style="min-width:250px;max-width:250px;">
@@ -660,7 +669,7 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+/*document.addEventListener('DOMContentLoaded', function () {
 
     function calculateContractorEndDate() {
         const endDate = document.getElementById('end_date').value;
@@ -688,6 +697,52 @@ document.addEventListener('DOMContentLoaded', function () {
         .addEventListener('input', calculateContractorEndDate);
 
     // مهم جدًا في edit
+    calculateContractorEndDate();
+});*/
+
+
+
+
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    function calculateContractorEndDate() {
+
+        const endDate = document.getElementById('end_date').value;
+        const duration = document.getElementById('bank_contract_duration').value;
+        const extensionDays = parseInt(document.getElementById('extension_days').value || 0);
+
+        if (!endDate || !duration) {
+            document.getElementById('contractor_contract_end_date_display').value = '';
+            document.getElementById('contractor_contract_end_date').value = '';
+            return;
+        }
+
+        let date = new Date(endDate);
+
+        // إضافة مدة العقد بالشهور
+        date.setMonth(date.getMonth() + parseInt(duration));
+
+        // إضافة التمديد بالأيام
+        date.setDate(date.getDate() + extensionDays);
+
+        const formattedDate = date.toISOString().split('T')[0];
+
+        document.getElementById('contractor_contract_end_date_display').value = formattedDate;
+        document.getElementById('contractor_contract_end_date').value = formattedDate;
+    }
+
+    document.getElementById('end_date')
+        .addEventListener('change', calculateContractorEndDate);
+
+    document.getElementById('bank_contract_duration')
+        .addEventListener('input', calculateContractorEndDate);
+
+    document.getElementById('extension_days')
+        .addEventListener('input', calculateContractorEndDate);
+
     calculateContractorEndDate();
 });
 
