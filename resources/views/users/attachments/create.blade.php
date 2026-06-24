@@ -637,8 +637,11 @@
     $type = request('type');
     $isTender = request('mode') === 'tender';
     $isDesigns= request('mode') === 'designs';
+    $isDesignsFiles= request('mode') === 'designs_files';
     $isCotractorFiles=request('mode') === 'contractor_files';
     $projectDocuments=request('mode') === 'project_documents';
+    $isAchievements=request('mode') === 'achievements';
+    
 
     $mode=request('mode');
     
@@ -789,7 +792,7 @@
                     <i class="fas fa-file-signature"></i> حساب الكميات
             </a> --}}
         </div>
-        @elseif(!$isCotractorFiles&&!$projectDocuments&&$type='projects'&&in_array(Auth::user()->role_id, [1,4,11,12,7]))
+        @elseif(!$isDesignsFiles&&!$isAchievements&&!$isCotractorFiles&&!$projectDocuments&&$type='projects'&&in_array(Auth::user()->role_id, [1,4,11,12,7]))
         <a href="{{ route('projects.owner-requirements.index', ['project' => $model->id]) }}" class=" btn-add-file">
                 <i class="fas fa-clipboard-list"></i>
                 احتياجات المالك
@@ -1408,7 +1411,7 @@ $lastBatchId = \App\Models\ProjectSchedule::where('project_id', $project->id)
                 </div>  -->
 
                 {{-- عقد المالك والاستشاري --}}
-                @if(!$projectDocuments&&!$isDesigns)
+                @if(!$projectDocuments&&!$isDesigns&&!$isDesignsFiles&&!$isAchievements)
                     <div class="contract-box">
                         <span class="mb-1">{{ __('Owner And Consultant And Contractor Contract') }}</span>
                         <a target="_blank" href="{{ route('projects.contract.owner_consultant.pdf', ['id' => $model->id, 'action' => 'preview']) }}" class="btn btn-outline-primary btn-sm mb-1">

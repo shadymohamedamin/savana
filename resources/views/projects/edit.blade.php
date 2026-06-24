@@ -907,8 +907,8 @@ select.form-control{
 
 
 
-{{-- Status --}}
-<div class="form-item" style="min-width: 250px;max-width: 250px;max-width: 250px;">
+{{-- Status style="min-width: 250px;max-width: 250px;max-width: 250px;" --}}
+<div class="form-item" >
     {!! Form::label('status_id', __('Status')) !!}
     {!! Form::select('status_id', $statuses, null, [
         'class' => 'form-control rounded',
@@ -919,7 +919,7 @@ select.form-control{
 
 {{-- Stage --}}
                 <div class="form-item"
-                    style="min-width: 250px;max-width: 250px;">
+                    >
 
                     {!! Form::label('stage_id', __('Project Stage')) !!}
 
@@ -1033,7 +1033,7 @@ select.form-control{
 </div>
 
 
- <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+ <div class="form-item" >
     {!! Form::label('foot_price', __('سعر الفوت')) !!}
     {!! Form::text('foot_price', null, [
         'class' => 'form-control rounded',
@@ -1043,7 +1043,7 @@ select.form-control{
 
 
 
-<div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+<div class="form-item" >
     {!! Form::label('area', __('المساحة')) !!}
     {!! Form::text('area', null, [
         'class' => 'form-control rounded',
@@ -1067,24 +1067,24 @@ select.form-control{
 
 
 
-<div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+<div class="form-item" >
                     {!! Form::label('approved_area', __('المساحة المعتمدة من البلدية')) !!}
                     {!! Form::text('approved_area', null, ['class' => 'form-control rounded']) !!}
                 </div>
 
-<div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+<div class="form-item" >
                     {!! Form::label('approved_area_license', __('المساحة المعتمدة من الرخصة')) !!}
                     {!! Form::text('approved_area_license', null, ['class' => 'form-control rounded']) !!}
                 </div>
 
-                <div class="flex-grow-1" style="min-width: 250px;max-width: 250px;">
+                <div class="form-item" >
                     {!! Form::label('linear_meter_area', __('مساحة السور بالمتر الطولي')) !!}
                     {!! Form::text('linear_meter_area', null, ['class' => 'form-control rounded']) !!}
                 </div>
 
 
 
-<div class="form-row-custom">
+<div class="form-item">
                         {!! Form::label('consultant_id', __('Consultant')) !!}
                         {!! Form::select(
                             'consultant_id',
@@ -1113,19 +1113,19 @@ select.form-control{
 
 <div class="form-grid">
 
-<div class="form-row-custom">
+<div class="form-item">
 {!! Form::label('bank_contract_value', __('قيمة العقد بالضريبة')) !!}
 {!! Form::number('bank_contract_value', null, ['class'=>'form-control','min'=>0]) !!}
 </div>
 
-<div class="form-row-custom">
+<div class="form-item">
 {!! Form::label('duration', __('مدة عقد البنك')) !!}
 {!! Form::text('duration', null, ['class'=>'form-control']) !!}
 </div>
 
 
 
-<div class="flex-grow-1" style="min-width:250px; max-width:250px;">
+<div class="form-item" >
                     {!! Form::label('financing_type', __('تمويل المشروع')) !!}
                     {!! Form::select('financing_type', 
                         [
@@ -1138,17 +1138,17 @@ select.form-control{
                     ) !!}
                 </div>
 
-<div class="form-row-custom">
+<div class="form-item">
 {!! Form::label('project_bank_support', __('تمويل البنك')) !!}
 {!! Form::number('project_bank_support', null, ['class'=>'form-control']) !!}
 </div>
 
-<div class="form-row-custom">
+<div class="form-item">
 {!! Form::label('project_owner_support', __('تمويل المالك')) !!}
 {!! Form::number('project_owner_support', null, ['class'=>'form-control','readonly'=>true]) !!}
 </div>
 
-<div class="form-row-custom">
+<div class="form-item">
 {!! Form::label('end_date', __('تاريخ تسليم الموقع')) !!}
 {!! Form::date('end_date',optional($project->end_date)->format('Y-m-d'),['class'=>'form-control','id'=>'end_date']) !!}
 </div>
@@ -1161,7 +1161,7 @@ select.form-control{
 
 
 
-<div class="form-row-custom">
+<div class="form-item">
 {!! Form::label('bank_contract_duration', __('مدة العقد الاساسي (بالأشهر)') )!!}
 {!! Form::number('bank_contract_duration',$project->bank_contract_duration,['class'=>'form-control','id'=>'bank_contract_duration']) !!}
 </div>
@@ -1177,7 +1177,7 @@ select.form-control{
 
 
 
-<div class="flex-grow-1" style="min-width:250px;max-width:250px;">
+<div class="form-item" >
                     {!! Form::label('contractor_contract_end_date_display', __('تاريخ انتهاء عقد المقاول')) !!}
                     <input type="date"
                         id="contractor_contract_end_date_display"
@@ -1194,7 +1194,7 @@ select.form-control{
 
 
 
-<div class="form-row-custom">
+<div class="form-item">
     <label class="form-label">تاريخ توقيع العقود</label>
     <input type="date"
            name="contract_signed_at"
@@ -1219,21 +1219,21 @@ name="contractor_contract_end_date"
 id="contractor_contract_end_date"
 value="{{ optional($project->contractor_contract_end_date)->format('Y-m-d') }}"/> --}}
 
-<div class="form-row-custom">
+<div class="form-item">
 {!! Form::label('contractor_id', __('Contractor')) !!}
 {!! Form::select('contractor_id',$contractors,null,['class'=>'form-control','placeholder'=>'-- اختياري --']) !!}
 </div>
 
 
 
-<div class="form-row-custom">
+<div class="form-item">
 {!! Form::label('container_contract_value', __('قيمة عقد الحاوية')) !!}
 {!! Form::number('container_contract_value', null, ['class'=>'form-control']) !!}
 </div>
 
 
 
-<div class="form-row-custom">
+<div class="form-item">
 {!! Form::label('advance_payment_value', __('  دفعة مقدمة من المالك')) !!}
 {!! Form::number('advance_payment_value', null, ['class'=>'form-control']) !!}
 </div>

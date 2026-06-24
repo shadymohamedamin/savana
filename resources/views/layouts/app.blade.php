@@ -2239,7 +2239,8 @@ html{
 
     {{-- التصميم --}}
     @if(isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2]))
-        <a href="{{ url('#') }}" class="project-card">
+                <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=designs_files') }}"
+           class="project-card {{ request('mode') == 'designs_files' ? 'active' : '' }}">
             <i class="fas fa-pencil-alt fa-2x"></i>
             <span>التصميم</span>
         </a>
@@ -2317,10 +2318,30 @@ html{
 
 
     {{-- الانجاز --}}
-    <a href="{{ url('#') }}" class="project-card">
-        <i class="fas fa-chart-line fa-2x"></i>
-        <span>الانجاز</span>
-    </a>
+
+    @if(isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2]))
+        <a href="{{ url('users/'.$project->id.'/attachments/create?type=projects&mode=achievements') }}"
+           class="project-card {{ request('mode') == 'achievements' ? 'active' : '' }}">
+            <i class="fas fa-chart-line fa-2x"></i>
+            <span> الانجاز</span>
+        </a>
+    @endif
+
+
+
+    {{-- الانجاز --}}
+
+    @if(isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2]))
+        <a href="{{ url('projects/1') }}"
+           class="project-card {{ request('mode') == 'projects/1' ? 'active' : '' }}">
+            <i class="fas fa-chart-line fa-2x"></i>
+            <span> جدول المساحات</span>
+        </a>
+    @endif
+
+
+
+   
 
 </div>
 @endif
@@ -2330,10 +2351,10 @@ html{
 
 
 
-
+{{-- 
 <div class="d-flex flex-wrap justify-content-center gap-3 mt-3">
 
-    {{-- المالك --}}
+   
     <div
         onclick="window.location.href='{{ url('users/' . optional($project->ownerUser)->id . '/edit') }}'"
         class="project-user-card">
@@ -2352,7 +2373,7 @@ html{
 
     </div>
 
-    {{-- المقاول --}}
+    
     <div
         onclick="window.location.href='{{ url('users/' . optional($project->contractorUser)->id . '/edit') }}'"
         class="project-user-card">
@@ -2371,7 +2392,7 @@ html{
 
     </div>
 
-    {{-- الاستشاري --}}
+    
     <div
         onclick="window.location.href='{{ url('users/' . optional($project->consultantUser)->id . '/edit') }}'"
         class="project-user-card">
@@ -2390,7 +2411,7 @@ html{
 
     </div>
 
-</div>
+</div> --}}
 
 
 @endif
