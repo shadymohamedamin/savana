@@ -187,7 +187,7 @@ public function create(Request $request, $id)
 
     if($projectDocuments) {
         
-        $defaultTypes=[2,10,12,13,14,15,16,17];
+        $defaultTypes=[2,10,12,13,14,15,16,17,82];
     }
 
         // default user attachments
