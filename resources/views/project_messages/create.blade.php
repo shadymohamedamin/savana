@@ -430,7 +430,7 @@
         وعليه، نرجو منكم تزويدنا خلال <strong>[عدد الأيام]</strong> أيام بخطة عمل محدثة توضح أسباب التأخير والإجراءات التصحيحية المقترحة لتدارك الوضع والالتزام بالجدول الزمني المعتمد.
     </p>
 
-    <div style="background:#fff;padding:15px;border-radius:8px;border-right:5px solid #2563eb;">
+    <div style="background:#fff;padding:15px;border-radius:8px;border-right:5px solid #fff;">
         <p>
             يرجى العلم أن استمرار التأخير قد يترتب عليه تطبيق البنود التعاقدية ذات الصلة،
             بما في ذلك الغرامات أو الإجراءات الأخرى المنصوص عليها في العقد.

@@ -1194,6 +1194,39 @@ select.form-control{
 
 
 
+
+
+
+
+
+
+
+
+{{-- تمديد المشروع --}}
+<div class="form-item">
+    {!! Form::label('project_extension_days', __('تمديد المشروع (بالأيام)')) !!}
+    {!! Form::number('project_extension_days', $project->project_extension_days ?? 0, [
+        'class' => 'form-control',
+        'id' => 'project_extension_days',
+        'min' => 0
+    ]) !!}
+</div>
+
+{{-- تاريخ انتهاء العقد الفعلي (للعرض فقط) --}}
+<div class="form-item">
+    {!! Form::label('actual_contract_end_date_display', __('تاريخ انتهاء عقد المقاول الفعلي')) !!}
+    <input type="date"
+           id="actual_contract_end_date_display"
+           class="form-control rounded"
+           readonly>
+</div>
+
+
+
+
+
+
+
 <div class="form-item">
     <label class="form-label">تاريخ توقيع العقود</label>
     <input type="date"

@@ -195,7 +195,7 @@ td, th {
 @endif
 
 <!-- ================= SIGNATURE ================= -->
-{{-- <table class="signature-table" style="margin-top:20px;">
+ <table class="signature-table" style="margin-top:20px;">
     <tr>
         <td class="title">توقيع الاستشاري</td>
     </tr>
@@ -205,14 +205,14 @@ td, th {
             <img src="{{ public_path('images/signature.jpeg') }}" style="height:80px;">
         </td>
     </tr>
-</table> --}}
+</table> 
 
 
 
 
 
 
-
+{{-- 
 <table style="width:100%; border-collapse:collapse; margin-top:0px; margin-bottom:50px;">
     <tr>
         <td class="bold center section-title" style="text-align:center; font-weight:bold;">
@@ -235,7 +235,7 @@ td, th {
            <img src="{{ public_path('images/signature.jpeg') }}" style="height:100px;">
         </td>
     </tr>
-</table>
+</table> --}}
 
 
 </body>
