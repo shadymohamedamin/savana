@@ -24,6 +24,8 @@ class BaladyaApproval extends Model
         'approved_file',
         'building_license_number',
         'building_license_file',
+        '_3d_design_file',
+        'manazer_file'
     ];
 
     protected $casts = [

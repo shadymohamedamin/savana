@@ -262,7 +262,7 @@ public function create(Request $request, $id)
 
         // tender ==>(25-33-34-35)
         
-        $defaultTypes = [25, 33, 34, 35,36,37,38,39];
+        $defaultTypes = [25, 33, 34, 35,36,37,38,39 ,83 ];
     }
 
 

@@ -253,7 +253,7 @@ $activeProjects = \App\Models\Project::whereHas('status', function ($q) {
      */
     public function create(Request $request)
     {
-        if (!in_array(auth()->user()->role_id, [1,4,11,12])) {
+        if (!in_array(auth()->user()->role_id, [1,4,11,12,7])) {
     return redirect()->back()->with('toast', [
         'type' => 'error',
         'message' => 'ليس لديك الصلاحيات الكافية'

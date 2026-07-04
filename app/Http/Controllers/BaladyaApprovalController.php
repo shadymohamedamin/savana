@@ -294,13 +294,29 @@ public function index($projectId)
     }
 
 
-    /** ✅ ملف رخصة البناء */
+    /** ✅ ملف رخصة البناء    _3d_design_file*/
     if ($request->hasFile('building_license_file') && $request->file('building_license_file')->isValid()) {
         $file = $request->file('building_license_file');
         $filename = $projectId.'_license_'.time().'_'.$file->getClientOriginalName();
         $file->move(public_path('Files'), $filename);
         $input['building_license_file'] = $filename;
-    }
+    }//_3d_design_file
+
+    if ($request->hasFile('_3d_design_file') && $request->file('_3d_design_file')->isValid()) {
+        $file = $request->file('_3d_design_file');
+        $filename = $projectId.'_license_'.time().'_'.$file->getClientOriginalName();
+        $file->move(public_path('Files'), $filename);
+        $input['_3d_design_file'] = $filename;
+    }//_3d_design_file     manazer_file
+
+
+    if ($request->hasFile('manazer_file') && $request->file('manazer_file')->isValid()) {
+        $file = $request->file('manazer_file');
+        $filename = $projectId.'_license_'.time().'_'.$file->getClientOriginalName();
+        $file->move(public_path('Files'), $filename);
+        $input['manazer_file'] = $filename;
+    }//_3d_design_file     mana
+
 
     /** ✅ رقم رخصة البناء */
     $input['building_license_number'] = $request->building_license_number;
@@ -522,10 +538,36 @@ if ($request->hasFile('architect_file') && $request->file('architect_file')->isV
             //dd($input['approved_file'].'---'.$filename);
             // حفظ اسم الملف في قاعدة البيانات
             $input['building_license_file'] = $filename;
-        }
+        }//_3d_design_file
         
 
+if ($request->hasFile('_3d_design_file') && $request->file('_3d_design_file')->isValid()) {
+            
+            $file = $request->file('_3d_design_file');
+            
+            $filename = $baladyaApproval->id . '_baladya_' . time() . '_' . $file->getClientOriginalName();
+            
+            // حفظ الملف في public/Files
+            $file->move(public_path('Files'), $filename);
+            //dd($input['approved_file'].'---'.$filename);
+            // حفظ اسم الملف في قاعدة البيانات
+            $input['_3d_design_file'] = $filename;
+        }//_3d_design_file     manazer_file
 
+
+
+        if ($request->hasFile('manazer_file') && $request->file('manazer_file')->isValid()) {
+            
+            $file = $request->file('manazer_file');
+            
+            $filename = $baladyaApproval->id . '_baladya_' . time() . '_' . $file->getClientOriginalName();
+            
+            // حفظ الملف في public/Files
+            $file->move(public_path('Files'), $filename);
+            //dd($input['approved_file'].'---'.$filename);
+            // حفظ اسم الملف في قاعدة البيانات
+            $input['manazer_file'] = $filename;
+        }//_3d_design_file     manazer_file
 
         $baladyaApproval->building_license_number = $request->building_license_number;
 

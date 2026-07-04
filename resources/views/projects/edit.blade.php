@@ -1204,10 +1204,10 @@ select.form-control{
 
 {{-- تمديد المشروع --}}
 <div class="form-item">
-    {!! Form::label('project_extension_days', __('تمديد المشروع (بالأيام)')) !!}
-    {!! Form::number('project_extension_days', $project->project_extension_days ?? 0, [
+    {!! Form::label('extension_days', __('تمديد المشروع (بالأيام)')) !!}
+    {!! Form::number('extension_days', $project->extension_days ?? 0, [
         'class' => 'form-control',
-        'id' => 'project_extension_days',
+        'id' => 'extension_days',
         'min' => 0
     ]) !!}
 </div>

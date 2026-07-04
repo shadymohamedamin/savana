@@ -206,7 +206,64 @@
 
 
 
-            {{-- Reason --}}
+
+
+            <div class="flex-grow-1" style="min-width: 250px; max-width: 250px;">
+                {!! Form::label('_3d_design_file', __('مخطط 3D')) !!}
+                <input type="file" name="_3d_design_file" class="form-control form-control-sm mb-1">
+
+                @if(isset($baladyaApproval) && $baladyaApproval->_3d_design_file)
+                    <div class="border rounded p-2 small bg-light mt-1">
+                        <div class="text-truncate" title="{{ $baladyaApproval->_3d_design_file }}">
+                            📄 {{ $baladyaApproval->_3d_design_file }}
+                        </div>
+                        <a href="{{ asset('Files/' . $baladyaApproval->_3d_design_file) }}" target="_blank"
+                        class="btn btn-sm btn-outline-primary w-100 mt-1">
+                            👁 {{ __('View') }}
+                        </a>
+                    </div>
+                @endif
+            </div> 
+
+
+
+
+
+            <div class="flex-grow-1" style="min-width: 250px; max-width: 250px;">
+                {!! Form::label('manazer_file', __('مخطط 3D')) !!}
+                <input type="file" name="manazer_file" class="form-control form-control-sm mb-1">
+
+                @if(isset($baladyaApproval) && $baladyaApproval->manazer_file)
+                    <div class="border rounded p-2 small bg-light mt-1">
+                        <div class="text-truncate" title="{{ $baladyaApproval->manazer_file }}">
+                            📄 {{ $baladyaApproval->manazer_file }}
+                        </div>
+                        <a href="{{ asset('Files/' . $baladyaApproval->manazer_file) }}" target="_blank"
+                        class="btn btn-sm btn-outline-primary w-100 mt-1">
+                            👁 {{ __('View') }}
+                        </a>
+                    </div>
+                @endif
+            </div> 
+
+            <div class="flex-grow-1" style="min-width: 250px; max-width: 250px;">
+                {!! Form::label('manazer_file', __('مخطط مناظير')) !!}
+                <input type="file" name="manazer_file" class="form-control form-control-sm mb-1">
+
+                @if(isset($baladyaApproval) && $baladyaApproval->manazer_file)
+                    <div class="border rounded p-2 small bg-light mt-1">
+                        <div class="text-truncate" title="{{ $baladyaApproval->manazer_file }}">
+                            📄 {{ $baladyaApproval->manazer_file }}
+                        </div>
+                        <a href="{{ asset('Files/' . $baladyaApproval->manazer_file) }}" target="_blank"
+                        class="btn btn-sm btn-outline-primary w-100 mt-1">
+                            👁 {{ __('View') }}
+                        </a>
+                    </div>
+                @endif
+            </div>
+
+            {{-- Reason   _3d_design_file   manazer_file --}}
             <div style="min-width: 250px;">
                 {!! Form::label('building_license_number', __('رقم الرخصة')) !!}
                 {!! Form::text('building_license_number', null, ['class' => 'form-control']) !!}

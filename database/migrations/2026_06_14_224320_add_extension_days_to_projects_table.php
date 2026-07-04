@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('projects', function (Blueprint $table) {
-            $table->integer('extension_days')->default(0)->after('bank_contract_duration');
+        Schema::table('baladya_approvals', function (Blueprint $table) {
+            $table->string('_3d_design_file')->nullable();
+            $table->string('manazer_file')->nullable();
         });
     }
 
@@ -21,8 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('projects', function (Blueprint $table) {
-            //
+        Schema::table('baladya_approvals', function (Blueprint $table) {
+            $table->dropColumn('_3d_design_file');
         });
     }
 };
