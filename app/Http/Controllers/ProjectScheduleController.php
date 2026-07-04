@@ -174,6 +174,7 @@ $schedules = $default->map(function ($item) use ($lastBatchRows) {
         // لو فيه بيانات → خدها
         'payment_percentage' => $saved->payment_percentage ?? 0,
         'completion_percentage' => $saved->completion_percentage ?? 0,
+        'subsequent_percentage' => $saved->subsequent_percentage ?? 0,
         'duration_days' => $saved->duration_days ?? null,
         'amount' => $saved->amount ?? 0,
         //'contractor_approved' => $approval->contractor_approved,
@@ -224,6 +225,7 @@ foreach ($request->rows as $index => $row) {
 $hasData =
     ($row['payment_percentage'] ?? 0) > 0 ||
     ($row['completion_percentage'] ?? 0) > 0 ||
+    ($row['subsequent_percentage'] ?? 0) > 0 ||
     ($row['amount'] ?? 0) > 0 ||
     !empty($row['start_date']);
 
@@ -242,6 +244,7 @@ if (true)
             'target_percentage' => $row['target_percentage'] ?? 0,
             'payment_percentage' => $row['payment_percentage'] ?? 0,
             'completion_percentage' => $row['completion_percentage'] ?? 0,
+            'subsequent_percentage' => $row['subsequent_percentage'] ?? 0,
             'duration_days' => $row['duration_days'],
             'amount' => $row['amount'],
             //'notes' => $row['notes'] ?? null,
@@ -313,6 +316,7 @@ public function createNewBatch($project)
                 'target_percentage' => $row->target_percentage,
                 'payment_percentage' => $row->payment_percentage,
                 'completion_percentage' => $row->completion_percentage,
+                'subsequent_percentage' => $row->subsequent_percentage,
                 'duration_days' => $row->duration_days,
                 'amount' => $row->amount,
                 'notes' => $row->notes,

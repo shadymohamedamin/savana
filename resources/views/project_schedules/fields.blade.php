@@ -28,6 +28,12 @@
     {!! Form::number('completion_percentage', null, ['class' => 'form-control']) !!}
 </div>
 
+<!-- Subsequent Percentage Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('subsequent_percentage', 'Subsequent Percentage:') !!}
+    {!! Form::number('subsequent_percentage', null, ['class' => 'form-control', 'step' => '0.0001']) !!}
+</div>
+
 <!-- Duration Days Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('duration_days', 'Duration Days:') !!}

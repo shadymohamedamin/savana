@@ -8,6 +8,7 @@
                 <th>Title</th>
                 <th>Payment Percentage</th>
                 <th>Completion Percentage</th>
+                <th>Subsequent Percentage</th>
                 <th>Duration Days</th>
                 <th>Amount</th>
                 <th>Notes</th>
@@ -23,6 +24,7 @@
                     <td>{{ $projectSchedule->title }}</td>
                     <td>{{ $projectSchedule->payment_percentage }}</td>
                     <td>{{ $projectSchedule->completion_percentage }}</td>
+                    <td>{{ $projectSchedule->subsequent_percentage }}</td>
                     <td>{{ $projectSchedule->duration_days }}</td>
                     <td>{{ $projectSchedule->amount }}</td>
                     <td>{{ $projectSchedule->notes }}</td>

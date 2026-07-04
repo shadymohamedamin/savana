@@ -13,6 +13,7 @@ class ProjectScheduleRepository extends BaseRepository
         'title',
         'payment_percentage',
         'completion_percentage',
+        'subsequent_percentage',
         'duration_days',
         'amount',
         'notes',

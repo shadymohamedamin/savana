@@ -183,7 +183,7 @@ th {
 
 .payments-table th:nth-child(2),
 .payments-table td:nth-child(2) {
-    width: 40%;
+    width: 35%;
     text-align: right;
 }
 
@@ -192,23 +192,25 @@ th {
 .payments-table th:nth-child(4),
 .payments-table td:nth-child(4),
 .payments-table th:nth-child(5),
-.payments-table td:nth-child(5) {
-    width: 6%;
-}
-
+.payments-table td:nth-child(5),
 .payments-table th:nth-child(6),
 .payments-table td:nth-child(6) {
-    width: 12%;
+    width: 6%;
 }
 
 .payments-table th:nth-child(7),
 .payments-table td:nth-child(7) {
-    width: 10%;
+    width: 9%;
 }
 
 .payments-table th:nth-child(8),
 .payments-table td:nth-child(8) {
-    width: 16%;
+    width: 8%;
+}
+
+.payments-table th:nth-child(9),
+.payments-table td:nth-child(9) {
+    width: 18%;
 }
 
 
@@ -379,12 +381,13 @@ Carbon::setLocale('ar');
 
 <colgroup>
     <col style="width:5%">   <!-- رقم -->
-    <col style="width:42%">  <!-- بيان الأعمال (كبرناه) -->
-    <col style="width:2%">   <!-- النسبة المحددة (صغرناها) -->
-    <col style="width:5%">   <!-- نسبة الدفعة (صغرناها) -->
-    <col style="width:5%">   <!-- المنجز (صغرناها) -->
-    <col style="width:8%">   <!-- تاريخ البدء (صغرناها) -->
-    <col style="width:11%">   <!-- مدة (صغرناها) -->
+    <col style="width:35%">  <!-- بيان الأعمال -->
+    <col style="width:6%">   <!-- النسبة المحددة -->
+    <col style="width:6%">   <!-- نسبة الدفعة -->
+    <col style="width:6%">   <!-- المنجز -->
+    <col style="width:6%">   <!-- اللاحق -->
+    <col style="width:9%">   <!-- تاريخ البدء -->
+    <col style="width:8%">   <!-- مدة -->
     <col style="width:19%">  <!-- مبلغ (كبيرناها) -->
 </colgroup>
 
@@ -399,6 +402,7 @@ Carbon::setLocale('ar');
             <th class="section-title">النسبة المحددة</th> <!-- ✅ جديد -->
             <th class="section-title">نسبة الدفعة</th>
             <th class="section-title">النسب المنجزة  </th>
+            <th class="section-title">النسب اللاحقة</th>
             <th class="section-title">تاريخ البدء</th>
             <th class="section-title">المدة (يوم)</th>
             <th class="section-title">المبلغ</th>
@@ -414,6 +418,7 @@ Carbon::setLocale('ar');
             $totalDuration = 0;
             $totalAmount = 0;
             $totalCompletion = 0;
+            $totalSubsequent = 0;
 
             $projectValue = $project->bank_contract_value ?? 0;//$project->project_owner_support ?? 0;
         @endphp
@@ -424,6 +429,7 @@ Carbon::setLocale('ar');
                 $target = $row->target_percentage ?? 0;
                 $payment = $row->payment_percentage ?? 0;
                 $completion = $row->completion_percentage ?? 0;
+                $subsequent = $row->subsequent_percentage ?? 0;
 
                 
 
@@ -434,6 +440,7 @@ Carbon::setLocale('ar');
                 $totalDuration += $row->duration_days;
                 $totalAmount += $amount;
                 $totalCompletion +=$completion;
+                $totalSubsequent += $subsequent;
          
             @endphp
 
@@ -446,6 +453,7 @@ Carbon::setLocale('ar');
                 
                 <td>{{ intval($payment) }}%</td>
                 <td>{{ $completion}}%</td>
+                <td>{{ intval($subsequent) }}%</td>
 
 <td>
     {{ $row->start_date 
@@ -469,6 +477,7 @@ Carbon::setLocale('ar');
 
             <td>{{ $totalPercent }}%</td>
             <td>{{ $totalCompletion }}%</td>
+            <td>{{ $totalSubsequent }}%</td>
 
             <td>-</td>
             <td style="font-size:0.8rem;">{{ $totalDuration }} / {{ $project->bank_contract_duration * 30 }}</td>

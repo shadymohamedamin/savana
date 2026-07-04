@@ -28,6 +28,12 @@
     <p>{{ $projectSchedule->completion_percentage }}</p>
 </div>
 
+<!-- Subsequent Percentage Field -->
+<div class="col-sm-12">
+    {!! Form::label('subsequent_percentage', 'Subsequent Percentage:') !!}
+    <p>{{ $projectSchedule->subsequent_percentage }}</p>
+</div>
+
 <!-- Duration Days Field -->
 <div class="col-sm-12">
     {!! Form::label('duration_days', 'Duration Days:') !!}
@@ -51,4 +57,3 @@
     {!! Form::label('due_date', 'Due Date:') !!}
     <p>{{ $projectSchedule->due_date }}</p>
 </div>
-

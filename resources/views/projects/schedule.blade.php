@@ -322,23 +322,19 @@ tfoot tr {
 }
 
 /* date أكبر */
-.table-fixed td:nth-child(5) input {
+.table-fixed td:nth-child(7) input {
     font-size: 14px;
     min-width: 140px;
-}
-
-/* notes أكبر */
-.table-fixed td:nth-child(8) input {
-    min-width: 200px;
-    font-size: 14px;
 }
 
 /* الأرقام أصغر */
 .table-fixed td:nth-child(1),
 .table-fixed td:nth-child(3),
 .table-fixed td:nth-child(4),
+.table-fixed td:nth-child(5),
 .table-fixed td:nth-child(6),
-.table-fixed td:nth-child(7) {
+.table-fixed td:nth-child(8),
+.table-fixed td:nth-child(9) {
     font-size: 13px;
 }
 </style>
@@ -352,13 +348,14 @@ tfoot tr {
 
 <colgroup>
     <col style="width:4%;">
-    <col style="width:26%;">
-    <col style="width:10%;">
-    <col style="width:10%;">
-    <col style="width:10%;">
+    <col style="width:24%;">
+    <col style="width:9%;">
+    <col style="width:9%;">
+    <col style="width:9%;">
+    <col style="width:9%;">
     <col style="width:12%;">
     <col style="width:8%;">
-    <col style="width:10%;">
+    <col style="width:16%;">
     <!-- <col style="width:10%;"> -->
 </colgroup>
 
@@ -370,6 +367,7 @@ tfoot tr {
 
     <th>نسبة الدفعة %</th>
     <th>النسب المنجزة  %</th>
+    <th>النسب اللاحقة %</th>
     <th>تاريخ البدء</th>
     <th>المدة</th>
     <th>المبلغ</th>
@@ -424,6 +422,15 @@ tfoot tr {
 </td>
 
     <td>
+        <input type="number"
+               class="form-control subsequent"
+               step="0.0001"
+               min="0"
+               name="rows[{{ $i }}][subsequent_percentage]"
+               value="{{ $row->subsequent_percentage ?? 0 }}">
+    </td>
+
+    <td>
         <input type="date" class="form-control start-date"
                name="rows[{{ $i }}][start_date]"
                value="{{ optional($row->start_date)->format('Y-m-d') }}">
@@ -462,6 +469,7 @@ tfoot tr {
     <td id="total_target_percent">100%</td>
     <td id="total_payment_percent">0%</td>
     <td id="total_completion_percent">0%</td>
+    <td id="total_subsequent_percent">0%</td>
     <td>-</td>
     <td id="total_duration">المتبقي: 0</td>
 
@@ -473,7 +481,7 @@ tfoot tr {
 
 <!-- 🔥 الصف الجديد: المستلم سابقًا -->
 <tr style="background:#d1ecf1;font-weight:bold;font-size:16px;">
-    <td style="background:#ffe8a1;font-weight:bold;font-size:18px;" colspan="7">
+    <td style="background:#ffe8a1;font-weight:bold;font-size:18px;" colspan="8">
         إجمالي ما تم استلامه من الدفعات السابقة
     </td>
     <td style="background:#ffe8a1;font-weight:bold;font-size:18px;" id="paid_amount">0</td>
@@ -482,7 +490,7 @@ tfoot tr {
 
 <!-- 🔥 الصف الجديد: المطلوب الحالي -->
 <tr style="background:#ffe8a1;font-weight:bold;font-size:18px;">
-    <td style="background:#ffe8a1;font-weight:bold;font-size:18px;" colspan="7">
+    <td style="background:#ffe8a1;font-weight:bold;font-size:18px;" colspan="8">
         إجمالي المطلوب الحالي من المالك
     </td>
     <td style="background:#ffe8a1;font-weight:bold;font-size:18px;" id="needed_from_owner">0</td>
@@ -603,12 +611,14 @@ function addRow() {
         <td><input name="rows[${index}][item_no]" class="form-control" ></td>
         <td><input name="rows[${index}][title]" class="form-control" ></td>
 
+        <td><input name="rows[${index}][target_percentage]" class="form-control percent target"></td>
         <td><input name="rows[${index}][payment_percentage]" class="form-control percent payment"></td>
         <td><input name="rows[${index}][completion_percentage]" class="form-control percent completion"></td>
+        <td><input name="rows[${index}][subsequent_percentage]" class="form-control percent subsequent"></td>
 
+        <td><input type="date" name="rows[${index}][start_date]" class="form-control start-date"></td>
         <td><input name="rows[${index}][duration_days]" class="form-control"></td>
-        <td><input name="rows[${index}][amount]" class="form-control amount"></td>
-        <td><input name="rows[${index}][notes]" class="form-control"></td>
+        <td><input name="rows[${index}][amount]" class="form-control amount" readonly></td>
     </tr>
     `;
 
@@ -627,6 +637,7 @@ function calculate(e = null) {
 
     let totalPaymentPercent = 0;
     let totalCompletionPercent = 0;
+    let totalSubsequentPercent = 0;
     let totalTargetPercent = 0;
     let totalAmount = 0;
     let totalDuration = 0;
@@ -640,6 +651,7 @@ function calculate(e = null) {
         let paymentInput = row.querySelector('.payment');
         let targetInput = row.querySelector('.target');
         let completionInput = row.querySelector('.completion');
+        let subsequentInput = row.querySelector('.subsequent');
         let durationInput = row.querySelector('[name*="duration_days"]');
         let amountInput = row.querySelector('.amount');
 
@@ -648,6 +660,7 @@ function calculate(e = null) {
         let payment = parseFloat(paymentInput.value) || 0;
         let target = parseFloat(targetInput?.value) || 0;
         let completion = parseFloat(completionInput.value) || 0;
+        let subsequent = parseFloat(subsequentInput?.value) || 0;
         let duration = parseFloat(durationInput?.value) || 0;
 
 
@@ -664,6 +677,11 @@ function calculate(e = null) {
             completionInput.value = target;
         }
 
+        if (subsequent > target) {
+            subsequent = target;
+            subsequentInput.value = target;
+        }
+
         // 💰 حساب المبلغ
         let amount = (payment / 100) * projectValue;
 
@@ -673,6 +691,7 @@ function calculate(e = null) {
 
         totalPaymentPercent += payment;
         totalCompletionPercent += completion;
+        totalSubsequentPercent += subsequent;
         totalTargetPercent += target;
         totalAmount += amount;
         totalDuration += duration;
@@ -727,6 +746,9 @@ function calculate(e = null) {
 
     document.getElementById('total_completion_percent').innerText =
         totalCompletionPercent.toFixed(2) + '%';
+
+    document.getElementById('total_subsequent_percent').innerText =
+        totalSubsequentPercent.toFixed(2) + '%';
 
     document.getElementById('total_target_percent').innerText = // تحديث قيمة النسبة المستهدفة
         totalTargetPercent.toFixed(2) + '%';
