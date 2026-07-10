@@ -195,6 +195,51 @@ td, th {
 @endif
 
 <!-- ================= SIGNATURE ================= -->
+
+@php
+    $showAllSignatures = in_array($message->message_type_id, [1, 9]);
+@endphp
+
+
+
+@if($showAllSignatures)
+
+<table style="width:100%; border-collapse:collapse; margin-top:20px;">
+    <tr>
+        <td class="title">توقيع وختم المقاول</td>
+        <td class="title">توقيع المالك</td>
+        <td class="title">توقيع الاستشاري</td>
+    </tr>
+
+    <tr>
+        <td style="height:100px;"></td>
+
+        <td style="height:100px;"></td>
+
+        <td style="height:100px; text-align:center;">
+            <img src="{{ public_path('images/signature.jpeg') }}"
+                 style="height:80px;">
+        </td>
+    </tr>
+</table>
+
+@else
+
+<table class="signature-table" style="margin-top:20px;">
+    <tr>
+        <td class="title">توقيع الاستشاري</td>
+    </tr>
+
+    <tr>
+        <td style="text-align:center;">
+            <img src="{{ public_path('images/signature.jpeg') }}"
+                 style="height:80px;">
+        </td>
+    </tr>
+</table>
+
+@endif
+{{-- 
  <table class="signature-table" style="margin-top:20px;">
     <tr>
         <td class="title">توقيع الاستشاري</td>
@@ -212,7 +257,7 @@ td, th {
 
 
 
-{{-- 
+ 
 <table style="width:100%; border-collapse:collapse; margin-top:0px; margin-bottom:50px;">
     <tr>
         <td class="bold center section-title" style="text-align:center; font-weight:bold;">
@@ -235,7 +280,7 @@ td, th {
            <img src="{{ public_path('images/signature.jpeg') }}" style="height:100px;">
         </td>
     </tr>
-</table> --}}
+</table>  --}}
 
 
 </body>
