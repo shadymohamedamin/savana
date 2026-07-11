@@ -1345,27 +1345,19 @@ tbody td{
                     
 
                     <td style="background-color:#f5f5dc;">{{ $project->contractorUser->name ?? '—' }}</td>
-                    <td style="background-color:#f5f5dc;">{{ $project->case_id_number ?? '—' }}</td>
+                    @php
+                        $lastApproval = $project->latestApproval;
+                    @endphp
+                    <td style="background-color:#f5f5dc;">{{ $lastApproval?->case_number ?? $project->case_id_number ?? '—' }}</td>
                     <!-- <td style="background-color:#f5f5dc;">{{ $project->building_number ?? '—' }}</td> -->
                     
                     
                     
                     
                     
-                    @php
-                        $lastApproval2 = $project->baladyaApprovals->first();
-                        $lastApproval = $project->baladyaApprovals
-                            ->sortByDesc('id') // أو created_at
-                            ->first();
-                            //dd($lastApproval);
-                        $daysDiff = $lastApproval && $lastApproval->opened_at && $lastApproval->approved_at
-                                    ? $lastApproval->approved_at->diffInDays($lastApproval->opened_at)
-                                    : null;
-                    @endphp
-                    
                         <td style="background-color:#f5f5dc;">
                             <!-- {{ $lastApproval->statusType->name_ar ?? '—' }} -->
-                             {{ $project->baladyaStatusType->name_ar ?? '—' }}
+                             {{ $lastApproval?->statusType?->name_ar ?? $project->baladyaStatusType?->name_ar ?? '—' }}
                         </td>
 
 
@@ -1441,7 +1433,7 @@ else{
                             {{ number_format($project->paid_with_vat ?? 0, 0) }}
                         </td>
                         <td style="background-color:#f5f5dc;">
-                            {{ $lastApproval->building_license_number ?? '-' }}
+                            {{ $lastApproval?->building_license_number ?? '-' }}
                         </td>
 
 

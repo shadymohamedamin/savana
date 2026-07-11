@@ -206,6 +206,9 @@ Route::prefix('projects/{project}')->group(function () {
     Route::post('supervisions', [ProjectSupervisionController::class, 'store'])
         ->name('projects.supervisions.store');
 
+    Route::get('supervisions/{id}/preview', [ProjectSupervisionController::class, 'previewPdf'])
+        ->name('projects.supervisions.preview');
+
     Route::get('supervisions/{id}/edit', [ProjectSupervisionController::class, 'edit'])
         ->name('projects.supervisions.edit');
 
@@ -249,6 +252,9 @@ Route::prefix('projects/{project}/messages')->group(function () {
 
 
 Route::get('projects/{project}/table', [ProjectController::class, 'showTable'])->name('projects.table');
+
+Route::get('projects/{project}/statistics', [ProjectController::class, 'statistics'])
+    ->name('projects.statistics');
 
 
 Route::delete('/projects/{project}/schedule/batch/{batch}', 

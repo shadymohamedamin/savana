@@ -94,6 +94,17 @@
 
                 @forelse($supervisions as $i => $supervision)
 
+                    @php
+                        $legacyAttachmentsCount = collect([
+                            $supervision->attachment,
+                            $supervision->attachment1,
+                            $supervision->attachment2,
+                            $supervision->attachment3,
+                        ])->filter()->count();
+
+                        $attachmentsCount = $legacyAttachmentsCount + $supervision->attachments->count();
+                    @endphp
+
                     <tr class="supervision-row">
 
                         {{-- رقم --}}
@@ -127,14 +138,13 @@
                         {{-- المرفق --}}
                         <td>
 
-                            @if($supervision->attachment)
+                            @if($attachmentsCount)
 
-                                <a href="{{ asset('Files/'.$supervision->attachment) }}"
-                                   target="_blank">
+                                <span class="badge bg-secondary">
 
-                                    📎 عرض
+                                    {{ $attachmentsCount }} مرفقات
 
-                                </a>
+                                </span>
 
                             @else
 
@@ -158,7 +168,11 @@
 
                                 {{-- معاينة --}}
                                 <a target="_blank"
-                                   href="{{ asset('Files/'.$supervision->attachment) }}"
+                                   href="{{ route('projects.supervisions.preview', [
+                                        'project' => $project->id,
+                                        'id' => $supervision->id,
+                                        'action' => 'preview',
+                                   ]) }}"
                                    class="btn btn-sm btn-dark preview-btn"
                                    title="معاينة">
 

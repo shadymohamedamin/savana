@@ -9,6 +9,7 @@ use App\Repositories\ProjectSupervisionRepository;
 use Illuminate\Http\Request;
 use Flash;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Schema;
 
 class ProjectSupervisionController extends AppBaseController
 {
@@ -29,7 +30,8 @@ class ProjectSupervisionController extends AppBaseController
 
         $supervisions = \App\Models\ProjectSupervision::with([
             'user',
-            'supervisionType'
+            'supervisionType',
+            'attachments'
         ])
         ->where('project_id', $projectId)
         ->orderBy('created_at')//->latest()
@@ -167,6 +169,10 @@ public function store(Request $request, $projectId)
     $request->validate([
         'supervision_type_id' => 'required',
         'note' => 'required',
+        'attachment' => 'nullable|file|max:10240',
+        'attachment1' => 'nullable|file|max:10240',
+        'attachment2' => 'nullable|file|max:10240',
+        'attachment3' => 'nullable|file|max:10240',
         'attachments.*' => 'nullable|file|max:10240'
     ]);
 
@@ -174,10 +180,12 @@ public function store(Request $request, $projectId)
 
         'project_id' => $projectId,
         'supervision_type_id' => $request->supervision_type_id,
-        'user_id' => auth()->id(),
+        'user_id' => $request->user_id ?: auth()->id(),
         'note' => $request->note,
 
     ]);
+
+    $this->saveSupervisionFiles($request, $supervision);
 
     if ($request->action === 'save_attachments') {
 
@@ -298,7 +306,7 @@ public function store(Request $request, $projectId)
         if (empty($projectSupervision)) {
             Flash::error('Project Supervision not found');
 
-           return redirect()->route('projects.supervisions.index', $projectSupervision->project_id); 
+           return redirect()->route('projects.supervisions.index', $projectId); 
         }
 
 
@@ -310,10 +318,78 @@ if (empty($projectSupervision)) {
     return redirect()->route('projects.supervisions.index', $projectId);
 }
 
-$this->projectSupervisionRepository->update($request->all(), $id);
+$this->projectSupervisionRepository->update(
+    $request->only([
+        'project_id',
+        'user_id',
+        'supervision_type_id',
+        'note',
+    ]),
+    $id
+);
+
+$projectSupervision = \App\Models\ProjectSupervision::findOrFail($id);
+$this->saveSupervisionFiles($request, $projectSupervision);
 
 return redirect()->route('projects.supervisions.index', $projectId);
     }
+
+
+public function previewPdf(Request $request, $projectId, $id)
+{
+    $project = \App\Models\Project::with([
+        'ownerUser',
+        'contractorUser',
+        'projectName',
+    ])->findOrFail($projectId);
+
+    $supervision = \App\Models\ProjectSupervision::with([
+        'user',
+        'supervisionType',
+        'attachments',
+    ])
+        ->where('project_id', $projectId)
+        ->findOrFail($id);
+
+    $imageAttachments = $this->supervisionImageFiles($supervision);
+
+    $html = view('pdf.contract_supervision', compact(
+        'project',
+        'supervision',
+        'imageAttachments'
+    ))->render();
+
+    $mpdf = new \Mpdf\Mpdf([
+        'mode' => 'utf-8',
+        'format' => 'A4',
+        'default_font' => 'amiri',
+        'autoScriptToLang' => true,
+        'autoLangToFont' => true,
+        'margin_footer' => 5,
+        'margin_top' => 35,
+        'margin_left' => 10,
+        'margin_right' => 10,
+        'margin_bottom' => 8,
+    ]);
+
+    $mpdf->SetHTMLHeader('
+        <div style="text-align:center;">
+            <img src="'.public_path('images/tender_logo.jpeg').'"
+                 style="height:90px;width:60%;">
+        </div>
+    ');
+
+    $mpdf->WriteHTML($html);
+
+    $fileName = 'supervision_report_'.$supervision->id.'.pdf';
+    $action = $request->get('action', 'preview');
+
+    if ($action === 'download') {
+        return $mpdf->Output($fileName, 'D');
+    }
+
+    return $mpdf->Output($fileName, 'I');
+}
 
     /**
      * Remove the specified ProjectSupervision from storage.
@@ -333,13 +409,8 @@ public function destroy($projectId, $id)
     }
 
     // 🔴 حذف الملف إذا موجود
-    if (!empty($projectSupervision->attachment)) {
-
-        $filePath = public_path('Files/' . $projectSupervision->attachment);
-
-        if (File::exists($filePath)) {
-            File::delete($filePath);
-        }
+    foreach ($this->supervisionAttachmentFields() as $field) {
+        $this->deletePublicFile($projectSupervision->{$field} ?? null);
     }
 
     // 🔴 حذف السجل من الداتابيز
@@ -348,5 +419,182 @@ public function destroy($projectId, $id)
     Flash::success('Project Supervision deleted successfully.');
 
     return redirect()->route('projects.supervisions.index', $projectId);
+}
+
+private function supervisionAttachmentFields(): array
+{
+    return [
+        'attachment',
+        'attachment1',
+        'attachment2',
+        'attachment3',
+    ];
+}
+
+private function saveSupervisionFiles(Request $request, \App\Models\ProjectSupervision $supervision): void
+{
+    $updates = [];
+
+    foreach ($this->supervisionAttachmentFields() as $field) {
+        if (!$request->hasFile($field)) {
+            continue;
+        }
+
+        $file = $request->file($field);
+
+        if (!$file || !$file->isValid()) {
+            continue;
+        }
+
+        $this->deletePublicFile($supervision->{$field} ?? null);
+
+        $filename = $supervision->id
+            .'_'.$field.'_'
+            .time()
+            .'_'
+            .uniqid()
+            .'.'
+            .$file->getClientOriginalExtension();
+
+        $path = public_path('Files');
+
+        if (!File::exists($path)) {
+            File::makeDirectory($path, 0755, true);
+        }
+
+        $file->move($path, $filename);
+
+        $updates[$field] = $filename;
+    }
+
+    $this->fillAvailableAttachmentNotes($request, $updates);
+
+    if ($updates) {
+        $supervision->forceFill($updates)->save();
+    }
+}
+
+private function fillAvailableAttachmentNotes(Request $request, array &$updates): void
+{
+    $noteColumns = [
+        'attachment_note' => ['attachment_note'],
+        'attachment1_note' => ['attachment1_note', 'attachment_note1'],
+        'attachment_note1' => ['attachment_note1', 'attachment1_note'],
+        'attachment2_note' => ['attachment2_note', 'attachment_note2'],
+        'attachment_note2' => ['attachment_note2', 'attachment2_note'],
+        'attachment3_note' => ['attachment3_note', 'attachment_note3'],
+        'attachment_note3' => ['attachment_note3', 'attachment3_note'],
+    ];
+
+    foreach ($noteColumns as $column => $inputs) {
+        if (!Schema::hasColumn('project_supervisions', $column)) {
+            continue;
+        }
+
+        foreach ($inputs as $input) {
+            if ($request->has($input)) {
+                $updates[$column] = $request->input($input);
+                break;
+            }
+        }
+    }
+}
+
+private function supervisionImageFiles(\App\Models\ProjectSupervision $supervision): array
+{
+    $images = [];
+    $seen = [];
+
+    foreach ($this->supervisionAttachmentFields() as $field) {
+        $fileName = $supervision->{$field} ?? null;
+
+        if (!$fileName) {
+            continue;
+        }
+
+        $this->addImageFile(
+            $images,
+            $seen,
+            public_path('Files/'.$fileName),
+            $fileName
+        );
+    }
+
+    foreach ($supervision->attachments as $attachment) {
+        $path = $this->attachmentPublicPath($attachment);
+
+        if (!$path) {
+            continue;
+        }
+
+        $this->addImageFile(
+            $images,
+            $seen,
+            $path,
+            $attachment->file_name ?: basename($path)
+        );
+    }
+
+    return array_slice($images, 0, 4);
+}
+
+private function addImageFile(array &$images, array &$seen, string $path, string $name): void
+{
+    $key = strtolower(str_replace('\\', '/', $path));
+
+    if (isset($seen[$key]) || !$this->isImageFile($path)) {
+        return;
+    }
+
+    $seen[$key] = true;
+
+    $images[] = [
+        'path' => $path,
+        'name' => $name,
+    ];
+}
+
+private function attachmentPublicPath(\App\Models\Attachment $attachment): ?string
+{
+    if (!$attachment->AttPath) {
+        return null;
+    }
+
+    $normalized = str_replace('\\', '/', $attachment->AttPath);
+    $fileName = basename($normalized);
+
+    if (!$fileName) {
+        return null;
+    }
+
+    return public_path('Files/'.$fileName);
+}
+
+private function isImageFile(?string $path): bool
+{
+    if (!$path || !File::exists($path)) {
+        return false;
+    }
+
+    $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+
+    if (!in_array($extension, ['jpg', 'jpeg', 'png', 'gif', 'bmp', 'webp'], true)) {
+        return false;
+    }
+
+    return @getimagesize($path) !== false;
+}
+
+private function deletePublicFile(?string $fileName): void
+{
+    if (!$fileName) {
+        return;
+    }
+
+    $filePath = public_path('Files/'.$fileName);
+
+    if (File::exists($filePath)) {
+        File::delete($filePath);
+    }
 }
 }

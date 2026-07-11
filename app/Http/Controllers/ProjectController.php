@@ -6,6 +6,7 @@ use App\Http\Requests\CreateProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Http\Controllers\AppBaseController;
 use App\Repositories\ProjectRepository;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Flash;
 use Mpdf\Mpdf;
@@ -59,8 +60,9 @@ $query = \App\Models\Project::query()
         'status',
         'ownerUser',
         'contractor',
+        'contractorUser',
         'users',
-        'baladyaApprovals' => fn($q) => $q->latest()->take(1),
+        'latestApproval.statusType',
     ])
 
     // إجمالي زيارات الإشراف
@@ -243,6 +245,130 @@ $activeProjects = \App\Models\Project::whereHas('status', function ($q) {
     
 
     return view('projects.index', compact('projects', 'toast','contractors','activeProjects'));
+}
+
+public function statistics(Project $project)
+{
+    if (
+        !in_array(auth()->user()->role_id, [1, 4, 11, 12, 7, 2]) &&
+        $project->contractor_id != auth()->id()
+    ) {
+        abort(403);
+    }
+
+    $project->load([
+        'ownerUser',
+        'contractorUser',
+        'consultantUser',
+        'projectName',
+        'stage',
+    ]);
+
+    $contractValue = $this->numberValue($project->bank_contract_value);
+    $paidAmount = (float) $project->payments()->sum('total_amount');
+    $remainingAmount = max($contractValue - $paidAmount, 0);
+    $overPaidAmount = max($paidAmount - $contractValue, 0);
+
+    $startDate = $project->contract_signed_at ?: $project->start_date;
+    $endDate = $project->contractor_contract_end_date ?: $project->end_date;
+
+    $durationDays = null;
+    $remainingDays = null;
+    $elapsedDays = null;
+    $timeProgressPercent = 0;
+
+    if ($startDate && $endDate) {
+        $start = \Carbon\Carbon::parse($startDate)->startOfDay();
+        $end = \Carbon\Carbon::parse($endDate)->startOfDay();
+        $today = now()->startOfDay();
+
+        $durationDays = max($start->diffInDays($end), 0);
+        $remainingDays = $today->diffInDays($end, false);
+        $elapsedDays = $start->diffInDays($today, false);
+
+        if ($durationDays > 0) {
+            $timeProgressPercent = min(100, max(0, ($elapsedDays / $durationDays) * 100));
+        }
+    }
+
+    $currentMonthSupervisions = $project->supervisions()
+        ->whereBetween('created_at', [
+            now()->startOfMonth(),
+            now()->endOfMonth(),
+        ])
+        ->count();
+
+    $totalSupervisions = $project->supervisions()->count();
+
+    $latestBatchId = \App\Models\ProjectSchedule::where('project_id', $project->id)
+        ->whereNotNull('batch_id')
+        ->max('batch_id');
+
+    $latestScheduleRows = collect();
+    $scheduleCompletionPercent = null;
+
+    if ($latestBatchId) {
+        $latestScheduleRows = \App\Models\ProjectSchedule::where('project_id', $project->id)
+            ->where('batch_id', $latestBatchId)
+            ->orderBy('item_no')
+            ->get();
+
+        $scheduleCompletionPercent = min(100, (float) $latestScheduleRows->sum('completion_percentage'));
+    }
+
+    $paymentProgressPercent = $contractValue > 0
+        ? min(100, ($paidAmount / $contractValue) * 100)
+        : 0;
+
+    $achievementPercent = $scheduleCompletionPercent !== null && $scheduleCompletionPercent > 0
+        ? $scheduleCompletionPercent
+        : $paymentProgressPercent;
+
+    $monthlyVisits = collect(range(5, 0))->map(function ($monthsAgo) use ($project) {
+        $date = now()->copy()->subMonths($monthsAgo);
+
+        return [
+            'label' => $date->translatedFormat('M'),
+            'count' => $project->supervisions()
+                ->whereBetween('created_at', [
+                    $date->copy()->startOfMonth(),
+                    $date->copy()->endOfMonth(),
+                ])
+                ->count(),
+        ];
+    });
+
+    $maxMonthlyVisits = max($monthlyVisits->max('count') ?: 1, 1);
+
+    $stats = [
+        'contract_value' => $contractValue,
+        'paid_amount' => $paidAmount,
+        'remaining_amount' => $remainingAmount,
+        'over_paid_amount' => $overPaidAmount,
+        'duration_days' => $durationDays,
+        'remaining_days' => $remainingDays,
+        'elapsed_days' => $elapsedDays,
+        'time_progress_percent' => round($timeProgressPercent, 1),
+        'achievement_percent' => round($achievementPercent, 1),
+        'payment_progress_percent' => round($paymentProgressPercent, 1),
+        'current_month_supervisions' => $currentMonthSupervisions,
+        'total_supervisions' => $totalSupervisions,
+        'latest_batch_id' => $latestBatchId,
+        'latest_schedule_rows' => $latestScheduleRows,
+        'monthly_visits' => $monthlyVisits,
+        'max_monthly_visits' => $maxMonthlyVisits,
+    ];
+
+    return view('projects.statistics', compact('project', 'stats'));
+}
+
+private function numberValue($value): float
+{
+    if (is_numeric($value)) {
+        return (float) $value;
+    }
+
+    return (float) preg_replace('/[^\d.]/', '', (string) $value);
 }
 
 

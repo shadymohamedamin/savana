@@ -25,6 +25,11 @@ class UpdateProjectSupervisionRequest extends FormRequest
     public function rules()
     {
         $rules = ProjectSupervision::$rules;
+
+        $rules['attachment'] = 'nullable|file|max:10240';
+        $rules['attachment1'] = 'nullable|file|max:10240';
+        $rules['attachment2'] = 'nullable|file|max:10240';
+        $rules['attachment3'] = 'nullable|file|max:10240';
         
         return $rules;
     }

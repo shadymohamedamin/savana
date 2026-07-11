@@ -447,31 +447,34 @@
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    const input = document.querySelector('.attachment-input');
-    const box = document.querySelector('.attachment-box');
+    document.querySelectorAll('.attachment-box').forEach(box => {
 
-    input.addEventListener('change', function () {
-
+        const input = box.querySelector('.attachment-input');
         const fileName = box.querySelector('.selected-file-name');
         const preview = box.querySelector('.preview-file');
+        const removeBtn = box.querySelector('.remove-file');
 
-        if (!this.files.length) return;
+        input.addEventListener('change', function () {
 
-        const file = this.files[0];
+            if (!this.files.length) return;
 
-        fileName.textContent = file.name;
-        fileName.classList.remove('d-none');
+            const file = this.files[0];
 
-        preview.href = URL.createObjectURL(file);
-        preview.classList.remove('d-none');
-    });
+            fileName.textContent = file.name;
+            fileName.classList.remove('d-none');
 
-    document.querySelector('.remove-file').addEventListener('click', function () {
+            preview.href = URL.createObjectURL(file);
+            preview.classList.remove('d-none');
+        });
 
-        input.value = '';
+        removeBtn.addEventListener('click', function () {
 
-        box.querySelectorAll('.preview-file,.selected-file-name')
-            .forEach(el => el.classList.add('d-none'));
+            input.value = '';
+
+            box.querySelectorAll('.preview-file,.selected-file-name')
+                .forEach(el => el.classList.add('d-none'));
+        });
+
     });
 
 });
