@@ -202,7 +202,9 @@ class ProjectPaymentController extends AppBaseController
             return redirect(route('projectPayments.index'));
         }
 
-        return view('project_payments.show')->with('projectPayment', $projectPayment);
+        $project = $projectPayment->project;
+
+        return view('project_payments.show', compact('projectPayment', 'project'));
     }
 
     /**

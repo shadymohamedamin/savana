@@ -1849,6 +1849,10 @@ public function messageContractPdf(Request $request, $id)
     
     // حساب المساحات الإجمالية لكل مالك
 
+$project = request('project_id')
+    ? Project::find(request('project_id'))
+    : null;
+
 /*$ownersData = \App\Models\Project::selectRaw('owner_id, SUM(approved_area_license) as total_area')
     ->whereNotNull('owner_id')
     ->groupBy('owner_id')
@@ -1864,7 +1868,7 @@ public function messageContractPdf(Request $request, $id)
     ->get();
 
     // إرسال البيانات إلى العرض
-    return view('projects.show', compact('ownersData'));
+    return view('projects.show', compact('ownersData', 'project'));
 }
 
     /**

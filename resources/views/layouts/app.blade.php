@@ -1567,10 +1567,139 @@ html{
 
 
 
+/* =========================================
+   PROJECT SCOPED GOV THEME
+========================================= */
+
+.project-context {
+    /* background: #F8F4E8 !important; */
+}
+
+.project-context .content,
+.project-context .content-wrapper {
+    background: #F8F4E8 !important;
+}
+
+.project-context .card:not(.project-card),
+.project-context .filter-card,
+.project-context .stats-panel,
+.project-context .card-section {
+    background: #F8F4E8 !important;
+    border: 2px solid #C8B27A !important;
+    border-radius: 14px !important;
+    box-shadow: 0 8px 24px rgba(111, 90, 36, .08) !important;
+    overflow: visible !important;
+}
+
+.project-context .card-header,
+.project-context .card-section .card-header {
+    background: #F8F4E8 !important;
+    color: #6F5A24 !important;
+    border-bottom: 2px solid #C8B27A !important;
+    font-weight: 900 !important;
+}
+
+.project-context .table-responsive,
+.project-context .table-wrapper {
+    background: #F8F4E8 !important;
+}
+
+.project-context table.table,
+.project-context .custom-table {
+    border: 2px solid #C8B27A !important;
+    border-collapse: collapse !important;
+    background: #fff !important;
+}
+
+.project-context .table thead th,
+.project-context .custom-header th,
+.project-context table.table thead th {
+    background: #F7F4EC !important;
+    color: #6F5A24 !important;
+    border: 1px solid #D8C187 !important;
+    font-weight: 900 !important;
+    text-align: center !important;
+    white-space: nowrap;
+}
+
+.project-context .table tbody td,
+.project-context table.table tbody td {
+    background: #fff !important;
+    color: #4B3F1F !important;
+    border: 1px solid rgba(146, 114, 42, .25) !important;
+    font-weight: 700;
+    vertical-align: middle !important;
+}
+
+.project-context .table tbody tr:hover td,
+.project-context table.table tbody tr:hover td {
+    background: #EFE8C8 !important;
+}
+
+.project-context .btn-olive,
+.project-context .btn-success,
+.project-context .btn-primary,
+.project-context .btn-dark,
+.project-context .btn-apply,
+.project-context .btn-reset {
+    background: #6F5A24 !important;
+    border-color: #6F5A24 !important;
+    color: #fff !important;
+    font-weight: 800 !important;
+    border-radius: 10px !important;
+}
+
+.project-context .btn-olive:hover,
+.project-context .btn-success:hover,
+.project-context .btn-primary:hover,
+.project-context .btn-dark:hover,
+.project-context .btn-apply:hover,
+.project-context .btn-reset:hover {
+    background: #8C7331 !important;
+    border-color: #8C7331 !important;
+    color: #fff !important;
+    transform: translateY(-1px);
+}
+
+.project-context .form-control,
+.project-context .form-select,
+.project-context select,
+.project-context textarea,
+.project-context input[type="text"],
+.project-context input[type="number"],
+.project-context input[type="date"],
+.project-context input[type="file"] {
+    border: 1px solid #D8C187 !important;
+    border-radius: 10px !important;
+    background: #fff !important;
+    color: #4B3F1F !important;
+    font-weight: 700;
+}
+
+.project-context .form-control:focus,
+.project-context .form-select:focus,
+.project-context select:focus,
+.project-context textarea:focus,
+.project-context input:focus {
+    border-color: #6F5A24 !important;
+    box-shadow: 0 0 0 4px rgba(111, 90, 36, .15) !important;
+}
+
+.project-context label,
+.project-context .form-label {
+    color: #6F5A24 !important;
+    font-weight: 900 !important;
+}
+
+.project-context .badge {
+    border-radius: 8px !important;
+    font-weight: 800 !important;
+}
+
     </style>
 
 </head>
-<body>
+<body class="{{ isset($project) ? 'project-context' : '' }}">
      @php
                     use Carbon\Carbon;
                     Carbon::setLocale(app()->getLocale());
@@ -2342,8 +2471,8 @@ html{
     {{-- الانجاز --}}
 
     @if(isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2]))
-        <a href="{{ url('projects/1') }}"
-           class="project-card {{ request('mode') == 'projects/1' ? 'active' : '' }}">
+        <a href="{{ route('projects.show', ['project' => 1, 'project_id' => $project->id]) }}"
+           class="project-card {{ Route::currentRouteName() == 'projects.show' && request('project_id') == $project->id ? 'active' : '' }}">
             <i class="fas fa-chart-line fa-2x"></i>
             <span> جدول المساحات</span>
         </a>

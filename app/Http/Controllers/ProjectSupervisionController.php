@@ -276,7 +276,9 @@ public function store(Request $request, $projectId)
             return redirect(route('projectSupervisions.index'));
         }
 
-        return view('project_supervisions.show')->with('projectSupervision', $projectSupervision);
+        $project = $projectSupervision->project;
+
+        return view('project_supervisions.show', compact('projectSupervision', 'project'));
     }
 
     /**
@@ -285,11 +287,13 @@ public function store(Request $request, $projectId)
    public function edit($projectId, $id)
 {
     $projectSupervision = $this->projectSupervisionRepository->find($id);
+    $project = \App\Models\Project::findOrFail($projectId);
 
     $stages = \App\Models\SupervisionType::pluck('name_ar', 'id');
     $users = \App\Models\User::pluck('name', 'id');
 
     return view('project_supervisions.edit', compact(
+        'project',
         'projectSupervision',
         'stages',
         'users'

@@ -167,8 +167,9 @@ public function index($projectId)
     ]);
 }
     $statusTypes = \App\Models\BaladyaStatusType::where('active', 1)->pluck('name_ar', 'id');
+    $project = \App\Models\Project::findOrFail($projectId);
     
-    return view('baladya_approvals.create', compact('projectId', 'statusTypes'))
+    return view('baladya_approvals.create', compact('project', 'projectId', 'statusTypes'))
            ->with('owner_id', request('owner_id'));
 }
 
@@ -356,7 +357,9 @@ public function index($projectId)
             return redirect(route('baladyaApprovals.index'));
         }
 
-        return view('baladya_approvals.show')->with('baladyaApproval', $baladyaApproval);
+        $project = $baladyaApproval->project;
+
+        return view('baladya_approvals.show', compact('baladyaApproval', 'project'));
     }
 
     /**
@@ -381,9 +384,10 @@ public function index($projectId)
 
        $statusTypes = \App\Models\BaladyaStatusType::where('active', 1)
             ->pluck('name_ar', 'id');
+        $project = \App\Models\Project::findOrFail($projectId);
 
 
-        return view('baladya_approvals.edit', compact('baladyaApproval', 'projectId', 'statusTypes'))
+        return view('baladya_approvals.edit', compact('project', 'baladyaApproval', 'projectId', 'statusTypes'))
             ->with('owner_id', request('owner_id'));
     }
 
