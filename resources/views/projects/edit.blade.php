@@ -30,7 +30,7 @@ body{
         color: #d4af37;
         font-weight: 600;
         letter-spacing: 0.5px;
-        transition: all 0.3s ease;
+        /* transition: all 0.3s ease; */
     }
     .btn-olive:hover {
         background-color: #3e4a29;
@@ -128,7 +128,7 @@ body{
     border:1px solid #D8C187 !important;
     border-radius:10px !important;
 
-    transition:.25s;
+    /* transition:.25s; */
 }
 
 .form-control:focus{
@@ -139,7 +139,7 @@ body{
     0 0 0 4px rgba(111,90,36,.15) !important;
 }
 .card-section{
-    transition:.3s;
+    /* transition:.3s; */
 }
 
 .card-section:hover{
@@ -168,7 +168,7 @@ body{
 }
 .btn-olive{
 
-    transition:.25s;
+    /* transition:.25s; */
 
     position:relative;
 
@@ -195,7 +195,7 @@ body{
     }
 
     50%{
-        transform:translateY(-10px);
+        transform:translateY(-0px);
     }
 
     100%{
@@ -219,7 +219,7 @@ body{
 
     padding:10px 18px;
 
-    transition:.3s;
+    /* transition:.3s; */
 }
 
 .btn-olive:hover{
@@ -376,7 +376,7 @@ body{
     background:#fff;
     font-size:14px;
     font-weight:600;
-    transition:.25s;
+    /* transition:.25s; */
     box-shadow:none;
 }
 
@@ -620,7 +620,7 @@ body{
     border-radius:8px;
     background:#fff;
     box-shadow:none;
-    transition:.2s;
+    /* transition:.2s; */
 }
 
 .custom-input:focus{
@@ -691,7 +691,7 @@ body{
     box-shadow:
         0 1px 2px rgba(0,0,0,.04),
         0 0 0 1px #e5e7eb;
-    transition:.2s;
+    /* transition:.2s; */
 }
 
 .form-item .form-control:focus{
@@ -757,7 +757,7 @@ body{
     box-shadow:
     0 4px 12px rgba(0,0,0,.05);
 
-    transition:.25s;
+    /* transition:.25s; */
 }
 
 .card-section:hover{
