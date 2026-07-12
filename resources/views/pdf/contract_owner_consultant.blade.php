@@ -176,7 +176,8 @@ $dateFormatted = $startDate->translatedFormat('d/m/Y'); // مثال: 07/01/2026
         </tr>
         <tr>
             <td class="bold">الطرف الثاني (الاستشاري)</td>
-            <td colspan="2">سافانا ديزاين للاستشارات الهندسية</td>
+            {{-- <td colspan="2">سافانا ديزاين للاستشارات الهندسية</td> --}}
+            <td colspan="2">  زين العمارة للاستشارات الهندسية </td>
         </tr>
     </table>
 
