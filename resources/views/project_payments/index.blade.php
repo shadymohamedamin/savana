@@ -332,10 +332,18 @@
     <tbody>
         @php $index = 0; @endphp
 
-        @foreach($payments->where('payer_type','owner')->groupBy('payment_no') as $paymentNo => $group)
+        {{-- @foreach($payments->where('payer_type','owner')->groupBy('payment_no') as $paymentNo => $group) --}}
+        @foreach(
+            $payments->where('payer_type', 'owner')
+                ->sortBy([
+                    ['payment_date', 'asc'],
+                    ['id', 'asc'],
+                ])
+            as $ownerPayment
+        )    
             @php
                 $index++;
-                $ownerPayment = $group->first();
+                //$ownerPayment = $group->first();
 
                 $ownerGross = $ownerPayment->total_amount ?? 0;
                 $ownerNet   = $ownerPayment->net_amount ?? 0;
@@ -356,7 +364,7 @@
                     'id' => $ownerPayment->id
                 ]) }}"
                 style="cursor:pointer;">
-                <td class="fw-bold">{{ $index }}</td>
+                <td class="fw-bold">{{ $ownerPayment->payment_no }}</td>
                 <td>{{ optional($ownerPayment->payment_date)->format('d/m/Y') }}</td>
                 <!-- <td class="table-info">{{ number_format($ownerGross,2) }}</td>
                 <td class="table-info">{{ number_format($ownerVat,2) }}</td> -->
@@ -656,7 +664,7 @@
     </thead>
 
     <tbody>
-        @foreach($payments->groupBy('payment_no') as $paymentNo => $group)
+        {{-- @foreach($payments->groupBy('payment_no') as $paymentNo => $group)
             @foreach($group as $payment)
                 @php
                     $vat = $payment->vat_amount ?? 0;
@@ -678,7 +686,43 @@
                     </td>
                 </tr>
             @endforeach
-        @endforeach
+        @endforeach --}}
+
+
+        @foreach(
+    $payments->sortBy([
+        ['payment_date', 'asc'],
+        ['id', 'asc'],
+    ])
+    as $payment
+)
+    @php
+        $vat = $payment->vat_amount ?? 0;
+        $totalVatAll += $vat;
+    @endphp
+
+    <tr>
+        <td class="fw-bold">
+            {{ $payment->payment_no }}
+        </td>
+
+        <td>
+            {{ optional($payment->payment_date)->format('d/m/Y') ?? '-' }}
+        </td>
+
+        <td>
+            @if($payment->payer_type === 'bank')
+                <span class="badge bg-primary">البنك</span>
+            @else
+                <span class="badge bg-info text-dark">المالك</span>
+            @endif
+        </td>
+
+        <td class="text-danger fw-bold">
+            {{ number_format($vat, 2) }}
+        </td>
+    </tr>
+@endforeach
 
         {{-- Total --}}
         <tr class="table-secondary fw-bold">
