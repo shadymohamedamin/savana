@@ -2347,13 +2347,13 @@ html{
 
 
     {{-- احصائيات المشروع --}}
-    {{-- @if((isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2])) || ($project->contractor_id == auth()->id()))
+    @if((isset($project) && in_array(auth()->user()->role_id, [1, 4, 11, 12,7,2])) || ($project->contractor_id == auth()->id()))
         <a href="{{ route('projects.statistics', $project->id) }}"
            class="project-card {{ Route::currentRouteName() == 'projects.statistics' ? 'active' : '' }}">
             <i class="fas fa-chart-pie fa-2x"></i>
             <span>احصائيات المشروع</span>
         </a>
-    @endif --}}
+    @endif 
 
 
     {{-- مستندات المشروع --}}
