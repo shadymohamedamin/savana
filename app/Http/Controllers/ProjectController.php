@@ -520,7 +520,7 @@ public function contractPdf(Request $request, $id)
     ]);
     $mpdf->SetHTMLHeader('
         <div style="text-align:center; margin-bottom:0.5rem;">
-            <img src="'.public_path('images/tender_logo_green.jpeg').'" style="height:100px;width:70%;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
         </div>
     ');//<img src="{{ public_path('images/signature.jpeg') }}" style="height:150px;">
     $mpdf->SetHTMLFooter('
@@ -577,7 +577,7 @@ public function takleefContractPdf(Request $request, $id)
     ]);
     $mpdf->SetHTMLHeader('
         <div style="text-align:center; margin-bottom:0.5rem;">
-            <img src="'.public_path('images/tender_logo_green.jpeg').'" style="height:100px;width:70%;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
         </div>
     ');
     $mpdf->SetHTMLFooter('
@@ -628,7 +628,7 @@ public function contractOwnerConsultantPdf(Request $request, $id)
     ]);
     $mpdf->SetHTMLHeader('
         <div style="text-align:center; margin-bottom:0.5rem;">
-            <img src="'.public_path('images/tender_logo_green.jpeg').'" style="height:100px;width:70%;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
         </div>
     ');
     $mpdf->SetHTMLFooter('
@@ -695,7 +695,7 @@ public function contractSpecificationsPdf(Request $request, $id)
     ]);
     $mpdf->SetHTMLHeader('
         <div style="text-align:center; margin-bottom:0.5rem;">
-            <img src="'.public_path('images/tender_logo_green.jpeg').'" style="height:100px;width:70%;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
         </div>
     ');
     $mpdf->SetHTMLFooter('
@@ -754,7 +754,7 @@ $fileName = "عقد_المواصفات_الفنية_" . $ownerName . ".pdf";
 
     $mpdf->SetHTMLHeader('
         <div style="text-align:center;">
-            <img src="'.public_path('images/tender_logo_green.jpeg').'" style="height:90px;width:70%;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:90px;width:70%;">
         </div>
     ');
 
@@ -861,7 +861,7 @@ $contractorApproved = $approval ? $approval->contractor_approved : false;
 
     $mpdf->SetHTMLHeader('
         <div style="text-align:center;">
-            <img src="'.public_path('images/tender_logo_green.jpeg').'" style="height:90px;width:70%;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:90px;width:70%;">
         </div>
     ');
 
@@ -1060,7 +1060,7 @@ $cumulativee=$cumulative-$previousAmount;
 
     $mpdf->SetHTMLHeader('
         <div style="text-align:center;">
-            <img src="'.public_path('images/tender_logo_green.jpeg').'" style="height:90px;width:70%;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:90px;width:70%;">
         </div>
     ');
 
@@ -1158,7 +1158,7 @@ $cumulativee=$cumulative-$previousAmount;
 
     $mpdf->SetHTMLHeader('
         <div style="text-align:center;">
-            <img src="'.public_path('images/tender_logo_green.jpeg').'" style="height:90px;width:70%;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:90px;width:70%;">
         </div>
     ');
 
@@ -1202,7 +1202,7 @@ public function hawyaContractPdf(Request $request, $id)
     ]);
     $mpdf->SetHTMLHeader('
         <div style="text-align:center; margin-bottom:0.5rem;">
-            <img src="'.public_path('images/tender_logo_green.jpeg').'" style="height:100px;width:70%;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
         </div>
     ');
     $mpdf->SetHTMLFooter('
@@ -1253,7 +1253,7 @@ public function siteDeliveryContractPdf(Request $request, $id)
     ]);
  $mpdf->SetHTMLHeader('
         <div style="text-align:center; margin-bottom:0.5rem;">
-            <img src="'.public_path('images/tender_logo_green.jpeg').'" style="height:100px;width:70%;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
         </div>
     ');
     $mpdf->SetHTMLFooter('
@@ -1300,7 +1300,7 @@ public function bankContractPdf(Request $request, $id)
     ]);
  $mpdf->SetHTMLHeader('
         <div style="text-align:center; margin-bottom:0.5rem;">
-            <img src="'.public_path('images/tender_logo_green.jpeg').'" style="height:100px;width:70%;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
         </div>
     ');
     $mpdf->SetHTMLFooter('
@@ -1361,7 +1361,7 @@ public function ownerRequirementContractPdf(Request $request, $id)
     ]);
     $mpdf->SetHTMLHeader('
         <div style="text-align:center; margin-bottom:0.5rem;">
-            <img src="'.public_path('images/tender_logo_green.jpeg').'" style="height:100px;width:70%;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
         </div>
     ');
     $mpdf->SetHTMLFooter('
@@ -1468,7 +1468,7 @@ public function pricingContractPdf(Request $request, $id)
     ]);
     $mpdf->SetHTMLHeader('
         <div style="text-align:center; margin-bottom:0.5rem;">
-            <img src="'.public_path('images/tender_logo_green.jpeg').'" style="height:100px;width:70%;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
         </div>
     ');
     $mpdf->SetHTMLFooter('
@@ -1594,7 +1594,7 @@ public function tenderContractPdf(Request $request, $id)
     ]);
     $mpdf->SetHTMLHeader('
         <div style="text-align:center; margin-bottom:0.5rem;">
-            <img src="'.public_path('images/tender_logo_green.jpeg').'" style="height:100px;width:70%;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
         </div>
     ');
     $mpdf->SetHTMLFooter('
@@ -1689,7 +1689,7 @@ public function bankTableContractPdf(Request $request, $id)
     ]);
     $mpdf->SetHTMLHeader('
         <div style="text-align:center; margin-bottom:0.5rem;">
-            <img src="'.public_path('images/tender_logo_green.jpeg').'" style="height:100px;width:70%;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:100px;width:70%;">
         </div>
     ');
     $mpdf->SetHTMLFooter('
@@ -1750,7 +1750,7 @@ public function messageContractPdf(Request $request, $id)
 
     $mpdf->SetHTMLHeader('
         <div style="text-align:center;">
-            <img src="'.public_path('images/tender_logo_green.jpeg').'" style="height:90px;width:60%;">
+            <img src="'.public_path('images/tender_logo.jpeg').'" style="height:90px;width:60%;">
         </div>
     ');
 
