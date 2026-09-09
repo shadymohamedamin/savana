@@ -230,7 +230,7 @@ if ($request->filled('search')) {
 
     $projects->setCollection(
         $projects->getCollection()->unique('project_code')
-    );
+    );  
 
 }*/
 
