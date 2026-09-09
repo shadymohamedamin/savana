@@ -223,7 +223,11 @@ if ($request->filled('search')) {
 
 
 
-    $projects = $query->orderByDesc('created_at')->paginate(0);
+    //$projects = $query->orderByDesc('created_at')->paginate(15);
+    $projects = $query
+    ->whereRaw('1 = 0')
+    ->orderByDesc('created_at')
+    ->paginate(10);
     //dd($projects);
 
 /*if (!in_array(auth()->user()->role_id, $allowedRoles)) {
